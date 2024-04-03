@@ -1,0 +1,19 @@
+.explorer-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+}
+
+.explorer__main {
+    flex-direction: column;
+    min-height: 0;
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.explorer__editor {
+    display: flex;
+    overflow: auto;
+    flex: 1;
+}
