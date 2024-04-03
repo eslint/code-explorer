@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { Graphviz } from "@hpcc-js/wasm";
-import { Linter } from "../../node_modules/eslint/lib/linter/";
+import { Linter } from "eslint";
+import "../scss/code-path-explorer.scss";
 
 let initialGraphviz = null;
 
@@ -166,7 +167,7 @@ export default function CodePathExplorer({ codeValue, options }) {
             initialGraphviz = r;
             setGraphviz(initialGraphviz);
         });
-        return <div>Loading...</div>;
+        return <div className="code-path-explorer__main" >Loading...</div>;
     }
     return <CodePathExplorerWithGraphviz codeValue={codeValue} options={options} graphviz={graphviz}/>;
 }
@@ -268,7 +269,7 @@ function CodePathExplorerWithGraphviz({ codeValue, options, graphviz }) {
                 let text =
                     "\n" +
                     "digraph {\n" +
-                    "node[shape=box,style=\"rounded,filled\",fillcolor=white];\n" +
+                    "node[shape=box,style=\"rounded,filled\",fillcolor=\"#fff\"];\n" +
                     "initial[label=\"\",shape=circle,style=filled,fillcolor=black,width=0.25,height=0.25];\n";
 
                 if (codePath.returnedSegments.length > 0) {
@@ -311,11 +312,11 @@ function CodePathExplorerWithGraphviz({ codeValue, options, graphviz }) {
     }, [codeValue, options]);
 
     if (extracted.error) {
-        return <div>{extracted.error}</div>;
+        return <div className="code-path-explorer__main" >{extracted.error}</div>;
     }
 
     // TODO: Code Path select
     const svg = graphviz.dot(extracted.codePathList[extracted.codePathList.length - 1].dot);
 
-    return <div dangerouslySetInnerHTML={{ __html: svg }}></div>;
+    return <div className="code-path-explorer__main" dangerouslySetInnerHTML={{ __html: svg }}></div>;
 }
