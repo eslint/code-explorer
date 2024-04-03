@@ -30,11 +30,24 @@
     z-index: 2;
 }
 
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .logo svg {
     display: inline-block;
     margin-bottom: -4px;
     margin-block-end: -4px;
     width: 100%;
-    max-width: 100px;
     height: auto;
+}
+
+.logo svg.brand-logo {
+    max-width: 100px;
+}
+.logo svg.code-explorer-logo {
+    max-width: 142px;
+    margin-top: 3px;
 }

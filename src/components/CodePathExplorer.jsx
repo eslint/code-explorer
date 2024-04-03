@@ -163,13 +163,19 @@ export default function CodePathExplorer({ codeValue, options }) {
     const [graphviz, setGraphviz] = useState(initialGraphviz);
 
     if (!graphviz) {
-        void Graphviz.load().then(r => {
-            initialGraphviz = r;
+        void Graphviz.load().then(result => {
+            initialGraphviz = result;
             setGraphviz(initialGraphviz);
         });
-        return <div className="code-path-explorer__main" >Loading...</div>;
+        return <CodePathExplorerBase>Loading...</CodePathExplorerBase>;
     }
     return <CodePathExplorerWithGraphviz codeValue={codeValue} options={options} graphviz={graphviz}/>;
+}
+
+function CodePathExplorerBase({ children, html }) {
+    return <div className="code-path-explorer__main">
+        {html ? <div className="code-path-explorer__graph" dangerouslySetInnerHTML={{ __html: html }}></div> : children}
+    </div>;
 }
 
 function CodePathExplorerWithGraphviz({ codeValue, options, graphviz }) {
@@ -312,11 +318,11 @@ function CodePathExplorerWithGraphviz({ codeValue, options, graphviz }) {
     }, [codeValue, options]);
 
     if (extracted.error) {
-        return <div className="code-path-explorer__main" >{extracted.error}</div>;
+        return <CodePathExplorerBase>{extracted.error}</CodePathExplorerBase>;
     }
 
     // TODO: Code Path select
     const svg = graphviz.dot(extracted.codePathList[extracted.codePathList.length - 1].dot);
 
-    return <div className="code-path-explorer__main" dangerouslySetInnerHTML={{ __html: svg }}></div>;
+    return <CodePathExplorerBase html={svg}></CodePathExplorerBase>;
 }
