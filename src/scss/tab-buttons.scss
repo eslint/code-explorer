@@ -3,6 +3,7 @@
 
     &.tab-buttons__tab--active {
         background-color: var(--body-background-color);
+        color: var(--color-neutral-700)
     }
 
     &:not(.tab-buttons__tab--active) {
@@ -14,5 +15,16 @@
         width: 0;
         padding: 0;
         margin: 0;
+    }
+}
+
+.tab-buttons__tab-content {
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+    gap: .25rem;
+
+    svg {
+        stroke: currentcolor;
     }
 }

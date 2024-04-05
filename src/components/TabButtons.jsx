@@ -21,7 +21,11 @@ export default function TabButtons({ tabs, name, value, onChange }) {
                         checked={active}
                         onChange={event => onChange(event.target.value)}
                     />
-                    {tab.label}
+                    <span
+                        className="tab-buttons__tab-content"
+                    >
+                        {tab.label}
+                    </span>
                 </label>
             );
         })}
