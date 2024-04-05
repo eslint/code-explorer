@@ -1,8 +1,10 @@
+import "./scss/components/buttons.scss";
 import "./scss/tokens/themes.scss";
 import "./scss/tokens/spacing.scss";
 import "./scss/tokens/typography.scss";
 import "./scss/tokens/ui.scss";
 import "./scss/foundations.scss";
+import "./scss/forms.scss";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";

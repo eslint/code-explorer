@@ -2,12 +2,9 @@ import React, { useMemo, useState } from "react";
 import { Graphviz } from "@hpcc-js/wasm";
 import { Linter } from "eslint";
 import "../scss/code-path-explorer.scss";
+import TabButtons from "./TabButtons";
 
 let initialGraphviz = null;
-
-if (typeof process !== "undefined" && typeof process.cwd !== "function") {
-    process.cwd = () => "/";
-}
 
 /**
  * Gets the string of the given node.
@@ -129,7 +126,7 @@ function makeDotArrows(codePath) {
         if (lastId === segment.id) {
             text += `->${nextSegment.id}`;
         } else {
-            text += `;\n${segment.id}->${nextSegment.id}`;
+            text += `;\n    ${segment.id}->${nextSegment.id}`;
         }
         lastId = nextSegment.id;
 
@@ -141,7 +138,7 @@ function makeDotArrows(codePath) {
         if (lastId === finalSegment.id) {
             text += "->final";
         } else {
-            text += `;\n${finalSegment.id}->final`;
+            text += `;\n    ${finalSegment.id}->final`;
         }
         lastId = null;
     });
@@ -150,7 +147,7 @@ function makeDotArrows(codePath) {
         if (lastId === finalSegment.id) {
             text += "->thrown";
         } else {
-            text += `;\n${finalSegment.id}->thrown`;
+            text += `;\n    ${finalSegment.id}->thrown`;
         }
         lastId = null;
     });
@@ -158,27 +155,85 @@ function makeDotArrows(codePath) {
     return `${text};`;
 }
 
-export default function CodePathExplorer({ codeValue, options }) {
+export default function CodePathExplorer({ codeValue, toolsLeft, languageOptions }) {
 
     const [graphviz, setGraphviz] = useState(initialGraphviz);
+    const [codeOrGraph, setCodeOrGraph] = useState("graph");
+
+    const codePathOptions = {
+        codeOrGraph
+    };
+
+    const updateCodePathOptions = newOptions => {
+        setCodeOrGraph(newOptions.codeOrGraph);
+    };
 
     if (!graphviz) {
         void Graphviz.load().then(result => {
             initialGraphviz = result;
             setGraphviz(initialGraphviz);
         });
-        return <CodePathExplorerBase>Loading...</CodePathExplorerBase>;
+        return (
+            <CodePathExplorerBase
+                toolsLeft={toolsLeft}
+                codePathOptions={codePathOptions}
+                onUpdateCodePathOptions={updateCodePathOptions}>
+                Loading...
+            </CodePathExplorerBase>
+        );
     }
-    return <CodePathExplorerWithGraphviz codeValue={codeValue} options={options} graphviz={graphviz}/>;
+    return (
+        <CodePathExplorerWithGraphviz
+            toolsLeft={toolsLeft}
+            codePathOptions={codePathOptions}
+            onUpdateCodePathOptions={updateCodePathOptions}
+            codeValue={codeValue}
+            languageOptions={languageOptions}
+            graphviz={graphviz}
+        />
+    );
 }
 
-function CodePathExplorerBase({ children, html }) {
-    return <div className="code-path-explorer__main">
-        {html ? <div className="code-path-explorer__graph" dangerouslySetInnerHTML={{ __html: html }}></div> : children}
-    </div>;
+function CodePathExplorerBase({
+    toolsLeft,
+    codePathOptions, onUpdateCodePathOptions,
+    toolsRight,
+    children
+}) {
+    return (
+        <div
+            className={`code-path-explorer code-path-explorer--${codePathOptions.codeOrGraph}`}
+        >
+            <div
+                className="code-path-explorer__tools"
+            >
+                {toolsLeft}
+                <TabButtons
+                    tabs={[
+                        { value: "code", label: "Code" },
+                        { value: "graph", label: "Graph" }
+                    ]}
+                    value={codePathOptions.codeOrGraph}
+                    onChange={newValue => onUpdateCodePathOptions({ ...codePathOptions, codeOrGraph: newValue })}
+                />
+                {toolsRight}
+            </div>
+            <div
+                className="code-path-explorer__main"
+            >
+                {children}
+            </div>
+        </div>
+    );
 }
 
-function CodePathExplorerWithGraphviz({ codeValue, options, graphviz }) {
+function CodePathExplorerWithGraphviz({
+    codeValue,
+    languageOptions,
+    toolsLeft,
+    codePathOptions, onUpdateCodePathOptions,
+    graphviz
+}) {
     const extracted = useMemo(() => {
         const linter = new Linter({ configType: "flat" });
 
@@ -240,12 +295,12 @@ function CodePathExplorerWithGraphviz({ codeValue, options, graphviz }) {
             languageOptions: {
                 ecmaVersion: "latest",
                 sourceType: "module",
-                ...options,
+                ...languageOptions,
                 parserOptions: {
                     ecmaFeatures: {
                         globalReturn: true
                     },
-                    ...options.parserOptions
+                    ...languageOptions.parserOptions
                 }
             }
         };
@@ -275,21 +330,21 @@ function CodePathExplorerWithGraphviz({ codeValue, options, graphviz }) {
                 let text =
                     "\n" +
                     "digraph {\n" +
-                    "node[shape=box,style=\"rounded,filled\",fillcolor=\"#fff\"];\n" +
-                    "initial[label=\"\",shape=circle,style=filled,fillcolor=black,width=0.25,height=0.25];\n";
+                    "    node[shape=box,style=\"rounded,filled\",fillcolor=\"#fff\"];\n" +
+                    "    initial[label=\"\",shape=circle,style=filled,fillcolor=black,width=0.25,height=0.25];\n";
 
                 if (codePath.returnedSegments.length > 0) {
-                    text += "final[label=\"\",shape=doublecircle,style=filled,fillcolor=black,width=0.25,height=0.25];\n";
+                    text += "    final[label=\"\",shape=doublecircle,style=filled,fillcolor=black,width=0.25,height=0.25];\n";
                 }
                 if (codePath.thrownSegments.length > 0) {
                     text +=
-                        'thrown[label="✘",shape=circle,width=0.3,height=0.3,fixedsize=true];\n';
+                        '    thrown[label="✘",shape=circle,width=0.3,height=0.3,fixedsize=true];\n';
                 }
 
                 const arrows = makeDotArrows(codePath);
 
                 for (const { segment, nodes } of target.getAllSegments()) {
-                    text += `${segment.id}[`;
+                    text += `    ${segment.id}[`;
 
                     if (segment.reachable) {
                         text += 'label="';
@@ -307,7 +362,7 @@ function CodePathExplorerWithGraphviz({ codeValue, options, graphviz }) {
                     text += '"];\n';
                 }
 
-                text += `${arrows}\n`;
+                text += `    ${arrows}\n`;
                 text += "}";
                 return {
                     dot: text,
@@ -315,14 +370,81 @@ function CodePathExplorerWithGraphviz({ codeValue, options, graphviz }) {
                 };
             })
         };
-    }, [codeValue, options]);
+    }, [codeValue, languageOptions]);
 
     if (extracted.error) {
-        return <CodePathExplorerBase>{extracted.error}</CodePathExplorerBase>;
+        return (
+            <CodePathExplorerBase
+                toolsLeft={toolsLeft}
+                codePathOptions={codePathOptions}
+                onUpdateCodePathOptions={onUpdateCodePathOptions}
+            >
+                {extracted.error}
+            </CodePathExplorerBase>
+        );
     }
 
-    // TODO: Code Path select
-    const svg = graphviz.dot(extracted.codePathList[extracted.codePathList.length - 1].dot);
+    return (
+        <CodePathExplorerWithCodePathList
+            toolsLeft={toolsLeft}
+            codePathOptions={codePathOptions}
+            onUpdateCodePathOptions={onUpdateCodePathOptions}
+            graphviz={graphviz}
+            codePathList={extracted.codePathList}
+        />
+    );
+}
 
-    return <CodePathExplorerBase html={svg}></CodePathExplorerBase>;
+function CodePathExplorerWithCodePathList({
+    toolsLeft,
+    codePathOptions, onUpdateCodePathOptions,
+    graphviz,
+    codePathList
+}) {
+
+    const [selectedCodePathIndex, setSelectedCodePathIndex] = useState(codePathList.length - 1);
+    let adjustSelectedCodePathIndex = selectedCodePathIndex;
+
+    if (adjustSelectedCodePathIndex >= codePathList.length) {
+        adjustSelectedCodePathIndex = codePathList.length - 1;
+    }
+    const dot = codePathList[adjustSelectedCodePathIndex].dot;
+
+    return (
+        <CodePathExplorerBase
+            toolsLeft={toolsLeft}
+            codePathOptions={codePathOptions}
+            onUpdateCodePathOptions={onUpdateCodePathOptions}
+            toolsRight={
+                <div className="code-path-explorer__code-path-index-select">
+                    <select
+                        className="c-custom-select"
+                        value={adjustSelectedCodePathIndex}
+                        onChange={event => setSelectedCodePathIndex(event.target.value)}
+                    >
+                        {codePathList.map((_codePath, index) => (
+                            <option
+                                key={index}
+                                value={index}
+                            >
+                            Code Path {index + 1}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+            }
+        >
+            {
+                codePathOptions.codeOrGraph !== "code"
+                    ? <div
+                        className="code-path-explorer__graph"
+                        dangerouslySetInnerHTML={{ __html: graphviz.dot(dot) }}
+                    />
+                    : <pre >
+                        {dot}
+                    </pre>
+            }
+
+        </CodePathExplorerBase>
+    );
 }

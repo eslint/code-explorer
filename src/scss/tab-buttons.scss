@@ -1,0 +1,18 @@
+.tab-buttons__tab {
+    height: 42px;
+
+    &.tab-buttons__tab--active {
+        background-color: var(--body-background-color);
+    }
+
+    &:not(.tab-buttons__tab--active) {
+        border-color: transparent;
+    }
+
+    input[type="radio"] {
+        opacity: 0;
+        width: 0;
+        padding: 0;
+        margin: 0;
+    }
+}

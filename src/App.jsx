@@ -7,16 +7,11 @@ import Unicode from "./utils/unicode";
 import debounce from "./utils/debounce";
 import "./scss/explorer.scss";
 import "./scss/header.scss";
+import TabButtons from "./components/TabButtons";
 
 const DEFAULT_TEXT = "const a = 'b';";
 
 const getDefaultOptions = () => ({
-
-    // TODO
-});
-
-const fillOptionsDefaults = options => ({
-    ...options
 
     // TODO
 });
@@ -72,10 +67,7 @@ const App = () => {
         initialOptions = getDefaultOptions();
     }
 
-    initialOptions = fillOptionsDefaults(initialOptions);
-
     const [text, setText] = useState(initialText);
-    // eslint-disable-next-line no-unused-vars -- TODO: implement options
     const [options, setOptions] = useState(initialOptions);
 
     const storeState = useCallback(({ newText, newOptions }) => {
@@ -91,10 +83,27 @@ const App = () => {
         history.replaceState(null, null, url);
     }, [options, text]);
 
+
+    const languageOptions = {
+        ecmaVersion: "latest",
+        sourceType: "module",
+        ...options.languageOptions,
+        parserOptions: {
+            ecmaFeatures: {
+                globalReturn: true
+            },
+            ...options.languageOptions?.parserOptions
+        }
+    };
+
     const debouncedOnUpdate = useMemo(() => debounce(value => {
         setText(value);
         storeState({ newText: value });
     }, 400), [storeState]);
+    const updateOptions = newOptions => {
+        setOptions(newOptions);
+        storeState({ newOptions });
+    };
 
     return (
         <div className="explorer-wrapper">
@@ -131,9 +140,33 @@ const App = () => {
                     />
                 </div>
                 <div className="explorer__viewer" aria-label="Explorer">
-                    <CodePathExplorer
-                        codeValue={text}
-                        options={options}/>
+                    {
+                        options.activeTab === "codePath"
+                            ? <CodePathExplorer
+                                toolsLeft={
+                                    <TabButtons
+                                        tabs={[
+                                            { value: "ast", label: "AST" },
+                                            { value: "scope", label: "Scope" },
+                                            { value: "codePath", label: "Code Path" }
+                                        ]}
+                                        value={options.activeTab || "codePath"}
+                                        onChange={value => updateOptions({ ...options, activeTab: value })}
+                                    />
+                                }
+                                codeValue={text}
+                                languageOptions={languageOptions}
+                            />
+                            : <TabButtons
+                                tabs={[
+                                    { value: "ast", label: "AST" },
+                                    { value: "scope", label: "Scope" },
+                                    { value: "codePath", label: "Code Path" }
+                                ]}
+                                value={options.activeTab || "codePath"}
+                                onChange={value => updateOptions({ ...options, activeTab: value })}
+                            />
+                    }
                 </div>
             </main>
         </div>
