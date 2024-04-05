@@ -4,6 +4,10 @@
     &.tab-buttons__tab--active {
         background-color: var(--body-background-color);
         color: var(--color-neutral-700);
+
+        [data-theme="dark"] & {
+            color: var(--color-neutral-100);
+        }
     }
 
     &:not(.tab-buttons__tab--active) {

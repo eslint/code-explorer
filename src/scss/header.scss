@@ -24,7 +24,6 @@
     justify-self: start;
     flex: none;
     place-content: center;
-    grid-column: 1 / -1;
     grid-row: 1;
     padding: .5rem 0;
     z-index: 2;
@@ -51,4 +50,17 @@
 .logo svg.code-explorer-logo {
     max-width: 142px;
     margin-top: 3px;
+}
+
+.site-nav {
+    display: flex;
+    flex: 1;
+    grid-row: 1;
+    gap: 8px;
+
+    .flexer {
+        display: flex;
+        justify-self: flex-end;
+        align-self: flex-end;
+    }
 }

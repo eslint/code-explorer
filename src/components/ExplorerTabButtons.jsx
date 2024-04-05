@@ -1,6 +1,6 @@
 import React from "react";
 import "../scss/tab-buttons.scss";
-import TabButtons from "./TabButtons";
+import TabButtons from "./TabButtons.jsx";
 
 const EXPLORER_TABS = [
     { value: "ast", label: "AST" },

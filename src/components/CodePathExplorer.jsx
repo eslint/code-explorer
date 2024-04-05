@@ -4,10 +4,10 @@ import { Linter } from "eslint";
 import CodeMirror from "@uiw/react-codemirror";
 import { bracketMatching } from "@codemirror/matchbrackets";
 import "../scss/code-path-explorer.scss";
-import TabButtons from "./TabButtons";
-import ExplorerTabButtons from "./ExplorerTabButtons";
-import { resolveLanguageOptions } from "../utils/options";
-import { ExplorerOutputTheme } from "../utils/codemirror-output-theme";
+import TabButtons from "./TabButtons.jsx";
+import ExplorerTabButtons from "./ExplorerTabButtons.jsx";
+import { resolveLanguageOptions } from "../utils/options.js";
+import { ExplorerOutputTheme } from "../utils/codemirror-output-theme.js";
 
 const dotCodeMirrorExtensions = [
     bracketMatching(),
@@ -136,7 +136,7 @@ function makeDotArrows(codePath) {
         if (lastId === segment.id) {
             text += `->${nextSegment.id}`;
         } else {
-            text += `;\n    ${segment.id}->${nextSegment.id}`;
+            text += ` [color="#98A2B3"];\n    ${segment.id}->${nextSegment.id}`;
         }
         lastId = nextSegment.id;
 
@@ -148,7 +148,7 @@ function makeDotArrows(codePath) {
         if (lastId === finalSegment.id) {
             text += "->final";
         } else {
-            text += `;\n    ${finalSegment.id}->final`;
+            text += ` [color="#98A2B3"];\n    ${finalSegment.id}->final`;
         }
         lastId = null;
     });
@@ -157,12 +157,12 @@ function makeDotArrows(codePath) {
         if (lastId === finalSegment.id) {
             text += "->thrown";
         } else {
-            text += `;\n    ${finalSegment.id}->thrown`;
+            text += ` [color="#98A2B3"];\n    ${finalSegment.id}->thrown`;
         }
         lastId = null;
     });
 
-    return `${text};`;
+    return `${text} [color="#98A2B3"];`;
 }
 
 /**
@@ -430,11 +430,12 @@ function CodePathExplorerWithGraphviz({
                 let text =
                     "\n" +
                     "digraph {\n" +
-                    "    node[shape=box,style=\"rounded,filled\",fillcolor=\"#fff\"];\n" +
-                    "    initial[label=\"\",shape=circle,style=filled,fillcolor=black,width=0.25,height=0.25];\n";
+                    "    bgcolor=\"transparent\"" +
+                    "    node[shape=box,style=\"rounded,filled\",fillcolor=white,color=\"#E4E7EC\"];\n" +
+                    "    initial[label=\"\",shape=circle,style=filled,fillcolor=\"#98A2B3\",color=\"#98A2B3\",width=0.25,height=0.25];\n";
 
                 if (codePath.returnedSegments.length > 0) {
-                    text += "    final[label=\"\",shape=doublecircle,style=filled,fillcolor=black,width=0.25,height=0.25];\n";
+                    text += "    final[label=\"\",shape=doublecircle,style=filled,fillcolor=\"#98A2B3\",color=\"#98A2B3\",width=0.25,height=0.25];\n";
                 }
                 if (codePath.thrownSegments.length > 0) {
                     text +=

@@ -1,14 +1,15 @@
 import "regenerator-runtime/runtime";
 
 import React, { useState, useMemo, useCallback } from "react";
-import CodeEditor from "./components/CodeEditor";
-import CodePathExplorer from "./components/CodePathExplorer";
-import Unicode from "./utils/unicode";
-import debounce from "./utils/debounce";
+import CodeEditor from "./components/CodeEditor.jsx";
+import CodePathExplorer from "./components/CodePathExplorer.jsx";
+import Unicode from "./utils/unicode.js";
+import debounce from "./utils/debounce.js";
 import "./scss/explorer.scss";
 import "./scss/header.scss";
 import { getDefaultOptions, normalizeOptions } from "./utils/options.js";
 import ExplorerTabButtons from "./components/ExplorerTabButtons.jsx";
+import ThemeSwitcher from "./components/ThemeSwitcher.jsx";
 
 /**
  * @typedef {import("./utils/options.js").ExplorerOptions} ExplorerOptions
@@ -122,6 +123,10 @@ const App = () => {
                         </div>
                     </a>
                     <nav className="site-nav" aria-label="Main">
+                        <ThemeSwitcher />
+                        <div className="flexer">
+                            <a href="https://eslint.org/docs/latest/use/getting-started" className="c-btn c-btn--primary">Get started</a>
+                        </div>
                     </nav>
                 </div>
             </header>

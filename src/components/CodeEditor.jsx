@@ -3,7 +3,7 @@ import CodeMirror from "@uiw/react-codemirror";
 import { history } from "@codemirror/history";
 import { bracketMatching } from "@codemirror/matchbrackets";
 import { javascript } from "@codemirror/lang-javascript";
-import { ESLintPlaygroundTheme, ESLintPlaygroundHighlightStyle } from "../utils/codemirror-theme";
+import { ESLintPlaygroundTheme, ESLintPlaygroundHighlightStyle } from "../utils/codemirror-theme.js";
 import "../scss/editor.scss";
 
 const extensions = [
