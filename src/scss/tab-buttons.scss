@@ -3,7 +3,7 @@
 
     &.tab-buttons__tab--active {
         background-color: var(--body-background-color);
-        color: var(--color-neutral-700)
+        color: var(--color-neutral-700);
     }
 
     &:not(.tab-buttons__tab--active) {
