@@ -430,7 +430,7 @@ function CodePathExplorerWithGraphviz({
                 let text =
                     "\n" +
                     "digraph {\n" +
-                    "    bgcolor=\"transparent\"" +
+                    "    bgcolor=\"transparent\";\n" +
                     "    node[shape=box,style=\"rounded,filled\",fillcolor=white,color=\"#E4E7EC\"];\n" +
                     "    initial[label=\"\",shape=circle,style=filled,fillcolor=\"#98A2B3\",color=\"#98A2B3\",width=0.25,height=0.25];\n";
 
