@@ -1,13 +1,12 @@
 import { EditorView } from "@codemirror/view";
-import { HighlightStyle, tags } from "@codemirror/highlight";
 
-export const ESLintPlaygroundTheme = EditorView.theme({
+export const ExplorerOutputTheme = EditorView.theme({
     ".cm-tooltip": {
         backgroundColor: "transparent",
         border: "none"
     },
     ".cm-scroller": {
-        backgroundColor: "var(--body-background-color)",
+        backgroundColor: "var(--lightest-background-color)",
         minWidth: "100%",
 
         // This is not necessary if you want to match the figma design.
@@ -19,10 +18,10 @@ export const ESLintPlaygroundTheme = EditorView.theme({
     },
     ".cm-gutter": {
         paddingRight: "1px",
-        backgroundColor: "var(--body-background-color)"
+        backgroundColor: "var(--lightest-background-color)"
     },
     ".cm-activeLine, .cm-activeLineGutter": {
-        backgroundColor: "var(--body-background-color)"
+        backgroundColor: "var(--lightest-background-color)"
     },
     ".cm-content": {
         caretColor: "var(--link-color)"
@@ -59,43 +58,3 @@ export const ESLintPlaygroundTheme = EditorView.theme({
         margin: "0"
     }
 }, { dark: true });
-
-// The highlighting style for code in the ESLint playground theme.
-export const ESLintPlaygroundHighlightStyle = HighlightStyle.define([
-    {
-        tag: tags.string,
-        color: "var(--editor-string-color)"
-    },
-    {
-        tag: tags.keyword,
-        color: "var(--editor-keyword-color)",
-        fontWeight: "bold"
-    },
-    {
-        tag: [tags.lineComment, tags.blockComment],
-        color: "var(--editor-comment-color)"
-    },
-    {
-        tag: [tags.name, tags.deleted, tags.character, tags.propertyName, tags.macroName],
-        color: "var(--editor-name-color)"
-    },
-    {
-        tag: tags.strong,
-        fontWeight: "bold"
-    },
-    {
-        tag: tags.emphasis,
-        fontStyle: "italic"
-    },
-    {
-        tag: tags.strikethrough,
-        textDecoration: "line-through"
-    },
-    {
-        tag: tags.heading,
-        fontWeight: "bold",
-        color: "var(--headings-color)"
-    }
-]);
-
-export const ESLintPlayground = [ESLintPlaygroundTheme, ESLintPlaygroundHighlightStyle];

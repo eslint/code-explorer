@@ -1,9 +1,20 @@
 import React, { useMemo, useState } from "react";
 import { Graphviz } from "@hpcc-js/wasm";
 import { Linter } from "eslint";
+import CodeMirror from "@uiw/react-codemirror";
+import { bracketMatching } from "@codemirror/matchbrackets";
 import "../scss/code-path-explorer.scss";
 import TabButtons from "./TabButtons";
+import ExplorerTabButtons from "./ExplorerTabButtons";
+import { resolveLanguageOptions } from "../utils/options";
+import { ExplorerOutputTheme } from "../utils/codemirror-output-theme";
 
+const dotCodeMirrorExtensions = [
+    bracketMatching(),
+    ExplorerOutputTheme
+];
+
+/** @type {Graphviz|null} */
 let initialGraphviz = null;
 
 /**
@@ -94,7 +105,6 @@ class CodePathStack {
     }
 }
 
-
 /**
  * Makes a DOT code of a given code path.
  * The DOT code can be visualized with Graphvis.
@@ -155,68 +165,133 @@ function makeDotArrows(codePath) {
     return `${text};`;
 }
 
-export default function CodePathExplorer({ codeValue, toolsLeft, languageOptions }) {
-
+/**
+ * Code Path Explorer component.
+ * @param {Object} params
+ * @param {string} params.codeValue
+ * @param {import("../utils/options").ExplorerOptions} params.options
+ * @param {(newOptions: import("../utils/options").ExplorerOptions)=>void} params.onUpdateOptions
+ * @returns {JSX.Element} The Code Path Explorer component.
+ */
+export default function CodePathExplorer({ codeValue, options, onUpdateOptions }) {
     const [graphviz, setGraphviz] = useState(initialGraphviz);
-    const [codeOrGraph, setCodeOrGraph] = useState("graph");
-
-    const codePathOptions = {
-        codeOrGraph
-    };
-
-    const updateCodePathOptions = newOptions => {
-        setCodeOrGraph(newOptions.codeOrGraph);
-    };
 
     if (!graphviz) {
+
+        // Load Graphviz if it is not already loaded.
         void Graphviz.load().then(result => {
             initialGraphviz = result;
             setGraphviz(initialGraphviz);
         });
         return (
             <CodePathExplorerBase
-                toolsLeft={toolsLeft}
-                codePathOptions={codePathOptions}
-                onUpdateCodePathOptions={updateCodePathOptions}>
+                options={options}
+                onUpdateOptions={onUpdateOptions}>
                 Loading...
             </CodePathExplorerBase>
         );
     }
     return (
         <CodePathExplorerWithGraphviz
-            toolsLeft={toolsLeft}
-            codePathOptions={codePathOptions}
-            onUpdateCodePathOptions={updateCodePathOptions}
             codeValue={codeValue}
-            languageOptions={languageOptions}
+            options={options}
+            onUpdateOptions={onUpdateOptions}
             graphviz={graphviz}
         />
     );
 }
 
+function getAdjustedSelectedCodePathIndex(selectedCodePathIndex, numberOfCodePathList) {
+    if (selectedCodePathIndex === 0) {
+        return selectedCodePathIndex;
+    }
+    if (
+        !selectedCodePathIndex ||
+        selectedCodePathIndex < 0 ||
+        selectedCodePathIndex >= numberOfCodePathList
+    ) {
+        return numberOfCodePathList - 1;
+    }
+    return selectedCodePathIndex;
+}
+
+/**
+ * Code Path Explorer base component.
+ * @param {Object} params
+ * @param {import("../utils/options").ExplorerOptions} params.options
+ * @param {(newOptions: import("../utils/options").ExplorerOptions)=>void} params.onUpdateOptions
+ * @param {number} [params.numberOfCodePathList] Number of code paths
+ * @param {JSX.Element} params.children
+ * @returns {JSX.Element} The Code Path Explorer component.
+ */
 function CodePathExplorerBase({
-    toolsLeft,
-    codePathOptions, onUpdateCodePathOptions,
-    toolsRight,
-    children
+    options, onUpdateOptions,
+    children,
+    numberOfCodePathList
 }) {
+    const codePathExplorerOptions = options.codePathExplorerOptions;
+    const kind = codePathExplorerOptions.kind;
+
+    const codePathSelectOptions = Array.from({ length: numberOfCodePathList }, (_, index) => ({
+        value: index,
+        label: `Code Path ${index + 1}`
+    }));
+
+    const selectedCodePathIndex = getAdjustedSelectedCodePathIndex(codePathExplorerOptions.selectedCodePathIndex, numberOfCodePathList);
+    const updateSelectedCodePathIndex = value => {
+        onUpdateOptions({
+            codePathExplorerOptions: {
+                ...codePathExplorerOptions,
+                selectedCodePathIndex: value
+            }
+        });
+    };
+
     return (
         <div
-            className={`code-path-explorer code-path-explorer--${codePathOptions.codeOrGraph}`}
+            className={`code-path-explorer code-path-explorer--${kind}`}
         >
             <div
                 className="code-path-explorer__tools"
             >
-                {toolsLeft}
+                <ExplorerTabButtons
+                    options={options}
+                    onUpdateOptions={onUpdateOptions}
+                />
                 <TabButtons
                     tabs={[
-                        { value: "code", label: "Code" },
+                        { value: "dot", label: "Code" },
                         { value: "graph", label: "Graph" }
                     ]}
-                    value={codePathOptions.codeOrGraph}
-                    onChange={newValue => onUpdateCodePathOptions({ ...codePathOptions, codeOrGraph: newValue })}
+                    value={kind}
+                    onChange={newValue => onUpdateOptions({
+                        codePathExplorerOptions: {
+                            ...codePathExplorerOptions,
+                            kind: newValue
+                        }
+                    })}
                 />
-                {toolsRight}
+                {numberOfCodePathList
+                    ? (
+                        <div className="code-path-explorer__code-path-index-select">
+                            <select
+                                className="c-custom-select"
+                                value={selectedCodePathIndex}
+                                onChange={event => updateSelectedCodePathIndex(event.target.value)}
+                            >
+                                {codePathSelectOptions.map(({ value, label }) => (
+                                    <option
+                                        key={value}
+                                        value={value}
+                                    >
+                                        {label}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    )
+                    : null
+                }
             </div>
             <div
                 className="code-path-explorer__main"
@@ -227,11 +302,18 @@ function CodePathExplorerBase({
     );
 }
 
+/**
+ * Code Path Explorer component with Graphviz instance.
+ * @param {Object} params
+ * @param {string} params.codeValue
+ * @param {import("../utils/options").ExplorerOptions} params.options
+ * @param {(newOptions: import("../utils/options").ExplorerOptions)=>void} params.onUpdateOptions
+ * @param {Graphviz} params.graphviz
+ * @returns {JSX.Element} The Code Path Explorer component.
+ */
 function CodePathExplorerWithGraphviz({
     codeValue,
-    languageOptions,
-    toolsLeft,
-    codePathOptions, onUpdateCodePathOptions,
+    options, onUpdateOptions,
     graphviz
 }) {
     const extracted = useMemo(() => {
@@ -292,17 +374,7 @@ function CodePathExplorerWithGraphviz({
             rules: {
                 "code-path/extract-code-path": "error"
             },
-            languageOptions: {
-                ecmaVersion: "latest",
-                sourceType: "module",
-                ...languageOptions,
-                parserOptions: {
-                    ecmaFeatures: {
-                        globalReturn: true
-                    },
-                    ...languageOptions.parserOptions
-                }
-            }
+            languageOptions: resolveLanguageOptions(options.languageOptions)
         };
 
         try {
@@ -370,81 +442,46 @@ function CodePathExplorerWithGraphviz({
                 };
             })
         };
-    }, [codeValue, languageOptions]);
+    }, [codeValue, options.languageOptions]);
 
     if (extracted.error) {
         return (
             <CodePathExplorerBase
-                toolsLeft={toolsLeft}
-                codePathOptions={codePathOptions}
-                onUpdateCodePathOptions={onUpdateCodePathOptions}
+                options={options}
+                onUpdateOptions={onUpdateOptions}
             >
                 {extracted.error}
             </CodePathExplorerBase>
         );
     }
 
-    return (
-        <CodePathExplorerWithCodePathList
-            toolsLeft={toolsLeft}
-            codePathOptions={codePathOptions}
-            onUpdateCodePathOptions={onUpdateCodePathOptions}
-            graphviz={graphviz}
-            codePathList={extracted.codePathList}
-        />
-    );
-}
+    const codePathExplorerOptions = options.codePathExplorerOptions;
+    const selectedCodePathIndex = getAdjustedSelectedCodePathIndex(codePathExplorerOptions.selectedCodePathIndex, extracted.codePathList.length);
 
-function CodePathExplorerWithCodePathList({
-    toolsLeft,
-    codePathOptions, onUpdateCodePathOptions,
-    graphviz,
-    codePathList
-}) {
-
-    const [selectedCodePathIndex, setSelectedCodePathIndex] = useState(codePathList.length - 1);
-    let adjustSelectedCodePathIndex = selectedCodePathIndex;
-
-    if (adjustSelectedCodePathIndex >= codePathList.length) {
-        adjustSelectedCodePathIndex = codePathList.length - 1;
-    }
-    const dot = codePathList[adjustSelectedCodePathIndex].dot;
+    const dot = extracted.codePathList[selectedCodePathIndex].dot;
 
     return (
         <CodePathExplorerBase
-            toolsLeft={toolsLeft}
-            codePathOptions={codePathOptions}
-            onUpdateCodePathOptions={onUpdateCodePathOptions}
-            toolsRight={
-                <div className="code-path-explorer__code-path-index-select">
-                    <select
-                        className="c-custom-select"
-                        value={adjustSelectedCodePathIndex}
-                        onChange={event => setSelectedCodePathIndex(event.target.value)}
-                    >
-                        {codePathList.map((_codePath, index) => (
-                            <option
-                                key={index}
-                                value={index}
-                            >
-                            Code Path {index + 1}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-            }
+            options={options}
+            onUpdateOptions={onUpdateOptions}
+            numberOfCodePathList={extracted.codePathList.length}
         >
             {
-                codePathOptions.codeOrGraph !== "code"
-                    ? <div
+                codePathExplorerOptions.kind === "dot"
+                    ? <CodeMirror
+                        value={dot.trim()}
+                        minWidth="100%"
+                        height="100%"
+                        extensions={
+                            dotCodeMirrorExtensions
+                        }
+                        editable={false}
+                    />
+                    : <div
                         className="code-path-explorer__graph"
                         dangerouslySetInnerHTML={{ __html: graphviz.dot(dot) }}
                     />
-                    : <pre >
-                        {dot}
-                    </pre>
             }
-
         </CodePathExplorerBase>
     );
 }

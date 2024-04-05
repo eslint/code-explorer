@@ -7,14 +7,14 @@ import Unicode from "./utils/unicode";
 import debounce from "./utils/debounce";
 import "./scss/explorer.scss";
 import "./scss/header.scss";
-import TabButtons from "./components/TabButtons";
+import { getDefaultOptions, normalizeOptions } from "./utils/options.js";
+import ExplorerTabButtons from "./components/ExplorerTabButtons.jsx";
+
+/**
+ * @typedef {import("./utils/options.js").ExplorerOptions} ExplorerOptions
+ */
 
 const DEFAULT_TEXT = "const a = 'b';";
-
-const getDefaultOptions = () => ({
-
-    // TODO
-});
 
 const getUrlState = () => {
     try {
@@ -55,7 +55,12 @@ const hasLocalStorage = () => {
 };
 
 const App = () => {
-    let initialText, initialOptions;
+
+    /** @type {string} */
+    let initialText,
+
+        /** @type {ExplorerOptions} */
+        initialOptions;
 
     const initialState = getUrlState() || getLocalStorageState();
 
@@ -70,6 +75,8 @@ const App = () => {
     const [text, setText] = useState(initialText);
     const [options, setOptions] = useState(initialOptions);
 
+    const normalizedOption = normalizeOptions(options);
+
     const storeState = useCallback(({ newText, newOptions }) => {
         const serializedState = JSON.stringify({ text: newText || text, options: newOptions || options });
 
@@ -83,23 +90,11 @@ const App = () => {
         history.replaceState(null, null, url);
     }, [options, text]);
 
-
-    const languageOptions = {
-        ecmaVersion: "latest",
-        sourceType: "module",
-        ...options.languageOptions,
-        parserOptions: {
-            ecmaFeatures: {
-                globalReturn: true
-            },
-            ...options.languageOptions?.parserOptions
-        }
-    };
-
     const debouncedOnUpdate = useMemo(() => debounce(value => {
         setText(value);
         storeState({ newText: value });
     }, 400), [storeState]);
+
     const updateOptions = newOptions => {
         setOptions(newOptions);
         storeState({ newOptions });
@@ -143,28 +138,13 @@ const App = () => {
                     {
                         options.activeTab === "codePath"
                             ? <CodePathExplorer
-                                toolsLeft={
-                                    <TabButtons
-                                        tabs={[
-                                            { value: "ast", label: "AST" },
-                                            { value: "scope", label: "Scope" },
-                                            { value: "codePath", label: "Code Path" }
-                                        ]}
-                                        value={options.activeTab || "codePath"}
-                                        onChange={value => updateOptions({ ...options, activeTab: value })}
-                                    />
-                                }
                                 codeValue={text}
-                                languageOptions={languageOptions}
+                                options={normalizedOption}
+                                onUpdateOptions={newOptions => updateOptions({ ...options, ...newOptions })}
                             />
-                            : <TabButtons
-                                tabs={[
-                                    { value: "ast", label: "AST" },
-                                    { value: "scope", label: "Scope" },
-                                    { value: "codePath", label: "Code Path" }
-                                ]}
-                                value={options.activeTab || "codePath"}
-                                onChange={value => updateOptions({ ...options, activeTab: value })}
+                            : <ExplorerTabButtons
+                                options={normalizedOption}
+                                onUpdateOptions={newOptions => updateOptions({ ...options, ...newOptions })}
                             />
                     }
                 </div>
