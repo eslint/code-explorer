@@ -1,8 +1,8 @@
 import React from "react";
 import "../scss/tab-buttons.scss";
 
-export default function TabButtons({ tabs, name, value, onChange }) {
-    return <div className="tab-buttons">
+export default function TabButtons({ tabs, name, value, onChange, className }) {
+    return <div className={`tab-buttons ${className || ""}`}>
         {tabs.map(tab => {
             const active = value === tab.value;
 

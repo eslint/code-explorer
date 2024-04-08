@@ -259,6 +259,7 @@ function CodePathExplorerBase({
                     onUpdateOptions={onUpdateOptions}
                 />
                 <TabButtons
+                    className="tab-buttons--with-outline"
                     tabs={[
                         {
                             value: "dot",
