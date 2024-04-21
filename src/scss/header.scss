@@ -27,11 +27,7 @@
     grid-row: 1;
     padding: .5rem 0;
     z-index: 2;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
+    text-decoration: none;
     gap: 8px;
 }
 
@@ -47,9 +43,10 @@
     max-width: 100px;
 }
 
-.logo svg.code-explorer-logo {
-    max-width: 142px;
-    margin-top: 3px;
+.code-explorer-logo {
+    font-family: var(--display-font);
+    color: var(--color-neutral-400);
+    font-size: 1.25rem;
 }
 
 .site-nav {
