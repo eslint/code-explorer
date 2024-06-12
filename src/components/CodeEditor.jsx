@@ -21,6 +21,13 @@ const extensions = [
     ESLintPlaygroundHighlightStyle
 ];
 
+/**
+ * A JavaScript CodeEditor.
+ * @param {Object} params Parameters
+ * @param {string} params.codeValue The value of the code.
+ * @param {(value: string) => void} params.onUpdate The update event.
+ * @returns {React.JSX.Element} React Component
+ */
 export default function CodeEditor({ codeValue, onUpdate }) {
 
     return (

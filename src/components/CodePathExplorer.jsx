@@ -255,77 +255,83 @@ function CodePathExplorerBase({
         <div
             className={`code-path-explorer code-path-explorer--${kind}`}
         >
+            {/* The tool buttons of the Code Path Explorer. */}
             <div
                 className="code-path-explorer__tools"
             >
-                <ExplorerTabButtons
-                    options={options}
-                    onUpdateOptions={onUpdateOptions}
-                />
-                <TabButtons
-                    className="tab-buttons--with-outline"
-                    tabs={[
-                        {
-                            value: "dot",
-                            label: (
-                                <>
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M10.6666 12L14.6666 8L10.6666 4M5.33331 4L1.33331 8L5.33331 12" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
-                                    </svg>
-                                    <span>Code</span>
-                                </>
-                            )
-                        },
-                        {
-                            value: "graph",
-                            label: (
-                                <>
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <g clipPath="url(#clip0_1356_777)">
-                                            <path d="M7.99992 10.6667L10.6666 8.00004M10.6666 8.00004L7.99992 5.33337M10.6666 8.00004H5.33325M14.6666 8.00004C14.6666 11.6819 11.6818 14.6667 7.99992 14.6667C4.31802 14.6667 1.33325 11.6819 1.33325 8.00004C1.33325 4.31814 4.31802 1.33337 7.99992 1.33337C11.6818 1.33337 14.6666 4.31814 14.6666 8.00004Z" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
-                                        </g>
-                                        <defs>
-                                            <clipPath id="clip0_1356_777">
-                                                <rect width="16" height="16" fill="transparent"/>
-                                            </clipPath>
-                                        </defs>
-                                    </svg>
-                                    <span>Graph</span>
-                                </>
+                <div className="code-path-explorer__tools-left">
+                    <ExplorerTabButtons
+                        options={options}
+                        onUpdateOptions={onUpdateOptions}
+                    />
+                </div>
+                <div className="code-path-explorer__tools-right">
+                    <TabButtons
+                        outline
+                        tabs={[
+                            {
+                                value: "dot",
+                                label: (
+                                    <>
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M10.6666 12L14.6666 8L10.6666 4M5.33331 4L1.33331 8L5.33331 12" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
+                                        </svg>
+                                        <span>Code</span>
+                                    </>
+                                )
+                            },
+                            {
+                                value: "graph",
+                                label: (
+                                    <>
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <g clipPath="url(#clip0_1356_777)">
+                                                <path d="M7.99992 10.6667L10.6666 8.00004M10.6666 8.00004L7.99992 5.33337M10.6666 8.00004H5.33325M14.6666 8.00004C14.6666 11.6819 11.6818 14.6667 7.99992 14.6667C4.31802 14.6667 1.33325 11.6819 1.33325 8.00004C1.33325 4.31814 4.31802 1.33337 7.99992 1.33337C11.6818 1.33337 14.6666 4.31814 14.6666 8.00004Z" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
+                                            </g>
+                                            <defs>
+                                                <clipPath id="clip0_1356_777">
+                                                    <rect width="16" height="16" fill="transparent"/>
+                                                </clipPath>
+                                            </defs>
+                                        </svg>
+                                        <span>Graph</span>
+                                    </>
 
-                            )
-                        }
-                    ]}
-                    value={kind}
-                    onChange={newValue => onUpdateOptions({
-                        codePathExplorerOptions: {
-                            ...codePathExplorerOptions,
-                            kind: newValue
-                        }
-                    })}
-                />
-                {numberOfCodePathList
-                    ? (
-                        <div className="code-path-explorer__code-path-index-select">
-                            <select
-                                className="c-custom-select"
-                                value={selectedCodePathIndex}
-                                onChange={event => updateSelectedCodePathIndex(event.target.value)}
-                            >
-                                {codePathSelectOptions.map(({ value, label }) => (
-                                    <option
-                                        key={value}
-                                        value={value}
-                                    >
-                                        {label}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                    )
-                    : null
-                }
+                                )
+                            }
+                        ]}
+                        value={kind}
+                        onChange={newValue => onUpdateOptions({
+                            codePathExplorerOptions: {
+                                ...codePathExplorerOptions,
+                                kind: newValue
+                            }
+                        })}
+                    />
+                    {numberOfCodePathList
+                        ? (
+                            <div className="code-path-explorer__code-path-index-select">
+                                <select
+                                    className="c-custom-select"
+                                    value={selectedCodePathIndex}
+                                    onChange={event => updateSelectedCodePathIndex(event.target.value)}
+                                >
+                                    {codePathSelectOptions.map(({ value, label }) => (
+                                        <option
+                                            key={value}
+                                            value={value}
+                                        >
+                                            {label}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        )
+                        : null
+                    }
+                </div>
             </div>
+            {/* The part where the code path is displayed. */}
             <div
                 className="code-path-explorer__main"
             >
@@ -479,6 +485,7 @@ function CodePathExplorerWithGraphviz({
     }, [codeValue, options.languageOptions]);
 
     if (extracted.error) {
+        // If an error occurs, an error message will be displayed.
         return (
             <CodePathExplorerBase
                 options={options}
@@ -494,6 +501,7 @@ function CodePathExplorerWithGraphviz({
 
     const dot = extracted.codePathList[selectedCodePathIndex].dot;
 
+    // Renders the code path information.
     return (
         <CodePathExplorerBase
             options={options}

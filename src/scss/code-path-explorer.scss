@@ -22,9 +22,24 @@
 
 .code-path-explorer__tools {
     display: flex;
+    gap: 8px;
     align-items: center;
-    justify-content: space-between;
+    flex-wrap: wrap;
     padding: 1rem;
+}
+
+.code-path-explorer__tools-left {
+    display: flex;
+    min-width: 0;
+    flex-wrap: wrap;
+}
+
+.code-path-explorer__tools-right {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+    min-width: 0;
+    flex-wrap: wrap;
 }
 
 .code-path-explorer__code-path-index-select {

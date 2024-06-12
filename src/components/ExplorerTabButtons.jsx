@@ -5,6 +5,9 @@
 import React from "react";
 import TabButtons from "./TabButtons.jsx";
 
+/**
+ * @type {import("./TabButtons.jsx").TabData[]}
+ */
 const EXPLORER_TABS = [
     { value: "ast", label: "AST" },
     { value: "scope", label: "Scope" },
@@ -12,11 +15,11 @@ const EXPLORER_TABS = [
 ];
 
 /**
- * Tab button to select the type of explorer.
+ * Tab buttons to select the type of explorer.
  * @param {Object} params
  * @param {import("../utils/options").ExplorerOptions} params.options
  * @param {(newOptions: import("../utils/options").ExplorerOptions)=>void} params.onUpdateOptions
- * @returns {JSX.Element} The Code Path Explorer component.
+ * @returns {React.JSX.Element} React Component
  */
 export default function ExplorerTabButtons({ options, onUpdateOptions }) {
     return <TabButtons
