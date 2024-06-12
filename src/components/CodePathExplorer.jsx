@@ -1,3 +1,7 @@
+/**
+ * @fileoverview CodePath Explorer component.
+ * @author Yosuke Ota
+ */
 import React, { useMemo, useState } from "react";
 import { Graphviz } from "@hpcc-js/wasm";
 import { Linter } from "eslint";

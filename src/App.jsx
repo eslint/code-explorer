@@ -1,3 +1,7 @@
+/**
+ * @fileoverview App component
+ * @author Yosuke Ota
+ */
 import "regenerator-runtime/runtime";
 
 import React, { useState, useMemo, useCallback } from "react";

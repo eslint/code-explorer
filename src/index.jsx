@@ -1,3 +1,7 @@
+/**
+ * @fileoverview This is the first JavaScript called by the application.
+ * @author Yosuke Ota
+ */
 import "./scss/components/buttons.scss";
 import "./scss/components/theme-switcher.scss";
 import "./scss/tokens/themes.scss";

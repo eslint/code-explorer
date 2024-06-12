@@ -1,3 +1,7 @@
+/**
+ * @fileoverview Tab buttons component.
+ * @author Yosuke Ota
+ */
 import React from "react";
 import "../scss/tab-buttons.scss";
 

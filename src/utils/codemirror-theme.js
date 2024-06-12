@@ -1,3 +1,9 @@
+/**
+ * @fileoverview A code mirror theme to apply to a JavaScript code editor.
+ * 
+ * It was mostly inspired by the codemirror-theme.js in the ESLint playground.
+ * @see https://github.com/eslint/eslint.org/blob/e6f10f42b5aa203096412686076e91190b93cf9f/src/playground/utils/codemirror-theme.js
+ */
 import { EditorView } from "@codemirror/view";
 import { HighlightStyle, tags } from "@codemirror/highlight";
 

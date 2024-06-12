@@ -1,3 +1,7 @@
+/**
+ * @fileoverview Tab buttons to select the type of explorer.
+ * @author Yosuke Ota
+ */
 import React from "react";
 import "../scss/tab-buttons.scss";
 import TabButtons from "./TabButtons.jsx";

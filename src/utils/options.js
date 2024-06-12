@@ -1,4 +1,9 @@
 /**
+ * @fileoverview Utilities for user options.
+ * @author Yosuke Ota
+ */
+
+/**
  * @typedef {import('eslint').Linter.FlatConfig} FlatConfig
  */
 /**

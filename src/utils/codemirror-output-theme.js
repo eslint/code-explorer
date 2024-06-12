@@ -1,3 +1,7 @@
+/**
+ * @fileoverview A code mirror theme to apply to code output.
+ * @author Yosuke Ota
+ */
 import { EditorView } from "@codemirror/view";
 
 export const ExplorerOutputTheme = EditorView.theme({
