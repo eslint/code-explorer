@@ -3,7 +3,6 @@
  * @author Yosuke Ota
  */
 import React from "react";
-import "../scss/tab-buttons.scss";
 import TabButtons from "./TabButtons.jsx";
 
 const EXPLORER_TABS = [
