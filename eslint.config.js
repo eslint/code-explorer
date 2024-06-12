@@ -4,12 +4,12 @@ import reactPlugin from "eslint-plugin-react";
 import reactRecommended from "eslint-plugin-react/configs/recommended.js";
 import jsxA11yPlugin from "eslint-plugin-jsx-a11y";
 import reactHooksPlugin from "eslint-plugin-react-hooks";
+import { fixupPluginRules } from "@eslint/compat";
 
 export default [
     {
         ignores: [
-
-            // "_site/**",
+            "dist/"
         ]
     },
     ...eslintConfigESLintCJS,
@@ -50,9 +50,9 @@ export default [
     {
         files: ["src/**/*.{js,jsx}"],
         plugins: {
-            react: reactPlugin,
-            "jsx-a11y": jsxA11yPlugin,
-            "react-hooks": reactHooksPlugin
+            react: fixupPluginRules(reactPlugin),
+            "jsx-a11y": fixupPluginRules(jsxA11yPlugin),
+            "react-hooks": fixupPluginRules(reactHooksPlugin)
         },
         settings: {
             react: {
