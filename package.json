@@ -9,6 +9,7 @@
     "node": ">=18"
   },
   "scripts": {
+    "start": "npm run build:website:watch",
     "build:website": "vite build",
     "build:website:watch": "vite",
     "lint": "npm-run-all --parallel lint:js lint:md lint:scss",
