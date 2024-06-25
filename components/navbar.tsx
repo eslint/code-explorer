@@ -1,5 +1,6 @@
 import { Logo } from './logo';
 import { ModeToggle } from './mode-toggle';
+import { Options } from './options';
 import { CallToAction } from './cta';
 import type { FC } from 'react';
 
@@ -12,7 +13,7 @@ export const Navbar: FC = () => (
       </div>
       <div className="flex items-center gap-2">
         <ModeToggle />
-        <p>Options</p>
+        <Options />
         <CallToAction />
       </div>
     </div>
