@@ -14,7 +14,7 @@ type RootLayoutProperties = Readonly<{
 
 const RootLayout: FC<RootLayoutProperties> = ({ children }) => (
   <html lang="en">
-    <body>
+    <body className="flex flex-col h-screen divide-y">
       <Navbar />
       {children}
     </body>
