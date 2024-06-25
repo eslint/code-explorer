@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Logo } from './logo';
+import { ModeToggle } from './mode-toggle';
 import type { FC } from 'react';
 
 export const Navbar: FC = () => (
@@ -10,7 +11,7 @@ export const Navbar: FC = () => (
         <p>Code Explorer</p>
       </div>
       <div className="flex items-center gap-2">
-        <p>Mode Toggle</p>
+        <ModeToggle />
         <p>Options</p>
         <Button asChild>
           <a href="https://eslint.org/" target="_blank" rel="noreferrer">
