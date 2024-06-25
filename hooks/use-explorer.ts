@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
+import type { Options } from 'espree';
 
 type ExplorerState = {
   code: string;
@@ -11,10 +12,10 @@ type ExplorerState = {
   parser: string;
   setParser: (parser: string) => void;
 
-  sourceType: string;
+  sourceType: Options['sourceType'];
   setSourceType: (sourceType: string) => void;
 
-  esVersion: string;
+  esVersion: Options['ecmaVersion'];
   setEsVersion: (esVersion: string) => void;
 
   isJSX: boolean;

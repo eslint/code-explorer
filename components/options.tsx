@@ -68,7 +68,7 @@ export const Options: FC = () => {
             value={options.sourceType}
             onValueChange={options.setSourceType}
           >
-            <SelectTrigger className="w-full" disabled>
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="Source Type" />
             </SelectTrigger>
             <SelectContent>
@@ -87,7 +87,7 @@ export const Options: FC = () => {
             value={options.esVersion}
             onValueChange={options.setEsVersion}
           >
-            <SelectTrigger className="w-full" disabled>
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="ECMAScript Version" />
             </SelectTrigger>
             <SelectContent>

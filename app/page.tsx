@@ -1,6 +1,12 @@
-import { Explorer } from '@/components/explorer';
+import { Ast } from '@/components/ast';
+import type { Metadata } from 'next';
 import type { FC } from 'react';
 
-const Home: FC = () => <Explorer />;
+export const metadata: Metadata = {
+  title: 'AST',
+  description: 'AST',
+};
+
+const Home: FC = () => <Ast />;
 
 export default Home;
