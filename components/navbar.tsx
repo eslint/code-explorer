@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/button';
 import { Logo } from './logo';
 import { ModeToggle } from './mode-toggle';
+import { CallToAction } from './cta';
 import type { FC } from 'react';
 
 export const Navbar: FC = () => (
@@ -13,11 +13,7 @@ export const Navbar: FC = () => (
       <div className="flex items-center gap-2">
         <ModeToggle />
         <p>Options</p>
-        <Button asChild>
-          <a href="https://eslint.org/" target="_blank" rel="noreferrer">
-            Get Started
-          </a>
-        </Button>
+        <CallToAction />
       </div>
     </div>
   </nav>
