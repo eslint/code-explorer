@@ -2,6 +2,7 @@ import { sans, mono } from '@/lib/fonts';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Navbar } from '@/components/navbar';
+import { ThemeProvider } from '@/providers/theme-provider';
 import type { Metadata } from 'next';
 import type { FC, ReactNode } from 'react';
 
@@ -22,10 +23,18 @@ const RootLayout: FC<RootLayoutProperties> = ({ children }) => (
       mono.variable,
       'antialiased touch-manipulation font-sans'
     )}
+    suppressHydrationWarning
   >
     <body className="flex flex-col h-screen divide-y">
-      <Navbar />
-      {children}
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <Navbar />
+        {children}
+      </ThemeProvider>
     </body>
   </html>
 );
