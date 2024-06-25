@@ -1,10 +1,14 @@
 import { Button } from '@/components/ui/button';
+import { Logo } from './logo';
 import type { FC } from 'react';
 
 export const Navbar: FC = () => (
   <nav className="border-t-4 border-primary">
     <div className="px-6 py-4 flex items-center justify-between">
-      <p>ESlint Code Explorer</p>
+      <div className="flex items-center gap-2">
+        <Logo />
+        <p>Code Explorer</p>
+      </div>
       <div className="flex items-center gap-2">
         <p>Mode Toggle</p>
         <p>Options</p>
