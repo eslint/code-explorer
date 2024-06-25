@@ -1,4 +1,5 @@
 import { Ast } from '@/components/ast';
+import { Scope } from '@/components/scope';
 import type { Options } from 'espree';
 
 export const tools = [
@@ -10,6 +11,7 @@ export const tools = [
   {
     name: 'Scope',
     value: 'scope',
+    component: Scope,
   },
   {
     name: 'Code Path',

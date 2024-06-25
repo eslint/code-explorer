@@ -43,6 +43,7 @@
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.1.5",
+    "eslint-scope": "^8.0.1",
     "espree": "^10.1.0",
     "input-otp": "^1.2.4",
     "lucide-react": "^0.396.0",
@@ -61,6 +62,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@types/eslint-scope": "^3.7.7",
     "@types/espree": "^10.0.0",
     "@types/node": "^20",
     "@types/react": "^18",
