@@ -1,5 +1,3 @@
-export const defaultCode = `const a = 'b';`;
-
 export const tools = [
   {
     name: 'AST',

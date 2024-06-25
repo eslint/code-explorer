@@ -2,21 +2,23 @@
 
 import Editor from '@monaco-editor/react';
 import { useState } from 'react';
-import { defaultCode, tools } from '@/lib/const';
+import * as espree from 'espree';
+import { tools } from '@/lib/const';
+import { useExplorer } from '@/hooks/use-explorer';
 import { Button } from './ui/button';
 import type { FC } from 'react';
 
 export const Explorer: FC = () => {
+  const explorer = useExplorer();
   const [tool, setTool] = useState(tools[0].value);
-  const [code, setCode] = useState<string | undefined>(defaultCode);
 
   return (
     <div className="grid grid-cols-2 divide-x h-full">
       <Editor
         height="100%"
         defaultLanguage="javascript"
-        defaultValue={defaultCode}
-        onChange={setCode}
+        value={explorer.code}
+        onChange={(value) => explorer.setCode(value ?? '')}
         options={{
           minimap: {
             enabled: false,
@@ -46,7 +48,24 @@ export const Explorer: FC = () => {
             <p>json / tree</p>
           </div>
         </div>
-        <pre>{code}</pre>
+        {tool === 'ast' && (
+          <Editor
+            height="100%"
+            defaultLanguage="javascript"
+            value={JSON.stringify(
+              espree.parse(explorer.code, {
+                ecmaVersion: explorer.esVersion,
+              }),
+              null,
+              2
+            )}
+            options={{
+              minimap: {
+                enabled: false,
+              },
+            }}
+          />
+        )}
       </div>
     </div>
   );

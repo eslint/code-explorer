@@ -2,6 +2,9 @@ import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 
 type ExplorerState = {
+  code: string;
+  setCode: (code: string) => void;
+
   language: string;
   setLanguage: (language: string) => void;
 
@@ -22,6 +25,9 @@ export const useExplorer = create<ExplorerState>()(
   devtools(
     persist(
       (set) => ({
+        code: `const a = 'b';`,
+        setCode: (code) => set({ code }),
+
         language: 'javascript',
         setLanguage: (language) => set({ language }),
 
