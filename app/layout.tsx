@@ -1,7 +1,7 @@
 import { sans, mono } from '@/lib/fonts';
 import './globals.css';
 import { cn } from '@/lib/utils';
-import { Navbar } from './components/navbar';
+import { Navbar } from '@/components/navbar';
 import type { Metadata } from 'next';
 import type { FC, ReactNode } from 'react';
 

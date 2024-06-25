@@ -1,4 +1,4 @@
-import { Explorer } from './components/explorer';
+import { Explorer } from '@/components/explorer';
 import type { FC } from 'react';
 
 const Home: FC = () => <Explorer />;
