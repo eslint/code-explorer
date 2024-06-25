@@ -16,41 +16,10 @@ import {
 import { Switch } from '@/components/ui/switch';
 
 import { useExplorer } from '@/hooks/use-explorer';
+import { languages, parsers, sourceTypes, versions } from '@/lib/const';
 import { Button } from './ui/button';
 import { Label } from './ui/label';
 import type { FC } from 'react';
-
-const languages = [
-  {
-    value: 'javascript',
-    label: 'JavaScript',
-  },
-];
-
-const parsers = [
-  {
-    value: 'espree',
-    label: 'Espree',
-  },
-];
-
-const sourceTypes = [
-  {
-    value: 'commonjs',
-    label: 'CommonJS',
-  },
-  {
-    value: 'module',
-    label: 'Module',
-  },
-];
-
-const versions = [
-  {
-    value: 'latest',
-    label: 'Latest',
-  },
-];
 
 export const Options: FC = () => {
   const options = useExplorer();

@@ -2,25 +2,9 @@
 
 import Editor from '@monaco-editor/react';
 import { useState } from 'react';
+import { defaultCode, tools } from '@/lib/const';
 import { Button } from './ui/button';
 import type { FC } from 'react';
-
-const defaultCode = `const a = 'b';`;
-
-const tools = [
-  {
-    name: 'AST',
-    value: 'ast',
-  },
-  {
-    name: 'Scope',
-    value: 'scope',
-  },
-  {
-    name: 'Code Path',
-    value: 'codepath',
-  },
-];
 
 export const Explorer: FC = () => {
   const [tool, setTool] = useState(tools[0].value);
@@ -47,6 +31,11 @@ export const Explorer: FC = () => {
                 variant={tool === value ? 'outline' : 'ghost'}
                 onClick={() => setTool(value)}
                 key={value}
+                className={
+                  tool === value
+                    ? ''
+                    : 'text-muted-foreground border border-transparent'
+                }
               >
                 {name}
               </Button>
