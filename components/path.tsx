@@ -1,3 +1,5 @@
+'use client';
+
 import { useExplorer } from '@/hooks/use-explorer';
 import type { FC } from 'react';
 
