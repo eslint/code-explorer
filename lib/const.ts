@@ -1,4 +1,5 @@
 import { Ast } from '@/components/ast';
+import { CodePath } from '@/components/path';
 import { Scope } from '@/components/scope';
 import type { Options } from 'espree';
 
@@ -16,6 +17,7 @@ export const tools = [
   {
     name: 'Code Path',
     value: 'codepath',
+    component: CodePath,
   },
 ];
 
