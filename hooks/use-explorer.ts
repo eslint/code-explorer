@@ -12,7 +12,7 @@ type ExplorerState = {
   parser: string;
   setParser: (parser: string) => void;
 
-  sourceType: Options['sourceType'];
+  sourceType: Omit<Options['sourceType'], 'undefined'>;
   setSourceType: (sourceType: string) => void;
 
   esVersion: Options['ecmaVersion'];
@@ -39,7 +39,13 @@ export const useExplorer = create<ExplorerState>()(
         setSourceType: (sourceType) => set({ sourceType }),
 
         esVersion: 'latest',
-        setEsVersion: (esVersion) => set({ esVersion }),
+        setEsVersion: (esVersion) =>
+          set({
+            esVersion:
+              esVersion === 'latest'
+                ? 'latest'
+                : (Number(esVersion) as Options['ecmaVersion']),
+          }),
 
         isJSX: true,
         setIsJSX: (isJSX) => set({ isJSX }),

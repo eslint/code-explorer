@@ -65,7 +65,7 @@ export const Options: FC = () => {
         <div className="space-y-1.5">
           <Label htmlFor="sourceType">Source Type</Label>
           <Select
-            value={options.sourceType}
+            value={String(options.sourceType)}
             onValueChange={options.setSourceType}
           >
             <SelectTrigger className="w-full">
@@ -73,7 +73,10 @@ export const Options: FC = () => {
             </SelectTrigger>
             <SelectContent>
               {sourceTypes.map((sourceType) => (
-                <SelectItem key={sourceType.value} value={sourceType.value}>
+                <SelectItem
+                  key={sourceType.value}
+                  value={String(sourceType.value)}
+                >
                   {sourceType.label}
                 </SelectItem>
               ))}
