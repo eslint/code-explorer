@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-handler-names */
 'use client';
 
+import Image from 'next/image';
 import {
   Popover,
   PopoverContent,
@@ -24,10 +25,27 @@ import type { FC } from 'react';
 export const Options: FC = () => {
   const options = useExplorer();
 
+  const currentLanguage = languages.find(
+    (language) => language.value === options.language
+  );
+
+  if (!currentLanguage) {
+    return null;
+  }
+
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline">{options.language}</Button>
+        <Button variant="outline" className="flex items-center gap-1.5">
+          <Image
+            src={currentLanguage.icon}
+            alt={currentLanguage.label}
+            width={16}
+            height={16}
+            className="w-4 h-4"
+          />
+          <span>{currentLanguage.label}</span>
+        </Button>
       </PopoverTrigger>
       <PopoverContent className="space-y-4 w-[372px]">
         <div className="space-y-1.5">
@@ -39,7 +57,16 @@ export const Options: FC = () => {
             <SelectContent>
               {languages.map((language) => (
                 <SelectItem key={language.value} value={language.value}>
-                  {language.label}
+                  <div className="flex items-center gap-1.5">
+                    <Image
+                      src={language.icon}
+                      alt={language.label}
+                      width={16}
+                      height={16}
+                      className="w-4 h-4"
+                    />
+                    <span>{language.label}</span>
+                  </div>
                 </SelectItem>
               ))}
             </SelectContent>
@@ -55,7 +82,16 @@ export const Options: FC = () => {
             <SelectContent>
               {parsers.map((parser) => (
                 <SelectItem key={parser.value} value={parser.value}>
-                  {parser.label}
+                  <div className="flex items-center gap-1.5">
+                    <Image
+                      src={parser.icon}
+                      alt={parser.label}
+                      width={16}
+                      height={16}
+                      className="w-4 h-4"
+                    />
+                    <span>{parser.label}</span>
+                  </div>
                 </SelectItem>
               ))}
             </SelectContent>

@@ -1,6 +1,9 @@
 import { Ast } from '@/components/ast';
 import { CodePath } from '@/components/path';
 import { Scope } from '@/components/scope';
+import JavaScript from './languages/javascript.svg';
+import ESLint from './languages/eslint.svg';
+import type { StaticImageData } from 'next/image';
 import type { SourceType, Version } from '@/hooks/use-explorer';
 
 export const tools = [
@@ -28,6 +31,7 @@ export const languages = [
   {
     value: 'javascript',
     label: 'JavaScript',
+    icon: JavaScript as StaticImageData,
   },
 ];
 
@@ -35,6 +39,7 @@ export const parsers = [
   {
     value: 'espree',
     label: 'Espree',
+    icon: ESLint as StaticImageData,
   },
 ];
 
