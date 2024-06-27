@@ -7,7 +7,7 @@ import type { FC, ReactNode } from 'react';
 type ToolLayoutProperties = Readonly<{
   children: ReactNode;
   params: {
-    tool: string;
+    tool?: string;
   };
 }>;
 
@@ -17,18 +17,18 @@ const ToolLayout: FC<ToolLayoutProperties> = ({ children, params }) => (
     <div className="bg-secondary relative flex flex-col">
       <div className="flex items-center justify-between p-4">
         <div className="flex items-center gap-1">
-          {tools.map(({ name, value }) => (
+          {tools.map(({ name, value, href }) => (
             <Button
               key={value}
               asChild
-              variant={value === params.tool ? 'outline' : 'ghost'}
+              variant={href === `/${params.tool ?? ''}` ? 'outline' : 'ghost'}
               className={
-                value === params.tool
+                href === `/${params.tool ?? ''}`
                   ? ''
                   : 'border border-transparent text-muted-foreground'
               }
             >
-              <Link href={`/${value}`}>{name}</Link>
+              <Link href={href}>{name}</Link>
             </Button>
           ))}
         </div>

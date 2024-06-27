@@ -5,12 +5,12 @@ import type { FC } from 'react';
 
 type PageProperties = {
   readonly params: {
-    tool: string;
+    tool?: string;
   };
 };
 
 export const generateMetadata = ({ params }: PageProperties): Metadata => {
-  const tool = tools.find(({ value }) => value === params.tool);
+  const tool = tools.find(({ href }) => href === `/${params.tool ?? ''}`);
 
   if (!tool) {
     return {};
@@ -22,7 +22,7 @@ export const generateMetadata = ({ params }: PageProperties): Metadata => {
 };
 
 const Page: FC<PageProperties> = ({ params }) => {
-  const tool = tools.find(({ value }) => value === params.tool);
+  const tool = tools.find(({ href }) => href === `/${params.tool ?? ''}`);
 
   if (!tool) {
     notFound();

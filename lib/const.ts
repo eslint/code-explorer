@@ -5,16 +5,19 @@ import type { SourceType, Version } from '@/hooks/use-explorer';
 
 export const tools = [
   {
+    href: '/',
     name: 'AST',
     value: 'ast',
     component: Ast,
   },
   {
+    href: '/scope',
     name: 'Scope',
     value: 'scope',
     component: Scope,
   },
   {
+    href: '/path',
     name: 'Code Path',
     value: 'codepath',
     component: CodePath,

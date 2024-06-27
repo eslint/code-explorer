@@ -6,7 +6,7 @@ import type { FC } from 'react';
 
 export const Tool: FC = () => {
   const pathname = usePathname();
-  const tool = tools.find(({ value }) => value === pathname);
+  const tool = tools.find(({ href }) => href === pathname);
 
   if (!tool) {
     return null;
