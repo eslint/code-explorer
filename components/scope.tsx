@@ -14,23 +14,42 @@ import type { FC } from 'react';
 export const Scope: FC = () => {
   const explorer = useExplorer();
 
-  const options = {
+  const ast = espree.parse(explorer.code, {
+    range: true,
     ecmaVersion: explorer.esVersion,
     sourceType: explorer.sourceType,
-  };
+  });
 
-  const ast = espree.parse(explorer.code, { range: true, ...options });
-  const scopeManager = eslintScope.analyze(ast, options);
+  if (explorer.sourceType === 'commonjs') {
+    return (
+      <div className="text-center text-red-500">
+        CommonJS is not supported by eslint-scope.
+      </div>
+    );
+  }
 
-  delete scopeManager.globalScope.variableScope;
-  delete scopeManager.globalScope.childScopes;
+  if (explorer.esVersion === 'latest') {
+    return (
+      <div className="text-center text-red-500">
+        Latest ECMAScript version is not supported by eslint-scope.
+      </div>
+    );
+  }
+
+  const scopeManager = eslintScope.analyze(ast, {
+    sourceType: explorer.sourceType,
+    ecmaVersion: explorer.esVersion,
+  });
+
+  // eslint-disable-next-line unused-imports/no-unused-vars, unused-imports/no-unused-vars-ts, @typescript-eslint/no-unused-vars
+  const { variableScope, childScopes, ...rest } = scopeManager.globalScope;
 
   return (
     <Accordion type="single" collapsible>
       <AccordionItem value="global-scope">
         <AccordionTrigger>0. Global Scope</AccordionTrigger>
         <AccordionContent>
-          <pre>{JSON.stringify(scopeManager.globalScope)}</pre>
+          <pre>{JSON.stringify(rest)}</pre>
         </AccordionContent>
       </AccordionItem>
     </Accordion>
