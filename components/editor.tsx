@@ -10,8 +10,17 @@ export const Editor: FC<EditorProperties> = (properties) => {
   const { resolvedTheme } = useTheme();
   const monaco = useMonaco();
 
-  monaco?.editor.defineTheme('my-theme', {
+  monaco?.editor.defineTheme('eslint-light', {
     base: 'vs',
+    inherit: true,
+    rules: [],
+    colors: {
+      'editor.background': '#FFFFFF00',
+    },
+  });
+
+  monaco?.editor.defineTheme('eslint-dark', {
+    base: 'vs-dark',
     inherit: true,
     rules: [],
     colors: {
@@ -27,7 +36,7 @@ export const Editor: FC<EditorProperties> = (properties) => {
           enabled: false,
         },
       }}
-      theme={resolvedTheme === 'dark' ? 'vs-dark' : 'my-theme'}
+      theme={resolvedTheme === 'dark' ? 'eslint-dark' : 'eslint-light'}
       {...properties}
     />
   );

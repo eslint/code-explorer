@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { tools } from '@/lib/const';
+import type { Metadata } from 'next';
 import type { FC } from 'react';
 
 type PageProperties = {
