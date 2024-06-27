@@ -1,8 +1,8 @@
 'use client';
 
-import { Editor } from '@monaco-editor/react';
 import * as espree from 'espree';
 import { useExplorer } from '@/hooks/use-explorer';
+import { Editor } from './editor';
 import type { FC } from 'react';
 
 export const Ast: FC = () => {
@@ -19,16 +19,5 @@ export const Ast: FC = () => {
     console.error(error);
   }
 
-  return (
-    <Editor
-      height="100%"
-      defaultLanguage="json"
-      value={ast}
-      options={{
-        minimap: {
-          enabled: false,
-        },
-      }}
-    />
-  );
+  return <Editor defaultLanguage="json" value={ast} />;
 };
