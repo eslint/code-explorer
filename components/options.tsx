@@ -65,7 +65,7 @@ export const Options: FC = () => {
         <div className="space-y-1.5">
           <Label htmlFor="sourceType">Source Type</Label>
           <Select
-            value={String(options.sourceType)}
+            value={options.sourceType}
             onValueChange={options.setSourceType}
           >
             <SelectTrigger className="w-full">
@@ -73,10 +73,7 @@ export const Options: FC = () => {
             </SelectTrigger>
             <SelectContent>
               {sourceTypes.map((sourceType) => (
-                <SelectItem
-                  key={sourceType.value}
-                  value={String(sourceType.value)}
-                >
+                <SelectItem key={sourceType.value} value={sourceType.value}>
                   {sourceType.label}
                 </SelectItem>
               ))}
@@ -87,7 +84,7 @@ export const Options: FC = () => {
         <div className="space-y-1.5">
           <Label htmlFor="esVersion">ECMAScript Version</Label>
           <Select
-            value={options.esVersion}
+            value={String(options.esVersion)}
             onValueChange={options.setEsVersion}
           >
             <SelectTrigger className="w-full">
@@ -95,7 +92,7 @@ export const Options: FC = () => {
             </SelectTrigger>
             <SelectContent>
               {versions.map((version) => (
-                <SelectItem key={version.value} value={version.value}>
+                <SelectItem key={version.value} value={String(version.value)}>
                   {version.label}
                 </SelectItem>
               ))}

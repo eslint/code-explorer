@@ -1,7 +1,7 @@
 import { Ast } from '@/components/ast';
 import { CodePath } from '@/components/path';
 import { Scope } from '@/components/scope';
-import type { Options } from 'espree';
+import type { SourceType, Version } from '@/hooks/use-explorer';
 
 export const tools = [
   {
@@ -36,7 +36,7 @@ export const parsers = [
 ];
 
 export const sourceTypes: {
-  value: Options['sourceType'];
+  value: SourceType;
   label: string;
 }[] = [
   {
@@ -54,7 +54,7 @@ export const sourceTypes: {
 ];
 
 export const versions: {
-  value: Options['ecmaVersion'];
+  value: Version;
   label: string;
 }[] = [
   {

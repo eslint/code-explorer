@@ -2,6 +2,9 @@ import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import type { Options } from 'espree';
 
+export type SourceType = Exclude<Options['sourceType'], undefined>;
+export type Version = Exclude<Options['ecmaVersion'], undefined>;
+
 type ExplorerState = {
   code: string;
   setCode: (code: string) => void;
@@ -12,10 +15,10 @@ type ExplorerState = {
   parser: string;
   setParser: (parser: string) => void;
 
-  sourceType: Omit<Options['sourceType'], 'undefined'>;
+  sourceType: SourceType;
   setSourceType: (sourceType: string) => void;
 
-  esVersion: Options['ecmaVersion'];
+  esVersion: Version;
   setEsVersion: (esVersion: string) => void;
 
   isJSX: boolean;
@@ -36,7 +39,8 @@ export const useExplorer = create<ExplorerState>()(
         setParser: (parser) => set({ parser }),
 
         sourceType: 'commonjs',
-        setSourceType: (sourceType) => set({ sourceType }),
+        setSourceType: (sourceType) =>
+          set({ sourceType: sourceType as SourceType }),
 
         esVersion: 'latest',
         setEsVersion: (esVersion) =>
