@@ -35,8 +35,8 @@ export const ScopeItem: FC<ScopeItemProperties> = ({ data, index }) => {
         {index}. {capitalize(type)} Scope
       </AccordionTrigger>
       <AccordionContent className="p-4 border-t">
-        {/* eslint-disable-next-line @typescript-eslint/no-unsafe-argument, unicorn/prefer-structured-clone */}
         <div className="space-y-1">
+          {/* eslint-disable-next-line @typescript-eslint/no-unsafe-argument, unicorn/prefer-structured-clone */}
           {Object.entries(JSON.parse(JSON.stringify(rest))).map(
             ([key, value]) => (
               <div className="flex items-center gap-3" key={key}>

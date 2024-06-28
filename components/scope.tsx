@@ -9,12 +9,17 @@ import type { FC } from 'react';
 
 export const Scope: FC = () => {
   const explorer = useExplorer();
+  let scope = '';
 
-  const ast = espree.parse(explorer.code, {
-    range: true,
-    ecmaVersion: explorer.esVersion,
-    sourceType: explorer.sourceType,
-  });
+  try {
+    scope = espree.parse(explorer.code, {
+      range: true,
+      ecmaVersion: explorer.esVersion,
+      sourceType: explorer.sourceType,
+    });
+  } catch (error) {
+    console.error(error);
+  }
 
   if (explorer.sourceType === 'commonjs') {
     return (
@@ -32,7 +37,7 @@ export const Scope: FC = () => {
     );
   }
 
-  const scopeManager = eslintScope.analyze(ast, {
+  const scopeManager = eslintScope.analyze(scope, {
     sourceType: explorer.sourceType,
     ecmaVersion: explorer.esVersion,
   });
@@ -41,8 +46,8 @@ export const Scope: FC = () => {
     <Accordion type="multiple" className="px-8 font-mono space-y-3">
       {explorer.scopeViewMode === 'flat' ? (
         <>
-          {scopeManager.scopes.map((scope, index) => (
-            <ScopeItem key={index} data={scope} index={index + 1} />
+          {scopeManager.scopes.map((subScope, index) => (
+            <ScopeItem key={index} data={subScope} index={index + 1} />
           ))}
         </>
       ) : (
