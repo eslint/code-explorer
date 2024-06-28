@@ -38,17 +38,16 @@ export const Scope: FC = () => {
   });
 
   return (
-    <Accordion
-      type="single"
-      collapsible
-      className="px-8 font-mono"
-      defaultValue="global-scope"
-    >
-      <ScopeItem
-        data={scopeManager.globalScope}
-        name="Global Scope"
-        index={0}
-      />
+    <Accordion type="multiple" className="px-8 font-mono space-y-3">
+      {explorer.scopeViewMode === 'flat' ? (
+        <>
+          {scopeManager.scopes.map((scope, index) => (
+            <ScopeItem key={index} data={scope} index={index + 1} />
+          ))}
+        </>
+      ) : (
+        <ScopeItem data={scopeManager.globalScope} index={0} />
+      )}
     </Accordion>
   );
 };
