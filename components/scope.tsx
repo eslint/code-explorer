@@ -45,11 +45,16 @@ export const Scope: FC = () => {
   const { variableScope, childScopes, ...rest } = scopeManager.globalScope;
 
   return (
-    <Accordion type="single" collapsible>
+    <Accordion
+      type="single"
+      collapsible
+      className="p-8"
+      defaultValue="global-scope"
+    >
       <AccordionItem value="global-scope">
         <AccordionTrigger>0. Global Scope</AccordionTrigger>
         <AccordionContent>
-          <pre>{JSON.stringify(rest)}</pre>
+          <pre className="text-wrap">{JSON.stringify(rest)}</pre>
         </AccordionContent>
       </AccordionItem>
     </Accordion>

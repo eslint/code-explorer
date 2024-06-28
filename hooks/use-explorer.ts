@@ -29,6 +29,9 @@ type ExplorerState = {
 
   astViewMode: 'tree' | 'json';
   setAstViewMode: (mode: 'tree' | 'json') => void;
+
+  scopeViewMode: 'flat' | 'nested';
+  setScopeViewMode: (mode: 'flat' | 'nested') => void;
 };
 
 export const useExplorer = create<ExplorerState>()(
@@ -65,6 +68,9 @@ export const useExplorer = create<ExplorerState>()(
 
         astViewMode: 'json',
         setAstViewMode: (mode) => set({ astViewMode: mode }),
+
+        scopeViewMode: 'flat',
+        setScopeViewMode: (mode) => set({ scopeViewMode: mode }),
       }),
       {
         name: 'eslint-explorer',

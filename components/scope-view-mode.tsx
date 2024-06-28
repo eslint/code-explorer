@@ -2,11 +2,11 @@
 
 import { useExplorer } from '@/hooks/use-explorer';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { astViewOptions } from '@/lib/const';
+import { scopeViewOptions } from '@/lib/const';
 import { cn } from '@/lib/utils';
 import type { FC } from 'react';
 
-export const AstViewMode: FC = () => {
+export const ScopeViewMode: FC = () => {
   const explorer = useExplorer();
 
   const handleValueChange = (value: string) => {
@@ -14,23 +14,23 @@ export const AstViewMode: FC = () => {
       return;
     }
 
-    explorer.setAstViewMode(value as 'tree' | 'json');
+    explorer.setScopeViewMode(value as 'nested' | 'flat');
   };
 
   return (
     <ToggleGroup
       type="single"
-      value={explorer.astViewMode}
+      value={explorer.scopeViewMode}
       onValueChange={handleValueChange}
       className="border rounded-md"
     >
-      {astViewOptions.map((option) => (
+      {scopeViewOptions.map((option) => (
         <ToggleGroupItem
           key={option.value}
           value={option.value}
           className={cn(
             'border -m-px flex items-center gap-1.5',
-            option.value === explorer.astViewMode
+            option.value === explorer.scopeViewMode
               ? '!bg-white'
               : 'border-transparent hover:bg-transparent text-muted-foreground'
           )}

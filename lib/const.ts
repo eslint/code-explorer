@@ -1,3 +1,4 @@
+import { AlignLeftIcon, CodeIcon, LayersIcon, ListIcon } from 'lucide-react';
 import JavaScript from './languages/javascript.svg';
 import ESLint from './languages/eslint.svg';
 import type { StaticImageData } from 'next/image';
@@ -139,9 +140,24 @@ export const astViewOptions = [
   {
     value: 'tree',
     label: 'Tree',
+    icon: ListIcon,
   },
   {
     value: 'json',
     label: 'JSON',
+    icon: CodeIcon,
+  },
+];
+
+export const scopeViewOptions = [
+  {
+    value: 'flat',
+    label: 'Flat',
+    icon: AlignLeftIcon,
+  },
+  {
+    value: 'nested',
+    label: 'Nested',
+    icon: LayersIcon,
   },
 ];
