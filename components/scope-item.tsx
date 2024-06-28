@@ -11,10 +11,16 @@ import type { FC } from 'react';
 
 type ScopeItemProperties = {
   readonly index: number;
-  readonly data: Scope;
+  readonly data: Scope | null;
 };
 
 export const ScopeItem: FC<ScopeItemProperties> = ({ data, index }) => {
+  const explorer = useExplorer();
+
+  if (!data) {
+    return null;
+  }
+
   const {
     variableScope,
     variables,
@@ -22,9 +28,13 @@ export const ScopeItem: FC<ScopeItemProperties> = ({ data, index }) => {
     upper,
     childScopes,
     type,
+    through,
+    implicit,
     ...rest
   } = data;
-  const explorer = useExplorer();
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, unicorn/prefer-structured-clone
+  const object = JSON.parse(JSON.stringify(rest)) as Record<string, unknown>;
 
   return (
     <AccordionItem
@@ -36,15 +46,12 @@ export const ScopeItem: FC<ScopeItemProperties> = ({ data, index }) => {
       </AccordionTrigger>
       <AccordionContent className="p-4 border-t">
         <div className="space-y-1">
-          {/* eslint-disable-next-line @typescript-eslint/no-unsafe-argument, unicorn/prefer-structured-clone */}
-          {Object.entries(JSON.parse(JSON.stringify(rest))).map(
-            ([key, value]) => (
-              <div className="flex items-center gap-3" key={key}>
-                <span>{key}</span>
-                <span className="text-primary">{String(value)}</span>
-              </div>
-            )
-          )}
+          {Object.entries(object).map(([key, value]) => (
+            <div className="flex items-center gap-3" key={key}>
+              <span>{key}</span>
+              <span className="text-primary">{String(value)}</span>
+            </div>
+          ))}
         </div>
 
         {explorer.scopeViewMode === 'nested' && (
