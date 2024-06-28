@@ -48,13 +48,26 @@ export const Scope: FC = () => {
     <Accordion
       type="single"
       collapsible
-      className="p-8"
+      className="px-8 font-mono"
       defaultValue="global-scope"
     >
-      <AccordionItem value="global-scope">
-        <AccordionTrigger>0. Global Scope</AccordionTrigger>
-        <AccordionContent>
-          <pre className="text-wrap">{JSON.stringify(rest)}</pre>
+      <AccordionItem
+        value="global-scope"
+        className="border rounded-lg overflow-hidden"
+      >
+        <AccordionTrigger className="text-sm bg-muted-foreground/5 px-4 py-3">
+          0. Global Scope
+        </AccordionTrigger>
+        <AccordionContent className="space-y-1 p-4 border-t">
+          {/* eslint-disable-next-line @typescript-eslint/no-unsafe-argument, unicorn/prefer-structured-clone */}
+          {Object.entries(JSON.parse(JSON.stringify(rest))).map(
+            ([key, value]) => (
+              <div className="flex items-center gap-3" key={key}>
+                <span>{key}</span>
+                <span className="text-primary">{String(value)}</span>
+              </div>
+            )
+          )}
         </AccordionContent>
       </AccordionItem>
     </Accordion>
