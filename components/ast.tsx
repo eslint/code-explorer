@@ -19,5 +19,13 @@ export const Ast: FC = () => {
     console.error(error);
   }
 
+  if (explorer.astViewMode === 'tree') {
+    return (
+      <div className="text-center text-red-500">
+        Tree view is not yet implemented
+      </div>
+    );
+  }
+
   return <Editor defaultLanguage="json" value={ast} />;
 };

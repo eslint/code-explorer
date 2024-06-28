@@ -1,5 +1,8 @@
 import { notFound } from 'next/navigation';
-import { tools } from '@/lib/const';
+import Link from 'next/link';
+import { tools } from '@/lib/tools';
+import { SourceCode } from '@/components/source-code';
+import { Button } from '@/components/ui/button';
 import type { Metadata } from 'next';
 import type { FC } from 'react';
 
@@ -28,7 +31,37 @@ const Page: FC<PageProperties> = ({ params }) => {
     notFound();
   }
 
-  return <tool.component />;
+  return (
+    <div className="grid grid-cols-2 divide-x border-t h-full">
+      <SourceCode />
+      <div className="bg-secondary relative flex flex-col">
+        <div className="flex items-center justify-between p-4">
+          <div className="flex items-center gap-1">
+            {tools.map(({ name, value, href }) => (
+              <Button
+                key={value}
+                asChild
+                variant={href === `/${params.tool ?? ''}` ? 'outline' : 'ghost'}
+                className={
+                  href === `/${params.tool ?? ''}`
+                    ? ''
+                    : 'border border-transparent text-muted-foreground'
+                }
+              >
+                <Link href={href}>{name}</Link>
+              </Button>
+            ))}
+          </div>
+          <div className="flex items-center gap-1">
+            {tool.options.map((Option, index) => (
+              <Option key={index} />
+            ))}
+          </div>
+        </div>
+        <tool.component />
+      </div>
+    </div>
+  );
 };
 
 export default Page;

@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { tools } from '@/lib/const';
+import { tools } from '@/lib/tools';
 import type { FC } from 'react';
 
 export const Tool: FC = () => {

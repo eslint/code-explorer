@@ -1,31 +1,7 @@
-import { Ast } from '@/components/ast';
-import { CodePath } from '@/components/path';
-import { Scope } from '@/components/scope';
 import JavaScript from './languages/javascript.svg';
 import ESLint from './languages/eslint.svg';
 import type { StaticImageData } from 'next/image';
 import type { SourceType, Version } from '@/hooks/use-explorer';
-
-export const tools = [
-  {
-    href: '/',
-    name: 'AST',
-    value: 'ast',
-    component: Ast,
-  },
-  {
-    href: '/scope',
-    name: 'Scope',
-    value: 'scope',
-    component: Scope,
-  },
-  {
-    href: '/path',
-    name: 'Code Path',
-    value: 'codepath',
-    component: CodePath,
-  },
-];
 
 export const languages = [
   {
@@ -156,5 +132,16 @@ export const versions: {
   {
     value: 'latest',
     label: 'Latest',
+  },
+];
+
+export const astViewOptions = [
+  {
+    value: 'tree',
+    label: 'Tree',
+  },
+  {
+    value: 'json',
+    label: 'JSON',
   },
 ];

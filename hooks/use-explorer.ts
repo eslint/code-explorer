@@ -23,6 +23,12 @@ type ExplorerState = {
 
   isJSX: boolean;
   setIsJSX: (isJSX: boolean) => void;
+
+  wrap: boolean;
+  setWrap: (wrap: boolean) => void;
+
+  astViewMode: 'tree' | 'json';
+  setAstViewMode: (mode: 'tree' | 'json') => void;
 };
 
 export const useExplorer = create<ExplorerState>()(
@@ -53,6 +59,12 @@ export const useExplorer = create<ExplorerState>()(
 
         isJSX: true,
         setIsJSX: (isJSX) => set({ isJSX }),
+
+        wrap: true,
+        setWrap: (wrap) => set({ wrap }),
+
+        astViewMode: 'json',
+        setAstViewMode: (mode) => set({ astViewMode: mode }),
       }),
       {
         name: 'eslint-explorer',
