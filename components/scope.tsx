@@ -9,7 +9,7 @@ import type { FC } from 'react';
 
 export const Scope: FC = () => {
   const explorer = useExplorer();
-  let scope = '';
+  let scope = {};
 
   try {
     scope = espree.parse(explorer.code, {
@@ -18,6 +18,7 @@ export const Scope: FC = () => {
       sourceType: explorer.sourceType,
     });
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(error);
   }
 
