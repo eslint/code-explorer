@@ -14,6 +14,28 @@ type ScopeItemProperties = {
   readonly data: Scope | null;
 };
 
+const renderValue = (value: unknown): string[] => {
+  if (Array.isArray(value)) {
+    return ['Array', `[${value.length} elements]`];
+  }
+
+  if (typeof value === 'object' && value !== null) {
+    const keys = Object.keys(value);
+    return [
+      value.constructor.name,
+      keys.length > 3
+        ? `{${keys.slice(0, 3).join(', ')}, ...}`
+        : `{${keys.join(', ')}}`,
+    ];
+  }
+
+  if (typeof value === 'boolean') {
+    return ['boolean'];
+  }
+
+  return [String(value)];
+};
+
 export const ScopeItem: FC<ScopeItemProperties> = ({ data, index }) => {
   const explorer = useExplorer();
 
@@ -21,42 +43,39 @@ export const ScopeItem: FC<ScopeItemProperties> = ({ data, index }) => {
     return null;
   }
 
-  const {
-    variableScope,
-    variables,
-    references,
-    upper,
-    childScopes,
-    type,
-    through,
-    implicit,
-    ...rest
-  } = data;
-
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, unicorn/prefer-structured-clone
-  const object = JSON.parse(JSON.stringify(rest)) as Record<string, unknown>;
+  const object = data;
 
   return (
     <AccordionItem
-      value={`${index}-${type}`}
+      value={`${index}-${data.type}`}
       className="border rounded-lg overflow-hidden"
     >
       <AccordionTrigger className="text-sm bg-muted-foreground/5 px-4 py-3">
-        {index}. {capitalize(type)} Scope
+        {index}. {capitalize(data.type)}
       </AccordionTrigger>
       <AccordionContent className="p-4 border-t">
         <div className="space-y-1">
           {Object.entries(object).map(([key, value]) => (
             <div className="flex items-center gap-3" key={key}>
               <span>{key}</span>
-              <span className="text-primary">{String(value)}</span>
+              {renderValue(value).map((part, partIndex) => (
+                <span
+                  key={partIndex}
+                  className={
+                    partIndex ? 'text-muted-foreground' : 'text-primary'
+                  }
+                >
+                  {part}
+                </span>
+              ))}
             </div>
           ))}
         </div>
 
         {explorer.scopeViewMode === 'nested' && (
           <div className="mt-3 space-y-3">
-            {childScopes.map((scope, subIndex) => (
+            {data.childScopes.map((scope, subIndex) => (
               <ScopeItem key={subIndex} data={scope} index={subIndex} />
             ))}
           </div>
