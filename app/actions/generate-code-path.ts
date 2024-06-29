@@ -57,7 +57,13 @@ export const generateCodePath = (
   code: string,
   esVersion: Version,
   sourceType: SourceType
-): object => {
+):
+  | {
+      error: string;
+    }
+  | {
+      response: string;
+    } => {
   const linter = new Linter({ configType: 'flat' });
 
   let stack: CodePathStack | null = null;

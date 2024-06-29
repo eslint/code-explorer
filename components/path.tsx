@@ -22,9 +22,11 @@ export const CodePath: FC = () => {
     return <pre>Loading...</pre>;
   }
 
-  if (extracted.error) {
+  if ('error' in extracted) {
     return <pre>{extracted.error}</pre>;
   }
+
+  console.log(extracted.response, JSON.parse(extracted.response));
 
   return <Editor value={extracted.response} />;
 };
