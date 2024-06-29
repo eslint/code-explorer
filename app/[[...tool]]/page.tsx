@@ -20,7 +20,8 @@ export const generateMetadata = ({ params }: PageProperties): Metadata => {
   }
 
   return {
-    title: tool.name,
+    title: `${tool.name} | ESLint Code Explorer`,
+    description: `Explore ESLint's ${tool.name.toLowerCase()} in a visual way.`,
   };
 };
 
