@@ -9,7 +9,7 @@ export const SourceCode: FC = () => {
 
   return (
     <Editor
-      className="h-full"
+      className="h-[30dvh] sm:h-full"
       language={explorer.language}
       defaultValue={explorer.code}
       onChange={(value) => explorer.setCode(value ?? '')}

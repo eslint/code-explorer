@@ -16,8 +16,8 @@ export const Navbar: FC = () => (
           width={32}
           height={32}
         />
-        <p>ESLint</p>
-        <p className="text-muted-foreground">Code Explorer</p>
+        <p className="hidden sm:block">ESLint</p>
+        <p className="hidden sm:block text-muted-foreground">Code Explorer</p>
       </div>
       <div className="flex items-center gap-2">
         <ModeToggle />

@@ -33,10 +33,10 @@ const Page: FC<PageProperties> = ({ params }) => {
   }
 
   return (
-    <div className="grid grid-cols-2 divide-x border-t h-full">
+    <div className="grid sm:grid-cols-2 divide-x border-t h-full">
       <SourceCode />
-      <div className="bg-foreground/5 pb-8 overflow-auto h-full relative flex flex-col">
-        <div className="flex items-center justify-between p-4">
+      <div className="bg-foreground/5 pb-8 overflow-auto h-[70dvh] sm:h-full relative flex flex-col">
+        <div className="flex sm:items-center flex-col sm:flex-row justify-between p-4 gap-2">
           <div className="flex items-center gap-1">
             {tools.map(({ name, value, href }) => (
               <Button
