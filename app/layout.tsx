@@ -33,7 +33,7 @@ const RootLayout: FC<RootLayoutProperties> = ({ children }) => (
         disableTransitionOnChange
       >
         <Navbar />
-        {children}
+        <div className="h-full overflow-hidden">{children}</div>
       </ThemeProvider>
     </body>
   </html>
