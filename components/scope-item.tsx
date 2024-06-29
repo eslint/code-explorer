@@ -44,7 +44,7 @@ export const ScopeItem: FC<ScopeItemProperties> = ({ data, index }) => {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, unicorn/prefer-structured-clone
-  const object = data;
+  const { childScopes, ...rest } = data;
 
   return (
     <AccordionItem
@@ -56,7 +56,7 @@ export const ScopeItem: FC<ScopeItemProperties> = ({ data, index }) => {
       </AccordionTrigger>
       <AccordionContent className="p-4 border-t">
         <div className="space-y-1">
-          {Object.entries(object).map(([key, value]) => (
+          {Object.entries(rest).map(([key, value]) => (
             <div className="flex items-center gap-3" key={key}>
               <span>{key}</span>
               {renderValue(value).map((part, partIndex) => (
@@ -71,15 +71,29 @@ export const ScopeItem: FC<ScopeItemProperties> = ({ data, index }) => {
               ))}
             </div>
           ))}
-        </div>
-
-        {explorer.scopeViewMode === 'nested' && (
-          <div className="mt-3 space-y-3">
-            {data.childScopes.map((scope, subIndex) => (
-              <ScopeItem key={subIndex} data={scope} index={subIndex} />
-            ))}
+          <div>
+            <div className="flex items-center gap-3">
+              <span>childScopes</span>
+              {renderValue(childScopes).map((part, partIndex) => (
+                <span
+                  key={partIndex}
+                  className={
+                    partIndex ? 'text-muted-foreground' : 'text-primary'
+                  }
+                >
+                  {part}
+                </span>
+              ))}
+            </div>
+            {explorer.scopeViewMode === 'nested' && (
+              <div className="mt-3 space-y-3">
+                {data.childScopes.map((scope, subIndex) => (
+                  <ScopeItem key={subIndex} data={scope} index={subIndex} />
+                ))}
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </AccordionContent>
     </AccordionItem>
   );
