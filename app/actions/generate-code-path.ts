@@ -53,17 +53,19 @@ const makeDotArrows = (codePath) => {
   return `${text} [color="#98A2B3"];`;
 };
 
-export const generateCodePath = (
+export const generateCodePath = async (
   code: string,
   esVersion: Version,
   sourceType: SourceType
-):
+): Promise<
   | {
       error: string;
     }
   | {
       response: string;
-    } => {
+    }
+  // eslint-disable-next-line @typescript-eslint/require-await
+> => {
   const linter = new Linter({ configType: 'flat' });
 
   let stack: CodePathStack | null = null;

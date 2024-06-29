@@ -4,6 +4,7 @@ import { Scope } from '@/components/scope';
 import { Wrap } from '@/components/wrap';
 import { AstViewMode } from '@/components/ast-view-mode';
 import { ScopeViewMode } from '@/components/scope-view-mode';
+import { PathViewMode } from '@/components/path-view-mode';
 
 export const tools = [
   {
@@ -18,13 +19,13 @@ export const tools = [
     name: 'Scope',
     value: 'scope',
     component: Scope,
-    options: [Wrap, ScopeViewMode],
+    options: [ScopeViewMode],
   },
   {
     href: '/path',
     name: 'Code Path',
     value: 'codepath',
     component: CodePath,
-    options: [Wrap],
+    options: [Wrap, PathViewMode],
   },
 ];

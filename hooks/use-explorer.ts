@@ -32,6 +32,12 @@ type ExplorerState = {
 
   scopeViewMode: 'flat' | 'nested';
   setScopeViewMode: (mode: 'flat' | 'nested') => void;
+
+  pathViewMode: 'code' | 'graph';
+  setPathViewMode: (mode: 'code' | 'graph') => void;
+
+  pathIndex: number;
+  setPathIndex: (index: number) => void;
 };
 
 export const useExplorer = create<ExplorerState>()(
@@ -71,6 +77,12 @@ export const useExplorer = create<ExplorerState>()(
 
         scopeViewMode: 'flat',
         setScopeViewMode: (mode) => set({ scopeViewMode: mode }),
+
+        pathViewMode: 'code',
+        setPathViewMode: (mode) => set({ pathViewMode: mode }),
+
+        pathIndex: 0,
+        setPathIndex: (index) => set({ pathIndex: index }),
       }),
       {
         name: 'eslint-explorer',

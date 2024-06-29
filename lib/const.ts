@@ -1,4 +1,10 @@
-import { AlignLeftIcon, CodeIcon, LayersIcon, ListIcon } from 'lucide-react';
+import {
+  AlignLeftIcon,
+  CodeIcon,
+  GitGraphIcon,
+  LayersIcon,
+  ListIcon,
+} from 'lucide-react';
 import JavaScript from './languages/javascript.svg';
 import ESLint from './languages/eslint.svg';
 import type { StaticImageData } from 'next/image';
@@ -159,5 +165,18 @@ export const scopeViewOptions = [
     value: 'nested',
     label: 'Nested',
     icon: LayersIcon,
+  },
+];
+
+export const pathViewOptions = [
+  {
+    value: 'code',
+    label: 'Code',
+    icon: CodeIcon,
+  },
+  {
+    value: 'graph',
+    label: 'Graph',
+    icon: GitGraphIcon,
   },
 ];
