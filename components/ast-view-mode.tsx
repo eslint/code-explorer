@@ -31,7 +31,7 @@ export const AstViewMode: FC = () => {
           className={cn(
             'border -m-px flex items-center gap-1.5',
             option.value === explorer.astViewMode
-              ? '!bg-white'
+              ? '!bg-background'
               : 'border-transparent hover:bg-transparent text-muted-foreground'
           )}
         >

@@ -31,7 +31,7 @@ export const PathViewMode: FC = () => {
           className={cn(
             'border -m-px flex items-center gap-1.5',
             option.value === explorer.pathViewMode
-              ? '!bg-white'
+              ? '!bg-background'
               : 'border-transparent hover:bg-transparent text-muted-foreground'
           )}
         >

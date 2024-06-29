@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
+  :root,
+  .light {
     --background: 0 0% 100%;
     --foreground: 224 71.4% 4.1%;
 
@@ -45,7 +46,7 @@
     --popover: 224 71.4% 4.1%;
     --popover-foreground: 210 20% 98%;
 
-    --primary: 250 59% 48%;
+    --primary: 240 100% 86%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 215 27.9% 16.9%;
