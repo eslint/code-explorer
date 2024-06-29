@@ -85,13 +85,13 @@ export const ScopeItem: FC<ScopeItemProperties> = ({ data, index }) => {
                 </span>
               ))}
             </div>
-            {explorer.scopeViewMode === 'nested' && (
+            {childScopes.length > 0 && explorer.scopeViewMode === 'nested' ? (
               <div className="mt-3 space-y-3">
-                {data.childScopes.map((scope, subIndex) => (
+                {childScopes.map((scope, subIndex) => (
                   <ScopeItem key={subIndex} data={scope} index={subIndex} />
                 ))}
               </div>
-            )}
+            ) : null}
           </div>
         </div>
       </AccordionContent>
