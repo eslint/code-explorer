@@ -78,9 +78,7 @@ export const ScopeItem: FC<ScopeItemProperties> = ({ data, index }) => {
                 <span
                   key={partIndex}
                   className={
-                    partIndex
-                      ? 'text-muted-foreground'
-                      : 'text-primary-foreground'
+                    partIndex ? 'text-muted-foreground' : 'text-primary'
                   }
                 >
                   {part}
