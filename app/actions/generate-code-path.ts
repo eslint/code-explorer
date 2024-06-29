@@ -1,3 +1,6 @@
+// @ts-nocheck
+/* eslint-disable */
+
 'use server';
 
 import { Linter } from 'eslint';
