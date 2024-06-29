@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import JavaScript from './languages/javascript.svg';
 import ESLint from './languages/eslint.svg';
+import JSON from './languages/json.svg';
 import type { StaticImageData } from 'next/image';
 import type { SourceType, Version } from '@/hooks/use-explorer';
 
@@ -15,6 +16,11 @@ export const languages = [
     value: 'javascript',
     label: 'JavaScript',
     icon: JavaScript as StaticImageData,
+  },
+  {
+    value: 'json',
+    label: 'JSON',
+    icon: JSON as StaticImageData,
   },
 ];
 

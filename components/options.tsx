@@ -51,7 +51,7 @@ export const Options: FC = () => {
         <div className="space-y-1.5">
           <Label htmlFor="language">Language</Label>
           <Select value={options.language} onValueChange={options.setLanguage}>
-            <SelectTrigger className="w-full" disabled>
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="Language" />
             </SelectTrigger>
             <SelectContent>
