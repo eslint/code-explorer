@@ -3,14 +3,17 @@
 import * as espree from 'espree';
 import { useExplorer } from '@/hooks/use-explorer';
 import { Editor } from './editor';
+import { AstTreeItem } from './ast-tree-item';
+import { Accordion } from './ui/accordion';
 import type { FC } from 'react';
 
 export const Ast: FC = () => {
   const explorer = useExplorer();
   let ast = '';
+  let tree: ReturnType<typeof espree.parse> | null = null;
 
   try {
-    const tree = espree.parse(explorer.code, {
+    tree = espree.parse(explorer.code, {
       ecmaVersion: explorer.esVersion,
     });
 
@@ -21,10 +24,18 @@ export const Ast: FC = () => {
   }
 
   if (explorer.astViewMode === 'tree') {
+    if (tree === null) {
+      return null;
+    }
+
     return (
-      <div className="text-center text-red-500">
-        Tree view is not yet implemented
-      </div>
+      <Accordion
+        type="multiple"
+        className="px-8 font-mono space-y-3"
+        defaultValue={['0-Program']}
+      >
+        <AstTreeItem data={tree} index={0} />
+      </Accordion>
     );
   }
 
