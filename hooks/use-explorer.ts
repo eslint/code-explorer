@@ -36,6 +36,9 @@ type ExplorerState = {
   pathViewMode: 'code' | 'graph';
   setPathViewMode: (mode: 'code' | 'graph') => void;
 
+  pathIndexes: number;
+  setPathIndexes: (indexes: number) => void;
+
   pathIndex: number;
   setPathIndex: (index: number) => void;
 };
@@ -80,6 +83,9 @@ export const useExplorer = create<ExplorerState>()(
 
         pathViewMode: 'code',
         setPathViewMode: (mode) => set({ pathViewMode: mode }),
+
+        pathIndexes: 1,
+        setPathIndexes: (indexes) => set({ pathIndexes: indexes }),
 
         pathIndex: 0,
         setPathIndex: (index) => set({ pathIndex: index }),

@@ -5,6 +5,7 @@ import { Wrap } from '@/components/wrap';
 import { AstViewMode } from '@/components/ast-view-mode';
 import { ScopeViewMode } from '@/components/scope-view-mode';
 import { PathViewMode } from '@/components/path-view-mode';
+import { PathIndexSelector } from '@/components/path-index-selector';
 
 export const tools = [
   {
@@ -26,6 +27,6 @@ export const tools = [
     name: 'Code Path',
     value: 'codepath',
     component: CodePath,
-    options: [Wrap, PathViewMode],
+    options: [Wrap, PathViewMode, PathIndexSelector],
   },
 ];
