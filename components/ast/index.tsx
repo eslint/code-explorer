@@ -15,6 +15,7 @@ export const Ast: FC = () => {
   try {
     tree = espree.parse(explorer.code, {
       ecmaVersion: explorer.esVersion,
+      sourceType: explorer.sourceType,
     });
 
     ast = JSON.stringify(tree, null, 2);

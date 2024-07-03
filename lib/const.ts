@@ -148,6 +148,17 @@ export const versions: {
   },
 ];
 
+export const jsonModes = [
+  {
+    value: 'json',
+    label: 'JSON',
+  },
+  {
+    value: 'jsonc',
+    label: 'JSONC',
+  },
+];
+
 export const astViewOptions = [
   {
     value: 'tree',

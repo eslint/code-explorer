@@ -27,17 +27,20 @@ type ExplorerState = {
   isJSX: boolean;
   setIsJSX: (isJSX: boolean) => void;
 
+  jsonMode: 'json' | 'jsonc';
+  setJsonMode: (mode: ExplorerState['jsonMode']) => void;
+
   wrap: boolean;
   setWrap: (wrap: boolean) => void;
 
   astViewMode: 'tree' | 'json';
-  setAstViewMode: (mode: 'tree' | 'json') => void;
+  setAstViewMode: (mode: ExplorerState['astViewMode']) => void;
 
   scopeViewMode: 'flat' | 'nested';
-  setScopeViewMode: (mode: 'flat' | 'nested') => void;
+  setScopeViewMode: (mode: ExplorerState['scopeViewMode']) => void;
 
   pathViewMode: 'code' | 'graph';
-  setPathViewMode: (mode: 'code' | 'graph') => void;
+  setPathViewMode: (mode: ExplorerState['pathViewMode']) => void;
 
   pathIndexes: number;
   setPathIndexes: (indexes: number) => void;
@@ -77,6 +80,9 @@ export const useExplorer = create<ExplorerState>()(
 
         isJSX: true,
         setIsJSX: (isJSX) => set({ isJSX }),
+
+        jsonMode: 'json',
+        setJsonMode: (mode) => set({ jsonMode: mode }),
 
         wrap: true,
         setWrap: (wrap) => set({ wrap }),
