@@ -6,6 +6,9 @@ export type SourceType = Exclude<Options['sourceType'], undefined>;
 export type Version = Exclude<Options['ecmaVersion'], undefined>;
 
 type ExplorerState = {
+  tool: 'ast' | 'scope' | 'path';
+  setTool: (tool: ExplorerState['tool']) => void;
+
   code: string;
   setCode: (code: string) => void;
 
@@ -47,6 +50,9 @@ export const useExplorer = create<ExplorerState>()(
   devtools(
     persist(
       (set) => ({
+        tool: 'ast',
+        setTool: (tool) => set({ tool }),
+
         code: `const a = 'b';`,
         setCode: (code) => set({ code }),
 

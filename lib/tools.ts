@@ -9,23 +9,20 @@ import { PathIndexSelector } from '@/components/path-index-selector';
 
 export const tools = [
   {
-    href: '/',
     name: 'AST',
     value: 'ast',
     component: Ast,
     options: [Wrap, AstViewMode],
   },
   {
-    href: '/scope',
     name: 'Scope',
     value: 'scope',
     component: Scope,
     options: [ScopeViewMode],
   },
   {
-    href: '/path',
     name: 'Code Path',
-    value: 'codepath',
+    value: 'path',
     component: CodePath,
     options: [Wrap, PathViewMode, PathIndexSelector],
   },
