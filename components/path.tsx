@@ -62,5 +62,29 @@ export const CodePath: FC = () => {
     return <Editor language="txt" value={code} />;
   }
 
-  return <Graphviz dot={code} />;
+  return (
+    <>
+      <svg
+        className="absolute w-full h-full select-none pointer-events-none z-0"
+        data-testid="rf__background"
+        aria-label="Canvas background"
+      >
+        <pattern
+          id="pattern"
+          x="10"
+          y="14"
+          width="20"
+          height="20"
+          patternUnits="userSpaceOnUse"
+          patternTransform="translate(-0.5,-0.5)"
+        >
+          <circle cx="0.5" cy="0.5" r="0.5" className="fill-muted-foreground" />
+        </pattern>
+        <rect x="0" y="0" width="100%" height="100%" fill="url(#pattern)" />
+      </svg>
+      <div className="relative z-10">
+        <Graphviz dot={code} />
+      </div>
+    </>
+  );
 };
