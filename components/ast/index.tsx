@@ -2,9 +2,9 @@
 
 import * as espree from 'espree';
 import { useExplorer } from '@/hooks/use-explorer';
-import { Editor } from './editor';
+import { Accordion } from '@/components/ui/accordion';
+import { Editor } from '@/components/editor';
 import { AstTreeItem } from './ast-tree-item';
-import { Accordion } from './ui/accordion';
 import type { FC } from 'react';
 
 export const Ast: FC = () => {

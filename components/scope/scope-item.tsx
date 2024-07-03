@@ -5,7 +5,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from './ui/accordion';
+} from '@/components/ui/accordion';
 import type { Scope } from 'eslint-scope';
 import type { FC } from 'react';
 
