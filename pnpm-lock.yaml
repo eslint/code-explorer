@@ -11,6 +11,9 @@ importers:
       '@hookform/resolvers':
         specifier: ^3.6.0
         version: 3.6.0(react-hook-form@7.52.0(react@18.3.1))
+      '@humanwhocodes/momoa':
+        specifier: ^3.1.1
+        version: 3.1.1
       '@monaco-editor/react':
         specifier: ^4.6.0
         version: 4.6.0(monaco-editor@0.50.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -606,6 +609,10 @@ packages:
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
     engines: {node: '>=12.22'}
+
+  '@humanwhocodes/momoa@3.1.1':
+    resolution: {integrity: sha512-W0DfjOgtm/X6OzuMdkppEDZlCC1tJ98ygTD+FSmDiG1GDxSX7tZQEkcotwe//7gvGMkElf4oT/zplRJVlTKREA==}
+    engines: {node: '>=18'}
 
   '@humanwhocodes/object-schema@2.0.3':
     resolution: {integrity: sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==}
@@ -4971,6 +4978,8 @@ snapshots:
       - supports-color
 
   '@humanwhocodes/module-importer@1.0.1': {}
+
+  '@humanwhocodes/momoa@3.1.1': {}
 
   '@humanwhocodes/object-schema@2.0.3': {}
 

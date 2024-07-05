@@ -1,19 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars-ts, unused-imports/no-unused-vars */
 import { capitalize } from '@/lib/utils';
-import { useExplorer } from '@/hooks/use-explorer';
 import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import type { FC } from 'react';
-import type * as espree from 'espree';
+import type { MemberNode, parse } from '@humanwhocodes/momoa';
 
-type AstTreeItemProperties = {
+type JsonAstTreeItemProperties = {
   readonly index: number;
-  readonly data:
-    | ReturnType<typeof espree.parse>
-    | ReturnType<typeof espree.parse>['body'][number];
+  readonly data: ReturnType<typeof parse> | MemberNode;
 };
 
 const renderValue = (value: unknown): string[] => {
@@ -38,9 +35,10 @@ const renderValue = (value: unknown): string[] => {
   return [String(value)];
 };
 
-export const AstTreeItem: FC<AstTreeItemProperties> = ({ data, index }) => {
-  const explorer = useExplorer();
-
+export const JsonAstTreeItem: FC<JsonAstTreeItemProperties> = ({
+  data,
+  index,
+}) => {
   const rest =
     'body' in data
       ? Object.fromEntries(
@@ -89,12 +87,14 @@ export const AstTreeItem: FC<AstTreeItemProperties> = ({ data, index }) => {
                 </span>
               ))}
             </div>
-            {body &&
-            Array.isArray(body) &&
-            explorer.scopeViewMode === 'nested' ? (
+            {body && 'members' in body ? (
               <div className="mt-3 space-y-3">
-                {body.map((scope, subIndex) => (
-                  <AstTreeItem key={subIndex} data={scope} index={subIndex} />
+                {body.members.map((scope, subIndex) => (
+                  <JsonAstTreeItem
+                    key={subIndex}
+                    data={scope}
+                    index={subIndex}
+                  />
                 ))}
               </div>
             ) : null}
