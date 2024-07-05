@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars-ts, unused-imports/no-unused-vars */
 import { ChevronDownSquareIcon } from 'lucide-react';
 import { capitalize } from '@/lib/utils';
-import { useExplorer } from '@/hooks/use-explorer';
 import {
   AccordionContent,
   AccordionItem,
@@ -23,8 +22,6 @@ export const JavascriptAstTreeItem: FC<JavascriptAstTreeItemProperties> = ({
   data,
   index,
 }) => {
-  const explorer = useExplorer();
-
   const rest =
     'body' in data
       ? Object.fromEntries(
