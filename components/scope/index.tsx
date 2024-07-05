@@ -22,25 +22,9 @@ export const Scope: FC = () => {
     console.error(error);
   }
 
-  if (explorer.sourceType === 'commonjs') {
-    return (
-      <div className="text-center text-red-500">
-        CommonJS is not supported by eslint-scope.
-      </div>
-    );
-  }
-
-  if (explorer.esVersion === 'latest') {
-    return (
-      <div className="text-center text-red-500">
-        Latest ECMAScript version is not supported by eslint-scope.
-      </div>
-    );
-  }
-
   const scopeManager = eslintScope.analyze(scope, {
-    sourceType: explorer.sourceType,
-    ecmaVersion: explorer.esVersion,
+    sourceType: explorer.sourceType as never,
+    ecmaVersion: explorer.esVersion as never,
   });
 
   return (
