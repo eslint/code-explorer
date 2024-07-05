@@ -3,11 +3,11 @@ import { useState } from 'react';
 import { renderValue } from '@/lib/render-value';
 import type { FC } from 'react';
 
-type AstTreeEntryProperties = {
+type TreeEntryProperties = {
   readonly data: [string, unknown];
 };
 
-export const AstTreeEntry: FC<AstTreeEntryProperties> = ({ data }) => {
+export const TreeEntry: FC<TreeEntryProperties> = ({ data }) => {
   const [key, value] = data;
   const [open, setOpen] = useState(false);
   const Icon = open ? MinusSquareIcon : PlusSquareIcon;

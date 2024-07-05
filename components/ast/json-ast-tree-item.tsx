@@ -7,7 +7,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { renderValue } from '@/lib/render-value';
-import { AstTreeEntry } from './ast-tree-entry';
+import { TreeEntry } from '../tree-entry';
 import type { FC } from 'react';
 import type { MemberNode, parse } from '@humanwhocodes/momoa';
 
@@ -40,7 +40,7 @@ export const JsonAstTreeItem: FC<JsonAstTreeItemProperties> = ({
       <AccordionContent className="p-4 border-t">
         <div className="space-y-1">
           {Object.entries(rest).map((item) => (
-            <AstTreeEntry key={item[0]} data={item} />
+            <TreeEntry key={item[0]} data={item} />
           ))}
           <div>
             <div className="flex items-center gap-3">
