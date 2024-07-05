@@ -3,11 +3,11 @@ import { useState } from 'react';
 import { renderValue } from '@/lib/render-value';
 import type { FC } from 'react';
 
-type JsonAstTreeEntryProperties = {
+type AstTreeEntryProperties = {
   readonly data: [string, unknown];
 };
 
-export const JsonAstTreeEntry: FC<JsonAstTreeEntryProperties> = ({ data }) => {
+export const AstTreeEntry: FC<AstTreeEntryProperties> = ({ data }) => {
   const [key, value] = data;
   const [open, setOpen] = useState(false);
   const Icon = open ? MinusSquareIcon : PlusSquareIcon;

@@ -2,7 +2,7 @@ import * as espree from 'espree';
 import { Accordion } from '@/components/ui/accordion';
 import { Editor } from '@/components/editor';
 import { useExplorer } from '@/hooks/use-explorer';
-import { JavascriptAstTreeItemAstTreeItem } from './javascript-ast-tree-item';
+import { JavascriptAstTreeItem } from './javascript-ast-tree-item';
 import type { FC } from 'react';
 
 export const JavascriptAst: FC = () => {
@@ -33,7 +33,7 @@ export const JavascriptAst: FC = () => {
         className="px-8 font-mono space-y-3"
         defaultValue={['0-Program']}
       >
-        <JavascriptAstTreeItemAstTreeItem data={tree} index={0} />
+        <JavascriptAstTreeItem data={tree} index={0} />
       </Accordion>
     );
   }

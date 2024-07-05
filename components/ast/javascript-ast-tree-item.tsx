@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars-ts, unused-imports/no-unused-vars */
+import { ChevronDownSquareIcon } from 'lucide-react';
 import { capitalize } from '@/lib/utils';
 import { useExplorer } from '@/hooks/use-explorer';
 import {
@@ -7,19 +8,21 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { renderValue } from '@/lib/render-value';
+import { AstTreeEntry } from './ast-tree-entry';
 import type { FC } from 'react';
 import type * as espree from 'espree';
 
-type JavascriptAstTreeItemAstTreeItemProperties = {
+type JavascriptAstTreeItemProperties = {
   readonly index: number;
   readonly data:
     | ReturnType<typeof espree.parse>
     | ReturnType<typeof espree.parse>['body'][number];
 };
 
-export const JavascriptAstTreeItemAstTreeItem: FC<
-  JavascriptAstTreeItemAstTreeItemProperties
-> = ({ data, index }) => {
+export const JavascriptAstTreeItem: FC<JavascriptAstTreeItemProperties> = ({
+  data,
+  index,
+}) => {
   const explorer = useExplorer();
 
   const rest =
@@ -41,23 +44,19 @@ export const JavascriptAstTreeItemAstTreeItem: FC<
       </AccordionTrigger>
       <AccordionContent className="p-4 border-t">
         <div className="space-y-1">
-          {Object.entries(rest).map(([key, value]) => (
-            <div className="flex items-center gap-3" key={key}>
-              <span>{key}</span>
-              {renderValue(value).map((part, partIndex) => (
-                <span
-                  key={partIndex}
-                  className={
-                    partIndex ? 'text-muted-foreground' : 'text-primary'
-                  }
-                >
-                  {part}
-                </span>
-              ))}
-            </div>
+          {Object.entries(rest).map((item) => (
+            <AstTreeEntry key={item[0]} data={item} />
           ))}
           <div>
             <div className="flex items-center gap-3">
+              {body && Array.isArray(body) ? (
+                <ChevronDownSquareIcon
+                  size={16}
+                  className="text-muted-foreground"
+                />
+              ) : (
+                <div className="w-4 h-4" />
+              )}
               <span>body</span>
               {renderValue(body).map((part, partIndex) => (
                 <span
@@ -73,7 +72,7 @@ export const JavascriptAstTreeItemAstTreeItem: FC<
             {body && Array.isArray(body) ? (
               <div className="mt-3 space-y-3">
                 {body.map((scope, subIndex) => (
-                  <JavascriptAstTreeItemAstTreeItem
+                  <JavascriptAstTreeItem
                     key={subIndex}
                     data={scope}
                     index={subIndex}
