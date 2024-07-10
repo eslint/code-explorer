@@ -30,11 +30,16 @@ const sanitizeValue = (value: unknown): unknown => {
     }
 
     const sanitizedObject: Record<string, unknown> = {};
+
     for (const key in value) {
       if (Object.prototype.hasOwnProperty.call(value, key)) {
-        sanitizedObject[key] = sanitizeValue(value[key]);
+        // @ts-expect-error - We know that value is an object
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const newValue = value[key];
+        sanitizedObject[key] = sanitizeValue(newValue);
       }
     }
+
     return sanitizedObject;
   }
 
