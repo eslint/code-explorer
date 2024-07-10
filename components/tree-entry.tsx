@@ -48,8 +48,6 @@ export const TreeEntry: FC<TreeEntryProperties> = ({ data }) => {
 
   const toggleOpen = () => setOpen(!open);
 
-  console.log(key, value);
-
   return (
     <>
       <div className="flex items-center gap-3">
