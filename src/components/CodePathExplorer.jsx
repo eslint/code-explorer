@@ -189,6 +189,8 @@ export default function CodePathExplorer({ codeValue, options, onUpdateOptions }
             initialGraphviz = result;
             setGraphviz(initialGraphviz);
         });
+
+        // A loading message will be displayed until Graphviz is set up.
         return (
             <CodePathExplorerBase
                 options={options}
@@ -362,6 +364,8 @@ function CodePathExplorerWithGraphviz({
 }) {
     const [lineWrapping, setLineWrapping] = useState(false);
     const extracted = useMemo(() => {
+        // Use a linter to build code path information.
+
         const linter = new Linter({ configType: "flat" });
 
         let stack = null;

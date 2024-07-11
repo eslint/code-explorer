@@ -159,6 +159,7 @@ const App = () => {
                                 options={normalizedOption}
                                 onUpdateOptions={newOptions => updateOptions({ ...options, ...newOptions })}
                             />
+                            // TODO: We're going to build another page here.
                             : <ExplorerTabButtons
                                 options={normalizedOption}
                                 onUpdateOptions={newOptions => updateOptions({ ...options, ...newOptions })}
