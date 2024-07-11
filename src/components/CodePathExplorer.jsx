@@ -7,9 +7,11 @@ import { Graphviz } from "@hpcc-js/wasm";
 import { Linter } from "eslint";
 import CodeMirror from "@uiw/react-codemirror";
 import { bracketMatching } from "@codemirror/matchbrackets";
+import { EditorView } from "@codemirror/view";
 import "../scss/code-path-explorer.scss";
 import TabButtons from "./TabButtons.jsx";
 import ExplorerTabButtons from "./ExplorerTabButtons.jsx";
+import SelectButton from "./SelectButton.jsx";
 import { resolveLanguageOptions } from "../utils/options.js";
 import { ExplorerOutputTheme } from "../utils/codemirror-output-theme.js";
 
@@ -225,13 +227,15 @@ function getAdjustedSelectedCodePathIndex(selectedCodePathIndex, numberOfCodePat
  * @param {import("../utils/options").ExplorerOptions} params.options
  * @param {(newOptions: import("../utils/options").ExplorerOptions)=>void} params.onUpdateOptions
  * @param {number} [params.numberOfCodePathList] Number of code paths
+ * @param {JSX.Element|null} [params.toolButtons] The elements to render in the tool button area
  * @param {JSX.Element} params.children
  * @returns {JSX.Element} The Code Path Explorer component.
  */
 function CodePathExplorerBase({
     options, onUpdateOptions,
     children,
-    numberOfCodePathList
+    numberOfCodePathList,
+    toolButtons
 }) {
     const codePathExplorerOptions = options.codePathExplorerOptions;
     const kind = codePathExplorerOptions.kind;
@@ -266,6 +270,7 @@ function CodePathExplorerBase({
                     />
                 </div>
                 <div className="code-path-explorer__tools-right">
+                    {toolButtons}
                     <TabButtons
                         outline
                         tabs={[
@@ -355,6 +360,7 @@ function CodePathExplorerWithGraphviz({
     options, onUpdateOptions,
     graphviz
 }) {
+    const [lineWrapping, setLineWrapping] = useState(false);
     const extracted = useMemo(() => {
         const linter = new Linter({ configType: "flat" });
 
@@ -501,12 +507,29 @@ function CodePathExplorerWithGraphviz({
 
     const dot = extracted.codePathList[selectedCodePathIndex].dot;
 
+    /**
+     * The elements to render in the tool button area
+     * When displaying dot code, a button is displayed that allows you to choose whether to wrap lines.
+     */
+    const toolButtons = codePathExplorerOptions.kind === "dot" ?
+        <SelectButton
+            selected={lineWrapping}
+            onChange={setLineWrapping}
+        >
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.99999 4.66663L11.3333 7.99996M11.3333 7.99996L7.99999 11.3333M11.3333 7.99996H3.33332C2.62608 7.99996 1.9478 7.71901 1.4477 7.21891C0.947608 6.71881 0.666656 6.04054 0.666656 5.33329V0.666626" stroke="#667085" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span>Wrap</span>
+        </SelectButton> :
+        null
+
     // Renders the code path information.
     return (
         <CodePathExplorerBase
             options={options}
             onUpdateOptions={onUpdateOptions}
             numberOfCodePathList={extracted.codePathList.length}
+            toolButtons={toolButtons}
         >
             {
                 codePathExplorerOptions.kind === "dot"
@@ -515,7 +538,10 @@ function CodePathExplorerWithGraphviz({
                         minWidth="100%"
                         height="100%"
                         extensions={
-                            dotCodeMirrorExtensions
+                            [
+                                ...dotCodeMirrorExtensions,
+                                ...lineWrapping ? [EditorView.lineWrapping] : []
+                            ]
                         }
                         editable={false}
                     />
