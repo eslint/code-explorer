@@ -1,32 +1,33 @@
 import { MinusSquareIcon, PlusSquareIcon } from 'lucide-react';
 import { useState } from 'react';
 import { renderValue } from '@/lib/render-value';
-import type { FC } from 'react';
+import { ScopeItem } from './scope/scope-item';
+import type { FC, ReactNode } from 'react';
 
 type TreeEntryProperties = {
   readonly data: [string, unknown];
 };
 
-const sanitizeValue = (value: unknown): unknown => {
+const sanitizeValue = (value: unknown): ReactNode => {
   if (value && typeof value === 'object') {
+    console.log(value.constructor.name);
+
     if (Array.isArray(value)) {
       return value.map(sanitizeValue);
     }
 
-    if (value.constructor.name === 'GlobalScope') {
-      return 'GlobalScope';
-    }
-
-    if (value.constructor.name === 'Reference') {
-      return 'Reference';
-    }
-
-    if (value.constructor.name === 'FunctionScope') {
-      return 'FunctionScope';
-    }
-
-    if (value.constructor.name === 'BlockScope') {
-      return 'BlockScope';
+    if (
+      value.constructor.name === 'GlobalScope' ||
+      value.constructor.name === 'Reference' ||
+      value.constructor.name === 'FunctionScope' ||
+      value.constructor.name === 'BlockScope' ||
+      value.constructor.name === 'Node'
+    ) {
+      return (
+        <div className="mt-3 space-y-3 ml-2">
+          <ScopeItem data={value} index={0} />
+        </div>
+      );
     }
 
     const sanitizedObject: Record<string, unknown> = {};
@@ -40,10 +41,18 @@ const sanitizeValue = (value: unknown): unknown => {
       }
     }
 
-    return sanitizedObject;
+    return (
+      <pre className="ml-8 max-h-44 bg-card border overflow-auto rounded-lg p-3">
+        {JSON.stringify(sanitizedObject, null, 2)}
+      </pre>
+    );
   }
 
-  return value;
+  return (
+    <pre className="ml-8 max-h-44 bg-card border overflow-auto rounded-lg p-3">
+      {JSON.stringify(value, null, 2)}
+    </pre>
+  );
 };
 
 export const TreeEntry: FC<TreeEntryProperties> = ({ data }) => {
@@ -73,11 +82,7 @@ export const TreeEntry: FC<TreeEntryProperties> = ({ data }) => {
           </span>
         ))}
       </div>
-      {open ? (
-        <pre className="ml-8 max-h-44 bg-card border overflow-auto rounded-lg p-3">
-          {JSON.stringify(sanitizeValue(value), null, 2)}
-        </pre>
-      ) : null}
+      {open ? sanitizeValue(value) : null}
     </>
   );
 };
