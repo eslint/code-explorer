@@ -67,7 +67,7 @@ export const JavascriptAstTreeItem: FC<JavascriptAstTreeItemProperties> = ({
               ))}
             </div>
             {body && Array.isArray(body) ? (
-              <div className="mt-3 space-y-3">
+              <div className="mt-3 space-y-3 ml-2">
                 {body.map((scope, subIndex) => (
                   <JavascriptAstTreeItem
                     key={subIndex}

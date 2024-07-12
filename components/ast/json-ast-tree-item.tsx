@@ -65,7 +65,7 @@ export const JsonAstTreeItem: FC<JsonAstTreeItemProperties> = ({
               ))}
             </div>
             {body && 'members' in body ? (
-              <div className="mt-3 space-y-3">
+              <div className="mt-3 space-y-3 ml-2">
                 {body.members.map((scope, subIndex) => (
                   <JsonAstTreeItem
                     key={subIndex}
