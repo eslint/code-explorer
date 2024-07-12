@@ -22,6 +22,7 @@ export const Scope: FC = () => {
     console.error(error);
   }
 
+  // eslint-scope types are on DefinitelyTyped and haven't been updated.
   const scopeManager = eslintScope.analyze(scope, {
     sourceType: explorer.sourceType as never,
     ecmaVersion: explorer.esVersion as never,
