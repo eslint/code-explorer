@@ -1,5 +1,6 @@
 import { MinusSquareIcon, PlusSquareIcon } from 'lucide-react';
 import { useState } from 'react';
+import { Scope } from 'eslint-scope';
 import { renderValue } from '@/lib/render-value';
 import { ScopeItem } from './scope/scope-item';
 import type { FC, ReactNode } from 'react';
@@ -9,42 +10,24 @@ type TreeEntryProperties = {
 };
 
 const sanitizeValue = (value: unknown): ReactNode => {
-  if (value && typeof value === 'object') {
-    console.log(value.constructor.name);
+  if (!value) {
+    return null;
+  }
 
-    if (Array.isArray(value)) {
-      return value.map(sanitizeValue);
-    }
+  if (Array.isArray(value)) {
+    return value.map(sanitizeValue);
+  }
 
-    if (
-      value.constructor.name === 'GlobalScope' ||
-      value.constructor.name === 'Reference' ||
-      value.constructor.name === 'FunctionScope' ||
-      value.constructor.name === 'BlockScope' ||
-      value.constructor.name === 'Node'
-    ) {
-      return (
-        <div className="mt-3 space-y-3 ml-2">
-          <ScopeItem data={value} index={0} />
-        </div>
-      );
-    }
-
-    const sanitizedObject: Record<string, unknown> = {};
-
-    for (const key in value) {
-      if (Object.prototype.hasOwnProperty.call(value, key)) {
-        // @ts-expect-error - We know that value is an object
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const newValue = value[key];
-        sanitizedObject[key] = sanitizeValue(newValue);
-      }
-    }
-
+  if (
+    value instanceof Scope ||
+    value.constructor.name === 'Reference' ||
+    value.constructor.name === 'BlockScope' ||
+    value.constructor.name === 'Node'
+  ) {
     return (
-      <pre className="ml-8 max-h-44 bg-card border overflow-auto rounded-lg p-3">
-        {JSON.stringify(sanitizedObject, null, 2)}
-      </pre>
+      <div className="mt-3 space-y-3 ml-2">
+        <ScopeItem data={value as Scope} index={0} />
+      </div>
     );
   }
 

@@ -5,6 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+// eslint-disable-next-line import/no-cycle
 import { TreeEntry } from '../tree-entry';
 import type { Scope } from 'eslint-scope';
 import type { FC } from 'react';
