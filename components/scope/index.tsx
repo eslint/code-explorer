@@ -41,7 +41,7 @@ export const Scope: FC = () => {
           ))}
         </>
       ) : (
-        <ScopeItem data={scopeManager.globalScope} index={0} />
+        <ScopeItem data={scopeManager.globalScope} index={-1} />
       )}
     </Accordion>
   );
