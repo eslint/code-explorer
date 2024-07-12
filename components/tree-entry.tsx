@@ -2,6 +2,7 @@ import { MinusSquareIcon, PlusSquareIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Scope } from 'eslint-scope';
 import { renderValue } from '@/lib/render-value';
+// eslint-disable-next-line import/no-cycle
 import { ScopeItem } from './scope/scope-item';
 import type { FC, ReactNode } from 'react';
 
