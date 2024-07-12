@@ -1,9 +1,9 @@
 import { MinusSquareIcon, PlusSquareIcon } from 'lucide-react';
 import { useState } from 'react';
-import { Scope } from 'eslint-scope';
 import { renderValue } from '@/lib/render-value';
 // eslint-disable-next-line import/no-cycle
 import { ScopeItem } from './scope/scope-item';
+import type { Scope } from 'eslint-scope';
 import type { FC, ReactNode } from 'react';
 
 type TreeEntryProperties = {
@@ -20,7 +20,9 @@ const sanitizeValue = (value: unknown): ReactNode => {
   }
 
   if (
-    value instanceof Scope ||
+    value.constructor.name === 'Variable' ||
+    value.constructor.name === 'GlobalScope' ||
+    value.constructor.name === 'FunctionScope' ||
     value.constructor.name === 'Reference' ||
     value.constructor.name === 'BlockScope' ||
     value.constructor.name === 'Node'

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars-ts, unused-imports/no-unused-vars */
+import { Scope, Variable } from 'eslint-scope';
 import { capitalize } from '@/lib/utils';
 import {
   AccordionContent,
@@ -7,12 +8,11 @@ import {
 } from '@/components/ui/accordion';
 // eslint-disable-next-line import/no-cycle
 import { TreeEntry } from '../tree-entry';
-import type { Scope } from 'eslint-scope';
-import type { FC } from 'react';
+import type { FC, Reference } from 'react';
 
 type ScopeItemProperties = {
   readonly index: number;
-  readonly data: Scope | null;
+  readonly data: Scope | Variable | Reference | null;
 };
 
 export const ScopeItem: FC<ScopeItemProperties> = ({ data, index }) => {
@@ -20,15 +20,21 @@ export const ScopeItem: FC<ScopeItemProperties> = ({ data, index }) => {
     return null;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, unicorn/prefer-structured-clone
+  let key = 'unknown';
+
+  if (data instanceof Scope) {
+    key = data.type;
+  } else if (data instanceof Variable) {
+    key = data.name;
+  }
 
   return (
     <AccordionItem
-      value={`${index}-${data.type}`}
+      value={`${index}-${key}`}
       className="border rounded-lg overflow-hidden"
     >
       <AccordionTrigger className="text-sm bg-muted-foreground/5 px-4 py-3">
-        {Math.max(index, 0)}. {capitalize(data.type)}
+        {Math.max(index, 0)}. {capitalize(key)}
       </AccordionTrigger>
       <AccordionContent className="p-4 border-t">
         <div className="space-y-1">
