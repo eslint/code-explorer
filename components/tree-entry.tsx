@@ -16,7 +16,15 @@ const sanitizeValue = (value: unknown): ReactNode => {
   }
 
   if (Array.isArray(value)) {
-    return value.map(sanitizeValue);
+    if (typeof value[0] === 'object') {
+      return value.map(sanitizeValue);
+    }
+
+    return (
+      <pre className="ml-8 max-h-44 bg-card border overflow-auto rounded-lg p-3">
+        {JSON.stringify(value, null, 2)}
+      </pre>
+    );
   }
 
   if (
