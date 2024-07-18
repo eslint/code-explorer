@@ -4,22 +4,22 @@ import { Button } from './ui/button';
 import type { FC } from 'react';
 
 export const ToolSelector: FC = () => {
-  const explorer = useExplorer();
+  const { tool, language, setTool } = useExplorer();
 
-  const availableTools = explorer.language === 'json' ? [tools[0]] : tools;
+  const availableTools = language === 'json' ? [tools[0]] : tools;
 
   return (
     <div className="flex items-center gap-1">
       {availableTools.map(({ name, value }) => (
         <Button
           key={value}
-          variant={value === explorer.tool ? 'outline' : 'ghost'}
+          variant={value === tool ? 'outline' : 'ghost'}
           className={
-            value === explorer.tool
+            value === tool
               ? ''
               : 'border border-transparent text-muted-foreground'
           }
-          onClick={() => explorer.setTool(value as typeof explorer.tool)}
+          onClick={() => setTool(value as typeof tool)}
         >
           {name}
         </Button>

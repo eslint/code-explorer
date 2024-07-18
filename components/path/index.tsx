@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import { useDebouncedEffect } from '@react-hookz/web';
 import { useExplorer } from '@/hooks/use-explorer';
 import { generateCodePath } from '@/app/actions/generate-code-path';
+import { parseError } from '@/lib/parse-error';
 import { Editor } from '../editor';
 import type { FC } from 'react';
 
@@ -25,12 +26,21 @@ type ParsedResponse = {
 };
 
 export const CodePath: FC = () => {
-  const explorer = useExplorer();
+  const {
+    code,
+    esVersion,
+    sourceType,
+    setPathIndex,
+    setPathIndexes,
+    pathViewMode,
+    pathIndex,
+    setError,
+  } = useExplorer();
   const [extracted, setExtracted] = useState<ParsedResponse | null>(null);
 
   useDebouncedEffect(
     () => {
-      generateCodePath(explorer.code, explorer.esVersion, explorer.sourceType)
+      generateCodePath(code, esVersion, sourceType)
         .then((response) => {
           if ('error' in response) {
             throw new Error(response.error);
@@ -39,16 +49,20 @@ export const CodePath: FC = () => {
           return JSON.parse(response.response) as ParsedResponse;
         })
         .then((newExtracted) => {
-          explorer.setPathIndexes(newExtracted.codePathList.length);
-          explorer.setPathIndex(0);
+          setPathIndexes(newExtracted.codePathList.length);
+          setPathIndex(0);
+          setError(null);
 
           return newExtracted;
         })
         .then(setExtracted)
-        // eslint-disable-next-line @typescript-eslint/use-unknown-in-catch-callback-variable, no-console
-        .catch(console.error);
+        // eslint-disable-next-line @typescript-eslint/use-unknown-in-catch-callback-variable, no-console, promise/prefer-await-to-callbacks
+        .catch((error: unknown) => {
+          const message = parseError(error);
+          setError(message);
+        });
     },
-    [explorer.code, explorer.esVersion, explorer.sourceType],
+    [code, esVersion, sourceType],
     500
   );
 
@@ -56,10 +70,10 @@ export const CodePath: FC = () => {
     return null;
   }
 
-  const code = extracted.codePathList[explorer.pathIndex].dot;
+  const extractedCode = extracted.codePathList[pathIndex].dot;
 
-  if (explorer.pathViewMode === 'code') {
-    return <Editor language="txt" value={code} />;
+  if (pathViewMode === 'code') {
+    return <Editor language="txt" value={extractedCode} />;
   }
 
   return (
@@ -83,7 +97,7 @@ export const CodePath: FC = () => {
         <rect x="0" y="0" width="100%" height="100%" fill="url(#pattern)" />
       </svg>
       <div className="relative z-10">
-        <Graphviz dot={code} />
+        <Graphviz dot={extractedCode} />
       </div>
     </>
   );

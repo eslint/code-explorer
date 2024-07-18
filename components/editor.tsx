@@ -10,7 +10,7 @@ type EditorProperties = ComponentProps<typeof MonacoEditor>;
 export const Editor: FC<EditorProperties> = (properties) => {
   const { resolvedTheme } = useTheme();
   const monaco = useMonaco();
-  const explorer = useExplorer();
+  const { wrap } = useExplorer();
 
   monaco?.editor.defineTheme('eslint-light', {
     base: 'vs',
@@ -37,7 +37,7 @@ export const Editor: FC<EditorProperties> = (properties) => {
         minimap: {
           enabled: false,
         },
-        wordWrap: explorer.wrap ? 'on' : 'off',
+        wordWrap: wrap ? 'on' : 'off',
       }}
       theme={resolvedTheme === 'dark' ? 'eslint-dark' : 'eslint-light'}
       {...properties}

@@ -12,6 +12,9 @@ type ExplorerState = {
   code: string;
   setCode: (code: string) => void;
 
+  error: string | null;
+  setError: (error: string | null) => void;
+
   language: string;
   setLanguage: (language: string) => void;
 
@@ -58,6 +61,9 @@ export const useExplorer = create<ExplorerState>()(
 
         code: `const a = 'b';`,
         setCode: (code) => set({ code }),
+
+        error: null,
+        setError: (error) => set({ error }),
 
         language: 'javascript',
         setLanguage: (language) => set({ language }),

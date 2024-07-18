@@ -1,29 +1,39 @@
 import { parse } from '@humanwhocodes/momoa';
+import { useEffect, useState } from 'react';
 import { Accordion } from '@/components/ui/accordion';
 import { Editor } from '@/components/editor';
 import { useExplorer } from '@/hooks/use-explorer';
+import { parseError } from '@/lib/parse-error';
 import { JsonAstTreeItem } from './json-ast-tree-item';
 import type { FC } from 'react';
 
 export const JsonAst: FC = () => {
-  const explorer = useExplorer();
-  let ast = '';
-  let tree: ReturnType<typeof parse> | null = null;
+  const { code, jsonMode, astViewMode, setError } = useExplorer();
+  const [ast, setAst] = useState('');
+  const [tree, setTree] = useState<ReturnType<typeof parse> | null>(null);
 
-  try {
-    tree = parse(explorer.code, {
-      mode: explorer.jsonMode,
-      ranges: true,
-      tokens: true,
-    });
+  useEffect(() => {
+    try {
+      const newTree = parse(code, {
+        mode: jsonMode,
+        ranges: true,
+        tokens: true,
+      });
 
-    ast = JSON.stringify(tree, null, 2);
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(error);
-  }
+      const newAst = JSON.stringify(tree, null, 2);
 
-  if (explorer.astViewMode === 'tree') {
+      setAst(newAst);
+      setTree(newTree);
+      setError(null);
+    } catch (error) {
+      const message = parseError(error);
+      setError(message);
+      setTree(null);
+      setAst('');
+    }
+  }, [code, jsonMode, setError, tree]);
+
+  if (astViewMode === 'tree') {
     if (tree === null) {
       return null;
     }

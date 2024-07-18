@@ -7,20 +7,20 @@ import { cn } from '@/lib/utils';
 import type { FC } from 'react';
 
 export const PathViewMode: FC = () => {
-  const explorer = useExplorer();
+  const { setPathViewMode, pathViewMode } = useExplorer();
 
   const handleValueChange = (value: string) => {
     if (!value) {
       return;
     }
 
-    explorer.setPathViewMode(value as 'code' | 'graph');
+    setPathViewMode(value as 'code' | 'graph');
   };
 
   return (
     <ToggleGroup
       type="single"
-      value={explorer.pathViewMode}
+      value={pathViewMode}
       onValueChange={handleValueChange}
       className="border rounded-md"
     >
@@ -30,7 +30,7 @@ export const PathViewMode: FC = () => {
           value={option.value}
           className={cn(
             'border -m-px flex items-center gap-1.5',
-            option.value === explorer.pathViewMode
+            option.value === pathViewMode
               ? '!bg-background'
               : 'border-transparent hover:bg-transparent text-muted-foreground'
           )}

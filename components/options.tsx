@@ -29,21 +29,34 @@ import { Label } from './ui/label';
 import type { FC } from 'react';
 
 export const Options: FC = () => {
-  const explorer = useExplorer();
+  const {
+    language,
+    setLanguage,
+    tool,
+    setTool,
+    jsonMode,
+    setJsonMode,
+    parser,
+    setParser,
+    sourceType,
+    setSourceType,
+    esVersion,
+    setEsVersion,
+    isJSX,
+    setIsJSX,
+  } = useExplorer();
 
-  const currentLanguage = languages.find(
-    (language) => language.value === explorer.language
-  );
+  const currentLanguage = languages.find(({ value }) => value === language);
 
   if (!currentLanguage) {
     return null;
   }
 
   const handleChangeLanguage = (value: string) => {
-    explorer.setLanguage(value);
+    setLanguage(value);
 
-    if (value === 'json' && explorer.tool !== 'ast') {
-      explorer.setTool('ast');
+    if (value === 'json' && tool !== 'ast') {
+      setTool('ast');
     }
   };
 
@@ -64,25 +77,22 @@ export const Options: FC = () => {
       <PopoverContent className="space-y-4 w-[372px]">
         <div className="space-y-1.5">
           <Label htmlFor="language">Language</Label>
-          <Select
-            value={explorer.language}
-            onValueChange={handleChangeLanguage}
-          >
+          <Select value={language} onValueChange={handleChangeLanguage}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Language" />
             </SelectTrigger>
             <SelectContent>
-              {languages.map((language) => (
-                <SelectItem key={language.value} value={language.value}>
+              {languages.map(({ value, icon, label }) => (
+                <SelectItem key={value} value={value}>
                   <div className="flex items-center gap-1.5">
                     <Image
-                      src={language.icon}
-                      alt={language.label}
+                      src={icon}
+                      alt={label}
                       width={16}
                       height={16}
                       className="w-4 h-4"
                     />
-                    <span>{language.label}</span>
+                    <span>{label}</span>
                   </div>
                 </SelectItem>
               ))}
@@ -90,13 +100,10 @@ export const Options: FC = () => {
           </Select>
         </div>
 
-        {explorer.language === 'json' ? (
+        {language === 'json' ? (
           <div className="space-y-1.5">
             <Label htmlFor="jsonMode">Mode</Label>
-            <Select
-              value={explorer.jsonMode}
-              onValueChange={explorer.setJsonMode}
-            >
+            <Select value={jsonMode} onValueChange={setJsonMode}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Mode" />
               </SelectTrigger>
@@ -113,25 +120,22 @@ export const Options: FC = () => {
           <>
             <div className="space-y-1.5">
               <Label htmlFor="parser">Parser</Label>
-              <Select
-                value={explorer.parser}
-                onValueChange={explorer.setParser}
-              >
+              <Select value={parser} onValueChange={setParser}>
                 <SelectTrigger className="w-full" disabled>
                   <SelectValue placeholder="Parser" />
                 </SelectTrigger>
                 <SelectContent>
-                  {parsers.map((parser) => (
-                    <SelectItem key={parser.value} value={parser.value}>
+                  {parsers.map(({ value, icon, label }) => (
+                    <SelectItem key={value} value={value}>
                       <div className="flex items-center gap-1.5">
                         <Image
-                          src={parser.icon}
-                          alt={parser.label}
+                          src={icon}
+                          alt={label}
                           width={16}
                           height={16}
                           className="w-4 h-4"
                         />
-                        <span>{parser.label}</span>
+                        <span>{label}</span>
                       </div>
                     </SelectItem>
                   ))}
@@ -141,17 +145,14 @@ export const Options: FC = () => {
 
             <div className="space-y-1.5">
               <Label htmlFor="sourceType">Source Type</Label>
-              <Select
-                value={explorer.sourceType}
-                onValueChange={explorer.setSourceType}
-              >
+              <Select value={sourceType} onValueChange={setSourceType}>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Source Type" />
                 </SelectTrigger>
                 <SelectContent>
-                  {sourceTypes.map((sourceType) => (
-                    <SelectItem key={sourceType.value} value={sourceType.value}>
-                      {sourceType.label}
+                  {sourceTypes.map(({ value, label }) => (
+                    <SelectItem key={value} value={value}>
+                      {label}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -160,10 +161,7 @@ export const Options: FC = () => {
 
             <div className="space-y-1.5">
               <Label htmlFor="esVersion">ECMAScript Version</Label>
-              <Select
-                value={String(explorer.esVersion)}
-                onValueChange={explorer.setEsVersion}
-              >
+              <Select value={String(esVersion)} onValueChange={setEsVersion}>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="ECMAScript Version" />
                 </SelectTrigger>
@@ -181,11 +179,7 @@ export const Options: FC = () => {
             </div>
 
             <div className="flex items-center gap-1.5">
-              <Switch
-                id="jsx"
-                checked={explorer.isJSX}
-                onCheckedChange={explorer.setIsJSX}
-              />
+              <Switch id="jsx" checked={isJSX} onCheckedChange={setIsJSX} />
               <Label htmlFor="jsx">JSX</Label>
             </div>
           </>

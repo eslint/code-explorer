@@ -2,31 +2,45 @@
 
 import * as espree from 'espree';
 import * as eslintScope from 'eslint-scope';
+import { useEffect, useState } from 'react';
 import { useExplorer } from '@/hooks/use-explorer';
 import { Accordion } from '@/components/ui/accordion';
+import { parseError } from '@/lib/parse-error';
 import { ScopeItem } from './scope-item';
 import type { FC } from 'react';
 
 export const Scope: FC = () => {
-  const explorer = useExplorer();
-  let scope = {};
+  const { code, esVersion, sourceType, setError, scopeViewMode } =
+    useExplorer();
+  const [scopeManager, setScopeManager] =
+    useState<eslintScope.ScopeManager | null>(null);
 
-  try {
-    scope = espree.parse(explorer.code, {
-      range: true,
-      ecmaVersion: explorer.esVersion,
-      sourceType: explorer.sourceType,
-    });
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(error);
+  useEffect(() => {
+    try {
+      const newScope = espree.parse(code, {
+        range: true,
+        ecmaVersion: esVersion,
+        sourceType,
+      });
+
+      // eslint-scope types are on DefinitelyTyped and haven't been updated.
+      const newScopeManager = eslintScope.analyze(newScope, {
+        sourceType: sourceType as never,
+        ecmaVersion: esVersion as never,
+      });
+
+      setScopeManager(newScopeManager);
+      setError(null);
+    } catch (error) {
+      const message = parseError(error);
+      setError(message);
+      setScopeManager(null);
+    }
+  }, [code, esVersion, setError, sourceType]);
+
+  if (!scopeManager) {
+    return null;
   }
-
-  // eslint-scope types are on DefinitelyTyped and haven't been updated.
-  const scopeManager = eslintScope.analyze(scope, {
-    sourceType: explorer.sourceType as never,
-    ecmaVersion: explorer.esVersion as never,
-  });
 
   return (
     <Accordion
@@ -34,7 +48,7 @@ export const Scope: FC = () => {
       className="px-8 font-mono space-y-3"
       defaultValue={['0-global']}
     >
-      {explorer.scopeViewMode === 'flat' ? (
+      {scopeViewMode === 'flat' ? (
         <>
           {scopeManager.scopes.map((subScope, index) => (
             <ScopeItem key={index} data={subScope} index={index + 1} />

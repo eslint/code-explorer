@@ -11,19 +11,19 @@ import {
 import type { FC } from 'react';
 
 export const PathIndexSelector: FC = () => {
-  const explorer = useExplorer();
+  const { pathIndex, setPathIndex, pathIndexes } = useExplorer();
 
   const handleChange = (value: string) => {
-    explorer.setPathIndex(Number(value));
+    setPathIndex(Number(value));
   };
 
   return (
-    <Select value={String(explorer.pathIndex)} onValueChange={handleChange}>
+    <Select value={String(pathIndex)} onValueChange={handleChange}>
       <SelectTrigger className="w-[10rem]">
         <SelectValue placeholder="Code Path" />
       </SelectTrigger>
       <SelectContent>
-        {Array.from({ length: explorer.pathIndexes }).map((item, index) => (
+        {Array.from({ length: pathIndexes }).map((item, index) => (
           <SelectItem key={index} value={String(index)}>
             Code Path {index + 1}
           </SelectItem>

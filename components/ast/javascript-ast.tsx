@@ -1,28 +1,40 @@
 import * as espree from 'espree';
+import { useEffect, useState } from 'react';
 import { Accordion } from '@/components/ui/accordion';
 import { Editor } from '@/components/editor';
 import { useExplorer } from '@/hooks/use-explorer';
+import { parseError } from '@/lib/parse-error';
 import { JavascriptAstTreeItem } from './javascript-ast-tree-item';
 import type { FC } from 'react';
 
 export const JavascriptAst: FC = () => {
-  const explorer = useExplorer();
-  let ast = '';
-  let tree: ReturnType<typeof espree.parse> | null = null;
+  const { code, esVersion, sourceType, setError, astViewMode } = useExplorer();
+  const [ast, setAst] = useState('');
+  const [tree, setTree] = useState<ReturnType<typeof espree.parse> | null>(
+    null
+  );
 
-  try {
-    tree = espree.parse(explorer.code, {
-      ecmaVersion: explorer.esVersion,
-      sourceType: explorer.sourceType,
-    });
+  useEffect(() => {
+    try {
+      const newTree = espree.parse(code, {
+        ecmaVersion: esVersion,
+        sourceType,
+      });
 
-    ast = JSON.stringify(tree, null, 2);
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(error);
-  }
+      const newAst = JSON.stringify(tree, null, 2);
 
-  if (explorer.astViewMode === 'tree') {
+      setAst(newAst);
+      setTree(newTree);
+      setError(null);
+    } catch (error) {
+      const message = parseError(error);
+      setError(message);
+      setTree(null);
+      setAst('');
+    }
+  }, [code, esVersion, setError, sourceType, tree]);
+
+  if (astViewMode === 'tree') {
     if (tree === null) {
       return null;
     }

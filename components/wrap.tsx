@@ -7,23 +7,23 @@ import { Button } from './ui/button';
 import type { FC } from 'react';
 
 export const Wrap: FC = () => {
-  const explorer = useExplorer();
+  const { tool, astViewMode, pathViewMode, setWrap, wrap } = useExplorer();
 
-  if (explorer.tool === 'ast' && explorer.astViewMode !== 'json') {
+  if (tool === 'ast' && astViewMode !== 'json') {
     return null;
   }
 
-  if (explorer.tool === 'path' && explorer.pathViewMode !== 'code') {
+  if (tool === 'path' && pathViewMode !== 'code') {
     return null;
   }
 
   return (
     <Button
-      onClick={() => explorer.setWrap(!explorer.wrap)}
-      variant={explorer.wrap ? 'outline' : 'ghost'}
+      onClick={() => setWrap(!wrap)}
+      variant={wrap ? 'outline' : 'ghost'}
       className={cn(
         'flex items-center gap-2',
-        !explorer.wrap && 'text-muted-foreground border border-transparent'
+        !wrap && 'text-muted-foreground border border-transparent'
       )}
     >
       <WrapTextIcon size={16} />

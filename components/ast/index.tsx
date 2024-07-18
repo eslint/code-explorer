@@ -6,9 +6,9 @@ import { JsonAst } from './json-ast';
 import type { FC } from 'react';
 
 export const Ast: FC = () => {
-  const explorer = useExplorer();
+  const { language } = useExplorer();
 
-  if (explorer.language === 'json') {
+  if (language === 'json') {
     return <JsonAst />;
   }
 
