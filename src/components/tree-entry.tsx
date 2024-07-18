@@ -1,11 +1,9 @@
 import { MinusSquareIcon, PlusSquareIcon } from 'lucide-react';
 import { useState } from 'react';
 import { renderValue } from '@/lib/render-value';
-// eslint-disable-next-line import/no-cycle
 import { ScopeItem } from './scope/scope-item';
 import { Reference, Variable, Scope } from 'eslint-scope';
 import type { FC, ReactNode } from 'react';
-import { Node } from 'estree';
 
 type TreeEntryProperties = {
   readonly data: [string, unknown];
