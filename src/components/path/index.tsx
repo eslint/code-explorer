@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
-import { useDebouncedEffect } from '@react-hookz/web';
+import { useEffect, useState } from 'react';
 import { useExplorer } from '@/hooks/use-explorer';
 import { Editor } from '../editor';
 import type { FC } from 'react';
 import Graphviz from 'graphviz-react';
 import { generateCodePath } from '@/lib/generate-code-path';
+import { parseError } from '@/lib/parse-error';
 
 type ParsedResponse = {
   codePathList: {
@@ -17,8 +17,9 @@ type ParsedResponse = {
 export const CodePath: FC = () => {
   const explorer = useExplorer();
   const [extracted, setExtracted] = useState<ParsedResponse | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  useDebouncedEffect(
+  useEffect(
     () => {
       generateCodePath(explorer.code, explorer.esVersion, explorer.sourceType)
         .then((response) => {
@@ -31,15 +32,23 @@ export const CodePath: FC = () => {
         .then((newExtracted) => {
           explorer.setPathIndexes(newExtracted.codePathList.length);
           explorer.setPathIndex(0);
+          setError(null);
 
           return newExtracted;
         })
         .then(setExtracted)
-        .catch(console.error);
+        .catch((newError) => setError(parseError(newError)));
     },
-    [explorer.code, explorer.esVersion, explorer.sourceType],
-    500
+    [explorer.code, explorer.esVersion, explorer.sourceType]
   );
+
+  if (error) {
+    return (
+      <div className="bg-red-50 -mt-[72px] pt-[72px] h-full">
+        <div className="p-4 text-red-700">{error}</div>
+      </div>
+    );
+  }
 
   if (!extracted) {
     return null;

@@ -6,6 +6,7 @@ import { useExplorer } from '@/hooks/use-explorer';
 import { Accordion } from '@/components/ui/accordion';
 import { ScopeItem } from './scope-item';
 import type { FC } from 'react';
+import { parseError } from '@/lib/parse-error';
 
 export const Scope: FC = () => {
   const explorer = useExplorer();
@@ -18,8 +19,12 @@ export const Scope: FC = () => {
       sourceType: explorer.sourceType,
     });
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(error);
+    const message = parseError(error);
+    return (
+      <div className="bg-red-50 -mt-[72px] pt-[72px] h-full">
+        <div className="p-4 text-red-700">{message}</div>
+      </div>
+    );
   }
 
   // eslint-scope types are on DefinitelyTyped and haven't been updated.

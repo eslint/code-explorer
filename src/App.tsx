@@ -40,7 +40,7 @@ function App() {
               <activeTool.component />
             </div>
           </div>
-        </div>x
+        </div>
       </div>
     </div>
   );

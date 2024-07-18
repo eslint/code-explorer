@@ -4,6 +4,7 @@ import { Editor } from '@/components/editor';
 import { useExplorer } from '@/hooks/use-explorer';
 import { JavascriptAstTreeItem } from './javascript-ast-tree-item';
 import type { FC } from 'react';
+import { parseError } from '@/lib/parse-error';
 
 export const JavascriptAst: FC = () => {
   const explorer = useExplorer();
@@ -18,8 +19,12 @@ export const JavascriptAst: FC = () => {
 
     ast = JSON.stringify(tree, null, 2);
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(error);
+    const message = parseError(error);
+    return (
+      <div className="bg-red-50 -mt-[72px] pt-[72px] h-full">
+        <div className="p-4 text-red-700">{message}</div>
+      </div>
+    );
   }
 
   if (explorer.astViewMode === 'tree') {
