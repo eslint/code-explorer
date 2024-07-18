@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-handler-names */
 'use client';
 
-import Image from 'next/image';
 import {
   Popover,
   PopoverContent,
@@ -51,7 +50,7 @@ export const Options: FC = () => {
     <Popover>
       <PopoverTrigger asChild>
         <Button variant="outline" className="flex items-center gap-1.5">
-          <Image
+          <img
             src={currentLanguage.icon}
             alt={currentLanguage.label}
             width={16}

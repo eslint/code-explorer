@@ -2,21 +2,12 @@
 'use client';
 
 import { useState } from 'react';
-import dynamic from 'next/dynamic';
 import { useDebouncedEffect } from '@react-hookz/web';
 import { useExplorer } from '@/hooks/use-explorer';
-import { generateCodePath } from '@/app/actions/generate-code-path';
+import { generateCodePath } from '@/actions/generate-code-path';
 import { Editor } from '../editor';
 import type { FC } from 'react';
-
-const Graphviz = dynamic(
-  async () =>
-    import(
-      /* webpackChunkName: "graphviz-react" */
-      'graphviz-react'
-    ),
-  { ssr: false }
-);
+import Graphviz from 'graphviz-react';
 
 type ParsedResponse = {
   codePathList: {

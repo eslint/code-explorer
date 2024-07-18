@@ -5,22 +5,18 @@ import {
   LayersIcon,
   ListIcon,
 } from 'lucide-react';
-import JavaScript from './languages/javascript.svg';
-import ESLint from './languages/eslint.svg';
-import JSON from './languages/json.svg';
-import type { StaticImageData } from 'next/image';
 import type { SourceType, Version } from '@/hooks/use-explorer';
 
 export const languages = [
   {
     value: 'javascript',
     label: 'JavaScript',
-    icon: JavaScript as StaticImageData,
+    icon: './languages/javascript.svg',
   },
   {
     value: 'json',
     label: 'JSON',
-    icon: JSON as StaticImageData,
+    icon: './languages/json.svg',
   },
 ];
 
@@ -28,7 +24,7 @@ export const parsers = [
   {
     value: 'espree',
     label: 'Espree',
-    icon: ESLint as StaticImageData,
+    icon: './languages/eslint.svg',
   },
 ];
 
