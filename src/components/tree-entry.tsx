@@ -3,8 +3,9 @@ import { useState } from 'react';
 import { renderValue } from '@/lib/render-value';
 // eslint-disable-next-line import/no-cycle
 import { ScopeItem } from './scope/scope-item';
-import type { Scope } from 'eslint-scope';
+import { Reference, Variable, Scope } from 'eslint-scope';
 import type { FC, ReactNode } from 'react';
+import { Node } from 'estree';
 
 type TreeEntryProperties = {
   readonly data: [string, unknown];
@@ -27,17 +28,16 @@ const sanitizeValue = (value: unknown): ReactNode => {
     );
   }
 
+  console.log(value, 'val')
+
   if (
-    value.constructor.name === 'Variable' ||
-    value.constructor.name === 'GlobalScope' ||
-    value.constructor.name === 'FunctionScope' ||
-    value.constructor.name === 'Reference' ||
-    value.constructor.name === 'BlockScope' ||
-    value.constructor.name === 'Node'
+    value instanceof Scope ||
+    value instanceof Reference ||
+    value instanceof Variable
   ) {
     return (
       <div className="mt-3 space-y-3 ml-2">
-        <ScopeItem data={value as Scope} index={0} />
+        <ScopeItem data={value} index={0} />
       </div>
     );
   }
