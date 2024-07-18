@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars-ts, unused-imports/no-unused-vars */
 import { capitalize } from '@/lib/utils';
 import {
   AccordionContent,

@@ -74,7 +74,7 @@ export const Options: FC = () => {
               {languages.map((language) => (
                 <SelectItem key={language.value} value={language.value}>
                   <div className="flex items-center gap-1.5">
-                    <Image
+                    <img
                       src={language.icon}
                       alt={language.label}
                       width={16}
@@ -123,7 +123,7 @@ export const Options: FC = () => {
                   {parsers.map((parser) => (
                     <SelectItem key={parser.value} value={parser.value}>
                       <div className="flex items-center gap-1.5">
-                        <Image
+                        <img
                           src={parser.icon}
                           alt={parser.label}
                           width={16}

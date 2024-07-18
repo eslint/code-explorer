@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars-ts, unused-imports/no-unused-vars */
-import { Scope, Variable } from 'eslint-scope';
+import { Scope, Variable, Reference } from 'eslint-scope';
 import { capitalize } from '@/lib/utils';
 import {
   AccordionContent,
@@ -8,7 +7,7 @@ import {
 } from '@/components/ui/accordion';
 // eslint-disable-next-line import/no-cycle
 import { TreeEntry } from '../tree-entry';
-import type { FC, Reference } from 'react';
+import type { FC } from 'react';
 
 type ScopeItemProperties = {
   readonly index: number;

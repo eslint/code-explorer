@@ -11,12 +11,12 @@ export const languages = [
   {
     value: 'javascript',
     label: 'JavaScript',
-    icon: './languages/javascript.svg',
+    icon: '/languages/javascript.svg',
   },
   {
     value: 'json',
     label: 'JSON',
-    icon: './languages/json.svg',
+    icon: '/languages/json.svg',
   },
 ];
 
@@ -24,7 +24,7 @@ export const parsers = [
   {
     value: 'espree',
     label: 'Espree',
-    icon: './languages/eslint.svg',
+    icon: '/languages/eslint.svg',
   },
 ];
 

@@ -8,7 +8,7 @@ export const Navbar: FC = () => (
     <div className="px-6 py-4 flex items-center justify-between text-xl font-semibold">
       <div className="flex items-center gap-1.5">
         <img
-          src="@/lib/languages/eslint.svg"
+          src="/languages/eslint.svg"
           alt="Code Explorer"
           width={32}
           height={32}

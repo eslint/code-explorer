@@ -1,8 +1,5 @@
-import animate from 'tailwindcss-animate';
-import defaultTheme from 'tailwindcss/defaultTheme';
-import type { Config } from 'tailwindcss';
-
-const config: Config = {
+/** @type {import('tailwindcss').Config} */
+module.exports = {
   darkMode: ['class'],
   content: [
     './pages/**/*.{ts,tsx}',
@@ -20,10 +17,6 @@ const config: Config = {
       },
     },
     extend: {
-      fontFamily: {
-        sans: ['var(--font-sans)', ...defaultTheme.fontFamily.sans],
-        mono: ['var(--font-mono)', ...defaultTheme.fontFamily.mono],
-      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -80,7 +73,8 @@ const config: Config = {
       },
     },
   },
-  plugins: [animate],
+  plugins: [
+    require('tailwindcss-animate'),
+    require('tailwindcss/defaultTheme'),
+  ],
 };
-
-export default config;
