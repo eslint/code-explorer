@@ -1,7 +1,5 @@
 'use client';
 
-import { useTheme } from 'next-themes';
-
 import { MoonIcon, SunIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,9 +9,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import type { FC } from 'react';
+import { useExplorer } from '@/hooks/use-explorer';
 
 export const ModeToggle: FC = () => {
-  const { setTheme } = useTheme();
+  const { setTheme } = useExplorer();
 
   return (
     <DropdownMenu>

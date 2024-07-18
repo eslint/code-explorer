@@ -1,14 +1,13 @@
 'use client';
 
 import { Editor as MonacoEditor, useMonaco } from '@monaco-editor/react';
-import { useTheme } from 'next-themes';
 import { useExplorer } from '@/hooks/use-explorer';
 import type { ComponentProps, FC } from 'react';
 
 type EditorProperties = ComponentProps<typeof MonacoEditor>;
 
 export const Editor: FC<EditorProperties> = (properties) => {
-  const { resolvedTheme } = useTheme();
+  const { theme = "system" } = useExplorer();
   const monaco = useMonaco();
   const explorer = useExplorer();
 
@@ -39,7 +38,7 @@ export const Editor: FC<EditorProperties> = (properties) => {
         },
         wordWrap: explorer.wrap ? 'on' : 'off',
       }}
-      theme={resolvedTheme === 'dark' ? 'eslint-dark' : 'eslint-light'}
+      theme={theme === 'dark' ? 'eslint-dark' : 'eslint-light'}
       {...properties}
     />
   );
