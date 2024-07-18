@@ -79,4 +79,11 @@
     @apply bg-background text-foreground;
     min-height: 100dvh;
   }
+  .font-sans {
+    font-family: "Space Grotesk", sans-serif;
+  }
+
+  .font-mono {
+    font-family: "Space Mono", sans-serif;
+  }
 }
