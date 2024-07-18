@@ -44,6 +44,7 @@
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.1.6",
+    "eslint-linter-browserify": "^9.7.0",
     "eslint-scope": "^8.0.1",
     "espree": "^10.1.0",
     "graphviz-react": "^1.2.5",

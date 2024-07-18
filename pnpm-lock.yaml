@@ -131,6 +131,9 @@ importers:
       embla-carousel-react:
         specifier: ^8.1.6
         version: 8.1.6(react@18.3.1)
+      eslint-linter-browserify:
+        specifier: ^9.7.0
+        version: 9.7.0
       eslint-scope:
         specifier: ^8.0.1
         version: 8.0.2
@@ -3768,6 +3771,9 @@ packages:
 
   eslint-import-resolver-node@0.3.9:
     resolution: {integrity: sha512-WFj2isz22JahUv+B788TlO3N6zL3nNJGU8CcZbPZvVEkBPaJdCV4vy5wyghty5ROFbCRnm132v8BScu5/1BQ8g==}
+
+  eslint-linter-browserify@9.7.0:
+    resolution: {integrity: sha512-3d9OY4vSOSB9sfXFX2uL3bUJFcEL+jsdZc7883vztflChS8hklkCZOIHsfSUkR16genGcP7gcLSSYvz+3bcLbw==}
 
   eslint-module-utils@2.8.1:
     resolution: {integrity: sha512-rXDXR3h7cs7dy9RNpUlQf80nX31XWJEyGq1tRMo+6GsO5VmTe4UTwtmonAD4ZkAsrfMVDA2wlGJ3790Ys+D49Q==}
@@ -11540,6 +11546,8 @@ snapshots:
       resolve: 1.22.8
     transitivePeerDependencies:
       - supports-color
+
+  eslint-linter-browserify@9.7.0: {}
 
   eslint-module-utils@2.8.1(@typescript-eslint/parser@5.62.0(eslint@8.57.0)(typescript@4.9.5))(eslint-import-resolver-node@0.3.9)(eslint@8.57.0):
     dependencies:

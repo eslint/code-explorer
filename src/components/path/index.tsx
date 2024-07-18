@@ -6,6 +6,7 @@ import { useExplorer } from '@/hooks/use-explorer';
 import { Editor } from '../editor';
 import type { FC } from 'react';
 import Graphviz from 'graphviz-react';
+import { generateCodePath } from '@/lib/generate-code-path';
 
 type ParsedResponse = {
   codePathList: {
@@ -17,28 +18,28 @@ export const CodePath: FC = () => {
   const explorer = useExplorer();
   const [extracted, setExtracted] = useState<ParsedResponse | null>(null);
 
-  // useDebouncedEffect(
-  //   () => {
-  //     generateCodePath(explorer.code, explorer.esVersion, explorer.sourceType)
-  //       .then((response) => {
-  //         if ('error' in response) {
-  //           throw new Error(response.error);
-  //         }
+  useDebouncedEffect(
+    () => {
+      generateCodePath(explorer.code, explorer.esVersion, explorer.sourceType)
+        .then((response) => {
+          if ('error' in response) {
+            throw new Error(response.error);
+          }
 
-  //         return JSON.parse(response.response) as ParsedResponse;
-  //       })
-  //       .then((newExtracted) => {
-  //         explorer.setPathIndexes(newExtracted.codePathList.length);
-  //         explorer.setPathIndex(0);
+          return JSON.parse(response.response) as ParsedResponse;
+        })
+        .then((newExtracted) => {
+          explorer.setPathIndexes(newExtracted.codePathList.length);
+          explorer.setPathIndex(0);
 
-  //         return newExtracted;
-  //       })
-  //       .then(setExtracted)
-  //       .catch(console.error);
-  //   },
-  //   [explorer.code, explorer.esVersion, explorer.sourceType],
-  //   500
-  // );
+          return newExtracted;
+        })
+        .then(setExtracted)
+        .catch(console.error);
+    },
+    [explorer.code, explorer.esVersion, explorer.sourceType],
+    500
+  );
 
   if (!extracted) {
     return null;
