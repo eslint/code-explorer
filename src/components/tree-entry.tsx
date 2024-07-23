@@ -9,6 +9,15 @@ type TreeEntryProperties = {
   readonly data: [string, unknown];
 };
 
+const isProbablyNode = (value: unknown) => {
+  return value &&
+    typeof value === 'object' &&
+    'type' in value &&
+    'range' in value &&
+    typeof value.type === 'string' &&
+    Array.isArray(value.range);
+};
+
 const sanitizeValue = (value: unknown): ReactNode => {
   if (!value) {
     return null;
@@ -26,16 +35,17 @@ const sanitizeValue = (value: unknown): ReactNode => {
     );
   }
 
-  console.log(value, 'val')
-
   if (
     value instanceof Scope ||
     value instanceof Reference ||
-    value instanceof Variable
+    value instanceof Variable ||
+
+    // Node
+    isProbablyNode(value)
   ) {
     return (
       <div className="mt-3 space-y-3 ml-2">
-        <ScopeItem data={value} index={0} />
+        <ScopeItem data={value as Scope} index={0} />
       </div>
     );
   }
