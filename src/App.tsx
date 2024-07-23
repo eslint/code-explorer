@@ -3,7 +3,7 @@ import './App.css';
 import { Navbar } from './components/navbar';
 import { useExplorer } from './hooks/use-explorer';
 import { tools } from './lib/tools';
-import { Editor } from '@monaco-editor/react';
+import { Editor } from './components/editor';
 import { ToolSelector } from './components/tool-selector';
 import { cn } from './lib/utils';
 
