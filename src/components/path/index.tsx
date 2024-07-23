@@ -31,8 +31,12 @@ export const CodePath: FC = () => {
           return JSON.parse(response.response) as ParsedResponse;
         })
         .then((newExtracted) => {
+          if (newExtracted.codePathList.length > explorer.pathIndexes) {
+            explorer.setPathIndex(0);
+          }
+
           explorer.setPathIndexes(newExtracted.codePathList.length);
-          explorer.setPathIndex(0);
+
           setError(null);
 
           return newExtracted;
@@ -41,7 +45,7 @@ export const CodePath: FC = () => {
         .catch((newError) => setError(parseError(newError)));
     },
     500,
-    [explorer, explorer.code, explorer.esVersion, explorer.sourceType]
+    [explorer, explorer.code, explorer.esVersion, explorer.sourceType, explorer.setPathIndexes, explorer.pathIndexes]
   );
 
   if (error) {
