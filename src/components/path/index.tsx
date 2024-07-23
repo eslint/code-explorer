@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useExplorer } from '@/hooks/use-explorer';
 import { Editor } from '../editor';
 import type { FC } from 'react';
 import Graphviz from 'graphviz-react';
 import { generateCodePath } from '@/lib/generate-code-path';
 import { parseError } from '@/lib/parse-error';
+import useDebouncedEffect from 'use-debounced-effect';
 
 type ParsedResponse = {
   codePathList: {
@@ -19,7 +20,7 @@ export const CodePath: FC = () => {
   const [extracted, setExtracted] = useState<ParsedResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(
+  useDebouncedEffect(
     () => {
       generateCodePath(explorer.code, explorer.esVersion, explorer.sourceType)
         .then((response) => {
@@ -39,6 +40,7 @@ export const CodePath: FC = () => {
         .then(setExtracted)
         .catch((newError) => setError(parseError(newError)));
     },
+    500,
     [explorer, explorer.code, explorer.esVersion, explorer.sourceType]
   );
 
