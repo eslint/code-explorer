@@ -39,7 +39,7 @@ export const CodePath: FC = () => {
         .then(setExtracted)
         .catch((newError) => setError(parseError(newError)));
     },
-    [explorer.code, explorer.esVersion, explorer.sourceType]
+    [explorer, explorer.code, explorer.esVersion, explorer.sourceType]
   );
 
   if (error) {
