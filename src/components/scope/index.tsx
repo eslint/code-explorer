@@ -17,6 +17,9 @@ export const Scope: FC = () => {
       range: true,
       ecmaVersion: explorer.esVersion,
       sourceType: explorer.sourceType,
+      ecmaFeatures: {
+        jsx: explorer.isJSX,
+      },
     });
   } catch (error) {
     const message = parseError(error);
