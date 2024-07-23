@@ -10,10 +10,10 @@ import { parseError } from '@/lib/parse-error';
 
 export const Scope: FC = () => {
   const explorer = useExplorer();
-  let scope = {};
+  let ast = {};
 
   try {
-    scope = espree.parse(explorer.code, {
+    ast = espree.parse(explorer.code, {
       range: true,
       ecmaVersion: explorer.esVersion,
       sourceType: explorer.sourceType,
@@ -31,7 +31,7 @@ export const Scope: FC = () => {
   }
 
   // eslint-scope types are on DefinitelyTyped and haven't been updated.
-  const scopeManager = eslintScope.analyze(scope, {
+  const scopeManager = eslintScope.analyze(ast, {
     sourceType: explorer.sourceType as never,
     ecmaVersion: explorer.esVersion as never,
   });
