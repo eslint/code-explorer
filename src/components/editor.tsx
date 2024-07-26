@@ -13,7 +13,7 @@ export const Editor: FC<EditorProperties> = (properties) => {
   return (
     <MonacoEditor
       height="100%"
-      onMount={(_editor, monaco) => {
+      beforeMount={(monaco) => {
         monaco?.editor.defineTheme("eslint-light", {
           base: "vs",
           inherit: true,
