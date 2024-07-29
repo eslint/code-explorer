@@ -14,7 +14,7 @@ export const Editor: FC<EditorProperties> = (properties) => {
     <MonacoEditor
       height="100%"
       beforeMount={(monaco) => {
-        monaco?.editor.defineTheme("eslint-light", {
+        monaco.editor.defineTheme("eslint-light", {
           base: "vs",
           inherit: true,
           rules: [],
@@ -23,7 +23,7 @@ export const Editor: FC<EditorProperties> = (properties) => {
           },
         });
 
-        monaco?.editor.defineTheme("eslint-dark", {
+        monaco.editor.defineTheme("eslint-dark", {
           base: "vs-dark",
           inherit: true,
           rules: [],
