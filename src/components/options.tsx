@@ -26,6 +26,8 @@ import {
 import { Button } from './ui/button';
 import { Label } from './ui/label';
 import type { FC } from 'react';
+import { Settings } from 'lucide-react';
+
 
 export const Options: FC = () => {
   const explorer = useExplorer();
@@ -58,6 +60,7 @@ export const Options: FC = () => {
             className="w-4 h-4"
           />
           <span>{currentLanguage.label}</span>
+          <Settings className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="space-y-4 w-[372px]">
