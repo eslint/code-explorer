@@ -4,9 +4,11 @@ import { Editor as MonacoEditor } from '@monaco-editor/react';
 import { useExplorer } from '@/hooks/use-explorer';
 import type { ComponentProps, FC } from 'react';
 
-type EditorProperties = ComponentProps<typeof MonacoEditor>;
+type EditorProperties = ComponentProps<typeof MonacoEditor> & {
+  readOnly?: boolean;
+};
 
-export const Editor: FC<EditorProperties> = (properties) => {
+export const Editor: FC<EditorProperties> = ({ readOnly, ...properties }) => {
   const { theme = "system" } = useExplorer();
   const explorer = useExplorer();
 
@@ -37,6 +39,7 @@ export const Editor: FC<EditorProperties> = (properties) => {
           enabled: false,
         },
         wordWrap: explorer.wrap ? 'on' : 'off',
+        readOnly: readOnly ?? false,
       }}
       theme={theme === 'dark' ? 'eslint-dark' : 'eslint-light'}
       {...properties}
