@@ -11,8 +11,6 @@ type EditorProperties = ComponentProps<typeof MonacoEditor> & {
 export const Editor: FC<EditorProperties> = ({ readOnly, ...properties }) => {
   const { theme = "system" } = useExplorer();
   const explorer = useExplorer();
-  console.log({properties});
-  console.log(readOnly);
 
   return (
     <MonacoEditor
