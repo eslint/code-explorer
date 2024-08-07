@@ -38,7 +38,7 @@ export const JavascriptAst: FC = () => {
         className="px-8 font-mono space-y-3"
         defaultValue={['0-Program']}
       >
-        <JavascriptAstTreeItem data={tree} index={-1} />
+        <JavascriptAstTreeItem data={tree} index={0} />
       </Accordion>
     );
   }
