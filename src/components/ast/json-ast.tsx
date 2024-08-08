@@ -37,9 +37,9 @@ export const JsonAst: FC = () => {
       <Accordion
         type="multiple"
         className="px-8 font-mono space-y-3"
-        defaultValue={['0-Document']}
+        defaultValue={['0-Program']}
       >
-        <JsonAstTreeItem data={tree} index={0} />
+        <JsonAstTreeItem data={tree} index={-1} />
       </Accordion>
     );
   }

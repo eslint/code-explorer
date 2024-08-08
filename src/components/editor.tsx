@@ -6,11 +6,9 @@ import { useEffect, useRef } from 'react';
 import type { ComponentProps, FC } from 'react';
 import * as monacoEditor from 'monaco-editor';
 
-type EditorProperties = ComponentProps<typeof MonacoEditor> & {
-  readOnly?: boolean;
-};
+type EditorProperties = ComponentProps<typeof MonacoEditor>;
 
-export const Editor: FC<EditorProperties> = ({ readOnly, ...properties }) => {
+export const Editor: FC<EditorProperties> = (properties) => {
   const { theme = "system" } = useExplorer();
   const explorer = useExplorer();
   const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(null);
@@ -77,8 +75,7 @@ export const Editor: FC<EditorProperties> = ({ readOnly, ...properties }) => {
         minimap: {
           enabled: false,
         },
-        wordWrap: explorer.wrap ? 'on' : 'off',
-        readOnly: readOnly ?? false,
+        wordWrap: explorer.wrap ? 'on' : 'off'
       }}
       theme={theme === 'dark' ? 'eslint-dark' : 'eslint-light'}
       onMount={handleEditorDidMount}
