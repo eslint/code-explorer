@@ -6,17 +6,17 @@ import { tools } from './lib/tools';
 import { Editor } from './components/editor';
 import { ToolSelector } from './components/tool-selector';
 import { cn } from './lib/utils';
+import { ThemeProvider, useTheme } from './components/theme-provider';
 
 function App() {
-  const { language, tool, theme, code, setCode } = useExplorer();
+  const { theme } = useTheme();
+  const { language, tool, code, setCode } = useExplorer();
   const activeTool = tools.find(({ value }) => value === tool) ?? tools[0];
 
   return (
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
     <div 
-      className={cn(
-        "antialiased touch-manipulation font-sans",
-        theme === 'dark' ? 'dark' : 'light'
-      )}
+      className={"antialiased touch-manipulation font-sans"}
     >
       <div className="flex flex-col h-screen">
         <Navbar />
@@ -43,6 +43,8 @@ function App() {
         </div>
       </div>
     </div>
+    </ThemeProvider>
+
   );
 }
 

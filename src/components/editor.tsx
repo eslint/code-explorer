@@ -3,13 +3,14 @@
 import { Editor as MonacoEditor } from '@monaco-editor/react';
 import { useExplorer } from '@/hooks/use-explorer';
 import type { ComponentProps, FC } from 'react';
+import { useTheme } from './theme-provider';
 
 type EditorProperties = ComponentProps<typeof MonacoEditor> & {
   readOnly?: boolean;
 };
 
 export const Editor: FC<EditorProperties> = ({ readOnly, ...properties }) => {
-  const { theme = "system" } = useExplorer();
+  const { theme } = useTheme();
   const explorer = useExplorer();
 
   return (
