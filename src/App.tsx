@@ -1,4 +1,3 @@
-import React, { useEffect, useLayoutEffect } from 'react';
 import './App.css';
 import { Navbar } from './components/navbar';
 import { useExplorer } from './hooks/use-explorer';
@@ -8,10 +7,9 @@ import { ToolSelector } from './components/tool-selector';
 import { ThemeProvider, useTheme } from './components/theme-provider';
 
 function App() {
-  const { theme } = useTheme();
-  const { language, tool, JSCode, setJSCode, JSONCode, setJSONCode, jsonMode} = useExplorer();
+  const { language, tool, JSCode, setJSCode, JSONCode, setJSONCode } = useExplorer();
   const activeTool = tools.find(({ value }) => value === tool) ?? tools[0];
-  
+
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <div className="antialiased touch-manipulation font-sans">
@@ -22,9 +20,10 @@ function App() {
               <Editor
                 className="h-[30dvh] sm:h-full"
                 language={language}
-                value={language === 'javascript' ? JSCode: JSONCode}
+                value={language === 'javascript' ? JSCode : JSONCode}
                 onChange={(value) => {
-                  language === 'javascript' ? setJSCode(value ?? '') : setJSONCode(value ?? '')  }}
+                  language === 'javascript' ? setJSCode(value ?? '') : setJSONCode(value ?? '')
+                }}
               />
               <div className="bg-foreground/5 pb-8 overflow-auto h-[70dvh] sm:h-full relative flex flex-col">
                 <div className="flex sm:items-center flex-col sm:flex-row justify-between p-4 gap-2 z-10">
