@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import type { Options } from 'espree';
-import {defaultJavascriptCode, defaultJSONCode} from '../lib/const'
+import { defaultJavascriptCode, defaultJSONCode } from '../lib/const'
+import { storeState } from '../lib/utils';
 export type SourceType = Exclude<Options['sourceType'], undefined>;
 export type Version = Exclude<Options['ecmaVersion'], undefined>;
 
@@ -22,7 +23,7 @@ type ExplorerState = {
   setParser: (parser: string) => void;
 
   sourceType: SourceType;
-  setSourceType: (sourceType: string) => void;
+  setSourceType: (sourceType: SourceType) => void;
 
   esVersion: Version;
   setEsVersion: (esVersion: string) => void;
@@ -53,62 +54,65 @@ type ExplorerState = {
 
 };
 
+const createSetter = <T extends keyof ExplorerState>(
+  key: T,
+  set: (state: Partial<ExplorerState>) => void
+) => (value: ExplorerState[T]) => {
+  set({ [key]: value });
+  storeState();
+};
+
 export const useExplorer = create<ExplorerState>()(
   devtools(
     persist(
       (set) => ({
         tool: 'ast',
-        setTool: (tool) => set({ tool }),
+        setTool: createSetter('tool', set),
 
         JSCode: defaultJavascriptCode,
-        setJSCode: (JSCode) => set({ JSCode }),
+        setJSCode: createSetter('JSCode', set),
 
         JSONCode: defaultJSONCode,
-        setJSONCode: (JSONCode) => set({ JSONCode }),
+        setJSONCode: createSetter('JSONCode', set),
 
         language: 'javascript',
-        setLanguage: (language) => set({ language }),
+        setLanguage: createSetter('language', set),
 
         parser: 'espree',
-        setParser: (parser) => set({ parser }),
+        setParser: createSetter('parser', set),
 
         sourceType: 'module',
-        setSourceType: (sourceType) =>
-          set({ sourceType: sourceType as SourceType }),
+        setSourceType: createSetter('sourceType', set),
 
         esVersion: 'latest',
-        setEsVersion: (esVersion) =>
-          set({
-            esVersion:
-              esVersion === 'latest'
-                ? 'latest'
-                : (Number(esVersion) as Options['ecmaVersion']),
-          }),
+        setEsVersion: (esVersion) => {
+          const version = esVersion === 'latest' ? 'latest' : Number(esVersion);
+          createSetter('esVersion', set)(version as Version);
+        },
 
         isJSX: true,
-        setIsJSX: (isJSX) => set({ isJSX }),
+        setIsJSX: createSetter('isJSX', set),
 
         jsonMode: 'jsonc',
-        setJsonMode: (mode) => set({ jsonMode: mode }),
+        setJsonMode: createSetter('jsonMode', set),
 
         wrap: true,
-        setWrap: (wrap) => set({ wrap }),
+        setWrap: createSetter('wrap', set),
 
         astViewMode: 'json',
-        setAstViewMode: (mode) => set({ astViewMode: mode }),
+        setAstViewMode: createSetter('astViewMode', set),
 
         scopeViewMode: 'flat',
-        setScopeViewMode: (mode) => set({ scopeViewMode: mode }),
+        setScopeViewMode: createSetter('scopeViewMode', set),
 
         pathViewMode: 'code',
-        setPathViewMode: (mode) => set({ pathViewMode: mode }),
+        setPathViewMode: createSetter('pathViewMode', set),
 
         pathIndexes: 1,
-        setPathIndexes: (indexes) => set({ pathIndexes: indexes }),
+        setPathIndexes: createSetter('pathIndexes', set),
 
         pathIndex: 0,
-        setPathIndex: (index) => set({ pathIndex: index }),
-
+        setPathIndex: createSetter('pathIndex', set),
       }),
       {
         name: 'eslint-explorer',
