@@ -7,9 +7,11 @@ import { useTheme } from './theme-provider';
 
 type EditorProperties = ComponentProps<typeof MonacoEditor> & {
   readOnly?: boolean;
+  value?: string;
+  onChange?: (value: string) => void;
 };
 
-export const Editor: FC<EditorProperties> = ({ readOnly, ...properties }) => {
+export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange, ...properties }) => {
   const { theme } = useTheme();
   const explorer = useExplorer();
 
@@ -43,7 +45,9 @@ export const Editor: FC<EditorProperties> = ({ readOnly, ...properties }) => {
         readOnly: readOnly ?? false,
       }}
       theme={theme === 'dark' ? 'eslint-dark' : 'eslint-light'}
+      value={value}
       {...properties}
+      onChange={onChange}
     />
   );
 };

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import type { Options } from 'espree';
-
+import {defaultJavascriptCode, defaultJSONCode} from '../lib/const'
 export type SourceType = Exclude<Options['sourceType'], undefined>;
 export type Version = Exclude<Options['ecmaVersion'], undefined>;
 
@@ -9,8 +9,11 @@ type ExplorerState = {
   tool: 'ast' | 'scope' | 'path';
   setTool: (tool: ExplorerState['tool']) => void;
 
-  code: string;
-  setCode: (code: string) => void;
+  JSCode: string;
+  setJSCode: (JSCode: string) => void;
+
+  JSONCode: string;
+  setJSONCode: (JSONCode: string) => void;
 
   language: string;
   setLanguage: (language: string) => void;
@@ -57,8 +60,11 @@ export const useExplorer = create<ExplorerState>()(
         tool: 'ast',
         setTool: (tool) => set({ tool }),
 
-        code: `const a = 'b';`,
-        setCode: (code) => set({ code }),
+        JSCode: defaultJavascriptCode,
+        setJSCode: (JSCode) => set({ JSCode }),
+
+        JSONCode: defaultJSONCode,
+        setJSONCode: (JSONCode) => set({ JSONCode }),
 
         language: 'javascript',
         setLanguage: (language) => set({ language }),
@@ -66,7 +72,7 @@ export const useExplorer = create<ExplorerState>()(
         parser: 'espree',
         setParser: (parser) => set({ parser }),
 
-        sourceType: 'commonjs',
+        sourceType: 'module',
         setSourceType: (sourceType) =>
           set({ sourceType: sourceType as SourceType }),
 
@@ -82,7 +88,7 @@ export const useExplorer = create<ExplorerState>()(
         isJSX: true,
         setIsJSX: (isJSX) => set({ isJSX }),
 
-        jsonMode: 'json',
+        jsonMode: 'jsonc',
         setJsonMode: (mode) => set({ jsonMode: mode }),
 
         wrap: true,

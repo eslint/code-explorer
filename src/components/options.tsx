@@ -27,6 +27,7 @@ import { Button } from './ui/button';
 import { Label } from './ui/label';
 import type { FC } from 'react';
 import { Settings } from 'lucide-react';
+import { defaultJSONCode, defaultJavascriptCode } from '../lib/const';
 
 export const Options: FC = () => {
   const explorer = useExplorer();

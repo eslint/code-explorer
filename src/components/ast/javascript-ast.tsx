@@ -12,7 +12,7 @@ export const JavascriptAst: FC = () => {
   let tree: ReturnType<typeof espree.parse> | null = null;
 
   try {
-    tree = espree.parse(explorer.code, {
+    tree = espree.parse(explorer.JSCode, {
       ecmaVersion: explorer.esVersion,
       sourceType: explorer.sourceType,
     });
