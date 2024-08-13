@@ -2,7 +2,7 @@
 
 import { Editor as MonacoEditor, OnMount } from '@monaco-editor/react';
 import { useExplorer } from '@/hooks/use-explorer';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { ComponentProps, FC } from 'react';
 import * as monacoEditor from 'monaco-editor';
 import { useTheme } from './theme-provider';
@@ -15,6 +15,7 @@ export const Editor: FC<EditorProperties> = ({ readOnly, ...properties }) => {
   const { theme } = useTheme();
   const explorer = useExplorer();
   const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(null);
+  const [isEditorMounted,setIsEditorMounted] = useState<boolean>(false);
 
   useEffect(() => {
     if (!editorRef.current) return;
@@ -46,10 +47,11 @@ export const Editor: FC<EditorProperties> = ({ readOnly, ...properties }) => {
       editorContainer.removeEventListener('dragover', handleDragOver);
       editorContainer.removeEventListener('drop', handleDrop);
     };
-  }, [editorRef.current]);
+  }, [isEditorMounted]);
 
   const handleEditorDidMount: OnMount = (editor) => {
     editorRef.current = editor;
+    setIsEditorMounted(true);
   };
 
   return (
