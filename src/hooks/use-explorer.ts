@@ -48,8 +48,6 @@ type ExplorerState = {
   pathIndex: number;
   setPathIndex: (index: number) => void;
 
-  theme: 'light' | 'dark' | 'system';
-  setTheme: (theme: ExplorerState['theme']) => void;
 };
 
 export const useExplorer = create<ExplorerState>()(
@@ -105,8 +103,6 @@ export const useExplorer = create<ExplorerState>()(
         pathIndex: 0,
         setPathIndex: (index) => set({ pathIndex: index }),
 
-        theme: 'system',
-        setTheme: (theme) => set({ theme: theme as ExplorerState['theme'] }),
       }),
       {
         name: 'eslint-explorer',

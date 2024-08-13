@@ -9,10 +9,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import type { FC } from 'react';
-import { useExplorer } from '@/hooks/use-explorer';
+import { useTheme } from './theme-provider';
 
 export const ModeToggle: FC = () => {
-  const { setTheme } = useExplorer();
+  const { setTheme } = useTheme();
 
   return (
     <DropdownMenu>

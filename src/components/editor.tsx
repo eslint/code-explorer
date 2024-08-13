@@ -5,13 +5,14 @@ import { useExplorer } from '@/hooks/use-explorer';
 import { useEffect, useRef } from 'react';
 import type { ComponentProps, FC } from 'react';
 import * as monacoEditor from 'monaco-editor';
+import { useTheme } from './theme-provider';
 
 type EditorProperties = ComponentProps<typeof MonacoEditor> & {
   readOnly?: boolean;
 };
 
 export const Editor: FC<EditorProperties> = ({ readOnly, ...properties }) => {
-  const { theme = "system" } = useExplorer();
+  const { theme } = useTheme();
   const explorer = useExplorer();
   const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(null);
 
