@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { ComponentProps, FC } from 'react';
 import * as monacoEditor from 'monaco-editor';
 import { useTheme } from './theme-provider';
+import clsx from 'clsx';
 
 type EditorProperties = ComponentProps<typeof MonacoEditor> & {
   readOnly?: boolean;
@@ -40,7 +41,7 @@ export const Editor: FC<EditorProperties> = ({ readOnly, ...properties }) => {
       setIsDragOver(false);
 
       const files = event.dataTransfer?.files;
-      if (files && files.length > 0) {
+      if (files?.length) {
         const file = files[0];
         const text = await file.text();
         if (editorRef.current) {
@@ -78,9 +79,20 @@ export const Editor: FC<EditorProperties> = ({ readOnly, ...properties }) => {
     setIsEditorMounted(true);
   };
 
-  const editorClasses = `h-full ${isDragOver ? 'bg-dropContainer' : 'bg-transparent'} relative`;
-  const dropMessageClasses = `absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
-  ${isDragOver ? 'flex' : 'hidden'} bg-dropMessage text-white p-2 rounded-lg z-10`;
+  const editorClasses = clsx(
+    'h-full relative',
+    {
+      'bg-dropContainer': isDragOver,
+      'bg-transparent': !isDragOver,
+    }
+  );
+  const dropMessageClasses = clsx(
+    'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-dropMessage text-white p-2 rounded-lg z-10',
+    {
+      'flex': isDragOver,
+      'hidden': !isDragOver,
+    }
+  );
 
   return (
     <div ref={editorContainerRef} className={editorClasses}>
