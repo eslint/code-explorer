@@ -10,10 +10,10 @@ type ExplorerState = {
   setTool: (tool: ExplorerState['tool']) => void;
 
   jsCode: string;
-  setJsCode: (JSCode: string) => void;
+  setJsCode: (jsCode: string) => void;
 
   jsonCode: string;
-  setJsonCode: (JSONCode: string) => void;
+  setJsonCode: (jsonCode: string) => void;
 
   language: string;
   setLanguage: (language: string) => void;
