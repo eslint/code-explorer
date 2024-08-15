@@ -194,7 +194,7 @@ export const pathViewOptions = [
   },
 ];
 
-export const defaultJavascriptCode = `
+export const defaultJsCode = `
 /**
  * Type or paste some JavaScript here to learn more about
  * the static analysis that ESLint can do for you.
@@ -230,7 +230,7 @@ export default [
     getConfig()
 ];`;
 
-export const defaultJSONCode = `
+export const defaultJsonCode = `
 /**
  * Type or paste some JSON here to learn more about
  * the static analysis that ESLint can do for you.

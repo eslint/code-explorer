@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import type { Options } from 'espree';
-import {defaultJavascriptCode, defaultJSONCode} from '../lib/const'
+import {defaultJsCode, defaultJsonCode} from '../lib/const'
 export type SourceType = Exclude<Options['sourceType'], undefined>;
 export type Version = Exclude<Options['ecmaVersion'], undefined>;
 
@@ -9,11 +9,11 @@ type ExplorerState = {
   tool: 'ast' | 'scope' | 'path';
   setTool: (tool: ExplorerState['tool']) => void;
 
-  JSCode: string;
-  setJSCode: (JSCode: string) => void;
+  jsCode: string;
+  setJsCode: (JSCode: string) => void;
 
-  JSONCode: string;
-  setJSONCode: (JSONCode: string) => void;
+  jsonCode: string;
+  setJsonCode: (JSONCode: string) => void;
 
   language: string;
   setLanguage: (language: string) => void;
@@ -60,11 +60,11 @@ export const useExplorer = create<ExplorerState>()(
         tool: 'ast',
         setTool: (tool) => set({ tool }),
 
-        JSCode: defaultJavascriptCode,
-        setJSCode: (JSCode) => set({ JSCode }),
+        jsCode: defaultJsCode,
+        setJsCode: (jsCode) => set({ jsCode }),
 
-        JSONCode: defaultJSONCode,
-        setJSONCode: (JSONCode) => set({ JSONCode }),
+        jsonCode: defaultJsonCode,
+        setJsonCode: (jsonCode) => set({ jsonCode }),
 
         language: 'javascript',
         setLanguage: (language) => set({ language }),
