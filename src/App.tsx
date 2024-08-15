@@ -20,12 +20,12 @@ function App() {
       try {
         const urlState = JSON.parse(decodeFromBase64(window.location.hash.replace(/^#/u, "")));
         if (urlState?.state) {
-          const { tool, JSCode, JSONCode, language, parser, sourceType, esVersion, isJSX,
+          const { tool, jsCode, jsonCode, language, parser, sourceType, esVersion, isJSX,
             jsonMode, wrap, astViewMode, scopeViewMode, pathViewMode, pathIndexes, pathIndex } = urlState.state;
 
           setTool(tool);
-          setJSCode(JSCode);
-          setJSONCode(JSONCode);
+          setJsCode(jsCode);
+          setJsonCode(jsonCode);
           setLanguage(language);
           setParser(parser);
           setSourceType(sourceType);
