@@ -9,7 +9,8 @@ import { ThemeProvider } from './components/theme-provider';
 import { decodeFromBase64 } from './lib/utils';
 
 function App() {
-  const { setTool, language, tool, JSCode, setJSCode, JSONCode, setJSONCode, setLanguage, setParser,
+
+  const { setTool, language, tool, jsCode, setJsCode, jsonCode, setJsonCode, setLanguage, setParser,
     setSourceType, setEsVersion, setIsJSX, setJsonMode, setWrap, setAstViewMode, setScopeViewMode,
     setPathViewMode, setPathIndexes, setPathIndex } = useExplorer();
   const activeTool = tools.find(({ value }) => value === tool) ?? tools[0];
@@ -55,9 +56,9 @@ function App() {
               <Editor
                 className="h-[30dvh] sm:h-full"
                 language={language}
-                value={language === 'javascript' ? JSCode : JSONCode}
+                value={language === 'javascript' ? jsCode : jsonCode}
                 onChange={(value) => {
-                  language === 'javascript' ? setJSCode(value ?? '') : setJSONCode(value ?? '')
+                  language === 'javascript' ? setJsCode(value ?? '') : setJsonCode(value ?? '')
                 }}
               />
               <div className="bg-foreground/5 pb-8 overflow-auto h-[70dvh] sm:h-full relative flex flex-col">
