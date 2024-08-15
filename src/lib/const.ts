@@ -228,7 +228,7 @@ function getConfig() {
 export default [
     ...js.configs.recommended,
     getConfig()
-];`;
+];`.trim();
 
 export const defaultJsonCode = `
 /**
@@ -253,5 +253,4 @@ export const defaultJsonCode = `
     "key2": {
         "key3": [1, 2, "3", 1e10, 1e-3]
     }
-}
-`
+}`.trim();
