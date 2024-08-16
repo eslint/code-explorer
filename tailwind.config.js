@@ -51,6 +51,8 @@ module.exports = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+        dropContainer: 'hsl(var(--drop-container-bg-color))',
+        dropMessage: 'hsl(var(--drop-message-bg-color))',
       },
       borderRadius: {
         lg: 'var(--radius)',
