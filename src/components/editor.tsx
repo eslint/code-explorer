@@ -17,6 +17,11 @@ type EditorProperties = ComponentProps<typeof MonacoEditor> & {
 export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange, ...properties }) => {
   const { theme } = useTheme();
   const { wrap, jsonMode } = useExplorer();
+  const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(null);
+  const [isEditorMounted, setIsEditorMounted] = useState<boolean>(false);
+  const [isDragOver, setIsDragOver] = useState<boolean>(false);
+  const editorContainerRef = useRef<HTMLDivElement | null>(null);
+  const dropMessageRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const monaco = (window as any).monaco as typeof monacoEditor;
@@ -27,12 +32,6 @@ export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange, ...pro
       });
     }
   }, [jsonMode]);
-  const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(null);
-  const [isEditorMounted, setIsEditorMounted] = useState<boolean>(false);
-  const [isDragOver, setIsDragOver] = useState<boolean>(false);
-
-  const editorContainerRef = useRef<HTMLDivElement | null>(null);
-  const dropMessageRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!editorRef.current || !editorContainerRef.current) return;
