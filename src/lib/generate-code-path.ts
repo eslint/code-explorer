@@ -1,5 +1,5 @@
 // @ts-nocheck
-/* eslint-disable */
+ 
 
 'use server';
 
@@ -67,7 +67,7 @@ export const generateCodePath = async (
   | {
       response: string;
     }
-  // eslint-disable-next-line @typescript-eslint/require-await
+   
 > => {
   const linter = new Linter({ configType: 'flat' });
 

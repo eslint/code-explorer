@@ -1,15 +1,12 @@
-import React from 'react';
 import './App.css';
 import { Navbar } from './components/navbar';
 import { useExplorer } from './hooks/use-explorer';
 import { tools } from './lib/tools';
 import { Editor } from './components/editor';
 import { ToolSelector } from './components/tool-selector';
-import { cn } from './lib/utils';
-import { ThemeProvider, useTheme } from './components/theme-provider';
+import { ThemeProvider } from './components/theme-provider';
 
 function App() {
-  const { theme } = useTheme();
   const { language, tool, code, setCode } = useExplorer();
   const activeTool = tools.find(({ value }) => value === tool) ?? tools[0];
 

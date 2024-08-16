@@ -32,7 +32,7 @@ export const Editor: FC<EditorProperties> = ({ readOnly, ...properties }) => {
       setIsDragOver(true);
     };
 
-    const handleDragLeave = (event: DragEvent) => {
+    const handleDragLeave = () => {
       setIsDragOver(false);
     };
 
