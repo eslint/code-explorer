@@ -1,20 +1,17 @@
-// @ts-nocheck
-/* eslint-disable */
-
 'use server';
 
 import { Linter } from 'eslint-linter-browserify';
 import { CodePathStack } from '@/lib/code-path-stack';
 import type { SourceType, Version } from '@/hooks/use-explorer';
 
-const makeDotArrows = (codePath) => {
+const makeDotArrows = (codePath: any) => {
   const stack = [{ segment: codePath.initialSegment, index: 0 }];
-  const done = Object.create(null);
+  const done: Record<string, any> = Object.create(null);
   let lastId = codePath.initialSegment.id;
   let text = `initial->${codePath.initialSegment.id}`;
 
   while (stack.length > 0) {
-    const { segment, index } = stack.pop();
+    const { segment, index } = stack.pop()!;
 
     if (done[segment.id] && index === 0) {
       continue;
@@ -62,19 +59,18 @@ export const generateCodePath = async (
   sourceType: SourceType
 ): Promise<
   | {
-      error: string;
-    }
+    error: string;
+  }
   | {
-      response: string;
-    }
-  // eslint-disable-next-line @typescript-eslint/require-await
+    response: string;
+  }
 > => {
   const linter = new Linter({ configType: 'flat' });
 
   let stack: CodePathStack | null = null;
-  const allCodePaths = [];
+  const allCodePaths: CodePathStack[] = [];
 
-  const config = {
+  const config: any = {
     files: ['**/*.js', '*.js'],
     plugins: {
       'code-path': {
@@ -82,36 +78,30 @@ export const generateCodePath = async (
           'extract-code-path': {
             create() {
               return {
-                onCodePathStart(codePath, node) {
+                onCodePathStart(codePath: any, node: any) {
                   stack = new CodePathStack(codePath, stack, node);
                   allCodePaths.push(stack);
                 },
                 onCodePathEnd() {
-                  stack = stack.upper || null;
+                  stack = stack?.upper || null;
                 },
-                onCodePathSegmentStart(segment) {
-                  stack.enterSegment(segment);
+                onCodePathSegmentStart(segment: any) {
+                  stack?.enterSegment(segment);
                 },
-                onUnreachableCodePathSegmentStart(segment) {
-                  stack.enterSegment(segment);
+                onUnreachableCodePathSegmentStart(segment: any) {
+                  stack?.enterSegment(segment);
                 },
-                onCodePathSegmentEnd(segment) {
-                  stack.exitSegment(segment);
+                onCodePathSegmentEnd(segment: any) {
+                  stack?.exitSegment(segment);
                 },
-                onUnreachableCodePathSegmentEnd(segment) {
-                  stack.exitSegment(segment);
+                onUnreachableCodePathSegmentEnd(segment: any) {
+                  stack?.exitSegment(segment);
                 },
-                '*'(node) {
-                  if (!stack) {
-                    return;
-                  }
-                  stack.enterNode(node);
+                '*'(node: any) {
+                  stack?.enterNode(node);
                 },
-                '*:exit'(node) {
-                  if (!stack) {
-                    return;
-                  }
-                  stack.exitNode(node);
+                '*:exit'(node: any) {
+                  stack?.exitNode(node);
                 },
               };
             },
@@ -141,7 +131,7 @@ export const generateCodePath = async (
     }
   } catch (error) {
     return {
-      error: error.message,
+      error: (error as Error).message,
     };
   }
 
