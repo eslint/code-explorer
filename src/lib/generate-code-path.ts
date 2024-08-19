@@ -1,5 +1,4 @@
 // @ts-nocheck
- 
 
 'use server';
 
@@ -67,7 +66,6 @@ export const generateCodePath = async (
   | {
       response: string;
     }
-   
 > => {
   const linter = new Linter({ configType: 'flat' });
 

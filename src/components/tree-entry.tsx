@@ -10,12 +10,14 @@ type TreeEntryProperties = {
 };
 
 const isProbablyNode = (value: unknown) => {
-  return value &&
+  return (
+    value &&
     typeof value === 'object' &&
     'type' in value &&
     'range' in value &&
     typeof value.type === 'string' &&
-    Array.isArray(value.range);
+    Array.isArray(value.range)
+  );
 };
 
 const sanitizeValue = (value: unknown): ReactNode => {
@@ -39,7 +41,6 @@ const sanitizeValue = (value: unknown): ReactNode => {
     value instanceof Scope ||
     value instanceof Reference ||
     value instanceof Variable ||
-
     // Node
     isProbablyNode(value)
   ) {

@@ -1,24 +1,24 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
-import tseslint from "typescript-eslint";
-import pluginReact from "eslint-plugin-react";
-import pluginReactHooks from "eslint-plugin-react-hooks";
-import pluginJsxA11y from "eslint-plugin-jsx-a11y";
+import globals from 'globals';
+import pluginJs from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import pluginReact from 'eslint-plugin-react';
+import pluginReactHooks from 'eslint-plugin-react-hooks';
+import pluginJsxA11y from 'eslint-plugin-jsx-a11y';
 
 export default [
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   pluginReact.configs.flat.recommended,
   {
-    files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
+    files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
     plugins: {
-      'react': pluginReact,
+      react: pluginReact,
       'react-hooks': pluginReactHooks,
-      'jsx-a11y': pluginJsxA11y
+      'jsx-a11y': pluginJsxA11y,
     },
     languageOptions: {
       globals: globals.browser,
-      sourceType: "module",
+      sourceType: 'module',
     },
     rules: {
       'react/react-in-jsx-scope': 'off', // React 17+ doesn't require React to be in scope
@@ -36,6 +36,6 @@ export default [
     },
   },
   {
-    ignores: ['**/*.config.js', "build/**"],
-  }
+    ignores: ['**/*.config.js', 'build/**'],
+  },
 ];

@@ -89,6 +89,7 @@
     "eslint": "^8.57.0",
     "jest": "^29.7.0",
     "postcss": "^8",
+    "prettier": "^3.3.3",
     "tailwindcss": "^3.4.4",
     "typescript": "^5.5.3",
     "vite": "^5.3.5"
@@ -98,7 +99,9 @@
     "build:preview": "vite preview",
     "start": "vite",
     "lint:js": "eslint .",
-    "lint:fix:js": "eslint . --fix"
+    "lint:fix:js": "eslint . --fix",
+    "fmt": "prettier --check .",
+    "fmt:fix": "prettier --write ."
   },
   "browserslist": {
     "production": [

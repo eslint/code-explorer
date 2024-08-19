@@ -7,7 +7,8 @@ import { ToolSelector } from './components/tool-selector';
 import { ThemeProvider } from './components/theme-provider';
 
 function App() {
-  const { language, tool, jsCode, setJsCode, jsonCode, setJsonCode } = useExplorer();
+  const { language, tool, jsCode, setJsCode, jsonCode, setJsonCode } =
+    useExplorer();
   const activeTool = tools.find(({ value }) => value === tool) ?? tools[0];
 
   return (
@@ -22,7 +23,9 @@ function App() {
                 language={language}
                 value={language === 'javascript' ? jsCode : jsonCode}
                 onChange={(value) => {
-                  language === 'javascript' ? setJsCode(value ?? '') : setJsonCode(value ?? '')
+                  language === 'javascript'
+                    ? setJsCode(value ?? '')
+                    : setJsonCode(value ?? '');
                 }}
               />
               <div className="bg-foreground/5 pb-8 overflow-auto h-[70dvh] sm:h-full relative flex flex-col">

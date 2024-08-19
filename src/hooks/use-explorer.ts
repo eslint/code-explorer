@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import type { Options } from 'espree';
-import {defaultJsCode, defaultJsonCode} from '../lib/const'
+import { defaultJsCode, defaultJsonCode } from '../lib/const';
 export type SourceType = Exclude<Options['sourceType'], undefined>;
 export type Version = Exclude<Options['ecmaVersion'], undefined>;
 
@@ -50,7 +50,6 @@ type ExplorerState = {
 
   pathIndex: number;
   setPathIndex: (index: number) => void;
-
 };
 
 export const useExplorer = create<ExplorerState>()(
@@ -108,7 +107,6 @@ export const useExplorer = create<ExplorerState>()(
 
         pathIndex: 0,
         setPathIndex: (index) => set({ pathIndex: index }),
-
       }),
       {
         name: 'eslint-explorer',

@@ -45,7 +45,14 @@ export const CodePath: FC = () => {
         .catch((newError) => setError(parseError(newError)));
     },
     500,
-    [explorer, explorer.jsCode, explorer.esVersion, explorer.sourceType, explorer.setPathIndexes, explorer.pathIndexes]
+    [
+      explorer,
+      explorer.jsCode,
+      explorer.esVersion,
+      explorer.sourceType,
+      explorer.setPathIndexes,
+      explorer.pathIndexes,
+    ]
   );
 
   if (error) {

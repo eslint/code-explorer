@@ -1,7 +1,10 @@
 export const parseError = (error: unknown): string => {
   let message = 'An error occurred';
 
-  if (error instanceof Error || (error && typeof error === 'object' && 'message' in error)) {
+  if (
+    error instanceof Error ||
+    (error && typeof error === 'object' && 'message' in error)
+  ) {
     message = error.message as string;
 
     if ('lineNumber' in error && 'column' in error) {

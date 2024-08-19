@@ -39,8 +39,6 @@
     --drop-message-bg-color: 0deg 0% 20%;
   }
 
-
-
   .dark {
     --background: 224 71.4% 4.1%;
     --foreground: 210 20% 98%;
@@ -88,10 +86,10 @@
     min-height: 100dvh;
   }
   .font-sans {
-    font-family: "Space Grotesk", sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
   }
 
   .font-mono {
-    font-family: "Space Mono", sans-serif;
+    font-family: 'Space Mono', sans-serif;
   }
 }

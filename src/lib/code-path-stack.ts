@@ -1,5 +1,4 @@
 // @ts-nocheck
- 
 
 const nodeToString = (node, label) => {
   const event = label ? `:${label}` : '';

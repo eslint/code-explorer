@@ -14,10 +14,17 @@ type EditorProperties = ComponentProps<typeof MonacoEditor> & {
   onChange?: (value: string) => void;
 };
 
-export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange, ...properties }) => {
+export const Editor: FC<EditorProperties> = ({
+  readOnly,
+  value,
+  onChange,
+  ...properties
+}) => {
   const { theme } = useTheme();
   const { wrap, jsonMode } = useExplorer();
-  const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(null);
+  const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(
+    null
+  );
   const [isEditorMounted, setIsEditorMounted] = useState<boolean>(false);
   const [isDragOver, setIsDragOver] = useState<boolean>(false);
   const editorContainerRef = useRef<HTMLDivElement | null>(null);
@@ -90,18 +97,15 @@ export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange, ...pro
     setIsEditorMounted(true);
   };
 
-  const editorClasses = clsx(
-    'h-full relative',
-    {
-      'bg-dropContainer': isDragOver,
-      'bg-transparent': !isDragOver,
-    }
-  );
+  const editorClasses = clsx('h-full relative', {
+    'bg-dropContainer': isDragOver,
+    'bg-transparent': !isDragOver,
+  });
   const dropMessageClasses = clsx(
     'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-dropMessage text-white p-2 rounded-lg z-10',
     {
-      'flex': isDragOver,
-      'hidden': !isDragOver,
+      flex: isDragOver,
+      hidden: !isDragOver,
     }
   );
 
@@ -113,21 +117,21 @@ export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange, ...pro
       <MonacoEditor
         height="100%"
         beforeMount={(monaco) => {
-          monaco.editor.defineTheme("eslint-light", {
-            base: "vs",
+          monaco.editor.defineTheme('eslint-light', {
+            base: 'vs',
             inherit: true,
             rules: [],
             colors: {
-              "editor.background": "#FFFFFF00",
+              'editor.background': '#FFFFFF00',
             },
           });
 
-          monaco.editor.defineTheme("eslint-dark", {
-            base: "vs-dark",
+          monaco.editor.defineTheme('eslint-dark', {
+            base: 'vs-dark',
             inherit: true,
             rules: [],
             colors: {
-              "editor.background": "#FFFFFF00",
+              'editor.background': '#FFFFFF00',
             },
           });
 
