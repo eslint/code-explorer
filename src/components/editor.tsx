@@ -10,17 +10,28 @@ import clsx from 'clsx';
 
 type EditorProperties = ComponentProps<typeof MonacoEditor> & {
   readOnly?: boolean;
+  value?: string;
+  onChange?: (value: string) => void;
 };
 
-export const Editor: FC<EditorProperties> = ({ readOnly, ...properties }) => {
+export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange, ...properties }) => {
   const { theme } = useTheme();
-  const explorer = useExplorer();
+  const { wrap, jsonMode } = useExplorer();
   const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(null);
   const [isEditorMounted, setIsEditorMounted] = useState<boolean>(false);
   const [isDragOver, setIsDragOver] = useState<boolean>(false);
-
   const editorContainerRef = useRef<HTMLDivElement | null>(null);
   const dropMessageRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const monaco = (window as any).monaco as typeof monacoEditor;
+    if (monaco) {
+      monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+        validate: true,
+        allowComments: jsonMode === 'jsonc',
+      });
+    }
+  }, [jsonMode]);
 
   useEffect(() => {
     if (!editorRef.current || !editorContainerRef.current) return;
@@ -106,7 +117,7 @@ export const Editor: FC<EditorProperties> = ({ readOnly, ...properties }) => {
             base: "vs",
             inherit: true,
             rules: [],
-            colors: { 
+            colors: {
               "editor.background": "#FFFFFF00",
             },
           });
@@ -119,17 +130,24 @@ export const Editor: FC<EditorProperties> = ({ readOnly, ...properties }) => {
               "editor.background": "#FFFFFF00",
             },
           });
+
+          monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+            validate: true,
+            allowComments: jsonMode === 'jsonc',
+          });
         }}
         options={{
           minimap: {
             enabled: false,
           },
-          wordWrap: explorer.wrap ? 'on' : 'off',
+          wordWrap: wrap ? 'on' : 'off',
           readOnly: readOnly ?? false,
         }}
         theme={theme === 'dark' ? 'eslint-dark' : 'eslint-light'}
         onMount={handleEditorDidMount}
+        value={value}
         {...properties}
+        onChange={onChange}
       />
     </div>
   );
