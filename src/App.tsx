@@ -1,14 +1,13 @@
-import "./App.css";
-import { Navbar } from "./components/navbar";
-import { useExplorer } from "./hooks/use-explorer";
-import { tools } from "./lib/tools";
-import { Editor } from "./components/editor";
-import { ToolSelector } from "./components/tool-selector";
-import { ThemeProvider, useTheme } from "./components/theme-provider";
+import './App.css';
+import { Navbar } from './components/navbar';
+import { useExplorer } from './hooks/use-explorer';
+import { tools } from './lib/tools';
+import { Editor } from './components/editor';
+import { ToolSelector } from './components/tool-selector';
+import { ThemeProvider, useTheme } from './components/theme-provider';
 
 function App() {
-  const { language, tool, jsCode, setJsCode, jsonCode, setJsonCode } =
-    useExplorer();
+  const { language, tool, jsCode, setJsCode, jsonCode, setJsonCode } = useExplorer();
   const activeTool = tools.find(({ value }) => value === tool) ?? tools[0];
 
   return (
@@ -21,11 +20,9 @@ function App() {
               <Editor
                 className="h-[30dvh] sm:h-full"
                 language={language}
-                value={language === "javascript" ? jsCode : jsonCode}
+                value={language === 'javascript' ? jsCode : jsonCode}
                 onChange={(value) => {
-                  language === "javascript"
-                    ? setJsCode(value ?? "")
-                    : setJsonCode(value ?? "");
+                  language === 'javascript' ? setJsCode(value ?? '') : setJsonCode(value ?? '')
                 }}
               />
               <div className="bg-foreground/5 pb-8 overflow-auto h-[70dvh] sm:h-full relative flex flex-col">
