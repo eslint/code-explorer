@@ -1,10 +1,29 @@
 import { create } from 'zustand';
-import { devtools, persist } from 'zustand/middleware';
+import { devtools, persist, StateStorage, createJSONStorage } from 'zustand/middleware';
 import type { Options } from 'espree';
-import { storeState } from '../lib/utils';
-import {defaultJsCode, defaultJsonCode} from '../lib/const'
+import { defaultJsCode, defaultJsonCode } from '../lib/const';
+
 export type SourceType = Exclude<Options['sourceType'], undefined>;
 export type Version = Exclude<Options['ecmaVersion'], undefined>;
+
+const hashStorage: StateStorage = {
+  getItem: (key): string => {
+    const searchParams = new URLSearchParams(location.hash.slice(1));
+    const storedValue = searchParams.get(key) ?? '';
+    return storedValue ? JSON.parse(atob(storedValue)) : '';
+  },
+  setItem: (key, newValue): void => {
+    const searchParams = new URLSearchParams(location.hash.slice(1));
+    const encodedValue = btoa(JSON.stringify(newValue));
+    searchParams.set(key, encodedValue);
+    location.hash = searchParams.toString();
+  },
+  removeItem: (key): void => {
+    const searchParams = new URLSearchParams(location.hash.slice(1));
+    searchParams.delete(key);
+    location.hash = searchParams.toString();
+  }
+};
 
 type ExplorerState = {
   tool: 'ast' | 'scope' | 'path';
@@ -23,7 +42,7 @@ type ExplorerState = {
   setParser: (parser: string) => void;
 
   sourceType: SourceType;
-  setSourceType: (sourceType: SourceType) => void;
+  setSourceType: (sourceType: string) => void;
 
   esVersion: Version;
   setEsVersion: (esVersion: string) => void;
@@ -54,66 +73,68 @@ type ExplorerState = {
 
 };
 
-const createSetter = <T extends keyof ExplorerState>(
-  key: T,
-  set: (state: Partial<ExplorerState>) => void
-) => (value: ExplorerState[T]) => {
-  set({ [key]: value });
-  storeState();
-};
-
 export const useExplorer = create<ExplorerState>()(
   devtools(
     persist(
-      (set) => ({
-        tool: 'ast',
-        setTool: createSetter('tool', set),
+      persist(
+        (set) => ({
+          tool: 'ast',
+          setTool: (tool) => set({ tool }),
 
-        jsCode: defaultJsCode,
-        setJsCode: createSetter('jsCode', set),
+          jsCode: defaultJsCode,
+          setJsCode: (jsCode) => set({ jsCode }),
 
-        jsonCode: defaultJsonCode,
-        setJsonCode: createSetter('jsonCode', set),
+          jsonCode: defaultJsonCode,
+          setJsonCode: (jsonCode) => set({ jsonCode }),
 
-        language: 'javascript',
-        setLanguage: createSetter('language', set),
+          language: 'javascript',
+          setLanguage: (language) => set({ language }),
 
-        parser: 'espree',
-        setParser: createSetter('parser', set),
+          parser: 'espree',
+          setParser: (parser) => set({ parser }),
 
-        sourceType: 'module',
-        setSourceType: createSetter('sourceType', set),
+          sourceType: 'module',
+          setSourceType: (sourceType) =>
+            set({ sourceType: sourceType as SourceType }),
 
-        esVersion: 'latest',
-        setEsVersion: (esVersion) => {
-          const version = esVersion === 'latest' ? 'latest' : Number(esVersion);
-          createSetter('esVersion', set)(version as Version);
-        },
+          esVersion: 'latest',
+          setEsVersion: (esVersion) =>
+            set({
+              esVersion:
+                esVersion === 'latest'
+                  ? 'latest'
+                  : (Number(esVersion) as Options['ecmaVersion']),
+            }),
 
-        isJSX: true,
-        setIsJSX: createSetter('isJSX', set),
+          isJSX: true,
+          setIsJSX: (isJSX) => set({ isJSX }),
 
-        jsonMode: 'jsonc',
-        setJsonMode: createSetter('jsonMode', set),
+          jsonMode: 'jsonc',
+          setJsonMode: (mode) => set({ jsonMode: mode }),
 
-        wrap: true,
-        setWrap: createSetter('wrap', set),
+          wrap: true,
+          setWrap: (wrap) => set({ wrap }),
 
-        astViewMode: 'json',
-        setAstViewMode: createSetter('astViewMode', set),
+          astViewMode: 'json',
+          setAstViewMode: (mode) => set({ astViewMode: mode }),
 
-        scopeViewMode: 'flat',
-        setScopeViewMode: createSetter('scopeViewMode', set),
+          scopeViewMode: 'flat',
+          setScopeViewMode: (mode) => set({ scopeViewMode: mode }),
 
-        pathViewMode: 'code',
-        setPathViewMode: createSetter('pathViewMode', set),
+          pathViewMode: 'code',
+          setPathViewMode: (mode) => set({ pathViewMode: mode }),
 
-        pathIndexes: 1,
-        setPathIndexes: createSetter('pathIndexes', set),
+          pathIndexes: 1,
+          setPathIndexes: (indexes) => set({ pathIndexes: indexes }),
 
-        pathIndex: 0,
-        setPathIndex: createSetter('pathIndex', set),
-      }),
+          pathIndex: 0,
+          setPathIndex: (index) => set({ pathIndex: index }),
+        }),
+        {
+          name: 'eslint-explorer',
+          storage: createJSONStorage(() => hashStorage),
+        }
+      ),
       {
         name: 'eslint-explorer',
       }
