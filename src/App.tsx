@@ -27,9 +27,11 @@ function App() {
 										: jsonCode
 								}
 								onChange={value => {
-									language === "javascript"
-										? setJsCode(value ?? "")
-										: setJsonCode(value ?? "");
+									if (language === "javascript") {
+										setJsCode(value ?? "");
+									} else {
+										setJsonCode(value ?? "");
+									}
 								}}
 							/>
 							<div className="bg-foreground/5 pb-8 overflow-auto h-[70dvh] sm:h-full relative flex flex-col">

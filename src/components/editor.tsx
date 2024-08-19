@@ -31,7 +31,7 @@ export const Editor: FC<EditorProperties> = ({
 	const dropMessageRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
-		const monaco = (window as any).monaco as typeof monacoEditor;
+		const monaco = window.monaco as typeof monacoEditor;
 		if (monaco) {
 			monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
 				validate: true,
