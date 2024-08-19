@@ -36,6 +36,6 @@ export default [
     },
   },
   {
-    ignores: ['**/*.config.js'],
+    ignores: ['**/*.config.js', "build/**"],
   }
 ];

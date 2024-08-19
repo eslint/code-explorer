@@ -96,7 +96,9 @@
   "scripts": {
     "build": "vite build",
     "build:preview": "vite preview",
-    "start": "vite"
+    "start": "vite",
+    "lint:js": "eslint .",
+    "lint:fix:js": "eslint . --fix"
   },
   "browserslist": {
     "production": [
