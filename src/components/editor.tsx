@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { Editor as MonacoEditor, OnMount } from '@monaco-editor/react';
-import { useExplorer } from '@/hooks/use-explorer';
-import { useEffect, useRef, useState } from 'react';
-import type { ComponentProps, FC } from 'react';
-import * as monacoEditor from 'monaco-editor';
-import { useTheme } from './theme-provider';
-import clsx from 'clsx';
+import { Editor as MonacoEditor, OnMount } from "@monaco-editor/react";
+import { useExplorer } from "@/hooks/use-explorer";
+import { useEffect, useRef, useState } from "react";
+import type { ComponentProps, FC } from "react";
+import { useTheme } from "./theme-provider";
+import type * as monacoEditor from "monaco-editor";
+import clsx from "clsx";
 
 type EditorProperties = ComponentProps<typeof MonacoEditor> & {
   readOnly?: boolean;
@@ -14,10 +14,17 @@ type EditorProperties = ComponentProps<typeof MonacoEditor> & {
   onChange?: (value: string) => void;
 };
 
-export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange, ...properties }) => {
+export const Editor: FC<EditorProperties> = ({
+  readOnly,
+  value,
+  onChange,
+  ...properties
+}) => {
   const { theme } = useTheme();
   const { wrap, jsonMode } = useExplorer();
-  const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(null);
+  const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(
+    null
+  );
   const [isEditorMounted, setIsEditorMounted] = useState<boolean>(false);
   const [isDragOver, setIsDragOver] = useState<boolean>(false);
   const editorContainerRef = useRef<HTMLDivElement | null>(null);
@@ -28,7 +35,7 @@ export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange, ...pro
     if (monaco) {
       monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
         validate: true,
-        allowComments: jsonMode === 'jsonc',
+        allowComments: jsonMode === "jsonc",
       });
     }
   }, [jsonMode]);
@@ -61,26 +68,26 @@ export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange, ...pro
       }
     };
 
-    editorContainer.addEventListener('dragover', handleDragOver);
-    editorContainer.addEventListener('dragleave', handleDragLeave);
-    editorContainer.addEventListener('drop', handleDrop);
+    editorContainer.addEventListener("dragover", handleDragOver);
+    editorContainer.addEventListener("dragleave", handleDragLeave);
+    editorContainer.addEventListener("drop", handleDrop);
 
     const dropMessageDiv = dropMessageRef.current;
     if (dropMessageDiv) {
-      dropMessageDiv.addEventListener('dragover', handleDragOver);
-      dropMessageDiv.addEventListener('dragleave', handleDragLeave);
-      dropMessageDiv.addEventListener('drop', handleDrop);
+      dropMessageDiv.addEventListener("dragover", handleDragOver);
+      dropMessageDiv.addEventListener("dragleave", handleDragLeave);
+      dropMessageDiv.addEventListener("drop", handleDrop);
     }
 
     return () => {
-      editorContainer.removeEventListener('dragover', handleDragOver);
-      editorContainer.removeEventListener('dragleave', handleDragLeave);
-      editorContainer.removeEventListener('drop', handleDrop);
+      editorContainer.removeEventListener("dragover", handleDragOver);
+      editorContainer.removeEventListener("dragleave", handleDragLeave);
+      editorContainer.removeEventListener("drop", handleDrop);
 
       if (dropMessageDiv) {
-        dropMessageDiv.removeEventListener('dragover', handleDragOver);
-        dropMessageDiv.removeEventListener('dragleave', handleDragLeave);
-        dropMessageDiv.removeEventListener('drop', handleDrop);
+        dropMessageDiv.removeEventListener("dragover", handleDragOver);
+        dropMessageDiv.removeEventListener("dragleave", handleDragLeave);
+        dropMessageDiv.removeEventListener("drop", handleDrop);
       }
     };
   }, [isEditorMounted]);
@@ -90,18 +97,15 @@ export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange, ...pro
     setIsEditorMounted(true);
   };
 
-  const editorClasses = clsx(
-    'h-full relative',
-    {
-      'bg-dropContainer': isDragOver,
-      'bg-transparent': !isDragOver,
-    }
-  );
+  const editorClasses = clsx("h-full relative", {
+    "bg-dropContainer": isDragOver,
+    "bg-transparent": !isDragOver,
+  });
   const dropMessageClasses = clsx(
-    'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-dropMessage text-white p-2 rounded-lg z-10',
+    "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-dropMessage text-white p-2 rounded-lg z-10",
     {
-      'flex': isDragOver,
-      'hidden': !isDragOver,
+      flex: isDragOver,
+      hidden: !isDragOver,
     }
   );
 
@@ -133,17 +137,17 @@ export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange, ...pro
 
           monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
             validate: true,
-            allowComments: jsonMode === 'jsonc',
+            allowComments: jsonMode === "jsonc",
           });
         }}
         options={{
           minimap: {
             enabled: false,
           },
-          wordWrap: wrap ? 'on' : 'off',
+          wordWrap: wrap ? "on" : "off",
           readOnly: readOnly ?? false,
         }}
-        theme={theme === 'dark' ? 'eslint-dark' : 'eslint-light'}
+        theme={theme === "dark" ? "eslint-dark" : "eslint-light"}
         onMount={handleEditorDidMount}
         value={value}
         {...properties}
