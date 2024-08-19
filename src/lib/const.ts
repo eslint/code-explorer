@@ -193,3 +193,64 @@ export const pathViewOptions = [
     icon: GitGraphIcon,
   },
 ];
+
+export const defaultJsCode = `
+/**
+ * Type or paste some JavaScript here to learn more about
+ * the static analysis that ESLint can do for you.
+ * 
+ * The three tabs are:
+ * 
+ * - AST - The Abstract Syntax Tree of the code, which can
+ *   be useful to understand the structure of the code. You
+ *   can view this structure as JSON or in a tree format.
+ * - Scope - The scope structure of the code, which can be
+ *   useful to understand how variables are defined and
+ *   where they are used.
+ * - Code Path - The code path structure of the code, which
+ *   can be useful to understand how the code is executed.
+ * 
+ * You can change the way that the JavaScript code is interpreted
+ * by clicking "JavaScript" in the header and selecting different
+ * options.
+ */
+
+import js from "@eslint/js";
+
+function getConfig() {
+    return {
+        rules: {
+            "prefer-const": "warn"
+        }
+    };
+}
+
+export default [
+    ...js.configs.recommended,
+    getConfig()
+];`.trim();
+
+export const defaultJsonCode = `
+/**
+ * Type or paste some JSON here to learn more about
+ * the static analysis that ESLint can do for you.
+ *
+ * The tabs are:
+ *
+ * - AST - The Abstract Syntax Tree of the code, which can
+ *   be useful to understand the structure of the code. You
+ *   can view this structure as JSON or in a tree format.
+ *
+ * You can change the way that the JSON code is interpreted
+ * by clicking "JSON" in the header and selecting different
+ * options.
+ *
+ * This example is in JSONC mode, which allows comments.
+ */
+
+{
+    "key1": [true, false, null],
+    "key2": {
+        "key3": [1, 2, "3", 1e10, 1e-3]
+    }
+}`.trim();
