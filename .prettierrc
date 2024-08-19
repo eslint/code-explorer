@@ -1,8 +1,14 @@
 {
-  "semi": true,
-  "trailingComma": "es5",
-  "singleQuote": true,
-  "printWidth": 80,
-  "tabWidth": 2,
-  "endOfLine": "lf"
+	"useTabs": true,
+	"tabWidth": 4,
+	"arrowParens": "avoid",
+	"overrides": [
+		{
+			"files": ["*.json"],
+			"options": {
+				"tabWidth": 2,
+				"useTabs": false
+			}
+		}
+	]
 }
