@@ -1,28 +1,33 @@
-import { create } from 'zustand';
-import { devtools, persist, StateStorage, createJSONStorage } from 'zustand/middleware';
-import type { Options } from 'espree';
-import { defaultJsCode, defaultJsonCode } from '../lib/const';
+import { create } from "zustand";
+import {
+	devtools,
+	persist,
+	StateStorage,
+	createJSONStorage,
+} from "zustand/middleware";
+import type { Options } from "espree";
+import { defaultJsCode, defaultJsonCode } from "../lib/const";
 
-export type SourceType = Exclude<Options['sourceType'], undefined>;
-export type Version = Exclude<Options['ecmaVersion'], undefined>;
+export type SourceType = Exclude<Options["sourceType"], undefined>;
+export type Version = Exclude<Options["ecmaVersion"], undefined>;
 
 const hashStorage: StateStorage = {
-  getItem: (key): string => {
-    const searchParams = new URLSearchParams(location.hash.slice(1));
-    const storedValue = searchParams.get(key) ?? '';
-    return storedValue ? JSON.parse(atob(storedValue)) : '';
-  },
-  setItem: (key, newValue): void => {
-    const searchParams = new URLSearchParams(location.hash.slice(1));
-    const encodedValue = btoa(JSON.stringify(newValue));
-    searchParams.set(key, encodedValue);
-    location.hash = searchParams.toString();
-  },
-  removeItem: (key): void => {
-    const searchParams = new URLSearchParams(location.hash.slice(1));
-    searchParams.delete(key);
-    location.hash = searchParams.toString();
-  }
+	getItem: (key): string => {
+		const searchParams = new URLSearchParams(location.hash.slice(1));
+		const storedValue = searchParams.get(key) ?? "";
+		return storedValue ? JSON.parse(atob(storedValue)) : "";
+	},
+	setItem: (key, newValue): void => {
+		const searchParams = new URLSearchParams(location.hash.slice(1));
+		const encodedValue = btoa(JSON.stringify(newValue));
+		searchParams.set(key, encodedValue);
+		location.hash = searchParams.toString();
+	},
+	removeItem: (key): void => {
+		const searchParams = new URLSearchParams(location.hash.slice(1));
+		searchParams.delete(key);
+		location.hash = searchParams.toString();
+	},
 };
 
 type ExplorerState = {
@@ -73,70 +78,72 @@ type ExplorerState = {
 };
 
 export const useExplorer = create<ExplorerState>()(
-  devtools(
-    persist(
-      persist(
-        (set) => ({
-          tool: 'ast',
-          setTool: (tool) => set({ tool }),
+	devtools(
+		persist(
+			persist(
+				set => ({
+					tool: "ast",
+					setTool: tool => set({ tool }),
 
-          jsCode: defaultJsCode,
-          setJsCode: (jsCode) => set({ jsCode }),
+					jsCode: defaultJsCode,
+					setJsCode: jsCode => set({ jsCode }),
 
-          jsonCode: defaultJsonCode,
-          setJsonCode: (jsonCode) => set({ jsonCode }),
+					jsonCode: defaultJsonCode,
+					setJsonCode: jsonCode => set({ jsonCode }),
 
-          language: 'javascript',
-          setLanguage: (language) => set({ language }),
+					language: "javascript",
+					setLanguage: language => set({ language }),
 
-          parser: 'espree',
-          setParser: (parser) => set({ parser }),
+					parser: "espree",
+					setParser: parser => set({ parser }),
 
-          sourceType: 'module',
-          setSourceType: (sourceType) =>
-            set({ sourceType: sourceType as SourceType }),
+					sourceType: "module",
+					setSourceType: sourceType =>
+						set({ sourceType: sourceType as SourceType }),
 
-          esVersion: 'latest',
-          setEsVersion: (esVersion) =>
-            set({
-              esVersion:
-                esVersion === 'latest'
-                  ? 'latest'
-                  : (Number(esVersion) as Options['ecmaVersion']),
-            }),
+					esVersion: "latest",
+					setEsVersion: esVersion =>
+						set({
+							esVersion:
+								esVersion === "latest"
+									? "latest"
+									: (Number(
+											esVersion,
+										) as Options["ecmaVersion"]),
+						}),
 
-          isJSX: true,
-          setIsJSX: (isJSX) => set({ isJSX }),
+					isJSX: true,
+					setIsJSX: isJSX => set({ isJSX }),
 
-          jsonMode: 'jsonc',
-          setJsonMode: (mode) => set({ jsonMode: mode }),
+					jsonMode: "jsonc",
+					setJsonMode: mode => set({ jsonMode: mode }),
 
-          wrap: true,
-          setWrap: (wrap) => set({ wrap }),
+					wrap: true,
+					setWrap: wrap => set({ wrap }),
 
-          astViewMode: 'json',
-          setAstViewMode: (mode) => set({ astViewMode: mode }),
+					astViewMode: "json",
+					setAstViewMode: mode => set({ astViewMode: mode }),
 
-          scopeViewMode: 'flat',
-          setScopeViewMode: (mode) => set({ scopeViewMode: mode }),
+					scopeViewMode: "flat",
+					setScopeViewMode: mode => set({ scopeViewMode: mode }),
 
-          pathViewMode: 'code',
-          setPathViewMode: (mode) => set({ pathViewMode: mode }),
+					pathViewMode: "code",
+					setPathViewMode: mode => set({ pathViewMode: mode }),
 
-          pathIndexes: 1,
-          setPathIndexes: (indexes) => set({ pathIndexes: indexes }),
+					pathIndexes: 1,
+					setPathIndexes: indexes => set({ pathIndexes: indexes }),
 
-          pathIndex: 0,
-          setPathIndex: (index) => set({ pathIndex: index }),
-        }),
-        {
-          name: 'eslint-explorer',
-          storage: createJSONStorage(() => hashStorage),
-        }
-      ),
-      {
-        name: 'eslint-explorer',
-      }
-    )
-  )
+					pathIndex: 0,
+					setPathIndex: index => set({ pathIndex: index }),
+				}),
+				{
+					name: "eslint-explorer",
+					storage: createJSONStorage(() => hashStorage),
+				},
+			),
+			{
+				name: "eslint-explorer",
+			},
+		),
+	),
 );
