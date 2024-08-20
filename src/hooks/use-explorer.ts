@@ -26,51 +26,50 @@ const hashStorage: StateStorage = {
 };
 
 type ExplorerState = {
-  tool: 'ast' | 'scope' | 'path';
-  setTool: (tool: ExplorerState['tool']) => void;
+	tool: "ast" | "scope" | "path";
+	setTool: (tool: ExplorerState["tool"]) => void;
 
-  jsCode: string;
-  setJsCode: (jsCode: string) => void;
+	jsCode: string;
+	setJsCode: (jsCode: string) => void;
 
-  jsonCode: string;
-  setJsonCode: (jsonCode: string) => void;
+	jsonCode: string;
+	setJsonCode: (jsonCode: string) => void;
 
-  language: string;
-  setLanguage: (language: string) => void;
+	language: string;
+	setLanguage: (language: string) => void;
 
-  parser: string;
-  setParser: (parser: string) => void;
+	parser: string;
+	setParser: (parser: string) => void;
 
-  sourceType: SourceType;
-  setSourceType: (sourceType: string) => void;
+	sourceType: SourceType;
+	setSourceType: (sourceType: string) => void;
 
-  esVersion: Version;
-  setEsVersion: (esVersion: string) => void;
+	esVersion: Version;
+	setEsVersion: (esVersion: string) => void;
 
-  isJSX: boolean;
-  setIsJSX: (isJSX: boolean) => void;
+	isJSX: boolean;
+	setIsJSX: (isJSX: boolean) => void;
 
-  jsonMode: 'json' | 'jsonc';
-  setJsonMode: (mode: ExplorerState['jsonMode']) => void;
+	jsonMode: "json" | "jsonc";
+	setJsonMode: (mode: ExplorerState["jsonMode"]) => void;
 
-  wrap: boolean;
-  setWrap: (wrap: boolean) => void;
+	wrap: boolean;
+	setWrap: (wrap: boolean) => void;
 
-  astViewMode: 'tree' | 'json';
-  setAstViewMode: (mode: ExplorerState['astViewMode']) => void;
+	astViewMode: "tree" | "json";
+	setAstViewMode: (mode: ExplorerState["astViewMode"]) => void;
 
-  scopeViewMode: 'flat' | 'nested';
-  setScopeViewMode: (mode: ExplorerState['scopeViewMode']) => void;
+	scopeViewMode: "flat" | "nested";
+	setScopeViewMode: (mode: ExplorerState["scopeViewMode"]) => void;
 
-  pathViewMode: 'code' | 'graph';
-  setPathViewMode: (mode: ExplorerState['pathViewMode']) => void;
+	pathViewMode: "code" | "graph";
+	setPathViewMode: (mode: ExplorerState["pathViewMode"]) => void;
 
-  pathIndexes: number;
-  setPathIndexes: (indexes: number) => void;
+	pathIndexes: number;
+	setPathIndexes: (indexes: number) => void;
 
-  pathIndex: number;
-  setPathIndex: (index: number) => void;
-
+	pathIndex: number;
+	setPathIndex: (index: number) => void;
 };
 
 export const useExplorer = create<ExplorerState>()(

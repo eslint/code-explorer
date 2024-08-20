@@ -4,10 +4,10 @@ This repository contains a tool designed to help developers explore and understa
 
 Key features of this repository include:
 
-- Visualization of scopes, variables, and references using an interactive UI.
-- Components such as `ScopeItem` and `TreeEntry` to render detailed information about each scope and its contents.
-- Integration with ESLint's scope analysis to accurately represent the code structure.
-- A user-friendly interface with expandable and collapsible sections for better navigation.
+-   Visualization of scopes, variables, and references using an interactive UI.
+-   Components such as `ScopeItem` and `TreeEntry` to render detailed information about each scope and its contents.
+-   Integration with ESLint's scope analysis to accurately represent the code structure.
+-   A user-friendly interface with expandable and collapsible sections for better navigation.
 
 This tool is particularly useful for developers looking to gain insights into their code's structure, identify potential issues, and improve code quality through better understanding of scope and variable usage.
 
@@ -35,16 +35,16 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Features
 
-- This app is built with React, a popular JavaScript library for building user interfaces.
-- It uses create-react-app, a tool for scaffolding React apps.
-- The app is configured to use ESLint, a tool for linting JavaScript code.
+-   This app is built with React, a popular JavaScript library for building user interfaces.
+-   It uses create-react-app, a tool for scaffolding React apps.
+-   The app is configured to use ESLint, a tool for linting JavaScript code.
 
 ## Scripts
 
-- `npm run start`: Starts the development server.
-- `npm run build`: Builds the app for production.
+-   `npm run start`: Starts the development server.
+-   `npm run build`: Builds the app for production.
 
 ## Configuration
 
-- The app is configured to use ESLint for linting JavaScript code.
-- The ESLint configuration is stored in the `.eslintrc.json` file.
+-   The app is configured to use ESLint for linting JavaScript code.
+-   The ESLint configuration is stored in the `.eslintrc.json` file.
