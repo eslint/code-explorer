@@ -19,8 +19,6 @@ function App() {
 					<div className="h-full overflow-hidden">
 						<div className="grid sm:grid-cols-2 divide-x border-t h-full">
 							<Editor
-								className="h-[30dvh] sm:h-full"
-								language={language}
 								value={
 									language === "javascript"
 										? jsCode

@@ -1,48 +1,39 @@
 "use client";
 
-import { Editor as MonacoEditor, OnMount } from "@monaco-editor/react";
+import { useEffect, useRef, useState, FC } from "react";
 import { useExplorer } from "@/hooks/use-explorer";
-import { useEffect, useRef, useState } from "react";
-import type { ComponentProps, FC } from "react";
-import * as monacoEditor from "monaco-editor";
 import { useTheme } from "./theme-provider";
+import CodeMirror from "@uiw/react-codemirror";
+import { basicSetup } from "codemirror";
+import { json } from "@codemirror/lang-json";
+import { javascript } from "@codemirror/lang-javascript";
+import { EditorView } from "@codemirror/view";
+import { EditorState } from "@codemirror/state";
 import clsx from "clsx";
 
-type EditorProperties = ComponentProps<typeof MonacoEditor> & {
+type EditorProperties = {
 	readOnly?: boolean;
 	value?: string;
 	onChange?: (value: string) => void;
 };
 
-export const Editor: FC<EditorProperties> = ({
-	readOnly,
-	value,
-	onChange,
-	...properties
-}) => {
+export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange }) => {
 	const { theme } = useTheme();
-	const { wrap, jsonMode } = useExplorer();
-	const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(
-		null,
-	);
-	const [isEditorMounted, setIsEditorMounted] = useState<boolean>(false);
+	const { wrap, jsonMode, language, isJSX } = useExplorer();
 	const [isDragOver, setIsDragOver] = useState<boolean>(false);
 	const editorContainerRef = useRef<HTMLDivElement | null>(null);
 	const dropMessageRef = useRef<HTMLDivElement | null>(null);
 
-	useEffect(() => {
-		const monaco = window.monaco as typeof monacoEditor;
-		if (monaco) {
-			monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-				validate: true,
-				allowComments: jsonMode === "jsonc",
-			});
-		}
-	}, [jsonMode]);
+	const editorExtensions = [
+		basicSetup,
+		...(language === "javascript"
+			? [javascript({ jsx: isJSX })]
+			: [json()]),
+		wrap ? EditorView.lineWrapping : [],
+		readOnly ? EditorState.readOnly.of(true) : [],
+	];
 
 	useEffect(() => {
-		if (!editorRef.current || !editorContainerRef.current) return;
-
 		const editorContainer = editorContainerRef.current;
 
 		const handleDragOver = (event: DragEvent) => {
@@ -62,15 +53,19 @@ export const Editor: FC<EditorProperties> = ({
 			if (files?.length) {
 				const file = files[0];
 				const text = await file.text();
-				if (editorRef.current) {
-					editorRef.current.setValue(text);
+				if (editorContainer) {
+					const editor: HTMLDivElement | null =
+						editorContainer.querySelector(".cm-content");
+					if (editor) {
+						editor.innerText = text;
+					}
 				}
 			}
 		};
 
-		editorContainer.addEventListener("dragover", handleDragOver);
-		editorContainer.addEventListener("dragleave", handleDragLeave);
-		editorContainer.addEventListener("drop", handleDrop);
+		editorContainer?.addEventListener("dragover", handleDragOver);
+		editorContainer?.addEventListener("dragleave", handleDragLeave);
+		editorContainer?.addEventListener("drop", handleDrop);
 
 		const dropMessageDiv = dropMessageRef.current;
 		if (dropMessageDiv) {
@@ -80,9 +75,9 @@ export const Editor: FC<EditorProperties> = ({
 		}
 
 		return () => {
-			editorContainer.removeEventListener("dragover", handleDragOver);
-			editorContainer.removeEventListener("dragleave", handleDragLeave);
-			editorContainer.removeEventListener("drop", handleDrop);
+			editorContainer?.removeEventListener("dragover", handleDragOver);
+			editorContainer?.removeEventListener("dragleave", handleDragLeave);
+			editorContainer?.removeEventListener("drop", handleDrop);
 
 			if (dropMessageDiv) {
 				dropMessageDiv.removeEventListener("dragover", handleDragOver);
@@ -93,12 +88,7 @@ export const Editor: FC<EditorProperties> = ({
 				dropMessageDiv.removeEventListener("drop", handleDrop);
 			}
 		};
-	}, [isEditorMounted]);
-
-	const handleEditorDidMount: OnMount = editor => {
-		editorRef.current = editor;
-		setIsEditorMounted(true);
-	};
+	}, [jsonMode, wrap, readOnly]);
 
 	const editorClasses = clsx("h-full relative", {
 		"bg-dropContainer": isDragOver,
@@ -117,44 +107,12 @@ export const Editor: FC<EditorProperties> = ({
 			<div ref={dropMessageRef} className={dropMessageClasses}>
 				Drop here to read file
 			</div>
-			<MonacoEditor
-				height="100%"
-				beforeMount={monaco => {
-					monaco.editor.defineTheme("eslint-light", {
-						base: "vs",
-						inherit: true,
-						rules: [],
-						colors: {
-							"editor.background": "#FFFFFF00",
-						},
-					});
-
-					monaco.editor.defineTheme("eslint-dark", {
-						base: "vs-dark",
-						inherit: true,
-						rules: [],
-						colors: {
-							"editor.background": "#FFFFFF00",
-						},
-					});
-
-					monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-						validate: true,
-						allowComments: jsonMode === "jsonc",
-					});
-				}}
-				options={{
-					minimap: {
-						enabled: false,
-					},
-					wordWrap: wrap ? "on" : "off",
-					readOnly: readOnly ?? false,
-				}}
-				theme={theme === "dark" ? "eslint-dark" : "eslint-light"}
-				onMount={handleEditorDidMount}
+			<CodeMirror
 				value={value}
-				{...properties}
-				onChange={onChange}
+				extensions={editorExtensions}
+				onChange={value => onChange?.(value)}
+				theme={theme === "dark" ? "dark" : "light"}
+				readOnly={readOnly}
 			/>
 		</div>
 	);
