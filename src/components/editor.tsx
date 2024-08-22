@@ -11,13 +11,24 @@ import { EditorView } from "@codemirror/view";
 import { EditorState } from "@codemirror/state";
 import clsx from "clsx";
 
+const languageExtensions: Record<string, any> = {
+	javascript: javascript(),
+	json: json(),
+};
+
 type EditorProperties = {
 	readOnly?: boolean;
 	value?: string;
 	onChange?: (value: string) => void;
+	preview?: boolean;
 };
 
-export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange }) => {
+export const Editor: FC<EditorProperties> = ({
+	readOnly,
+	value,
+	onChange,
+	preview,
+}) => {
 	const { theme } = useTheme();
 	const { wrap, jsonMode, language, isJSX } = useExplorer();
 	const [isDragOver, setIsDragOver] = useState<boolean>(false);
@@ -26,9 +37,7 @@ export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange }) => {
 
 	const editorExtensions = [
 		basicSetup,
-		...(language === "javascript"
-			? [javascript({ jsx: isJSX })]
-			: [json()]),
+		languageExtensions[language] || languageExtensions["javascript"],
 		wrap ? EditorView.lineWrapping : [],
 		readOnly ? EditorState.readOnly.of(true) : [],
 	];
@@ -90,10 +99,13 @@ export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange }) => {
 		};
 	}, [jsonMode, wrap, readOnly]);
 
-	const editorClasses = clsx("h-full relative", {
+	const editorClasses = clsx("relative", {
 		"bg-dropContainer": isDragOver,
 		"bg-transparent": !isDragOver,
+		"h-[calc(100vh-152px)]": preview,
+		"h-[calc(100vh-72px)]": !preview,
 	});
+
 	const dropMessageClasses = clsx(
 		"absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-dropMessage text-white p-2 rounded-lg z-10",
 		{
@@ -108,6 +120,7 @@ export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange }) => {
 				Drop here to read file
 			</div>
 			<CodeMirror
+				className="h-full overflow-auto scrollbar-thumb scrollbar-track"
 				value={value}
 				extensions={editorExtensions}
 				onChange={value => onChange?.(value)}
