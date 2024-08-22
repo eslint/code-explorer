@@ -13,8 +13,8 @@ import clsx from "clsx";
 import { debounce } from "../lib/utils";
 
 const languageExtensions: Record<string, any> = {
-	javascript: javascript(),
-	json: json(),
+	javascript: (isJSX: boolean) => javascript({ jsx: isJSX }),
+	json: json,
 };
 
 type EditorProperties = {
@@ -38,9 +38,7 @@ export const Editor: FC<EditorProperties> = ({
 
 	const editorExtensions = [
 		basicSetup,
-		...(language === "javascript"
-			? [javascript({ jsx: isJSX })]
-			: [json()]),
+		languageExtensions[language] ? languageExtensions[language](isJSX) : [],
 		wrap ? EditorView.lineWrapping : [],
 		readOnly ? EditorState.readOnly.of(true) : [],
 	];
