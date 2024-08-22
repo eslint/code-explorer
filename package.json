@@ -6,6 +6,25 @@
   "repository": "eslint/code-explorer",
   "funding": "https://opencollective.com/eslint",
   "bugs": "https://github.com/eslint/code-explorer/issues",
+  "scripts": {
+    "build": "vite build",
+    "build:preview": "vite preview",
+    "start": "vite",
+    "lint": "npm-run-all --parallel lint:js",
+    "lint:fix": "npm-run-all --parallel lint:fix:*",
+    "lint:js": "eslint .",
+    "lint:fix:js": "eslint . --fix",
+    "fmt": "prettier --check .",
+    "fmt:fix": "prettier --write ."
+  },
+  "lint-staged": {
+    "**/*.{ts,tsx}": "eslint --fix",
+    "*.md": "markdownlint --fix",
+    "**/*.svg": "npx svgo -r --multipass"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
   "engines": {
     "node": ">= 20"
   },
@@ -88,23 +107,14 @@
     "@vitejs/plugin-react": "^4.3.1",
     "eslint": "^8.57.0",
     "jest": "^29.7.0",
+    "lint-staged": "^15.2.9",
     "npm-run-all": "^4.1.5",
     "postcss": "^8",
     "prettier": "^3.3.3",
     "tailwindcss": "^3.4.4",
     "typescript": "^5.5.3",
-    "vite": "^5.3.5"
-  },
-  "scripts": {
-    "build": "vite build",
-    "build:preview": "vite preview",
-    "start": "vite",
-    "lint": "npm-run-all --parallel lint:js",
-    "lint:fix": "npm-run-all --parallel lint:fix:*",
-    "lint:js": "eslint .",
-    "lint:fix:js": "eslint . --fix",
-    "fmt": "prettier --check .",
-    "fmt:fix": "prettier --write ."
+    "vite": "^5.3.5",
+    "yorkie": "^2.0.0"
   },
   "browserslist": {
     "production": [
