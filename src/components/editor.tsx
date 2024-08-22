@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, FC } from "react";
+import { useEffect, useRef, useState, FC, useCallback } from "react";
 import { useExplorer } from "@/hooks/use-explorer";
 import { useTheme } from "./theme-provider";
 import CodeMirror from "@uiw/react-codemirror";
@@ -10,6 +10,7 @@ import { javascript } from "@codemirror/lang-javascript";
 import { EditorView } from "@codemirror/view";
 import { EditorState } from "@codemirror/state";
 import clsx from "clsx";
+import { debounce } from "../lib/utils";
 
 const languageExtensions: Record<string, any> = {
 	javascript: javascript(),
@@ -37,10 +38,19 @@ export const Editor: FC<EditorProperties> = ({
 
 	const editorExtensions = [
 		basicSetup,
-		languageExtensions[language] || languageExtensions["javascript"],
+		...(language === "javascript"
+			? [javascript({ jsx: isJSX })]
+			: [json()]),
 		wrap ? EditorView.lineWrapping : [],
 		readOnly ? EditorState.readOnly.of(true) : [],
 	];
+
+	const debouncedOnChange = useCallback(
+		debounce((value: string) => {
+			onChange?.(value);
+		}, 400),
+		[onChange],
+	);
 
 	useEffect(() => {
 		const editorContainer = editorContainerRef.current;
@@ -123,7 +133,7 @@ export const Editor: FC<EditorProperties> = ({
 				className="h-full overflow-auto scrollbar-thumb scrollbar-track"
 				value={value}
 				extensions={editorExtensions}
-				onChange={value => onChange?.(value)}
+				onChange={value => debouncedOnChange(value)}
 				theme={theme === "dark" ? "dark" : "light"}
 				readOnly={readOnly}
 			/>
