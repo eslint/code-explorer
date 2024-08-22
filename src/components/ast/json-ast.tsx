@@ -4,29 +4,15 @@ import { Editor } from "@/components/editor";
 import { useExplorer } from "@/hooks/use-explorer";
 import { JsonAstTreeItem } from "./json-ast-tree-item";
 import type { FC } from "react";
-import { parseError } from "@/lib/parse-error";
 
 export const JsonAst: FC = () => {
 	const explorer = useExplorer();
-	let ast = "";
-	let tree: ReturnType<typeof parse> | null = null;
-
-	try {
-		tree = parse(explorer.jsonCode, {
-			mode: explorer.jsonMode,
-			ranges: true,
-			tokens: true,
-		});
-
-		ast = JSON.stringify(tree, null, 2);
-	} catch (error) {
-		const message = parseError(error);
-		return (
-			<div className="bg-red-50 -mt-[72px] pt-[72px] h-full">
-				<div className="p-4 text-red-700">{message}</div>
-			</div>
-		);
-	}
+	const tree = parse(explorer.jsonCode, {
+		mode: explorer.jsonMode,
+		ranges: true,
+		tokens: true,
+	});
+	const ast = JSON.stringify(tree, null, 2);
 
 	if (explorer.astViewMode === "tree") {
 		if (tree === null) {
