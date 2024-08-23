@@ -95,7 +95,7 @@ module.exports = {
 	purge: {
 		content: ["./{pages,components,app,src}/**/*.{ts,tsx}"],
 		options: {
-			safelist: ["cm-editor", "cm-gutter"],
+			safelist: ["cm-editor", "cm-gutter", "ͼ1", "cm-focused"],
 		},
 	},
 };

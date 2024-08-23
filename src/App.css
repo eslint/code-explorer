@@ -104,4 +104,7 @@
 	.cm-gutter {
 		@apply bg-editorBackground;
 	}
+	.ͼ1.cm-focused {
+		outline: none;
+	}
 }
