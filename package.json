@@ -18,7 +18,7 @@
     "fmt:fix": "prettier --write ."
   },
   "lint-staged": {
-    "**/*.{ts,tsx}": [
+    "**/*.{ts,tsx,jsx,js}": [
       "eslint --fix",
       "prettier --write"
     ],
