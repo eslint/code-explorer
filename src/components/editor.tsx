@@ -4,7 +4,6 @@ import { useEffect, useRef, useState, FC, useCallback } from "react";
 import { useExplorer } from "@/hooks/use-explorer";
 import { useTheme } from "./theme-provider";
 import CodeMirror from "@uiw/react-codemirror";
-import { basicSetup } from "codemirror";
 import { json } from "@codemirror/lang-json";
 import { javascript } from "@codemirror/lang-javascript";
 import { EditorView } from "@codemirror/view";
@@ -37,7 +36,6 @@ export const Editor: FC<EditorProperties> = ({
 	const dropMessageRef = useRef<HTMLDivElement | null>(null);
 
 	const editorExtensions = [
-		basicSetup,
 		languageExtensions[language] ? languageExtensions[language](isJSX) : [],
 		wrap ? EditorView.lineWrapping : [],
 		readOnly ? EditorState.readOnly.of(true) : [],
@@ -128,7 +126,7 @@ export const Editor: FC<EditorProperties> = ({
 				Drop here to read file
 			</div>
 			<CodeMirror
-				className="h-full overflow-auto scrollbar-thumb scrollbar-track"
+				className="h-full overflow-auto scrollbar-thumb scrollbar-track text-sm"
 				value={value}
 				extensions={editorExtensions}
 				onChange={value => debouncedOnChange(value)}

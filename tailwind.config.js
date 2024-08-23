@@ -50,6 +50,7 @@ module.exports = {
 				},
 				dropContainer: "hsl(var(--drop-container-bg-color))",
 				dropMessage: "hsl(var(--drop-message-bg-color))",
+				editorBackground: "hsl(var(--editor-background))",
 			},
 			borderRadius: {
 				lg: "var(--radius)",
@@ -91,4 +92,10 @@ module.exports = {
 			);
 		},
 	],
+	purge: {
+		content: ["./{pages,components,app,src}/**/*.{ts,tsx}"],
+		options: {
+			safelist: ["cm-editor", "cm-gutter"],
+		},
+	},
 };
