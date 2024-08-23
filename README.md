@@ -17,13 +17,9 @@ To install and set up the project, follow these steps:
 
 1. Ensure you have Node.js v20 installed. You can download it from the [official Node.js website](https://nodejs.org/).
 2. Clone the repository to your local machine.
-3. Install the project dependencies using npm with the `--force` flag.
+3. Install the project dependencies using npm.
 
 This will install all the necessary packages and dependencies required to run the project.
-
-:::info
-Note: The `--force` flag is used to bypass certain checks and force the installation of dependencies. Open to a PR that resolves this.
-:::
 
 Once the installation is complete, you can proceed to the next section to get started with running the development server.
 
@@ -31,7 +27,7 @@ Once the installation is complete, you can proceed to the next section to get st
 
 Run the development server with `npm run start`.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:5173](http://localhost:5173) with your browser to see the result.
 
 ## Features
 
@@ -47,4 +43,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Configuration
 
 -   The app is configured to use ESLint for linting JavaScript code.
--   The ESLint configuration is stored in the `.eslintrc.json` file.
+-   The ESLint configuration is stored in the `eslint.config.mjs` file.
