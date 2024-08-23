@@ -22,7 +22,7 @@
       "eslint --fix",
       "prettier --write"
     ],
-    "!(*.(js|ts))": "prettier --write --ignore-unknown"
+    "!(*.(js|jsx|ts|tsx))": "prettier --write --ignore-unknown"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
