@@ -18,9 +18,11 @@
     "fmt:fix": "prettier --write ."
   },
   "lint-staged": {
-    "**/*.{ts,tsx}": "eslint --fix",
-    "*.md": "markdownlint --fix",
-    "**/*.svg": "npx svgo -r --multipass"
+    "**/*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "!(*.(js|ts))": "prettier --write --ignore-unknown"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
