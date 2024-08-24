@@ -22,11 +22,7 @@ class ErrorBoundary extends Component<Props, State> {
 	render() {
 		if (this.state.hasError) {
 			const message = parseError(this.state.error);
-			return (
-				<div className="bg-red-50 -mt-[72px] pt-[72px] h-full">
-					<div className="p-4 text-red-700">{message}</div>
-				</div>
-			);
+			return <ErrorState message={message} />;
 		}
 
 		return this.props.children;
@@ -43,4 +39,12 @@ export const withErrorBoundary = (Children: FC) => {
 			</ErrorBoundary>
 		);
 	};
+};
+
+export const ErrorState = ({ message }: { message: string }) => {
+	return (
+		<div className="bg-red-50 -mt-[72px] pt-[72px] h-full">
+			<div className="p-4 text-red-700">{message}</div>
+		</div>
+	);
 };

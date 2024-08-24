@@ -6,23 +6,31 @@ import { useExplorer } from "@/hooks/use-explorer";
 import { Accordion } from "@/components/ui/accordion";
 import { ScopeItem } from "./scope-item";
 import type { FC } from "react";
+import { parseError } from "@/lib/parse-error";
+import { ErrorState } from "../error-boundary";
 
 export const Scope: FC = () => {
 	const explorer = useExplorer();
-	const ast = espree.parse(explorer.jsCode, {
-		range: true,
-		ecmaVersion: explorer.esVersion,
-		sourceType: explorer.sourceType,
-		ecmaFeatures: {
-			jsx: explorer.isJSX,
-		},
-	});
+	let ast = {};
+	let scopeManager = null;
 
-	// eslint-scope types are on DefinitelyTyped and haven't been updated.
-	const scopeManager = eslintScope.analyze(ast, {
-		sourceType: explorer.sourceType as never,
-		ecmaVersion: explorer.esVersion as never,
-	});
+	try {
+		ast = espree.parse(explorer.jsCode, {
+			range: true,
+			ecmaVersion: explorer.esVersion,
+			sourceType: explorer.sourceType,
+			ecmaFeatures: {
+				jsx: explorer.isJSX,
+			},
+		});
+		scopeManager = eslintScope.analyze(ast, {
+			sourceType: explorer.sourceType as never,
+			ecmaVersion: explorer.esVersion as never,
+		});
+	} catch (error) {
+		const message = parseError(error);
+		return <ErrorState message={message} />;
+	}
 
 	return (
 		<Accordion

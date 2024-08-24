@@ -4,15 +4,25 @@ import { Editor } from "@/components/editor";
 import { useExplorer } from "@/hooks/use-explorer";
 import { JavascriptAstTreeItem } from "./javascript-ast-tree-item";
 import type { FC } from "react";
+import { parseError } from "@/lib/parse-error";
+import { ErrorState } from "../error-boundary";
 
 export const JavascriptAst: FC = () => {
 	const explorer = useExplorer();
-	const tree = espree.parse(explorer.jsCode, {
-		ecmaVersion: explorer.esVersion,
-		sourceType: explorer.sourceType,
-	});
-	const ast = JSON.stringify(tree, null, 2);
+	let ast = "";
+	let tree: ReturnType<typeof espree.parse> | null = null;
 
+	try {
+		tree = espree.parse(explorer.jsCode, {
+			ecmaVersion: explorer.esVersion,
+			sourceType: explorer.sourceType,
+		});
+
+		ast = JSON.stringify(tree, null, 2);
+	} catch (error) {
+		const message = parseError(error);
+		return <ErrorState message={message} />;
+	}
 	if (explorer.astViewMode === "tree") {
 		if (tree === null) {
 			return null;
