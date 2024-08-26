@@ -5,6 +5,7 @@ import { useExplorer } from "@/hooks/use-explorer";
 import { JsonAstTreeItem } from "./json-ast-tree-item";
 import type { FC } from "react";
 import { parseError } from "@/lib/parse-error";
+import { ErrorState } from "../error-boundary";
 
 export const JsonAst: FC = () => {
 	const explorer = useExplorer();
@@ -21,11 +22,7 @@ export const JsonAst: FC = () => {
 		ast = JSON.stringify(tree, null, 2);
 	} catch (error) {
 		const message = parseError(error);
-		return (
-			<div className="bg-red-50 -mt-[72px] pt-[72px] h-full">
-				<div className="p-4 text-red-700">{message}</div>
-			</div>
-		);
+		return <ErrorState message={message} />;
 	}
 
 	if (explorer.astViewMode === "tree") {
