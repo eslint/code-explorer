@@ -76,7 +76,7 @@ export const CodePath: FC = () => {
 	const code = extracted.codePathList[explorer.pathIndex].dot;
 
 	if (explorer.pathViewMode === "code") {
-		return <Editor preview value={code} />;
+		return <Editor readOnly value={code} />;
 	}
 
 	return (

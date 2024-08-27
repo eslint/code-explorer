@@ -20,14 +20,12 @@ type EditorProperties = {
 	readOnly?: boolean;
 	value?: string;
 	onChange?: (value: string) => void;
-	preview?: boolean;
 };
 
 export const Editor: FC<EditorProperties> = ({
 	readOnly,
 	value,
 	onChange,
-	preview,
 }) => {
 	const { theme } = useTheme();
 	const { wrap, jsonMode, language, isJSX } = useExplorer();
@@ -108,8 +106,8 @@ export const Editor: FC<EditorProperties> = ({
 	const editorClasses = clsx("relative", {
 		"bg-dropContainer": isDragOver,
 		"bg-transparent": !isDragOver,
-		"h-[calc(100vh-152px)]": preview,
-		"h-[calc(100vh-72px)]": !preview,
+		"h-[calc(100vh-152px)]": readOnly,
+		"h-[calc(100vh-72px)]": !readOnly,
 	});
 
 	const dropMessageClasses = clsx(
