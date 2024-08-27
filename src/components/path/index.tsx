@@ -52,12 +52,11 @@ export const CodePath: FC = () => {
 		},
 		500,
 		[
-			explorer,
 			explorer.jsCode,
 			explorer.esVersion,
 			explorer.sourceType,
-			explorer.setPathIndexes,
 			explorer.pathIndexes,
+			explorer.pathIndex,
 		],
 	);
 
