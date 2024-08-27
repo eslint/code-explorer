@@ -42,5 +42,5 @@ Open [http://localhost:5173](http://localhost:5173) with your browser to see the
 
 ## Configuration
 
--   The app is configured to use ESLint for linting JavaScript code.
--   The ESLint configuration is stored in the `eslint.config.mjs` file.
+-   The app is configured to use ESLint for linting JavaScript code, with its configuration stored in the `eslint.config.mjs` file.
+-   The app is also configured to use Prettier for code formatting, with its configuration stored in the `.prettierrc` file.
