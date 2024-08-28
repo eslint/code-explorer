@@ -24,8 +24,8 @@ export const Scope: FC = () => {
 	} catch (error) {
 		const message = parseError(error);
 		return (
-			<div className="bg-red-50 -mt-[72px] pt-[72px] h-full">
-				<div className="p-4 text-red-700">{message}</div>
+			<div className="bg-background -mt-[72px] pt-[72px] h-full">
+				<div className="p-4 text-errorMessage">{message}</div>
 			</div>
 		);
 	}

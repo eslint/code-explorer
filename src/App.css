@@ -37,6 +37,8 @@
 
 		--drop-container-bg-color: 0deg 0% 75.29% / 92%;
 		--drop-message-bg-color: 0deg 0% 20%;
+
+		--error-message: 0deg 61.61% 56.08%;
 	}
 
 	.dark {
@@ -70,6 +72,8 @@
 
 		--drop-container-bg-color: 0deg 0% 24.71%;
 		--drop-message-bg-color: 0deg 0% 20%;
+
+		--error-message: 0deg 61.61% 56.08%;
 	}
 }
 
