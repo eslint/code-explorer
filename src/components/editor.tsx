@@ -22,11 +22,7 @@ type EditorProperties = {
 	onChange?: (value: string) => void;
 };
 
-export const Editor: FC<EditorProperties> = ({
-	readOnly,
-	value,
-	onChange,
-}) => {
+export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange }) => {
 	const { theme } = useTheme();
 	const { wrap, jsonMode, language, isJSX } = useExplorer();
 	const [isDragOver, setIsDragOver] = useState<boolean>(false);
@@ -47,7 +43,10 @@ export const Editor: FC<EditorProperties> = ({
 	);
 
 	useEffect(() => {
+		if (readOnly) return;
+
 		const editorContainer = editorContainerRef.current;
+		const dropMessageDiv = dropMessageRef.current;
 
 		const handleDragOver = (event: DragEvent) => {
 			event.preventDefault();
@@ -80,7 +79,6 @@ export const Editor: FC<EditorProperties> = ({
 		editorContainer?.addEventListener("dragleave", handleDragLeave);
 		editorContainer?.addEventListener("drop", handleDrop);
 
-		const dropMessageDiv = dropMessageRef.current;
 		if (dropMessageDiv) {
 			dropMessageDiv.addEventListener("dragover", handleDragOver);
 			dropMessageDiv.addEventListener("dragleave", handleDragLeave);
@@ -104,8 +102,6 @@ export const Editor: FC<EditorProperties> = ({
 	}, [jsonMode, wrap, readOnly]);
 
 	const editorClasses = clsx("relative", {
-		"bg-dropContainer": isDragOver,
-		"bg-transparent": !isDragOver,
 		"h-[calc(100vh-152px)]": readOnly,
 		"h-[calc(100vh-72px)]": !readOnly,
 	});
@@ -118,11 +114,25 @@ export const Editor: FC<EditorProperties> = ({
 		},
 	);
 
+	const dropAreaClass = clsx(
+		"absolute top-1/2 h-full w-full left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white p-2 z-10",
+		{
+			"bg-dropContainer": isDragOver,
+			"bg-transparent": !isDragOver,
+			flex: isDragOver,
+			hidden: !isDragOver,
+		},
+	);
+
 	return (
 		<div ref={editorContainerRef} className={editorClasses}>
-			<div ref={dropMessageRef} className={dropMessageClasses}>
-				Drop here to read file
-			</div>
+			{!readOnly && (
+				<div ref={dropMessageRef} className={dropAreaClass}>
+					<div className={dropMessageClasses}>
+						Drop here to read file
+					</div>
+				</div>
+			)}
 			<CodeMirror
 				className="h-full overflow-auto scrollbar-thumb scrollbar-track text-sm"
 				value={value}
