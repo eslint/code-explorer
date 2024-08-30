@@ -19,8 +19,6 @@ function App() {
 					<div className="h-full overflow-hidden">
 						<div className="grid sm:grid-cols-2 divide-x border-t h-full">
 							<Editor
-								className="h-[30dvh] sm:h-full"
-								language={language}
 								value={
 									language === "javascript"
 										? jsCode
@@ -34,7 +32,7 @@ function App() {
 									}
 								}}
 							/>
-							<div className="bg-foreground/5 pb-8 overflow-auto h-[70dvh] sm:h-full relative flex flex-col">
+							<div className="bg-foreground/5 overflow-auto h-[70dvh] sm:h-full relative flex flex-col">
 								<div className="flex sm:items-center flex-col sm:flex-row justify-between p-4 gap-2 z-10">
 									<ToolSelector />
 									<div className="flex items-center gap-1">

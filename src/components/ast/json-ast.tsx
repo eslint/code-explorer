@@ -41,5 +41,5 @@ export const JsonAst: FC = () => {
 		);
 	}
 
-	return <Editor defaultLanguage="json" value={ast} />;
+	return <Editor readOnly value={ast} />;
 };

@@ -35,8 +35,14 @@
 
 		--radius: 0.5rem;
 
-		--drop-container-bg-color: 0deg 0% 75.29% / 92%;
+		--drop-container-bg-color: 0deg 0% 77.59% / 80%;
 		--drop-message-bg-color: 0deg 0% 20%;
+
+		--scrollbar-track: 0deg 0% 93.33%;
+		--scrollbar-thumb: 0deg 0% 53.33%;
+		--scrollbar-thumb-hover: 0deg 0% 33.33%;
+
+		--editor-background: 0deg 0% 100%;
 	}
 
 	.dark {
@@ -68,8 +74,14 @@
 		--input: 215 27.9% 16.9%;
 		--ring: 216 12.2% 83.9%;
 
-		--drop-container-bg-color: 0deg 0% 24.71%;
+		--drop-container-bg-color: 0deg 0% 24.71% / 67%;
 		--drop-message-bg-color: 0deg 0% 20%;
+
+		--scrollbar-track: 0deg 0% 18.04%;
+		--scrollbar-thumb: 0deg 0% 53.33%;
+		--scrollbar-thumb-hover: 0deg 0% 33.33%;
+
+		--editor-background: 223.64deg 47.83% 4.51%;
 	}
 }
 
@@ -88,8 +100,12 @@
 	.font-sans {
 		font-family: "Space Grotesk", sans-serif;
 	}
-
-	.font-mono {
-		font-family: "Space Mono", sans-serif;
+	.cm-editor,
+	.cm-gutter {
+		@apply bg-editorBackground;
+		height: 100%;
+	}
+	.ͼ1.cm-focused {
+		outline: none;
 	}
 }
