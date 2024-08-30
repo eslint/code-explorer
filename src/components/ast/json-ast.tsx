@@ -1,4 +1,4 @@
-import { parse } from "@humanwhocodes/momoa";
+import json from "@eslint/json";
 import { Accordion } from "@/components/ui/accordion";
 import { Editor } from "@/components/editor";
 import { useExplorer } from "@/hooks/use-explorer";
@@ -9,34 +9,24 @@ import { ErrorState } from "../error-boundary";
 
 export const JsonAst: FC = () => {
 	const explorer = useExplorer();
-	let ast = "";
-	let tree: ReturnType<typeof parse> | null = null;
+	const language = json.languages[explorer.jsonMode];
+	const result = language.parse({ body: explorer.jsonCode });
 
-	try {
-		tree = parse(explorer.jsonCode, {
-			mode: explorer.jsonMode,
-			ranges: true,
-			tokens: true,
-		});
-
-		ast = JSON.stringify(tree, null, 2);
-	} catch (error) {
-		const message = parseError(error);
+	if (!result.ok) {
+		const message = parseError(result.errors[0]);
 		return <ErrorState message={message} />;
 	}
 
-	if (explorer.astViewMode === "tree") {
-		if (tree === null) {
-			return null;
-		}
+	const ast = JSON.stringify(result.ast, null, 2);
 
+	if (explorer.astViewMode === "tree") {
 		return (
 			<Accordion
 				type="multiple"
 				className="px-8 font-mono space-y-3"
 				defaultValue={["0-Document"]}
 			>
-				<JsonAstTreeItem data={tree} index={0} />
+				<JsonAstTreeItem data={result.ast} index={0} />
 			</Accordion>
 		);
 	}
