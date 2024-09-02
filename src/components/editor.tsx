@@ -11,7 +11,7 @@ import { EditorState } from "@codemirror/state";
 import clsx from "clsx";
 import { debounce } from "../lib/utils";
 
-const languageExtensions: Record<string, any> = {
+const languageExtensions: Record<string, unknown> = {
 	javascript: (isJSX: boolean) => javascript({ jsx: isJSX }),
 	json: json,
 };
