@@ -17,6 +17,7 @@ import { Switch } from "@/components/ui/switch";
 import { useExplorer } from "@/hooks/use-explorer";
 import {
 	jsonModes,
+	markdownModes,
 	languages,
 	parsers,
 	sourceTypes,
@@ -41,10 +42,158 @@ export const Options: FC = () => {
 	const handleChangeLanguage = (value: string) => {
 		explorer.setLanguage(value);
 
-		if (value === "json" && explorer.tool !== "ast") {
+		if (value !== "javascript" && explorer.tool !== "ast") {
 			explorer.setTool("ast");
 		}
 	};
+
+	const jsonPanel = (
+		<div className="space-y-1.5">
+			<Label htmlFor="jsonMode">Mode</Label>
+			<Select
+				value={explorer.jsonMode}
+				onValueChange={explorer.setJsonMode}
+			>
+				<SelectTrigger className="w-full">
+					<SelectValue placeholder="Mode" />
+				</SelectTrigger>
+				<SelectContent>
+					{jsonModes.map(mode => (
+						<SelectItem
+							key={mode.value}
+							value={mode.value}
+						>
+							{mode.label}
+						</SelectItem>
+					))}
+				</SelectContent>
+			</Select>
+		</div>
+	);
+
+	const markdownPanel = (
+		<div className="space-y-1.5">
+			<Label htmlFor="markdownMode">Mode</Label>
+			<Select
+				value={explorer.markdownMode}
+				onValueChange={explorer.setMarkdownMode}
+			>
+				<SelectTrigger className="w-full">
+					<SelectValue placeholder="Mode" />
+				</SelectTrigger>
+				<SelectContent>
+					{markdownModes.map(mode => (
+						<SelectItem
+							key={mode.value}
+							value={mode.value}
+						>
+							{mode.label}
+						</SelectItem>
+					))}
+				</SelectContent>
+			</Select>
+		</div>
+	);
+
+	const jsPanel = (
+		<>
+			<div className="space-y-1.5">
+				<Label htmlFor="parser">Parser</Label>
+				<Select
+					value={explorer.parser}
+					onValueChange={explorer.setParser}
+				>
+					<SelectTrigger className="w-full" disabled>
+						<SelectValue placeholder="Parser" />
+					</SelectTrigger>
+					<SelectContent>
+						{parsers.map(parser => (
+							<SelectItem
+								key={parser.value}
+								value={parser.value}
+							>
+								<div className="flex items-center gap-1.5">
+									<img
+										src={parser.icon}
+										alt={parser.label}
+										width={16}
+										height={16}
+										className="w-4 h-4"
+									/>
+									<span>{parser.label}</span>
+								</div>
+							</SelectItem>
+						))}
+					</SelectContent>
+				</Select>
+			</div>
+
+			<div className="space-y-1.5">
+				<Label htmlFor="sourceType">Source Type</Label>
+				<Select
+					value={explorer.sourceType}
+					onValueChange={explorer.setSourceType}
+				>
+					<SelectTrigger className="w-full">
+						<SelectValue placeholder="Source Type" />
+					</SelectTrigger>
+					<SelectContent>
+						{sourceTypes.map(sourceType => (
+							<SelectItem
+								key={sourceType.value}
+								value={sourceType.value}
+							>
+								{sourceType.label}
+							</SelectItem>
+						))}
+					</SelectContent>
+				</Select>
+			</div>
+
+			<div className="space-y-1.5">
+				<Label htmlFor="esVersion">
+					ECMAScript Version
+				</Label>
+				<Select
+					value={String(explorer.esVersion)}
+					onValueChange={explorer.setEsVersion}
+				>
+					<SelectTrigger className="w-full">
+						<SelectValue placeholder="ECMAScript Version" />
+					</SelectTrigger>
+					<SelectContent>
+						{versions.map(version => (
+							<SelectItem
+								key={version.value}
+								value={String(version.value)}
+							>
+								{version.label}
+							</SelectItem>
+						))}
+					</SelectContent>
+				</Select>
+			</div>
+
+			<div className="flex items-center gap-1.5">
+				<Switch
+					id="jsx"
+					checked={explorer.isJSX}
+					onCheckedChange={explorer.setIsJSX}
+				/>
+				<Label htmlFor="jsx">JSX</Label>
+			</div>
+		</>
+	);
+
+	let panel;
+
+	if (explorer.language === "json") {
+		panel = jsonPanel;
+	} else if (explorer.language === "markdown") {
+		panel = markdownPanel;
+	} else {
+		panel = jsPanel;
+	}
 
 	return (
 		<Popover>
@@ -92,118 +241,7 @@ export const Options: FC = () => {
 						</SelectContent>
 					</Select>
 				</div>
-
-				{explorer.language === "json" ? (
-					<div className="space-y-1.5">
-						<Label htmlFor="jsonMode">Mode</Label>
-						<Select
-							value={explorer.jsonMode}
-							onValueChange={explorer.setJsonMode}
-						>
-							<SelectTrigger className="w-full">
-								<SelectValue placeholder="Mode" />
-							</SelectTrigger>
-							<SelectContent>
-								{jsonModes.map(mode => (
-									<SelectItem
-										key={mode.value}
-										value={mode.value}
-									>
-										{mode.label}
-									</SelectItem>
-								))}
-							</SelectContent>
-						</Select>
-					</div>
-				) : (
-					<>
-						<div className="space-y-1.5">
-							<Label htmlFor="parser">Parser</Label>
-							<Select
-								value={explorer.parser}
-								onValueChange={explorer.setParser}
-							>
-								<SelectTrigger className="w-full" disabled>
-									<SelectValue placeholder="Parser" />
-								</SelectTrigger>
-								<SelectContent>
-									{parsers.map(parser => (
-										<SelectItem
-											key={parser.value}
-											value={parser.value}
-										>
-											<div className="flex items-center gap-1.5">
-												<img
-													src={parser.icon}
-													alt={parser.label}
-													width={16}
-													height={16}
-													className="w-4 h-4"
-												/>
-												<span>{parser.label}</span>
-											</div>
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-						</div>
-
-						<div className="space-y-1.5">
-							<Label htmlFor="sourceType">Source Type</Label>
-							<Select
-								value={explorer.sourceType}
-								onValueChange={explorer.setSourceType}
-							>
-								<SelectTrigger className="w-full">
-									<SelectValue placeholder="Source Type" />
-								</SelectTrigger>
-								<SelectContent>
-									{sourceTypes.map(sourceType => (
-										<SelectItem
-											key={sourceType.value}
-											value={sourceType.value}
-										>
-											{sourceType.label}
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-						</div>
-
-						<div className="space-y-1.5">
-							<Label htmlFor="esVersion">
-								ECMAScript Version
-							</Label>
-							<Select
-								value={String(explorer.esVersion)}
-								onValueChange={explorer.setEsVersion}
-							>
-								<SelectTrigger className="w-full">
-									<SelectValue placeholder="ECMAScript Version" />
-								</SelectTrigger>
-								<SelectContent>
-									{versions.map(version => (
-										<SelectItem
-											key={version.value}
-											value={String(version.value)}
-										>
-											{version.label}
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-						</div>
-
-						<div className="flex items-center gap-1.5">
-							<Switch
-								id="jsx"
-								checked={explorer.isJSX}
-								onCheckedChange={explorer.setIsJSX}
-							/>
-							<Label htmlFor="jsx">JSX</Label>
-						</div>
-					</>
-				)}
+				{panel}
 			</PopoverContent>
 		</Popover>
 	);
