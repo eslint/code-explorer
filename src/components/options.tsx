@@ -28,26 +28,9 @@ import { Label } from "./ui/label";
 import type { FC } from "react";
 import { Settings } from "lucide-react";
 
-export const Options: FC = () => {
+const JSONPanel = () => {
 	const explorer = useExplorer();
-
-	const currentLanguage = languages.find(
-		language => language.value === explorer.language,
-	);
-
-	if (!currentLanguage) {
-		return null;
-	}
-
-	const handleChangeLanguage = (value: string) => {
-		explorer.setLanguage(value);
-
-		if (value !== "javascript" && explorer.tool !== "ast") {
-			explorer.setTool("ast");
-		}
-	};
-
-	const jsonPanel = (
+	return (
 		<div className="space-y-1.5">
 			<Label htmlFor="jsonMode">Mode</Label>
 			<Select
@@ -59,10 +42,7 @@ export const Options: FC = () => {
 				</SelectTrigger>
 				<SelectContent>
 					{jsonModes.map(mode => (
-						<SelectItem
-							key={mode.value}
-							value={mode.value}
-						>
+						<SelectItem key={mode.value} value={mode.value}>
 							{mode.label}
 						</SelectItem>
 					))}
@@ -70,8 +50,11 @@ export const Options: FC = () => {
 			</Select>
 		</div>
 	);
+};
 
-	const markdownPanel = (
+const MarkdownPanel = () => {
+	const explorer = useExplorer();
+	return (
 		<div className="space-y-1.5">
 			<Label htmlFor="markdownMode">Mode</Label>
 			<Select
@@ -83,10 +66,7 @@ export const Options: FC = () => {
 				</SelectTrigger>
 				<SelectContent>
 					{markdownModes.map(mode => (
-						<SelectItem
-							key={mode.value}
-							value={mode.value}
-						>
+						<SelectItem key={mode.value} value={mode.value}>
 							{mode.label}
 						</SelectItem>
 					))}
@@ -94,8 +74,11 @@ export const Options: FC = () => {
 			</Select>
 		</div>
 	);
+};
 
-	const jsPanel = (
+const JavaScriptPanel = () => {
+	const explorer = useExplorer();
+	return (
 		<>
 			<div className="space-y-1.5">
 				<Label htmlFor="parser">Parser</Label>
@@ -108,10 +91,7 @@ export const Options: FC = () => {
 					</SelectTrigger>
 					<SelectContent>
 						{parsers.map(parser => (
-							<SelectItem
-								key={parser.value}
-								value={parser.value}
-							>
+							<SelectItem key={parser.value} value={parser.value}>
 								<div className="flex items-center gap-1.5">
 									<img
 										src={parser.icon}
@@ -151,9 +131,7 @@ export const Options: FC = () => {
 			</div>
 
 			<div className="space-y-1.5">
-				<Label htmlFor="esVersion">
-					ECMAScript Version
-				</Label>
+				<Label htmlFor="esVersion">ECMAScript Version</Label>
 				<Select
 					value={String(explorer.esVersion)}
 					onValueChange={explorer.setEsVersion}
@@ -184,16 +162,37 @@ export const Options: FC = () => {
 			</div>
 		</>
 	);
+};
 
-	let panel;
-
-	if (explorer.language === "json") {
-		panel = jsonPanel;
-	} else if (explorer.language === "markdown") {
-		panel = markdownPanel;
-	} else {
-		panel = jsPanel;
+const Panel = ({ language }: { language: string }) => {
+	switch (language) {
+		case "json":
+			return <JSONPanel />;
+		case "markdown":
+			return <MarkdownPanel />;
+		default:
+			return <JavaScriptPanel />;
 	}
+};
+
+export const Options: FC = () => {
+	const explorer = useExplorer();
+
+	const currentLanguage = languages.find(
+		language => language.value === explorer.language,
+	);
+
+	if (!currentLanguage) {
+		return null;
+	}
+
+	const handleChangeLanguage = (value: string) => {
+		explorer.setLanguage(value);
+
+		if (value !== "javascript" && explorer.tool !== "ast") {
+			explorer.setTool("ast");
+		}
+	};
 
 	return (
 		<Popover>
@@ -241,7 +240,7 @@ export const Options: FC = () => {
 						</SelectContent>
 					</Select>
 				</div>
-				{panel}
+				<Panel language={explorer.language} />
 			</PopoverContent>
 		</Popover>
 	);
