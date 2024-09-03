@@ -20,7 +20,7 @@ const isProbablyNode = (value: unknown) => {
 	);
 };
 
-const sanitizeValue = (value: unknown): ReactNode => {
+const sanitizeValue = (value: unknown, index: number): ReactNode => {
 	if (!value) {
 		return null;
 	}
@@ -46,7 +46,7 @@ const sanitizeValue = (value: unknown): ReactNode => {
 	) {
 		return (
 			<div className="mt-3 space-y-3 ml-2">
-				<ScopeItem data={value as Scope} index={0} />
+				<ScopeItem data={value as Scope} index={index ? index : 0} />
 			</div>
 		);
 	}

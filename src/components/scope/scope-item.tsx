@@ -20,10 +20,14 @@ export const ScopeItem: FC<ScopeItemProperties> = ({ data, index }) => {
 
 	let key = "unknown";
 
+	console.log(data);
+
 	if (data instanceof Scope) {
 		key = data.type;
 	} else if (data instanceof Variable) {
 		key = data.name;
+	} else if (data instanceof Reference) {
+		key = data.identifier.name;
 	}
 
 	return (
