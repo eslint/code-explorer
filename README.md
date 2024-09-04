@@ -17,7 +17,7 @@ To install and set up the project, follow these steps:
 
 1. Ensure you have Node.js v20 installed. You can download it from the [official Node.js website](https://nodejs.org/).
 2. Clone the repository to your local machine.
-3. Install the project dependencies using npm.
+3. Install the project dependencies using npm with the `--force` flag.
 
 This will install all the necessary packages and dependencies required to run the project.
 
