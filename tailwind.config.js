@@ -1,13 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	darkMode: ["class"],
-	content: [
-		"./pages/**/*.{ts,tsx}",
-		"./components/**/*.{ts,tsx}",
-		"./app/**/*.{ts,tsx}",
-		"./src/**/*.{ts,tsx}",
-	],
-	prefix: "",
+	content: ["./{pages,components,app,src}/**/*.{ts,tsx}"],
 	theme: {
 		container: {
 			center: true,
@@ -23,6 +17,9 @@ module.exports = {
 				ring: "hsl(var(--ring))",
 				background: "hsl(var(--background))",
 				foreground: "hsl(var(--foreground))",
+				"scrollbar-thumb": "hsl(var(--scrollbar-thumb))",
+				"scrollbar-thumb-hover": "hsl(var(--scrollbar-thumb-hover))",
+				"scrollbar-track": "hsl(var(--scrollbar-track))",
 				primary: {
 					DEFAULT: "hsl(var(--primary))",
 					foreground: "hsl(var(--primary-foreground))",
@@ -53,6 +50,7 @@ module.exports = {
 				},
 				dropContainer: "hsl(var(--drop-container-bg-color))",
 				dropMessage: "hsl(var(--drop-message-bg-color))",
+				editorBackground: "hsl(var(--editor-background))",
 			},
 			borderRadius: {
 				lg: "var(--radius)",
@@ -77,6 +75,27 @@ module.exports = {
 	},
 	plugins: [
 		require("tailwindcss-animate"),
-		require("tailwindcss/defaultTheme"),
+		function ({ addUtilities, theme }) {
+			addUtilities(
+				{
+					".scrollbar-thumb": {
+						scrollbarColor: `${theme("colors.scrollbar-thumb")} ${theme("colors.scrollbar-track")}`,
+					},
+					".scrollbar-thumb-hover": {
+						scrollbarColor: `${theme("colors.scrollbar-thumb-hover")} ${theme("colors.scrollbar-track")}`,
+					},
+					".scrollbar-track": {
+						scrollbarWidth: "thin",
+					},
+				},
+				["responsive", "hover"],
+			);
+		},
 	],
+	purge: {
+		content: ["./{pages,components,app,src}/**/*.{ts,tsx}"],
+		options: {
+			safelist: ["cm-editor", "cm-gutter", "ͼ1", "cm-focused"],
+		},
+	},
 };

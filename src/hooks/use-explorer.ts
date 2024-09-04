@@ -30,7 +30,7 @@ type ExplorerState = {
 	isJSX: boolean;
 	setIsJSX: (isJSX: boolean) => void;
 
-	jsonMode: "json" | "jsonc";
+	jsonMode: "json" | "jsonc" | "json5";
 	setJsonMode: (mode: ExplorerState["jsonMode"]) => void;
 
 	wrap: boolean;

@@ -147,11 +147,15 @@ export const versions: {
 export const jsonModes = [
 	{
 		value: "json",
-		label: "JSON",
+		label: "json",
 	},
 	{
 		value: "jsonc",
-		label: "JSONC",
+		label: "jsonc",
+	},
+	{
+		value: "json5",
+		label: "json5",
 	},
 ];
 

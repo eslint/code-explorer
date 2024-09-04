@@ -6,11 +6,15 @@ import {
 } from "@/components/ui/accordion";
 import { TreeEntry } from "../tree-entry";
 import type { FC } from "react";
-import type { MemberNode, parse } from "@humanwhocodes/momoa";
+
+type ASTNode = {
+	readonly type: string;
+	readonly [key: string]: unknown;
+};
 
 type JsonAstTreeItemProperties = {
 	readonly index: number;
-	readonly data: ReturnType<typeof parse> | MemberNode;
+	readonly data: ASTNode;
 };
 
 export const JsonAstTreeItem: FC<JsonAstTreeItemProperties> = ({

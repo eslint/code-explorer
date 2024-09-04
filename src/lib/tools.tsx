@@ -6,24 +6,25 @@ import { AstViewMode } from "@/components/ast/ast-view-mode";
 import { ScopeViewMode } from "@/components/scope/scope-view-mode";
 import { PathViewMode } from "@/components/path/path-view-mode";
 import { PathIndexSelector } from "@/components/path/path-index-selector";
+import { withErrorBoundary } from "@/components/error-boundary";
 
 export const tools = [
 	{
 		name: "AST",
 		value: "ast",
-		component: Ast,
+		component: withErrorBoundary(Ast),
 		options: [Wrap, AstViewMode],
 	},
 	{
 		name: "Scope",
 		value: "scope",
-		component: Scope,
+		component: withErrorBoundary(Scope),
 		options: [ScopeViewMode],
 	},
 	{
 		name: "Code Path",
 		value: "path",
-		component: CodePath,
+		component: withErrorBoundary(CodePath),
 		options: [Wrap, PathViewMode, PathIndexSelector],
 	},
 ];
