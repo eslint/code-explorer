@@ -6,7 +6,7 @@ import type { FC } from "react";
 export const ToolSelector: FC = () => {
 	const explorer = useExplorer();
 
-	const availableTools = explorer.language === "json" ? [tools[0]] : tools;
+	const availableTools = explorer.language === "javascript" ? tools : [tools[0]];
 
 	return (
 		<div className="flex items-center gap-1">
