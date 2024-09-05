@@ -4,9 +4,7 @@ import type { ClassValue } from "clsx";
 
 export const cn = (...inputs: ClassValue[]): string => twMerge(clsx(inputs));
 
-export const capitalize = (substring: string): string =>
-	substring.charAt(0).toUpperCase() + substring.slice(1);
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function debounce<T extends (...args: any[]) => void>(
 	func: T,
 	delay: number,

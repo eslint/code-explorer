@@ -1,4 +1,3 @@
-import { capitalize } from "@/lib/utils";
 import {
 	AccordionContent,
 	AccordionItem,
@@ -25,8 +24,8 @@ export const MarkdownAstTreeItem: FC<MarkdownAstTreeItemProperties> = ({
 		value={`${index}-${data.type}`}
 		className="border rounded-lg overflow-hidden"
 	>
-		<AccordionTrigger className="text-sm bg-muted-foreground/5 px-4 py-3">
-			{capitalize(data.type)}
+		<AccordionTrigger className="text-sm bg-muted-foreground/5 px-4 py-3 capitalize">
+			{data.type}
 		</AccordionTrigger>
 		<AccordionContent className="p-4 border-t">
 			<div className="space-y-1">
