@@ -1,7 +1,11 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import type { Options } from "espree";
-import { defaultJsCode, defaultJsonCode } from "../lib/const";
+import {
+	defaultJsCode,
+	defaultJsonCode,
+	defaultMarkdownCode,
+} from "../lib/const";
 export type SourceType = Exclude<Options["sourceType"], undefined>;
 export type Version = Exclude<Options["ecmaVersion"], undefined>;
 
@@ -14,6 +18,9 @@ type ExplorerState = {
 
 	jsonCode: string;
 	setJsonCode: (jsonCode: string) => void;
+
+	markdownCode: string;
+	setMarkdownCode: (markdownCode: string) => void;
 
 	language: string;
 	setLanguage: (language: string) => void;
@@ -30,8 +37,11 @@ type ExplorerState = {
 	isJSX: boolean;
 	setIsJSX: (isJSX: boolean) => void;
 
-	jsonMode: "json" | "jsonc";
+	jsonMode: "json" | "jsonc" | "json5";
 	setJsonMode: (mode: ExplorerState["jsonMode"]) => void;
+
+	markdownMode: "commonmark" | "gfm";
+	setMarkdownMode: (mode: ExplorerState["markdownMode"]) => void;
 
 	wrap: boolean;
 	setWrap: (wrap: boolean) => void;
@@ -65,6 +75,9 @@ export const useExplorer = create<ExplorerState>()(
 				jsonCode: defaultJsonCode,
 				setJsonCode: jsonCode => set({ jsonCode }),
 
+				markdownCode: defaultMarkdownCode,
+				setMarkdownCode: markdownCode => set({ markdownCode }),
+
 				language: "javascript",
 				setLanguage: language => set({ language }),
 
@@ -89,6 +102,9 @@ export const useExplorer = create<ExplorerState>()(
 
 				jsonMode: "jsonc",
 				setJsonMode: mode => set({ jsonMode: mode }),
+
+				markdownMode: "commonmark",
+				setMarkdownMode: mode => set({ markdownMode: mode }),
 
 				wrap: true,
 				setWrap: wrap => set({ wrap }),

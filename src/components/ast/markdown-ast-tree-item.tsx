@@ -11,12 +11,12 @@ type ASTNode = {
 	readonly [key: string]: unknown;
 };
 
-type JsonAstTreeItemProperties = {
+type MarkdownAstTreeItemProperties = {
 	readonly index: number;
 	readonly data: ASTNode;
 };
 
-export const JsonAstTreeItem: FC<JsonAstTreeItemProperties> = ({
+export const MarkdownAstTreeItem: FC<MarkdownAstTreeItemProperties> = ({
 	data,
 	index,
 }) => (

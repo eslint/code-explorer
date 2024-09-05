@@ -1,49 +1,61 @@
 "use client";
 
-import { Editor as MonacoEditor, OnMount } from "@monaco-editor/react";
+import { useEffect, useRef, useState, FC, useCallback } from "react";
 import { useExplorer } from "@/hooks/use-explorer";
-import { useEffect, useRef, useState } from "react";
-import type { ComponentProps, FC } from "react";
-import * as monacoEditor from "monaco-editor";
 import { useTheme } from "./theme-provider";
+import CodeMirror from "@uiw/react-codemirror";
+import { json } from "@codemirror/lang-json";
+import { javascript } from "@codemirror/lang-javascript";
+import { markdown } from "@codemirror/lang-markdown";
+import { EditorView } from "@codemirror/view";
+import { EditorState } from "@codemirror/state";
 import clsx from "clsx";
+import { debounce } from "../lib/utils";
 
-type EditorProperties = ComponentProps<typeof MonacoEditor> & {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const languageExtensions: Record<string, any> = {
+	javascript: (isJSX: boolean) => javascript({ jsx: isJSX }),
+	json,
+	markdown,
+};
+
+type EditorProperties = {
 	readOnly?: boolean;
 	value?: string;
 	onChange?: (value: string) => void;
 };
 
-export const Editor: FC<EditorProperties> = ({
-	readOnly,
-	value,
-	onChange,
-	...properties
-}) => {
+export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange }) => {
 	const { theme } = useTheme();
-	const { wrap, jsonMode } = useExplorer();
-	const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(
-		null,
-	);
-	const [isEditorMounted, setIsEditorMounted] = useState<boolean>(false);
+	const { wrap, jsonMode, language, isJSX } = useExplorer();
 	const [isDragOver, setIsDragOver] = useState<boolean>(false);
 	const editorContainerRef = useRef<HTMLDivElement | null>(null);
 	const dropMessageRef = useRef<HTMLDivElement | null>(null);
 
-	useEffect(() => {
-		const monaco = window.monaco as typeof monacoEditor;
-		if (monaco) {
-			monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-				validate: true,
-				allowComments: jsonMode === "jsonc",
-			});
-		}
-	}, [jsonMode]);
+	const activeLanguageExtension = readOnly
+		? languageExtensions.json()
+		: languageExtensions[language]
+			? languageExtensions[language](isJSX)
+			: [];
+
+	const editorExtensions = [
+		activeLanguageExtension,
+		wrap ? EditorView.lineWrapping : [],
+		readOnly ? EditorState.readOnly.of(true) : [],
+	];
+
+	const debouncedOnChange = useCallback(
+		debounce((value: string) => {
+			onChange?.(value);
+		}, 400),
+		[onChange],
+	);
 
 	useEffect(() => {
-		if (!editorRef.current || !editorContainerRef.current) return;
+		if (readOnly) return;
 
 		const editorContainer = editorContainerRef.current;
+		const dropMessageDiv = dropMessageRef.current;
 
 		const handleDragOver = (event: DragEvent) => {
 			event.preventDefault();
@@ -62,17 +74,20 @@ export const Editor: FC<EditorProperties> = ({
 			if (files?.length) {
 				const file = files[0];
 				const text = await file.text();
-				if (editorRef.current) {
-					editorRef.current.setValue(text);
+				if (editorContainer) {
+					const editor: HTMLDivElement | null =
+						editorContainer.querySelector(".cm-content");
+					if (editor) {
+						editor.innerText = text;
+					}
 				}
 			}
 		};
 
-		editorContainer.addEventListener("dragover", handleDragOver);
-		editorContainer.addEventListener("dragleave", handleDragLeave);
-		editorContainer.addEventListener("drop", handleDrop);
+		editorContainer?.addEventListener("dragover", handleDragOver);
+		editorContainer?.addEventListener("dragleave", handleDragLeave);
+		editorContainer?.addEventListener("drop", handleDrop);
 
-		const dropMessageDiv = dropMessageRef.current;
 		if (dropMessageDiv) {
 			dropMessageDiv.addEventListener("dragover", handleDragOver);
 			dropMessageDiv.addEventListener("dragleave", handleDragLeave);
@@ -80,9 +95,9 @@ export const Editor: FC<EditorProperties> = ({
 		}
 
 		return () => {
-			editorContainer.removeEventListener("dragover", handleDragOver);
-			editorContainer.removeEventListener("dragleave", handleDragLeave);
-			editorContainer.removeEventListener("drop", handleDrop);
+			editorContainer?.removeEventListener("dragover", handleDragOver);
+			editorContainer?.removeEventListener("dragleave", handleDragLeave);
+			editorContainer?.removeEventListener("drop", handleDrop);
 
 			if (dropMessageDiv) {
 				dropMessageDiv.removeEventListener("dragover", handleDragOver);
@@ -93,17 +108,13 @@ export const Editor: FC<EditorProperties> = ({
 				dropMessageDiv.removeEventListener("drop", handleDrop);
 			}
 		};
-	}, [isEditorMounted]);
+	}, [jsonMode, wrap, readOnly]);
 
-	const handleEditorDidMount: OnMount = editor => {
-		editorRef.current = editor;
-		setIsEditorMounted(true);
-	};
-
-	const editorClasses = clsx("h-full relative", {
-		"bg-dropContainer": isDragOver,
-		"bg-transparent": !isDragOver,
+	const editorClasses = clsx("relative", {
+		"h-[calc(100vh-152px)]": readOnly,
+		"h-[calc(100vh-72px)]": !readOnly,
 	});
+
 	const dropMessageClasses = clsx(
 		"absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-dropMessage text-white p-2 rounded-lg z-10",
 		{
@@ -112,49 +123,32 @@ export const Editor: FC<EditorProperties> = ({
 		},
 	);
 
+	const dropAreaClass = clsx(
+		"absolute top-1/2 h-full w-full left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white p-2 z-10",
+		{
+			"bg-dropContainer": isDragOver,
+			"bg-transparent": !isDragOver,
+			flex: isDragOver,
+			hidden: !isDragOver,
+		},
+	);
+
 	return (
 		<div ref={editorContainerRef} className={editorClasses}>
-			<div ref={dropMessageRef} className={dropMessageClasses}>
-				Drop here to read file
-			</div>
-			<MonacoEditor
-				height="100%"
-				beforeMount={monaco => {
-					monaco.editor.defineTheme("eslint-light", {
-						base: "vs",
-						inherit: true,
-						rules: [],
-						colors: {
-							"editor.background": "#FFFFFF00",
-						},
-					});
-
-					monaco.editor.defineTheme("eslint-dark", {
-						base: "vs-dark",
-						inherit: true,
-						rules: [],
-						colors: {
-							"editor.background": "#FFFFFF00",
-						},
-					});
-
-					monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-						validate: true,
-						allowComments: jsonMode === "jsonc",
-					});
-				}}
-				options={{
-					minimap: {
-						enabled: false,
-					},
-					wordWrap: wrap ? "on" : "off",
-					readOnly: readOnly ?? false,
-				}}
-				theme={theme === "dark" ? "eslint-dark" : "eslint-light"}
-				onMount={handleEditorDidMount}
+			{!readOnly && (
+				<div ref={dropMessageRef} className={dropAreaClass}>
+					<div className={dropMessageClasses}>
+						Drop here to read file
+					</div>
+				</div>
+			)}
+			<CodeMirror
+				className="h-full overflow-auto scrollbar-thumb scrollbar-track text-sm"
 				value={value}
-				{...properties}
-				onChange={onChange}
+				extensions={editorExtensions}
+				onChange={value => debouncedOnChange(value)}
+				theme={theme === "dark" ? "dark" : "light"}
+				readOnly={readOnly}
 			/>
 		</div>
 	);

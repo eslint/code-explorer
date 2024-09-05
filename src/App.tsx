@@ -7,9 +7,32 @@ import { ToolSelector } from "./components/tool-selector";
 import { ThemeProvider } from "./components/theme-provider";
 
 function App() {
-	const { language, tool, jsCode, setJsCode, jsonCode, setJsonCode } =
-		useExplorer();
+	const {
+		language,
+		tool,
+		jsCode,
+		setJsCode,
+		jsonCode,
+		setJsonCode,
+		markdownCode,
+		setMarkdownCode,
+	} = useExplorer();
 	const activeTool = tools.find(({ value }) => value === tool) ?? tools[0];
+
+	let editorValue;
+	switch (language) {
+		case "javascript":
+			editorValue = jsCode;
+			break;
+		case "json":
+			editorValue = jsonCode;
+			break;
+		case "markdown":
+			editorValue = markdownCode;
+			break;
+		default:
+			editorValue = "";
+	}
 
 	return (
 		<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
@@ -19,18 +42,18 @@ function App() {
 					<div className="h-full overflow-hidden">
 						<div className="grid sm:grid-cols-2 divide-x border-t h-full">
 							<Editor
-								className="h-[30dvh] sm:h-full"
-								language={language}
-								value={
-									language === "javascript"
-										? jsCode
-										: jsonCode
-								}
+								value={editorValue}
 								onChange={value => {
-									if (language === "javascript") {
-										setJsCode(value ?? "");
-									} else {
-										setJsonCode(value ?? "");
+									switch (language) {
+										case "javascript":
+											setJsCode(value);
+											break;
+										case "json":
+											setJsonCode(value);
+											break;
+										case "markdown":
+											setMarkdownCode(value);
+											break;
 									}
 								}}
 							/>

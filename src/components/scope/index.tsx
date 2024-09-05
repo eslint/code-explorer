@@ -7,10 +7,12 @@ import { Accordion } from "@/components/ui/accordion";
 import { ScopeItem } from "./scope-item";
 import type { FC } from "react";
 import { parseError } from "@/lib/parse-error";
+import { ErrorState } from "../error-boundary";
 
 export const Scope: FC = () => {
 	const explorer = useExplorer();
 	let ast = {};
+	let scopeManager = null;
 
 	try {
 		ast = espree.parse(explorer.jsCode, {
@@ -21,20 +23,17 @@ export const Scope: FC = () => {
 				jsx: explorer.isJSX,
 			},
 		});
+		scopeManager = eslintScope.analyze(ast, {
+			sourceType: explorer.sourceType as never,
+			ecmaVersion:
+				explorer.esVersion === "latest"
+					? espree.latestEcmaVersion
+					: explorer.esVersion,
+		});
 	} catch (error) {
 		const message = parseError(error);
-		return (
-			<div className="bg-background -mt-[72px] pt-[72px] h-full">
-				<div className="p-4 text-errorMessage">{message}</div>
-			</div>
-		);
+		return <ErrorState message={message} />;
 	}
-
-	// eslint-scope types are on DefinitelyTyped and haven't been updated.
-	const scopeManager = eslintScope.analyze(ast, {
-		sourceType: explorer.sourceType as never,
-		ecmaVersion: explorer.esVersion as never,
-	});
 
 	return (
 		<Accordion
