@@ -13,7 +13,7 @@ export const Scope: FC = () => {
   let ast = {};
 
   try {
-    ast = espree.parse(explorer.jsCode, {
+    ast = espree.parse(explorer.code.jsCode, {
       range: true,
       ecmaVersion: explorer.esVersion,
       sourceType: explorer.sourceType,

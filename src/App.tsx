@@ -10,9 +10,9 @@ import { decodeFromBase64 } from './lib/utils';
 
 function App() {
 
-  const { setTool, language, tool, jsCode, setJsCode, jsonCode, setJsonCode, setLanguage, setParser,
+  const { setTool, language, tool, setLanguage, setParser,
     setSourceType, setEsVersion, setIsJSX, setJsonMode, setWrap, setAstViewMode, setScopeViewMode,
-    setPathViewMode, setPathIndexes, setPathIndex } = useExplorer();
+    setPathViewMode, setPathIndexes, setPathIndex, code, setCode } = useExplorer();
   const activeTool = tools.find(({ value }) => value === tool) ?? tools[0];
 
   useLayoutEffect(() => {
@@ -20,12 +20,11 @@ function App() {
       try {
         const urlState = JSON.parse(decodeFromBase64(window.location.hash.replace(/^#/u, "")));
         if (urlState?.state) {
-          const { tool, jsCode, jsonCode, language, parser, sourceType, esVersion, isJSX,
+          const { code, tool, language, parser, sourceType, esVersion, isJSX,
             jsonMode, wrap, astViewMode, scopeViewMode, pathViewMode, pathIndexes, pathIndex } = urlState.state;
 
+          setCode(code);
           setTool(tool);
-          setJsCode(jsCode);
-          setJsonCode(jsonCode);
           setLanguage(language);
           setParser(parser);
           setSourceType(sourceType);
@@ -44,7 +43,7 @@ function App() {
       }
     };
     getUrlState();
-  }, [])
+  }, []);
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
@@ -56,9 +55,9 @@ function App() {
               <Editor
                 className="h-[30dvh] sm:h-full"
                 language={language}
-                value={language === 'javascript' ? jsCode : jsonCode}
+                value={language === 'javascript' ? code.jsCode : code.jsonCode}
                 onChange={(value) => {
-                  language === 'javascript' ? setJsCode(value ?? '') : setJsonCode(value ?? '')
+                  language === 'javascript' ? setCode({ ...code, jsCode: value || '' }) : setCode({ ...code, jsonCode: value || '' })
                 }}
               />
               <div className="bg-foreground/5 pb-8 overflow-auto h-[70dvh] sm:h-full relative flex flex-col">

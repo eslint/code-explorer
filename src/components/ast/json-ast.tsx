@@ -12,7 +12,7 @@ export const JsonAst: FC = () => {
   let tree: ReturnType<typeof parse> | null = null;
 
   try {
-    tree = parse(explorer.jsonCode, {
+    tree = parse(explorer.code.jsonCode, {
       mode: explorer.jsonMode,
       ranges: true,
       tokens: true,

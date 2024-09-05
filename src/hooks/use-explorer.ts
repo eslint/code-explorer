@@ -2,22 +2,23 @@ import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import type { Options } from 'espree';
 import { storeState } from '../lib/utils';
-import {defaultJsCode, defaultJsonCode} from '../lib/const'
+import {defaultCode, defaultJsOptions} from '../lib/const'
 export type SourceType = Exclude<Options['sourceType'], undefined>;
 export type Version = Exclude<Options['ecmaVersion'], undefined>;
 
+type Code = { jsCode: string, jsonCode: string };
+type JsOptions = { parser: string, sourceType: string, esVersion: string, isJSX: Boolean}
 type ExplorerState = {
-  tool: 'ast' | 'scope' | 'path';
-  setTool: (tool: ExplorerState['tool']) => void;
-
-  jsCode: string;
-  setJsCode: (jsCode: string) => void;
-
-  jsonCode: string;
-  setJsonCode: (jsonCode: string) => void;
+  code: Code;
+  setCode: (code: Code) => void;
 
   language: string;
   setLanguage: (language: string) => void;
+
+  tool: 'ast' | 'scope' | 'path';
+  setTool: (tool: ExplorerState['tool']) => void;
+
+  jsOptions: JsOptions;
 
   parser: string;
   setParser: (parser: string) => void;
@@ -66,17 +67,17 @@ export const useExplorer = create<ExplorerState>()(
   devtools(
     persist(
       (set) => ({
-        tool: 'ast',
-        setTool: createSetter('tool', set),
-
-        jsCode: defaultJsCode,
-        setJsCode: createSetter('jsCode', set),
-
-        jsonCode: defaultJsonCode,
-        setJsonCode: createSetter('jsonCode', set),
+        code: defaultCode,
+        setCode: createSetter('code', set),
 
         language: 'javascript',
         setLanguage: createSetter('language', set),
+
+        tool: 'ast',
+        setTool: createSetter('tool', set),
+
+        jsOptions: defaultJsOptions,
+        setJsOptions: createSetter('jsOptions', set),
 
         parser: 'espree',
         setParser: createSetter('parser', set),

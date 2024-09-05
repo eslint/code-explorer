@@ -194,7 +194,7 @@ export const pathViewOptions = [
   },
 ];
 
-export const defaultJsCode = `
+const defaultJsCode = `
 /**
  * Type or paste some JavaScript here to learn more about
  * the static analysis that ESLint can do for you.
@@ -230,7 +230,7 @@ export default [
     getConfig()
 ];`.trim();
 
-export const defaultJsonCode = `
+const defaultJsonCode = `
 /**
  * Type or paste some JSON here to learn more about
  * the static analysis that ESLint can do for you.
@@ -254,3 +254,22 @@ export const defaultJsonCode = `
         "key3": [1, 2, "3", 1e10, 1e-3]
     }
 }`.trim();
+
+export const defaultCode = { jsCode: defaultJsCode, jsonCode: defaultJsonCode };
+
+export const defaultJsOptions = {
+  parser: 'espree',
+  sourceType: 'module',
+  esVersion: 'latest',
+  isJSX: true,
+}
+
+export const defaultJsonOptions = {
+  jsonMode: 'jsonc',
+  wrap: true,
+  astViewMode: 'json',
+  scopeViewMode: 'flat',
+  pathViewMode: 'code',
+  pathIndexes: 1,
+  pathIndex: 0,
+}
