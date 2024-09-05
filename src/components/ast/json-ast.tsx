@@ -9,8 +9,10 @@ import { ErrorState } from "../error-boundary";
 
 export const JsonAst: FC = () => {
 	const explorer = useExplorer();
-	const language = json.languages[explorer.jsonMode];
-	const result = language.parse({ body: explorer.jsonCode });
+	const { jsonOptions } = explorer;
+	const { jsonMode } = jsonOptions;
+	const language = json.languages[jsonMode];
+	const result = language.parse({ body: explorer.code.json });
 
 	if (!result.ok) {
 		const message = parseError(result.errors[0]);

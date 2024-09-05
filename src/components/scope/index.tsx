@@ -15,20 +15,20 @@ export const Scope: FC = () => {
 	let scopeManager = null;
 
 	try {
-		ast = espree.parse(explorer.jsCode, {
+		ast = espree.parse(explorer.code.javascript, {
 			range: true,
-			ecmaVersion: explorer.esVersion,
-			sourceType: explorer.sourceType,
+			ecmaVersion: explorer.jsOptions.esVersion,
+			sourceType: explorer.jsOptions.sourceType,
 			ecmaFeatures: {
-				jsx: explorer.isJSX,
+				jsx: explorer.jsOptions.isJSX,
 			},
 		});
 		scopeManager = eslintScope.analyze(ast, {
-			sourceType: explorer.sourceType as never,
+			sourceType: explorer.jsOptions.sourceType as never,
 			ecmaVersion:
-				explorer.esVersion === "latest"
+				explorer.jsOptions.esVersion === "latest"
 					? espree.latestEcmaVersion
-					: explorer.esVersion,
+					: explorer.jsOptions.esVersion,
 		});
 	} catch (error) {
 		const message = parseError(error);

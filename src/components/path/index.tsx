@@ -17,15 +17,16 @@ type ParsedResponse = {
 
 export const CodePath: FC = () => {
 	const explorer = useExplorer();
+	const { pathIndex, setPathIndex } = explorer;
 	const [extracted, setExtracted] = useState<ParsedResponse | null>(null);
 	const [error, setError] = useState<string | null>(null);
 
 	useDebouncedEffect(
 		() => {
 			generateCodePath(
-				explorer.jsCode,
-				explorer.esVersion,
-				explorer.sourceType,
+				explorer.code.javascript,
+				explorer.jsOptions.esVersion,
+				explorer.jsOptions.sourceType,
 			)
 				.then(response => {
 					if ("error" in response) {
@@ -36,15 +37,20 @@ export const CodePath: FC = () => {
 				})
 				.then(newExtracted => {
 					if (
-						newExtracted.codePathList.length > explorer.pathIndexes
+						newExtracted.codePathList.length <
+						explorer.pathIndex.indexes
 					) {
-						explorer.setPathIndex(0);
+						setPathIndex({
+							index: 0,
+							indexes: newExtracted.codePathList.length,
+						});
+					} else {
+						setPathIndex({
+							...pathIndex,
+							indexes: newExtracted.codePathList.length,
+						});
 					}
-
-					explorer.setPathIndexes(newExtracted.codePathList.length);
-
 					setError(null);
-
 					return newExtracted;
 				})
 				.then(setExtracted)
@@ -52,11 +58,11 @@ export const CodePath: FC = () => {
 		},
 		500,
 		[
-			explorer.jsCode,
-			explorer.esVersion,
-			explorer.sourceType,
-			explorer.pathIndexes,
-			explorer.pathIndex,
+			explorer.code.javascript,
+			explorer.jsOptions.esVersion,
+			explorer.jsOptions.sourceType,
+			explorer.pathIndex.index,
+			explorer.pathIndex.indexes,
 		],
 	);
 
@@ -71,8 +77,8 @@ export const CodePath: FC = () => {
 	if (!extracted) {
 		return null;
 	}
-
-	const code = extracted.codePathList[explorer.pathIndex].dot;
+	console.log(explorer.pathIndex);
+	const code = extracted.codePathList[explorer.pathIndex.index].dot;
 
 	if (explorer.pathViewMode === "code") {
 		return <Editor readOnly value={code} />;

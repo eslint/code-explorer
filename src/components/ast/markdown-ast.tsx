@@ -9,8 +9,10 @@ import { ErrorState } from "../error-boundary";
 
 export const MarkdownAst: FC = () => {
 	const explorer = useExplorer();
-	const language = markdown.languages[explorer.markdownMode];
-	const result = language.parse({ body: explorer.markdownCode });
+	const { markdownOptions } = explorer;
+	const { markdownMode } = markdownOptions;
+	const language = markdown.languages[markdownMode];
+	const result = language.parse({ body: explorer.code.markdown });
 
 	if (!result.ok) {
 		const message = parseError(result.errors[0]);

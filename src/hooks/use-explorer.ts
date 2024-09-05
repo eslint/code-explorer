@@ -1,43 +1,65 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import type { Options } from "espree";
-import { defaultJsCode, defaultJsonCode, defaultMarkdownCode } from "../lib/const";
+import {
+	defaultCode,
+	defaultJsOptions,
+	defaultJsonOptions,
+	defaultMarkdownOptions,
+	defaultPathIndex,
+	defualtViewModes,
+} from "../lib/const";
 export type SourceType = Exclude<Options["sourceType"], undefined>;
 export type Version = Exclude<Options["ecmaVersion"], undefined>;
+export type Language = "javascript" | "json" | "markdown";
+export type JsonMode = "json" | "jsonc" | "json5";
+export type MarkdownMode = "commonmark" | "gfm";
+
+export type Code = { javascript: string; json: string; markdown: string };
+export type JsOptions = {
+	parser: string;
+	sourceType: SourceType;
+	esVersion: Version;
+	isJSX: boolean;
+};
+
+export type JsonOptions = {
+	jsonMode: JsonMode;
+};
+
+export type MarkdownOptions = {
+	markdownMode: MarkdownMode;
+};
+
+export type PathIndex = {
+	index: number;
+	indexes: number;
+};
+
+export type ViewModes = {
+	ast: "tree" | "json";
+	scope: "flat" | "nested";
+	path: "code" | "graph";
+};
 
 type ExplorerState = {
 	tool: "ast" | "scope" | "path";
 	setTool: (tool: ExplorerState["tool"]) => void;
 
-	jsCode: string;
-	setJsCode: (jsCode: string) => void;
+	code: Code;
+	setCode: (code: Code) => void;
 
-	jsonCode: string;
-	setJsonCode: (jsonCode: string) => void;
+	language: Language;
+	setLanguage: (language: Language) => void;
 
-	markdownCode: string;
-	setMarkdownCode: (markdownCode: string) => void;
+	jsOptions: JsOptions;
+	setJsOptions: (jsOptions: JsOptions) => void;
 
-	language: string;
-	setLanguage: (language: string) => void;
+	jsonOptions: JsonOptions;
+	setJsonOptions: (jsonOptions: JsonOptions) => void;
 
-	parser: string;
-	setParser: (parser: string) => void;
-
-	sourceType: SourceType;
-	setSourceType: (sourceType: string) => void;
-
-	esVersion: Version;
-	setEsVersion: (esVersion: string) => void;
-
-	isJSX: boolean;
-	setIsJSX: (isJSX: boolean) => void;
-
-	jsonMode: "json" | "jsonc" | "json5";
-	setJsonMode: (mode: ExplorerState["jsonMode"]) => void;
-
-	markdownMode: "commonmark" | "gfm";
-	setMarkdownMode: (mode: ExplorerState["markdownMode"]) => void;
+	markdownOptions: MarkdownOptions;
+	setMarkdownOptions: (markdownOptions: MarkdownOptions) => void;
 
 	wrap: boolean;
 	setWrap: (wrap: boolean) => void;
@@ -51,11 +73,11 @@ type ExplorerState = {
 	pathViewMode: "code" | "graph";
 	setPathViewMode: (mode: ExplorerState["pathViewMode"]) => void;
 
-	pathIndexes: number;
-	setPathIndexes: (indexes: number) => void;
+	viewModes: ViewModes;
+	setViewModes: (viewModes: ViewModes) => void;
 
-	pathIndex: number;
-	setPathIndex: (index: number) => void;
+	pathIndex: PathIndex;
+	setPathIndex: (pathIndex: PathIndex) => void;
 };
 
 export const useExplorer = create<ExplorerState>()(
@@ -65,42 +87,20 @@ export const useExplorer = create<ExplorerState>()(
 				tool: "ast",
 				setTool: tool => set({ tool }),
 
-				jsCode: defaultJsCode,
-				setJsCode: jsCode => set({ jsCode }),
-
-				jsonCode: defaultJsonCode,
-				setJsonCode: jsonCode => set({ jsonCode }),
-
-				markdownCode: defaultMarkdownCode,
-				setMarkdownCode: markdownCode => set({ markdownCode }),
+				code: defaultCode,
+				setCode: code => set({ code }),
 
 				language: "javascript",
 				setLanguage: language => set({ language }),
 
-				parser: "espree",
-				setParser: parser => set({ parser }),
+				jsOptions: defaultJsOptions,
+				setJsOptions: jsOptions => set({ jsOptions }),
 
-				sourceType: "module",
-				setSourceType: sourceType =>
-					set({ sourceType: sourceType as SourceType }),
+				jsonOptions: defaultJsonOptions,
+				setJsonOptions: jsonOptions => set({ jsonOptions }),
 
-				esVersion: "latest",
-				setEsVersion: esVersion =>
-					set({
-						esVersion:
-							esVersion === "latest"
-								? "latest"
-								: (Number(esVersion) as Options["ecmaVersion"]),
-					}),
-
-				isJSX: true,
-				setIsJSX: isJSX => set({ isJSX }),
-
-				jsonMode: "jsonc",
-				setJsonMode: mode => set({ jsonMode: mode }),
-
-				markdownMode: "commonmark",
-				setMarkdownMode: mode => set({ markdownMode: mode }),
+				markdownOptions: defaultMarkdownOptions,
+				setMarkdownOptions: markdownOptions => set({ markdownOptions }),
 
 				wrap: true,
 				setWrap: wrap => set({ wrap }),
@@ -114,11 +114,11 @@ export const useExplorer = create<ExplorerState>()(
 				pathViewMode: "code",
 				setPathViewMode: mode => set({ pathViewMode: mode }),
 
-				pathIndexes: 1,
-				setPathIndexes: indexes => set({ pathIndexes: indexes }),
+				viewModes: defualtViewModes,
+				setViewModes: viewModes => set({ viewModes }),
 
-				pathIndex: 0,
-				setPathIndex: index => set({ pathIndex: index }),
+				pathIndex: defaultPathIndex,
+				setPathIndex: pathIndex => set({ pathIndex }),
 			}),
 			{
 				name: "eslint-explorer",

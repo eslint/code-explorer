@@ -13,9 +13,9 @@ export const JavascriptAst: FC = () => {
 	let tree: ReturnType<typeof espree.parse> | null = null;
 
 	try {
-		tree = espree.parse(explorer.jsCode, {
-			ecmaVersion: explorer.esVersion,
-			sourceType: explorer.sourceType,
+		tree = espree.parse(explorer.code.javascript, {
+			ecmaVersion: explorer.jsOptions.esVersion,
+			sourceType: explorer.jsOptions.sourceType,
 		});
 
 		ast = JSON.stringify(tree, null, 2);
