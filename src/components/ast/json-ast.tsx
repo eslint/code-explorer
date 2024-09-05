@@ -9,19 +9,20 @@ import { ErrorState } from "../error-boundary";
 
 export const JsonAst: FC = () => {
 	const explorer = useExplorer();
-	const { jsonOptions } = explorer;
+	const { code, jsonOptions, viewModes } = explorer;
+	const { ast } = viewModes;
 	const { jsonMode } = jsonOptions;
 	const language = json.languages[jsonMode];
-	const result = language.parse({ body: explorer.code.json });
+	const result = language.parse({ body: code.json });
 
 	if (!result.ok) {
 		const message = parseError(result.errors[0]);
 		return <ErrorState message={message} />;
 	}
 
-	const ast = JSON.stringify(result.ast, null, 2);
+	const astCode = JSON.stringify(result.ast, null, 2);
 
-	if (explorer.astViewMode === "tree") {
+	if (ast === "tree") {
 		return (
 			<Accordion
 				type="multiple"
@@ -33,5 +34,5 @@ export const JsonAst: FC = () => {
 		);
 	}
 
-	return <Editor readOnly value={ast} />;
+	return <Editor readOnly value={astCode} />;
 };

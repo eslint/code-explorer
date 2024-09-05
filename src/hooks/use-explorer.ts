@@ -64,15 +64,6 @@ type ExplorerState = {
 	wrap: boolean;
 	setWrap: (wrap: boolean) => void;
 
-	astViewMode: "tree" | "json";
-	setAstViewMode: (mode: ExplorerState["astViewMode"]) => void;
-
-	scopeViewMode: "flat" | "nested";
-	setScopeViewMode: (mode: ExplorerState["scopeViewMode"]) => void;
-
-	pathViewMode: "code" | "graph";
-	setPathViewMode: (mode: ExplorerState["pathViewMode"]) => void;
-
 	viewModes: ViewModes;
 	setViewModes: (viewModes: ViewModes) => void;
 
@@ -105,14 +96,14 @@ export const useExplorer = create<ExplorerState>()(
 				wrap: true,
 				setWrap: wrap => set({ wrap }),
 
-				astViewMode: "json",
-				setAstViewMode: mode => set({ astViewMode: mode }),
+				// astViewMode: "json",
+				// setAstViewMode: mode => set({ astViewMode: mode }),
 
-				scopeViewMode: "flat",
-				setScopeViewMode: mode => set({ scopeViewMode: mode }),
+				// scopeViewMode: "flat",
+				// setScopeViewMode: mode => set({ scopeViewMode: mode }),
 
-				pathViewMode: "code",
-				setPathViewMode: mode => set({ pathViewMode: mode }),
+				// pathViewMode: "code",
+				// setPathViewMode: mode => set({ pathViewMode: mode }),
 
 				viewModes: defualtViewModes,
 				setViewModes: viewModes => set({ viewModes }),

@@ -17,17 +17,17 @@ type ParsedResponse = {
 
 export const CodePath: FC = () => {
 	const explorer = useExplorer();
-	const { pathIndex, setPathIndex } = explorer;
+	const { code, jsOptions, pathIndex, setPathIndex, viewModes } = explorer;
+	const { javascript } = code;
+	const { sourceType, esVersion } = jsOptions;
+	const { path } = viewModes;
+	const { index, indexes } = pathIndex;
 	const [extracted, setExtracted] = useState<ParsedResponse | null>(null);
 	const [error, setError] = useState<string | null>(null);
 
 	useDebouncedEffect(
 		() => {
-			generateCodePath(
-				explorer.code.javascript,
-				explorer.jsOptions.esVersion,
-				explorer.jsOptions.sourceType,
-			)
+			generateCodePath(javascript, esVersion, sourceType)
 				.then(response => {
 					if ("error" in response) {
 						throw new Error(response.error);
@@ -36,10 +36,7 @@ export const CodePath: FC = () => {
 					return JSON.parse(response.response) as ParsedResponse;
 				})
 				.then(newExtracted => {
-					if (
-						newExtracted.codePathList.length <
-						explorer.pathIndex.indexes
-					) {
+					if (newExtracted.codePathList.length < indexes) {
 						setPathIndex({
 							index: 0,
 							indexes: newExtracted.codePathList.length,
@@ -57,13 +54,7 @@ export const CodePath: FC = () => {
 				.catch(newError => setError(parseError(newError)));
 		},
 		500,
-		[
-			explorer.code.javascript,
-			explorer.jsOptions.esVersion,
-			explorer.jsOptions.sourceType,
-			explorer.pathIndex.index,
-			explorer.pathIndex.indexes,
-		],
+		[javascript, esVersion, sourceType, index, indexes],
 	);
 
 	if (error) {
@@ -77,11 +68,11 @@ export const CodePath: FC = () => {
 	if (!extracted) {
 		return null;
 	}
-	console.log(explorer.pathIndex);
-	const code = extracted.codePathList[explorer.pathIndex.index].dot;
 
-	if (explorer.pathViewMode === "code") {
-		return <Editor readOnly value={code} />;
+	const codePath = extracted.codePathList[index].dot;
+
+	if (path === "code") {
+		return <Editor readOnly value={codePath} />;
 	}
 
 	return (
@@ -116,7 +107,7 @@ export const CodePath: FC = () => {
 				/>
 			</svg>
 			<div className="relative z-10">
-				<Graphviz dot={code} />
+				<Graphviz dot={codePath} />
 			</div>
 		</>
 	);

@@ -8,19 +8,21 @@ import type { FC } from "react";
 
 export const ScopeViewMode: FC = () => {
 	const explorer = useExplorer();
+	const { viewModes, setViewModes } = explorer;
+	const { scope } = viewModes;
 
 	const handleValueChange = (value: string) => {
 		if (!value) {
 			return;
 		}
 
-		explorer.setScopeViewMode(value as "nested" | "flat");
+		setViewModes({ ...viewModes, scope: value as "nested" | "flat" });
 	};
 
 	return (
 		<ToggleGroup
 			type="single"
-			value={explorer.scopeViewMode}
+			value={scope}
 			onValueChange={handleValueChange}
 			className="border rounded-md"
 		>
@@ -30,7 +32,7 @@ export const ScopeViewMode: FC = () => {
 					value={option.value}
 					className={cn(
 						"border -m-px flex items-center gap-1.5",
-						option.value === explorer.scopeViewMode
+						option.value === scope
 							? "!bg-background"
 							: "border-transparent hover:bg-transparent text-muted-foreground",
 					)}

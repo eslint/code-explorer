@@ -9,19 +9,20 @@ import { ErrorState } from "../error-boundary";
 
 export const MarkdownAst: FC = () => {
 	const explorer = useExplorer();
-	const { markdownOptions } = explorer;
+	const { code, markdownOptions, viewModes } = explorer;
+	const { ast } = viewModes;
 	const { markdownMode } = markdownOptions;
 	const language = markdown.languages[markdownMode];
-	const result = language.parse({ body: explorer.code.markdown });
+	const result = language.parse({ body: code.markdown });
 
 	if (!result.ok) {
 		const message = parseError(result.errors[0]);
 		return <ErrorState message={message} />;
 	}
 
-	const ast = JSON.stringify(result.ast, null, 2);
+	const astCode = JSON.stringify(result.ast, null, 2);
 
-	if (explorer.astViewMode === "tree") {
+	if (ast === "tree") {
 		return (
 			<Accordion
 				type="multiple"
@@ -33,5 +34,5 @@ export const MarkdownAst: FC = () => {
 		);
 	}
 
-	return <Editor readOnly value={ast} />;
+	return <Editor readOnly value={astCode} />;
 };

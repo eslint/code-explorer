@@ -11,24 +11,26 @@ import { ErrorState } from "../error-boundary";
 
 export const Scope: FC = () => {
 	const explorer = useExplorer();
+	const { code, jsOptions, viewModes } = explorer;
+	const { javascript } = code;
+	const { sourceType, esVersion, isJSX } = jsOptions;
+	const { scope } = viewModes;
 	let ast = {};
 	let scopeManager = null;
 
 	try {
-		ast = espree.parse(explorer.code.javascript, {
+		ast = espree.parse(javascript, {
 			range: true,
-			ecmaVersion: explorer.jsOptions.esVersion,
-			sourceType: explorer.jsOptions.sourceType,
+			ecmaVersion: esVersion,
+			sourceType: sourceType,
 			ecmaFeatures: {
-				jsx: explorer.jsOptions.isJSX,
+				jsx: isJSX,
 			},
 		});
 		scopeManager = eslintScope.analyze(ast, {
-			sourceType: explorer.jsOptions.sourceType as never,
+			sourceType: sourceType as never,
 			ecmaVersion:
-				explorer.jsOptions.esVersion === "latest"
-					? espree.latestEcmaVersion
-					: explorer.jsOptions.esVersion,
+				esVersion === "latest" ? espree.latestEcmaVersion : esVersion,
 		});
 	} catch (error) {
 		const message = parseError(error);
@@ -41,7 +43,7 @@ export const Scope: FC = () => {
 			className="px-8 font-mono space-y-3"
 			defaultValue={["0-global"]}
 		>
-			{explorer.scopeViewMode === "flat" ? (
+			{scope === "flat" ? (
 				<>
 					{scopeManager.scopes.map((subScope, index) => (
 						<ScopeItem
