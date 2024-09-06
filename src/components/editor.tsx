@@ -10,8 +10,8 @@ import { markdown } from "@codemirror/lang-markdown";
 import { EditorView } from "@codemirror/view";
 import { EditorState } from "@codemirror/state";
 import clsx from "clsx";
-import { debounce } from "../lib/utils";
 import { LanguageSupport } from "@codemirror/language";
+import { debounce, getPreferredColorScheme } from "../lib/utils";
 
 const languageExtensions: Record<string, (isJSX?: boolean) => LanguageSupport> =
 	{
@@ -148,7 +148,7 @@ export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange }) => {
 				value={value}
 				extensions={editorExtensions}
 				onChange={value => debouncedOnChange(value)}
-				theme={theme === "dark" ? "dark" : "light"}
+				theme={theme === "system" ? getPreferredColorScheme() : theme}
 				readOnly={readOnly}
 			/>
 		</div>

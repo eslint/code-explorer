@@ -35,7 +35,7 @@ function App() {
 	}
 
 	return (
-		<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+		<ThemeProvider>
 			<div className="antialiased touch-manipulation font-sans">
 				<div className="flex flex-col h-screen">
 					<Navbar />

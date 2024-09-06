@@ -21,3 +21,9 @@ export function debounce<T extends (...args: any[]) => void>(
 		}, delay);
 	};
 }
+
+export const getPreferredColorScheme = () => {
+	return window.matchMedia("(prefers-color-scheme: dark)").matches
+		? "dark"
+		: "light";
+};
