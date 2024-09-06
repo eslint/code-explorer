@@ -9,18 +9,21 @@ import { TreeEntry } from "../tree-entry";
 import type { FC } from "react";
 
 type ScopeItemProperties = {
+	isArray: boolean;
 	readonly index: number;
 	readonly data: Scope | Variable | Reference | null;
 };
 
-export const ScopeItem: FC<ScopeItemProperties> = ({ data, index }) => {
+export const ScopeItem: FC<ScopeItemProperties> = ({
+	data,
+	index,
+	isArray,
+}) => {
 	if (!data) {
 		return null;
 	}
 
 	let key = "unknown";
-
-	console.log(data);
 
 	if (data instanceof Scope) {
 		key = data.type;
@@ -36,7 +39,7 @@ export const ScopeItem: FC<ScopeItemProperties> = ({ data, index }) => {
 			className="border rounded-lg overflow-hidden"
 		>
 			<AccordionTrigger className="text-sm bg-muted-foreground/5 px-4 py-3">
-				{Math.max(index, 0)}. {capitalize(key)}
+				{isArray ? `${Math.max(index, 0)}.` : null} {capitalize(key)}
 			</AccordionTrigger>
 			<AccordionContent className="p-4 border-t">
 				<div className="space-y-1">

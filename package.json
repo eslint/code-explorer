@@ -94,7 +94,6 @@
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
-    "typescript": "^4.9.5",
     "typescript-eslint": "^8.1.0",
     "use-debounced-effect": "^2.0.1",
     "vaul": "^0.9.1",

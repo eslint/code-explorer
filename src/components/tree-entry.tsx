@@ -20,14 +20,29 @@ const isProbablyNode = (value: unknown) => {
 	);
 };
 
-const sanitizeValue = (value: unknown, index: number): ReactNode => {
+const SanitizeValue = ({
+	value,
+	isArray,
+	index,
+}: {
+	value: unknown;
+	isArray: boolean;
+	index: number;
+}): ReactNode => {
 	if (!value) {
 		return null;
 	}
 
 	if (Array.isArray(value)) {
 		if (typeof value[0] === "object") {
-			return value.map(sanitizeValue);
+			return value.map((item, index) => (
+				<SanitizeValue
+					key={index}
+					value={item}
+					index={index}
+					isArray={Array.isArray(value)}
+				/>
+			));
 		}
 
 		return (
@@ -46,7 +61,11 @@ const sanitizeValue = (value: unknown, index: number): ReactNode => {
 	) {
 		return (
 			<div className="mt-3 space-y-3 ml-2">
-				<ScopeItem data={value as Scope} index={index ? index : 0} />
+				<ScopeItem
+					isArray={isArray}
+					data={value as Scope}
+					index={index ? index : 0}
+				/>
 			</div>
 		);
 	}
@@ -91,7 +110,9 @@ export const TreeEntry: FC<TreeEntryProperties> = ({ data }) => {
 					</span>
 				))}
 			</div>
-			{open ? sanitizeValue(value) : null}
+			{open ? (
+				<SanitizeValue value={value} isArray={Array.isArray(value)} />
+			) : null}
 		</>
 	);
 };
