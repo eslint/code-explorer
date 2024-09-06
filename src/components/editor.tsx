@@ -6,14 +6,17 @@ import { useTheme } from "./theme-provider";
 import CodeMirror from "@uiw/react-codemirror";
 import { json } from "@codemirror/lang-json";
 import { javascript } from "@codemirror/lang-javascript";
+import { markdown } from "@codemirror/lang-markdown";
 import { EditorView } from "@codemirror/view";
 import { EditorState } from "@codemirror/state";
 import clsx from "clsx";
 import { debounce } from "../lib/utils";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const languageExtensions: Record<string, any> = {
 	javascript: (isJSX: boolean) => javascript({ jsx: isJSX }),
-	json: json,
+	json,
+	markdown,
 };
 
 type EditorProperties = {
@@ -29,8 +32,14 @@ export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange }) => {
 	const editorContainerRef = useRef<HTMLDivElement | null>(null);
 	const dropMessageRef = useRef<HTMLDivElement | null>(null);
 
+	const activeLanguageExtension = readOnly
+		? languageExtensions.json()
+		: languageExtensions[language]
+			? languageExtensions[language](isJSX)
+			: [];
+
 	const editorExtensions = [
-		languageExtensions[language] ? languageExtensions[language](isJSX) : [],
+		activeLanguageExtension,
 		wrap ? EditorView.lineWrapping : [],
 		readOnly ? EditorState.readOnly.of(true) : [],
 	];
