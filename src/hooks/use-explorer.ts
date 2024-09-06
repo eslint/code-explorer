@@ -1,7 +1,11 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import type { Options } from "espree";
-import { defaultJsCode, defaultJsonCode, defaultMarkdownCode } from "../lib/const";
+import {
+	defaultJsCode,
+	defaultJsonCode,
+	defaultMarkdownCode,
+} from "../lib/const";
 export type SourceType = Exclude<Options["sourceType"], undefined>;
 export type Version = Exclude<Options["ecmaVersion"], undefined>;
 

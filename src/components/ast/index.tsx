@@ -17,5 +17,4 @@ export const Ast: FC = () => {
 		default:
 			return <JavascriptAst />;
 	}
-
 };

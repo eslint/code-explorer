@@ -11,12 +11,14 @@ import { EditorView } from "@codemirror/view";
 import { EditorState } from "@codemirror/state";
 import clsx from "clsx";
 import { debounce } from "../lib/utils";
+import { LanguageSupport } from "@codemirror/language";
 
-const languageExtensions: Record<string, any> = {
-	javascript: (isJSX: boolean) => javascript({ jsx: isJSX }),
-	json,
-	markdown
-};
+const languageExtensions: Record<string, (isJSX?: boolean) => LanguageSupport> =
+	{
+		javascript: (isJSX: boolean = false) => javascript({ jsx: isJSX }),
+		json: () => json(),
+		markdown: () => markdown(),
+	};
 
 type EditorProperties = {
 	readOnly?: boolean;
@@ -34,8 +36,8 @@ export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange }) => {
 	const activeLanguageExtension = readOnly
 		? languageExtensions.json()
 		: languageExtensions[language]
-		? languageExtensions[language](isJSX)
-		: [];
+			? languageExtensions[language](isJSX)
+			: [];
 
 	const editorExtensions = [
 		activeLanguageExtension,

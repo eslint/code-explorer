@@ -6,12 +6,19 @@ import { Editor } from "./components/editor";
 import { ToolSelector } from "./components/tool-selector";
 import { ThemeProvider } from "./components/theme-provider";
 
-
 function App() {
-	const { language, tool, jsCode, setJsCode, jsonCode, setJsonCode, markdownCode, setMarkdownCode } =
-		useExplorer();
+	const {
+		language,
+		tool,
+		jsCode,
+		setJsCode,
+		jsonCode,
+		setJsonCode,
+		markdownCode,
+		setMarkdownCode,
+	} = useExplorer();
 	const activeTool = tools.find(({ value }) => value === tool) ?? tools[0];
-	
+
 	let editorValue;
 	switch (language) {
 		case "javascript":
@@ -26,7 +33,6 @@ function App() {
 		default:
 			editorValue = "";
 	}
-
 
 	return (
 		<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
