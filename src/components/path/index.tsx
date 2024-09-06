@@ -36,7 +36,7 @@ export const CodePath: FC = () => {
 				})
 				.then(newExtracted => {
 					if (
-						newExtracted.codePathList.length > explorer.pathIndexes
+						newExtracted.codePathList.length < explorer.pathIndexes
 					) {
 						explorer.setPathIndex(0);
 					}

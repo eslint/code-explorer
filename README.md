@@ -21,17 +21,13 @@ To install and set up the project, follow these steps:
 
 This will install all the necessary packages and dependencies required to run the project.
 
-:::info
-Note: The `--force` flag is used to bypass certain checks and force the installation of dependencies. Open to a PR that resolves this.
-:::
-
 Once the installation is complete, you can proceed to the next section to get started with running the development server.
 
 ## Usage
 
 Run the development server with `npm run start`.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:5173](http://localhost:5173) with your browser to see the result.
 
 ## Features
 
@@ -46,5 +42,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Configuration
 
--   The app is configured to use ESLint for linting JavaScript code.
--   The ESLint configuration is stored in the `.eslintrc.json` file.
+-   The app is configured to use ESLint for linting JavaScript code, with its configuration stored in the `eslint.config.mjs` file.
+-   The app is also configured to use Prettier for code formatting, with its configuration stored in the `.prettierrc` file.
