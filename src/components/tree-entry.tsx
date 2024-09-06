@@ -111,7 +111,11 @@ export const TreeEntry: FC<TreeEntryProperties> = ({ data }) => {
 				))}
 			</div>
 			{open ? (
-				<SanitizeValue value={value} isArray={Array.isArray(value)} />
+				<SanitizeValue
+					value={value}
+					isArray={Array.isArray(value)}
+					index={0}
+				/>
 			) : null}
 		</>
 	);

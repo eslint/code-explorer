@@ -25,7 +25,10 @@ export const Scope: FC = () => {
 		});
 		scopeManager = eslintScope.analyze(ast, {
 			sourceType: explorer.sourceType as never,
-			ecmaVersion: explorer.esVersion as never,
+			ecmaVersion:
+				explorer.esVersion === "latest"
+					? espree.latestEcmaVersion
+					: explorer.esVersion,
 		});
 	} catch (error) {
 		const message = parseError(error);

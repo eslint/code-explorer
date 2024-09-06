@@ -1,16 +1,16 @@
-import json from "@eslint/json";
+import markdown from "@eslint/markdown";
 import { Accordion } from "@/components/ui/accordion";
 import { Editor } from "@/components/editor";
 import { useExplorer } from "@/hooks/use-explorer";
-import { JsonAstTreeItem } from "./json-ast-tree-item";
+import { MarkdownAstTreeItem } from "./markdown-ast-tree-item";
 import type { FC } from "react";
 import { parseError } from "@/lib/parse-error";
 import { ErrorState } from "../error-boundary";
 
-export const JsonAst: FC = () => {
+export const MarkdownAst: FC = () => {
 	const explorer = useExplorer();
-	const language = json.languages[explorer.jsonMode];
-	const result = language.parse({ body: explorer.jsonCode });
+	const language = markdown.languages[explorer.markdownMode];
+	const result = language.parse({ body: explorer.markdownCode });
 
 	if (!result.ok) {
 		const message = parseError(result.errors[0]);
@@ -24,9 +24,9 @@ export const JsonAst: FC = () => {
 			<Accordion
 				type="multiple"
 				className="px-8 font-mono space-y-3"
-				defaultValue={["0-Document"]}
+				defaultValue={["0-root"]}
 			>
-				<JsonAstTreeItem data={result.ast} index={0} />
+				<MarkdownAstTreeItem data={result.ast} index={0} />
 			</Accordion>
 		);
 	}

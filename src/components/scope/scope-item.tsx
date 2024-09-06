@@ -1,5 +1,4 @@
 import { Scope, Variable, Reference } from "eslint-scope";
-import { capitalize } from "@/lib/utils";
 import {
 	AccordionContent,
 	AccordionItem,
@@ -38,8 +37,8 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 			value={`${index}-${key}`}
 			className="border rounded-lg overflow-hidden"
 		>
-			<AccordionTrigger className="text-sm bg-muted-foreground/5 px-4 py-3">
-				{isArray ? `${Math.max(index, 0)}.` : null} {capitalize(key)}
+			<AccordionTrigger className="text-sm bg-muted-foreground/5 px-4 py-3 capitalize">
+				{isArray ? `${Math.max(index, 0)}.` : null} {key}
 			</AccordionTrigger>
 			<AccordionContent className="p-4 border-t">
 				<div className="space-y-1">

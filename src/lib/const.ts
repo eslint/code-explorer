@@ -18,6 +18,11 @@ export const languages = [
 		label: "JSON",
 		icon: "/languages/json.svg",
 	},
+	{
+		value: "markdown",
+		label: "Markdown",
+		icon: "/languages/markdown.svg",
+	},
 ];
 
 export const parsers = [
@@ -147,11 +152,26 @@ export const versions: {
 export const jsonModes = [
 	{
 		value: "json",
-		label: "JSON",
+		label: "json",
 	},
 	{
 		value: "jsonc",
-		label: "JSONC",
+		label: "jsonc",
+	},
+	{
+		value: "json5",
+		label: "json5",
+	},
+];
+
+export const markdownModes = [
+	{
+		value: "commonmark",
+		label: "CommonMark",
+	},
+	{
+		value: "gfm",
+		label: "GitHub-Flavored",
 	},
 ];
 
@@ -254,3 +274,37 @@ export const defaultJsonCode = `
         "key3": [1, 2, "3", 1e10, 1e-3]
     }
 }`.trim();
+
+export const defaultMarkdownCode = `
+<!--
+Type or paste some Markdown here to learn more about
+the static analysis that ESLint can do for you.
+
+The tabs are:
+
+- AST - The Abstract Syntax Tree of the code, which can
+be useful to understand the structure of the code. You
+can view this structure as JSON or in a tree format.
+
+You can change the way that the Markdown code is interpreted
+by clicking "Markdown" in the header and selecting different
+options.
+
+This example is in CommonMark mode.
+-->
+
+# ESLint Markdown Example
+
+This is an example of a Markdown file that can be parsed
+by ESLint. Markdown is a simple markup language that is
+often used for documentation.
+
+## Features
+
+- Make things *italic*, **bold**, or \`code\`
+- Create [links](https://eslint.org)
+- Supports HTML <span style="color: red;">elements</span>
+- Lists
+  - Nested lists
+
+`.trim();

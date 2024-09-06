@@ -6,15 +6,19 @@ import { useTheme } from "./theme-provider";
 import CodeMirror from "@uiw/react-codemirror";
 import { json } from "@codemirror/lang-json";
 import { javascript } from "@codemirror/lang-javascript";
+import { markdown } from "@codemirror/lang-markdown";
 import { EditorView } from "@codemirror/view";
 import { EditorState } from "@codemirror/state";
 import clsx from "clsx";
+import { LanguageSupport } from "@codemirror/language";
 import { debounce } from "../lib/utils";
 
-const languageExtensions: Record<string, any> = {
-	javascript: (isJSX: boolean) => javascript({ jsx: isJSX }),
-	json: json,
-};
+const languageExtensions: Record<string, (isJSX?: boolean) => LanguageSupport> =
+	{
+		javascript: (isJSX: boolean = false) => javascript({ jsx: isJSX }),
+		json: () => json(),
+		markdown: () => markdown(),
+	};
 
 type EditorProperties = {
 	readOnly?: boolean;
@@ -29,8 +33,14 @@ export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange }) => {
 	const editorContainerRef = useRef<HTMLDivElement | null>(null);
 	const dropMessageRef = useRef<HTMLDivElement | null>(null);
 
+	const activeLanguageExtension = readOnly
+		? languageExtensions.json()
+		: languageExtensions[language]
+			? languageExtensions[language](isJSX)
+			: [];
+
 	const editorExtensions = [
-		languageExtensions[language] ? languageExtensions[language](isJSX) : [],
+		activeLanguageExtension,
 		wrap ? EditorView.lineWrapping : [],
 		readOnly ? EditorState.readOnly.of(true) : [],
 	];
