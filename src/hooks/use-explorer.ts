@@ -96,15 +96,6 @@ export const useExplorer = create<ExplorerState>()(
 				wrap: true,
 				setWrap: wrap => set({ wrap }),
 
-				// astViewMode: "json",
-				// setAstViewMode: mode => set({ astViewMode: mode }),
-
-				// scopeViewMode: "flat",
-				// setScopeViewMode: mode => set({ scopeViewMode: mode }),
-
-				// pathViewMode: "code",
-				// setPathViewMode: mode => set({ pathViewMode: mode }),
-
 				viewModes: defualtViewModes,
 				setViewModes: viewModes => set({ viewModes }),
 

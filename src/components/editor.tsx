@@ -11,13 +11,14 @@ import { EditorView } from "@codemirror/view";
 import { EditorState } from "@codemirror/state";
 import clsx from "clsx";
 import { debounce } from "../lib/utils";
+import { LanguageSupport } from "@codemirror/language";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const languageExtensions: Record<string, any> = {
-	javascript: (isJSX: boolean) => javascript({ jsx: isJSX }),
-	json,
-	markdown,
-};
+const languageExtensions: Record<string, (isJSX?: boolean) => LanguageSupport> =
+	{
+		javascript: (isJSX: boolean = false) => javascript({ jsx: isJSX }),
+		json: () => json(),
+		markdown: () => markdown(),
+	};
 
 type EditorProperties = {
 	readOnly?: boolean;
