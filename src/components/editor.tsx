@@ -10,7 +10,6 @@ import { markdown } from "@codemirror/lang-markdown";
 import { EditorView } from "@codemirror/view";
 import { EditorState } from "@codemirror/state";
 import clsx from "clsx";
-import { LanguageSupport } from "@codemirror/language";
 import { debounce } from "../lib/utils";
 import { LanguageSupport } from "@codemirror/language";
 

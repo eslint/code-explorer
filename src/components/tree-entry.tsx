@@ -64,7 +64,7 @@ const SanitizeValue = ({
 				<ScopeItem
 					isArray={isArray}
 					data={value as Scope}
-					index={index ? index : 0}
+					index={index}
 				/>
 			</div>
 		);
