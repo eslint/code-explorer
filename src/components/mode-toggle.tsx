@@ -22,11 +22,10 @@ const icons = {
 };
 
 const ThemeIcon: FC<{ theme: keyof typeof icons }> = ({ theme }) =>
-	icons[theme] || null;
+	icons[theme];
 
 export const ModeToggle: FC = () => {
 	const { setTheme, theme } = useTheme();
-	const handleThemeChange = (theme: keyof typeof icons) => setTheme(theme);
 
 	return (
 		<DropdownMenu>
@@ -37,13 +36,13 @@ export const ModeToggle: FC = () => {
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end">
-				<DropdownMenuItem onClick={() => handleThemeChange("light")}>
+				<DropdownMenuItem onClick={() => setTheme("light")}>
 					Light
 				</DropdownMenuItem>
-				<DropdownMenuItem onClick={() => handleThemeChange("dark")}>
+				<DropdownMenuItem onClick={() => setTheme("dark")}>
 					Dark
 				</DropdownMenuItem>
-				<DropdownMenuItem onClick={() => handleThemeChange("system")}>
+				<DropdownMenuItem onClick={() => setTheme("system")}>
 					System
 				</DropdownMenuItem>
 			</DropdownMenuContent>
