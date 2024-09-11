@@ -37,9 +37,9 @@ export type PathIndex = {
 };
 
 export type ViewModes = {
-	ast: "tree" | "json";
-	scope: "flat" | "nested";
-	path: "code" | "graph";
+	astView: "tree" | "json";
+	scopeView: "flat" | "nested";
+	pathView: "code" | "graph";
 };
 
 type ExplorerState = {

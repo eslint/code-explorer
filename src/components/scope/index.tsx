@@ -14,7 +14,7 @@ export const Scope: FC = () => {
 	const { code, jsOptions, viewModes } = explorer;
 	const { javascript } = code;
 	const { sourceType, esVersion, isJSX } = jsOptions;
-	const { scope } = viewModes;
+	const { scopeView } = viewModes;
 	let ast = {};
 	let scopeManager = null;
 
@@ -43,7 +43,7 @@ export const Scope: FC = () => {
 			className="px-8 font-mono space-y-3"
 			defaultValue={["0-global"]}
 		>
-			{scope === "flat" ? (
+			{scopeView === "flat" ? (
 				<>
 					{scopeManager.scopes.map((subScope, index) => (
 						<ScopeItem

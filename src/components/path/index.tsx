@@ -20,7 +20,7 @@ export const CodePath: FC = () => {
 	const { code, jsOptions, pathIndex, setPathIndex, viewModes } = explorer;
 	const { javascript } = code;
 	const { sourceType, esVersion } = jsOptions;
-	const { path } = viewModes;
+	const { pathView } = viewModes;
 	const { index, indexes } = pathIndex;
 	const [extracted, setExtracted] = useState<ParsedResponse | null>(null);
 	const [error, setError] = useState<string | null>(null);
@@ -71,7 +71,7 @@ export const CodePath: FC = () => {
 
 	const codePath = extracted.codePathList[index].dot;
 
-	if (path === "code") {
+	if (pathView === "code") {
 		return <Editor readOnly value={codePath} />;
 	}
 

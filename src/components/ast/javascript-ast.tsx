@@ -10,8 +10,8 @@ import { ErrorState } from "../error-boundary";
 export const JavascriptAst: FC = () => {
 	const explorer = useExplorer();
 	const { viewModes } = explorer;
-	const { ast } = viewModes;
-	let astCode = "";
+	const { astView } = viewModes;
+	let ast = "";
 	let tree: ReturnType<typeof espree.parse> | null = null;
 
 	try {
@@ -20,12 +20,12 @@ export const JavascriptAst: FC = () => {
 			sourceType: explorer.jsOptions.sourceType,
 		});
 
-		astCode = JSON.stringify(tree, null, 2);
+		ast = JSON.stringify(tree, null, 2);
 	} catch (error) {
 		const message = parseError(error);
 		return <ErrorState message={message} />;
 	}
-	if (ast === "tree") {
+	if (astView === "tree") {
 		if (tree === null) {
 			return null;
 		}
@@ -41,5 +41,5 @@ export const JavascriptAst: FC = () => {
 		);
 	}
 
-	return <Editor value={astCode} readOnly />;
+	return <Editor value={ast} readOnly />;
 };

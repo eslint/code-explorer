@@ -10,7 +10,7 @@ import { ErrorState } from "../error-boundary";
 export const JsonAst: FC = () => {
 	const explorer = useExplorer();
 	const { code, jsonOptions, viewModes } = explorer;
-	const { ast } = viewModes;
+	const { astView } = viewModes;
 	const { jsonMode } = jsonOptions;
 	const language = json.languages[jsonMode];
 	const result = language.parse({ body: code.json });
@@ -20,9 +20,9 @@ export const JsonAst: FC = () => {
 		return <ErrorState message={message} />;
 	}
 
-	const astCode = JSON.stringify(result.ast, null, 2);
+	const ast = JSON.stringify(result.ast, null, 2);
 
-	if (ast === "tree") {
+	if (astView === "tree") {
 		return (
 			<Accordion
 				type="multiple"
@@ -34,5 +34,5 @@ export const JsonAst: FC = () => {
 		);
 	}
 
-	return <Editor readOnly value={astCode} />;
+	return <Editor readOnly value={ast} />;
 };
