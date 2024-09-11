@@ -38,7 +38,7 @@
 		--drop-container-bg-color: 0deg 0% 77.59% / 80%;
 		--drop-message-bg-color: 0deg 0% 20%;
 
-		--error-message: 0deg 61.61% 56.08%;
+		--danger: 0deg 61.61% 56.08%;
 
 		--scrollbar-track: 0deg 0% 93.33%;
 		--scrollbar-thumb: 0deg 0% 53.33%;
@@ -79,7 +79,7 @@
 		--drop-container-bg-color: 0deg 0% 24.71% / 67%;
 		--drop-message-bg-color: 0deg 0% 20%;
 
-		--error-message: 0deg 61.61% 56.08%;
+		--danger: 0deg 61.61% 56.08%;
 
 		--scrollbar-track: 0deg 0% 18.04%;
 		--scrollbar-thumb: 0deg 0% 53.33%;
