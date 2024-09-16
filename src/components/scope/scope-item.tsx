@@ -32,6 +32,22 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 		key = data.identifier.name;
 	}
 
+	if (typeof data === "object" && Object.entries(data).length === 0) {
+		return (
+			<AccordionItem
+				value={key + index}
+				className="border rounded-lg overflow-hidden"
+			>
+				<AccordionTrigger className="text-sm bg-muted-foreground/5 px-4 py-3 capitalize">
+					{key}
+				</AccordionTrigger>
+				<AccordionContent className="p-4 border-t">
+					<div className="text-muted-foreground">empty value</div>
+				</AccordionContent>
+			</AccordionItem>
+		);
+	}
+
 	return (
 		<AccordionItem
 			value={`${index}-${key}`}

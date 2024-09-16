@@ -71,9 +71,9 @@ const SanitizeValue = ({
 	}
 
 	return (
-		<pre className="ml-8 max-h-44 bg-card border overflow-auto rounded-lg p-3">
-			{JSON.stringify(value, null, 2)}
-		</pre>
+		<div className="ml-8">
+			<ScopeItem isArray={isArray} data={value as Scope} index={index} />
+		</div>
 	);
 };
 
