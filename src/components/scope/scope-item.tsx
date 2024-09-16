@@ -22,7 +22,7 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 		return null;
 	}
 
-	let key = "unknown";
+	let key: string = typeof data;
 
 	if (data instanceof Scope) {
 		key = data.type;
