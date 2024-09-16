@@ -10,12 +10,14 @@ import type { FC } from "react";
 type ScopeItemProperties = {
 	isArray: boolean;
 	readonly index: number;
+	readonly path: string;
 	readonly data: Scope | Variable | Reference | null;
 };
 
 export const ScopeItem: FC<ScopeItemProperties> = ({
 	data,
 	index,
+	path,
 	isArray,
 }) => {
 	if (!data) {
@@ -35,7 +37,7 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 	if (typeof data === "object" && Object.entries(data).length === 0) {
 		return (
 			<AccordionItem
-				value={key + index}
+				value={path + "." + index}
 				className="border rounded-lg overflow-hidden"
 			>
 				<AccordionTrigger className="text-sm bg-muted-foreground/5 px-4 py-3 capitalize">
@@ -50,7 +52,7 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 
 	return (
 		<AccordionItem
-			value={`${index}-${key}`}
+			value={path + "." + index + "." + key}
 			className="border rounded-lg overflow-hidden"
 		>
 			<AccordionTrigger className="text-sm bg-muted-foreground/5 px-4 py-3 capitalize">
@@ -58,8 +60,12 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 			</AccordionTrigger>
 			<AccordionContent className="p-4 border-t">
 				<div className="space-y-1">
-					{Object.entries(data).map(item => (
-						<TreeEntry key={item[0]} data={item} />
+					{Object.entries(data).map((item, index) => (
+						<TreeEntry
+							key={item[0]}
+							data={item}
+							path={path + "." + index}
+						/>
 					))}
 				</div>
 			</AccordionContent>

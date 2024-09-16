@@ -7,6 +7,7 @@ import type { FC, ReactNode } from "react";
 
 type TreeEntryProperties = {
 	readonly data: [string, unknown];
+	readonly path: string;
 };
 
 const isProbablyNode = (value: unknown) => {
@@ -22,11 +23,13 @@ const isProbablyNode = (value: unknown) => {
 
 const SanitizeValue = ({
 	value,
+	path,
 	isArray,
 	index,
 }: {
 	value: unknown;
 	isArray: boolean;
+	path: string;
 	index: number;
 }): ReactNode => {
 	if (!value) {
@@ -38,6 +41,7 @@ const SanitizeValue = ({
 			return value.map((item, index) => (
 				<SanitizeValue
 					key={index}
+					path={path + "." + index}
 					value={item}
 					index={index}
 					isArray={Array.isArray(value)}
@@ -62,6 +66,7 @@ const SanitizeValue = ({
 		return (
 			<div className="mt-3 space-y-3 ml-2">
 				<ScopeItem
+					path={path + "." + index}
 					isArray={isArray}
 					data={value as Scope}
 					index={index}
@@ -72,12 +77,17 @@ const SanitizeValue = ({
 
 	return (
 		<div className="ml-8">
-			<ScopeItem isArray={isArray} data={value as Scope} index={index} />
+			<ScopeItem
+				path={path + "." + index}
+				isArray={isArray}
+				data={value as Scope}
+				index={index}
+			/>
 		</div>
 	);
 };
 
-export const TreeEntry: FC<TreeEntryProperties> = ({ data }) => {
+export const TreeEntry: FC<TreeEntryProperties> = ({ data, path }) => {
 	const [key, value] = data;
 	const [open, setOpen] = useState(false);
 	const Icon = open ? MinusSquareIcon : PlusSquareIcon;
@@ -112,6 +122,7 @@ export const TreeEntry: FC<TreeEntryProperties> = ({ data }) => {
 			</div>
 			{open ? (
 				<SanitizeValue
+					path={path}
 					value={value}
 					isArray={Array.isArray(value)}
 					index={0}

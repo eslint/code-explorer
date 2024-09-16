@@ -48,6 +48,7 @@ export const Scope: FC = () => {
 							isArray={Array.isArray(scopeManager.scopes)}
 							key={index}
 							data={subScope}
+							path={index.toString()}
 							index={index + 1}
 						/>
 					))}
@@ -56,6 +57,7 @@ export const Scope: FC = () => {
 				<ScopeItem
 					isArray={Array.isArray(scopeManager.globalScope)}
 					data={scopeManager.globalScope}
+					path={"-1"}
 					index={-1}
 				/>
 			)}
