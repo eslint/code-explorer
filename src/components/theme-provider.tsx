@@ -25,6 +25,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
 	children,
 	defaultTheme = "system",
 	storageKey = "vite-ui-theme",
+	...props
 }) => {
 	const [theme, setThemeState] = useState<Theme>(
 		() => (localStorage.getItem(storageKey) as Theme) || defaultTheme,
@@ -46,7 +47,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
 	};
 
 	return (
-		<ThemeProviderContext.Provider value={{ theme, setTheme }}>
+		<ThemeProviderContext.Provider {...props} value={{ theme, setTheme }}>
 			{children}
 		</ThemeProviderContext.Provider>
 	);
