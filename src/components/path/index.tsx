@@ -62,7 +62,7 @@ export const CodePath: FC = () => {
 
 	if (error) {
 		return (
-			<div className="bg-background -mt-18 pt-20 h-full">
+			<div className="bg-background pl-1.5 pt-1.5 h-full">
 				<div className="p-4 text-danger">Error: {error}</div>
 			</div>
 		);
