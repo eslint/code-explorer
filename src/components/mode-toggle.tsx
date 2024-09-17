@@ -9,7 +9,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { FC } from "react";
-import { useTheme } from "./theme-provider";
+import { useTheme, Theme } from "./theme-provider";
 
 const icons = {
 	light: (
@@ -21,8 +21,7 @@ const icons = {
 	system: <Monitor className="h-5 w-5 text-black dark:text-white" />,
 };
 
-const ThemeIcon: FC<{ theme: keyof typeof icons }> = ({ theme }) =>
-	icons[theme];
+const ThemeIcon: FC<{ theme: Theme }> = ({ theme }) => icons[theme];
 
 export const ModeToggle: FC = () => {
 	const { setTheme, theme } = useTheme();
