@@ -7,7 +7,7 @@ import {
 	defaultJsonOptions,
 	defaultMarkdownOptions,
 	defaultPathIndex,
-	defualtViewModes,
+	defaultViewModes,
 } from "../lib/const";
 export type SourceType = Exclude<Options["sourceType"], undefined>;
 export type Version = Exclude<Options["ecmaVersion"], undefined>;
@@ -96,7 +96,7 @@ export const useExplorer = create<ExplorerState>()(
 				wrap: true,
 				setWrap: wrap => set({ wrap }),
 
-				viewModes: defualtViewModes,
+				viewModes: defaultViewModes,
 				setViewModes: viewModes => set({ viewModes }),
 
 				pathIndex: defaultPathIndex,
