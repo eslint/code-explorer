@@ -13,12 +13,14 @@ import { useTheme, Theme } from "./theme-provider";
 
 const icons = {
 	light: (
-		<SunIcon className="h-5 w-5 transition-transform dark:-rotate-90 dark:scale-0" />
+		<SunIcon className="h-5 w-5 duration-300 transition-transform dark:-rotate-90 dark:scale-0" />
 	),
 	dark: (
-		<MoonIcon className="h-5 w-5 rotate-90 scale-0 transition-transform dark:rotate-0 dark:scale-100" />
+		<MoonIcon className="h-5 w-5 duration-300 rotate-90 scale-0 transition-transform dark:rotate-0 dark:scale-100" />
 	),
-	system: <Monitor className="h-5 w-5 text-black dark:text-white" />,
+	system: (
+		<Monitor className="h-5 w-5 duration-300 text-black dark:text-white" />
+	),
 };
 
 const ThemeIcon: FC<{ theme: Theme }> = ({ theme }) => icons[theme];
