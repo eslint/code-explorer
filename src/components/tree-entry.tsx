@@ -7,7 +7,7 @@ import type { FC, ReactNode } from "react";
 
 type TreeEntryProperties = {
 	readonly data: [string, unknown];
-	readonly path: string;
+	readonly path?: string;
 };
 
 const isProbablyNode = (value: unknown) => {
@@ -29,7 +29,7 @@ const SanitizeValue = ({
 }: {
 	value: unknown;
 	isArray: boolean;
-	path: string;
+	path?: string;
 	index: number;
 }): ReactNode => {
 	if (!value) {

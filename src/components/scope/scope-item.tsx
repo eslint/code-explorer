@@ -24,7 +24,7 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 		return null;
 	}
 
-	let key: string = typeof data;
+	let key;
 
 	if (data instanceof Scope) {
 		key = data.type;
@@ -32,6 +32,8 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 		key = data.name;
 	} else if (data instanceof Reference) {
 		key = data.identifier.name;
+	} else {
+		key = (data as Record<string, string>)?.type ?? typeof data;
 	}
 
 	if (typeof data === "object" && Object.entries(data).length === 0) {
