@@ -8,8 +8,7 @@ import { parseError } from "@/lib/parse-error";
 import { ErrorState } from "../error-boundary";
 
 export const MarkdownAst: FC = () => {
-	const explorer = useExplorer();
-	const { code, markdownOptions, viewModes } = explorer;
+	const { code, markdownOptions, viewModes } = useExplorer();
 	const { astView } = viewModes;
 	const { markdownMode } = markdownOptions;
 	const language = markdown.languages[markdownMode];

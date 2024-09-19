@@ -8,8 +8,7 @@ import { parseError } from "@/lib/parse-error";
 import { ErrorState } from "../error-boundary";
 
 export const JsonAst: FC = () => {
-	const explorer = useExplorer();
-	const { code, jsonOptions, viewModes } = explorer;
+	const { code, jsonOptions, viewModes } = useExplorer();
 	const { astView } = viewModes;
 	const { jsonMode } = jsonOptions;
 	const language = json.languages[jsonMode];

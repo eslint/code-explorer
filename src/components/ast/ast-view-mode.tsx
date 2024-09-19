@@ -7,8 +7,7 @@ import { cn } from "@/lib/utils";
 import type { FC } from "react";
 
 export const AstViewMode: FC = () => {
-	const explorer = useExplorer();
-	const { viewModes, setViewModes } = explorer;
+	const { viewModes, setViewModes } = useExplorer();
 	const { astView } = viewModes;
 
 	const handleValueChange = (value: string) => {
