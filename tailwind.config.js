@@ -50,7 +50,6 @@ module.exports = {
 				},
 				dropContainer: "hsl(var(--drop-container-bg-color))",
 				dropMessage: "hsl(var(--drop-message-bg-color))",
-				danger: "hsl(var(--danger))",
 				editorBackground: "hsl(var(--editor-background))",
 			},
 			borderRadius: {
