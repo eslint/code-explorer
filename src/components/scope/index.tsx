@@ -47,14 +47,21 @@ export const Scope: FC = () => {
 				<>
 					{scopeManager.scopes.map((subScope, index) => (
 						<ScopeItem
+							isArray={Array.isArray(scopeManager.scopes)}
 							key={index}
 							data={subScope}
+							path={index.toString()}
 							index={index + 1}
 						/>
 					))}
 				</>
 			) : (
-				<ScopeItem data={scopeManager.globalScope} index={-1} />
+				<ScopeItem
+					isArray={Array.isArray(scopeManager.globalScope)}
+					data={scopeManager.globalScope}
+					path={"-1"}
+					index={-1}
+				/>
 			)}
 		</Accordion>
 	);
