@@ -9,13 +9,15 @@ import { ErrorState } from "../error-boundary";
 
 export const JavascriptAst: FC = () => {
 	const explorer = useExplorer();
+	const { viewModes } = explorer;
+	const { astView } = viewModes;
 	let ast = "";
 	let tree: ReturnType<typeof espree.parse> | null = null;
 
 	try {
-		tree = espree.parse(explorer.jsCode, {
-			ecmaVersion: explorer.esVersion,
-			sourceType: explorer.sourceType,
+		tree = espree.parse(explorer.code.javascript, {
+			ecmaVersion: explorer.jsOptions.esVersion,
+			sourceType: explorer.jsOptions.sourceType,
 		});
 
 		ast = JSON.stringify(tree, null, 2);
@@ -23,7 +25,7 @@ export const JavascriptAst: FC = () => {
 		const message = parseError(error);
 		return <ErrorState message={message} />;
 	}
-	if (explorer.astViewMode === "tree") {
+	if (astView === "tree") {
 		if (tree === null) {
 			return null;
 		}

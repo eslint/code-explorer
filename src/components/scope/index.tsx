@@ -11,24 +11,26 @@ import { ErrorState } from "../error-boundary";
 
 export const Scope: FC = () => {
 	const explorer = useExplorer();
+	const { code, jsOptions, viewModes } = explorer;
+	const { javascript } = code;
+	const { sourceType, esVersion, isJSX } = jsOptions;
+	const { scopeView } = viewModes;
 	let ast = {};
 	let scopeManager = null;
 
 	try {
-		ast = espree.parse(explorer.jsCode, {
+		ast = espree.parse(javascript, {
 			range: true,
-			ecmaVersion: explorer.esVersion,
-			sourceType: explorer.sourceType,
+			ecmaVersion: esVersion,
+			sourceType: sourceType,
 			ecmaFeatures: {
-				jsx: explorer.isJSX,
+				jsx: isJSX,
 			},
 		});
 		scopeManager = eslintScope.analyze(ast, {
-			sourceType: explorer.sourceType as never,
+			sourceType: sourceType as never,
 			ecmaVersion:
-				explorer.esVersion === "latest"
-					? espree.latestEcmaVersion
-					: explorer.esVersion,
+				esVersion === "latest" ? espree.latestEcmaVersion : esVersion,
 		});
 	} catch (error) {
 		const message = parseError(error);
@@ -41,18 +43,25 @@ export const Scope: FC = () => {
 			className="px-8 font-mono space-y-3"
 			defaultValue={["0-global"]}
 		>
-			{explorer.scopeViewMode === "flat" ? (
+			{scopeView === "flat" ? (
 				<>
 					{scopeManager.scopes.map((subScope, index) => (
 						<ScopeItem
+							isArray={Array.isArray(scopeManager.scopes)}
 							key={index}
 							data={subScope}
+							path={index.toString()}
 							index={index + 1}
 						/>
 					))}
 				</>
 			) : (
-				<ScopeItem data={scopeManager.globalScope} index={-1} />
+				<ScopeItem
+					isArray={Array.isArray(scopeManager.globalScope)}
+					data={scopeManager.globalScope}
+					path={"-1"}
+					index={-1}
+				/>
 			)}
 		</Accordion>
 	);

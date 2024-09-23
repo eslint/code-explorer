@@ -7,13 +7,10 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { SourceType, Version } from "@/hooks/use-explorer";
+import { Version } from "@/hooks/use-explorer";
 import { Label } from "./ui/label";
 
-type OnValueChangeType =
-	| ((string: string) => void)
-	| ((mode: "json" | "jsonc" | "json5") => void)
-	| ((mode: "commonmark" | "gfm") => void);
+type OnValueChangeType = (value: string) => void;
 type ItemsType = {
 	value: string | Version;
 	label: string;
@@ -22,7 +19,7 @@ type ItemsType = {
 interface PanelProps {
 	id: string;
 	label: string;
-	value: string | SourceType;
+	value: string;
 	onValueChange: OnValueChangeType;
 	items: ItemsType[];
 	placeholder: string;
@@ -52,7 +49,7 @@ const LabeledSelect = (props: PanelProps) => {
 					{items.map(item => (
 						<SelectItem
 							key={item.value}
-							value={item.value.toString()}
+							value={item.value as string}
 						>
 							{icon && (
 								<div className="flex items-center gap-1.5">

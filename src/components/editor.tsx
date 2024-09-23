@@ -10,8 +10,8 @@ import { markdown } from "@codemirror/lang-markdown";
 import { EditorView } from "@codemirror/view";
 import { EditorState } from "@codemirror/state";
 import clsx from "clsx";
-import { debounce } from "../lib/utils";
 import { LanguageSupport } from "@codemirror/language";
+import { debounce, getPreferredColorScheme } from "../lib/utils";
 
 const languageExtensions: Record<string, (isJSX?: boolean) => LanguageSupport> =
 	{
@@ -28,7 +28,8 @@ type EditorProperties = {
 
 export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange }) => {
 	const { theme } = useTheme();
-	const { wrap, jsonMode, language, isJSX } = useExplorer();
+	const { wrap, language, jsOptions } = useExplorer();
+	const { isJSX } = jsOptions;
 	const [isDragOver, setIsDragOver] = useState<boolean>(false);
 	const editorContainerRef = useRef<HTMLDivElement | null>(null);
 	const dropMessageRef = useRef<HTMLDivElement | null>(null);
@@ -109,7 +110,7 @@ export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange }) => {
 				dropMessageDiv.removeEventListener("drop", handleDrop);
 			}
 		};
-	}, [jsonMode, wrap, readOnly]);
+	}, [readOnly]);
 
 	const editorClasses = clsx("relative", {
 		"h-[calc(100vh-152px)]": readOnly,
@@ -148,7 +149,7 @@ export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange }) => {
 				value={value}
 				extensions={editorExtensions}
 				onChange={value => debouncedOnChange(value)}
-				theme={theme === "dark" ? "dark" : "light"}
+				theme={theme === "system" ? getPreferredColorScheme() : theme}
 				readOnly={readOnly}
 			/>
 		</div>
