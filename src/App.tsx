@@ -10,7 +10,7 @@ function App() {
 	const { language, tool, code, setCode } = useExplorer();
 	const activeTool = tools.find(({ value }) => value === tool) ?? tools[0];
 	return (
-		<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+		<ThemeProvider>
 			<div className="antialiased touch-manipulation font-sans">
 				<div className="flex flex-col h-screen">
 					<Navbar />
