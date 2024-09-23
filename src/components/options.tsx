@@ -20,15 +20,27 @@ import { Label } from "./ui/label";
 import type { FC } from "react";
 import { Settings } from "lucide-react";
 import LabeledSelect from "./LabeledSelect";
+import type {
+	JsonMode,
+	Language,
+	MarkdownMode,
+	SourceType,
+	Version,
+} from "@/hooks/use-explorer";
 
 const JSONPanel: React.FC = () => {
 	const explorer = useExplorer();
+	const { jsonOptions, setJsonOptions } = explorer;
+	const { jsonMode } = jsonOptions;
 	return (
 		<LabeledSelect
 			id="jsonMode"
 			label="Mode"
-			value={explorer.jsonMode}
-			onValueChange={explorer.setJsonMode}
+			value={jsonMode}
+			onValueChange={(value: string) => {
+				const jsonMode = value as JsonMode;
+				setJsonOptions({ ...jsonOptions, jsonMode });
+			}}
 			items={jsonModes}
 			placeholder="Mode"
 		/>
@@ -37,12 +49,17 @@ const JSONPanel: React.FC = () => {
 
 const MarkdownPanel: React.FC = () => {
 	const explorer = useExplorer();
+	const { markdownOptions, setMarkdownOptions } = explorer;
+	const { markdownMode } = markdownOptions;
 	return (
 		<LabeledSelect
 			id="markdownMode"
 			label="Mode"
-			value={explorer.markdownMode}
-			onValueChange={explorer.setMarkdownMode}
+			value={markdownMode}
+			onValueChange={(value: string) => {
+				const markdownMode = value as MarkdownMode;
+				setMarkdownOptions({ ...markdownOptions, markdownMode });
+			}}
 			items={markdownModes}
 			placeholder="Mode"
 		/>
@@ -51,13 +68,17 @@ const MarkdownPanel: React.FC = () => {
 
 const JavaScriptPanel = () => {
 	const explorer = useExplorer();
+	const { jsOptions, setJsOptions } = explorer;
+	const { parser, sourceType, esVersion, isJSX } = jsOptions;
 	return (
 		<>
 			<LabeledSelect
 				id="parser"
 				label="Parser"
-				value={explorer.parser}
-				onValueChange={explorer.setParser}
+				value={parser}
+				onValueChange={(parser: string) => {
+					setJsOptions({ ...jsOptions, parser });
+				}}
 				items={parsers}
 				placeholder="Parser"
 				isDisabled={true}
@@ -67,8 +88,11 @@ const JavaScriptPanel = () => {
 			<LabeledSelect
 				id="sourceType"
 				label="Source Type"
-				value={explorer.sourceType}
-				onValueChange={explorer.setSourceType}
+				value={sourceType}
+				onValueChange={(value: string) => {
+					const sourceType = value as SourceType;
+					setJsOptions({ ...jsOptions, sourceType });
+				}}
 				items={sourceTypes}
 				placeholder="Source Type"
 			/>
@@ -76,8 +100,11 @@ const JavaScriptPanel = () => {
 			<LabeledSelect
 				id="esVersion"
 				label="ECMAScript Version"
-				value={String(explorer.esVersion)}
-				onValueChange={explorer.setEsVersion}
+				value={esVersion as string}
+				onValueChange={(value: string) => {
+					const esVersion = value as Version;
+					setJsOptions({ ...jsOptions, esVersion });
+				}}
 				items={versions}
 				placeholder="ECMAScript Version"
 			/>
@@ -85,8 +112,10 @@ const JavaScriptPanel = () => {
 			<div className="flex items-center gap-1.5">
 				<Switch
 					id="jsx"
-					checked={explorer.isJSX}
-					onCheckedChange={explorer.setIsJSX}
+					checked={isJSX}
+					onCheckedChange={(value: boolean) => {
+						setJsOptions({ ...jsOptions, isJSX: value });
+					}}
 				/>
 				<Label htmlFor="jsx">JSX</Label>
 			</div>
@@ -117,9 +146,10 @@ export const Options: FC = () => {
 	}
 
 	const handleChangeLanguage = (value: string) => {
-		explorer.setLanguage(value);
+		const language = value as Language;
+		explorer.setLanguage(language);
 
-		if (value !== "javascript" && explorer.tool !== "ast") {
+		if (language !== "javascript" && explorer.tool !== "ast") {
 			explorer.setTool("ast");
 		}
 	};

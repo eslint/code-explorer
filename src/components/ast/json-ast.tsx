@@ -8,9 +8,11 @@ import { parseError } from "@/lib/parse-error";
 import { ErrorState } from "../error-boundary";
 
 export const JsonAst: FC = () => {
-	const explorer = useExplorer();
-	const language = json.languages[explorer.jsonMode];
-	const result = language.parse({ body: explorer.jsonCode });
+	const { code, jsonOptions, viewModes } = useExplorer();
+	const { astView } = viewModes;
+	const { jsonMode } = jsonOptions;
+	const language = json.languages[jsonMode];
+	const result = language.parse({ body: code.json });
 
 	if (!result.ok) {
 		const message = parseError(result.errors[0]);
@@ -19,7 +21,7 @@ export const JsonAst: FC = () => {
 
 	const ast = JSON.stringify(result.ast, null, 2);
 
-	if (explorer.astViewMode === "tree") {
+	if (astView === "tree") {
 		return (
 			<Accordion
 				type="multiple"

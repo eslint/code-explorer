@@ -5,7 +5,16 @@ import {
 	LayersIcon,
 	ListIcon,
 } from "lucide-react";
-import type { SourceType, Version } from "@/hooks/use-explorer";
+import type {
+	SourceType,
+	Version,
+	JsOptions,
+	JsonOptions,
+	MarkdownOptions,
+	PathIndex,
+	ViewModes,
+	Code,
+} from "@/hooks/use-explorer";
 
 export const languages = [
 	{
@@ -308,3 +317,35 @@ often used for documentation.
   - Nested lists
 
 `.trim();
+
+export const defaultCode: Code = {
+	javascript: defaultJsCode,
+	json: defaultJsonCode,
+	markdown: defaultMarkdownCode,
+};
+
+export const defaultJsOptions: JsOptions = {
+	parser: "espree",
+	sourceType: "module",
+	esVersion: "latest",
+	isJSX: true,
+};
+
+export const defaultJsonOptions: JsonOptions = {
+	jsonMode: "jsonc",
+};
+
+export const defaultMarkdownOptions: MarkdownOptions = {
+	markdownMode: "commonmark",
+};
+
+export const defaultPathIndex: PathIndex = {
+	index: 0,
+	indexes: 1,
+};
+
+export const defaultViewModes: ViewModes = {
+	astView: "json",
+	scopeView: "flat",
+	pathView: "code",
+};

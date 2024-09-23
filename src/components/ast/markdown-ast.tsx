@@ -8,9 +8,11 @@ import { parseError } from "@/lib/parse-error";
 import { ErrorState } from "../error-boundary";
 
 export const MarkdownAst: FC = () => {
-	const explorer = useExplorer();
-	const language = markdown.languages[explorer.markdownMode];
-	const result = language.parse({ body: explorer.markdownCode });
+	const { code, markdownOptions, viewModes } = useExplorer();
+	const { astView } = viewModes;
+	const { markdownMode } = markdownOptions;
+	const language = markdown.languages[markdownMode];
+	const result = language.parse({ body: code.markdown });
 
 	if (!result.ok) {
 		const message = parseError(result.errors[0]);
@@ -19,7 +21,7 @@ export const MarkdownAst: FC = () => {
 
 	const ast = JSON.stringify(result.ast, null, 2);
 
-	if (explorer.astViewMode === "tree") {
+	if (astView === "tree") {
 		return (
 			<Accordion
 				type="multiple"

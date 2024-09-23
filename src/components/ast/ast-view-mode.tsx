@@ -7,20 +7,21 @@ import { cn } from "@/lib/utils";
 import type { FC } from "react";
 
 export const AstViewMode: FC = () => {
-	const explorer = useExplorer();
+	const { viewModes, setViewModes } = useExplorer();
+	const { astView } = viewModes;
 
 	const handleValueChange = (value: string) => {
 		if (!value) {
 			return;
 		}
 
-		explorer.setAstViewMode(value as "tree" | "json");
+		setViewModes({ ...viewModes, astView: value as "tree" | "json" });
 	};
 
 	return (
 		<ToggleGroup
 			type="single"
-			value={explorer.astViewMode}
+			value={astView}
 			onValueChange={handleValueChange}
 			className="border rounded-md"
 		>
@@ -30,7 +31,7 @@ export const AstViewMode: FC = () => {
 					value={option.value}
 					className={cn(
 						"border -m-px flex items-center gap-1.5",
-						option.value === explorer.astViewMode
+						option.value === astView
 							? "!bg-background"
 							: "border-transparent hover:bg-transparent text-muted-foreground",
 					)}

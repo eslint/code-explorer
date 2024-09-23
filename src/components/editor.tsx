@@ -28,7 +28,8 @@ type EditorProperties = {
 
 export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange }) => {
 	const { theme } = useTheme();
-	const { wrap, jsonMode, language, isJSX } = useExplorer();
+	const { wrap, language, jsOptions } = useExplorer();
+	const { isJSX } = jsOptions;
 	const [isDragOver, setIsDragOver] = useState<boolean>(false);
 	const editorContainerRef = useRef<HTMLDivElement | null>(null);
 	const dropMessageRef = useRef<HTMLDivElement | null>(null);
@@ -109,7 +110,7 @@ export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange }) => {
 				dropMessageDiv.removeEventListener("drop", handleDrop);
 			}
 		};
-	}, [jsonMode, wrap, readOnly]);
+	}, [readOnly]);
 
 	const editorClasses = clsx("relative", {
 		"h-[calc(100vh-152px)]": readOnly,
