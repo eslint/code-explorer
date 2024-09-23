@@ -1,6 +1,6 @@
 "use client";
 
-import { MoonIcon, SunIcon } from "lucide-react";
+import { MoonIcon, SunIcon, Monitor } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
@@ -9,17 +9,30 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { FC } from "react";
-import { useTheme } from "./theme-provider";
+import { useTheme, Theme } from "./theme-provider";
+
+const icons = {
+	light: (
+		<SunIcon className="h-5 w-5 duration-300 transition-transform dark:-rotate-90 dark:scale-0" />
+	),
+	dark: (
+		<MoonIcon className="h-5 w-5 duration-300 rotate-90 scale-0 transition-transform dark:rotate-0 dark:scale-100" />
+	),
+	system: (
+		<Monitor className="h-5 w-5 duration-300 text-black dark:text-white" />
+	),
+};
+
+const ThemeIcon: FC<{ theme: Theme }> = ({ theme }) => icons[theme];
 
 export const ModeToggle: FC = () => {
-	const { setTheme } = useTheme();
+	const { setTheme, theme } = useTheme();
 
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				<Button variant="outline" size="icon">
-					<SunIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-					<MoonIcon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+					<ThemeIcon theme={theme} />
 					<span className="sr-only">Toggle theme</span>
 				</Button>
 			</DropdownMenuTrigger>

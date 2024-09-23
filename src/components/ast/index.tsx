@@ -7,9 +7,9 @@ import { MarkdownAst } from "./markdown-ast";
 import type { FC } from "react";
 
 export const Ast: FC = () => {
-	const explorer = useExplorer();
+	const { language } = useExplorer();
 
-	switch (explorer.language) {
+	switch (language) {
 		case "markdown":
 			return <MarkdownAst />;
 		case "json":

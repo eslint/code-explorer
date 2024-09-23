@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { getPreferredColorScheme } from "../lib/utils";
 
-type Theme = "dark" | "light" | "system";
+export type Theme = "dark" | "light" | "system";
 
 type ThemeProviderProps = {
 	children: React.ReactNode;
@@ -20,13 +21,13 @@ const initialState: ThemeProviderState = {
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 
-export function ThemeProvider({
+export const ThemeProvider: React.FC<ThemeProviderProps> = ({
 	children,
 	defaultTheme = "system",
 	storageKey = "vite-ui-theme",
 	...props
-}: ThemeProviderProps) {
-	const [theme, setTheme] = useState<Theme>(
+}) => {
+	const [theme, setThemeState] = useState<Theme>(
 		() => (localStorage.getItem(storageKey) as Theme) || defaultTheme,
 	);
 
@@ -35,40 +36,27 @@ export function ThemeProvider({
 
 		root.classList.remove("light", "dark");
 
-		if (theme === "system") {
-			const systemTheme = window.matchMedia(
-				"(prefers-color-scheme: dark)",
-			).matches
-				? "dark"
-				: "light";
-
-			root.classList.add(systemTheme);
-			return;
-		}
-
-		root.classList.add(theme);
+		const appliedTheme =
+			theme === "system" ? getPreferredColorScheme() : theme;
+		root.classList.add(appliedTheme);
 	}, [theme]);
 
-	const value = {
-		theme,
-		setTheme: (theme: Theme) => {
-			localStorage.setItem(storageKey, theme);
-			setTheme(theme);
-		},
+	const setTheme = (newTheme: Theme) => {
+		localStorage.setItem(storageKey, newTheme);
+		setThemeState(newTheme);
 	};
 
 	return (
-		<ThemeProviderContext.Provider {...props} value={value}>
+		<ThemeProviderContext.Provider {...props} value={{ theme, setTheme }}>
 			{children}
 		</ThemeProviderContext.Provider>
 	);
-}
+};
 
-export const useTheme = () => {
+export const useTheme = (): ThemeProviderState => {
 	const context = useContext(ThemeProviderContext);
-
-	if (context === undefined)
+	if (!context) {
 		throw new Error("useTheme must be used within a ThemeProvider");
-
+	}
 	return context;
 };

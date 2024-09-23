@@ -64,7 +64,7 @@ const SanitizeValue = ({
 		isProbablyNode(value)
 	) {
 		return (
-			<div className="mt-3 space-y-3 ml-2">
+			<div className="mt-3 space-y-3 ml-6">
 				<ScopeItem
 					path={path + "." + index}
 					isArray={isArray}
@@ -97,7 +97,9 @@ export const TreeEntry: FC<TreeEntryProperties> = ({ data, path }) => {
 	return (
 		<>
 			<div className="flex items-center gap-3">
-				{typeof value === "object" || Array.isArray(value) ? (
+				{(typeof value === "object" &&
+					Object.values(value ?? {}).length) ||
+				(Array.isArray(value) && value.length) ? (
 					<button
 						onClick={toggleOpen}
 						aria-label="Toggle"
@@ -108,7 +110,7 @@ export const TreeEntry: FC<TreeEntryProperties> = ({ data, path }) => {
 				) : (
 					<div className="w-4 h-4" />
 				)}
-				<span>{key}</span>
+				{key && <span>{key}</span>}
 				{renderValue(value).map((part, partIndex) => (
 					<span
 						key={partIndex}
