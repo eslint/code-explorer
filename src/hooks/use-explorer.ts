@@ -1,5 +1,10 @@
 import { create } from "zustand";
-import { devtools, persist } from "zustand/middleware";
+import {
+	devtools,
+	persist,
+	StateStorage,
+	createJSONStorage,
+} from "zustand/middleware";
 import type { Options } from "espree";
 import {
 	defaultCode,
@@ -71,37 +76,63 @@ type ExplorerState = {
 	setPathIndex: (pathIndex: PathIndex) => void;
 };
 
+const hashStorage: StateStorage = {
+	getItem: (key): string => {
+		const searchParams = new URLSearchParams(location.hash.slice(1));
+		const storedValue = searchParams.get(key) ?? "";
+		return storedValue ? JSON.parse(atob(storedValue)) : "";
+	},
+	setItem: (key, newValue): void => {
+		const searchParams = new URLSearchParams(location.hash.slice(1));
+		const encodedValue = btoa(JSON.stringify(newValue));
+		searchParams.set(key, encodedValue);
+		location.hash = searchParams.toString();
+	},
+	removeItem: (key): void => {
+		const searchParams = new URLSearchParams(location.hash.slice(1));
+		searchParams.delete(key);
+		location.hash = searchParams.toString();
+	},
+};
+
 export const useExplorer = create<ExplorerState>()(
 	devtools(
 		persist(
-			set => ({
-				tool: "ast",
-				setTool: tool => set({ tool }),
+			persist(
+				set => ({
+					tool: "ast",
+					setTool: tool => set({ tool }),
 
-				code: defaultCode,
-				setCode: code => set({ code }),
+					code: defaultCode,
+					setCode: code => set({ code }),
 
-				language: "javascript",
-				setLanguage: language => set({ language }),
+					language: "javascript",
+					setLanguage: language => set({ language }),
 
-				jsOptions: defaultJsOptions,
-				setJsOptions: jsOptions => set({ jsOptions }),
+					jsOptions: defaultJsOptions,
+					setJsOptions: jsOptions => set({ jsOptions }),
 
-				jsonOptions: defaultJsonOptions,
-				setJsonOptions: jsonOptions => set({ jsonOptions }),
+					jsonOptions: defaultJsonOptions,
+					setJsonOptions: jsonOptions => set({ jsonOptions }),
 
-				markdownOptions: defaultMarkdownOptions,
-				setMarkdownOptions: markdownOptions => set({ markdownOptions }),
+					markdownOptions: defaultMarkdownOptions,
+					setMarkdownOptions: markdownOptions =>
+						set({ markdownOptions }),
 
-				wrap: true,
-				setWrap: wrap => set({ wrap }),
+					wrap: true,
+					setWrap: wrap => set({ wrap }),
 
-				viewModes: defaultViewModes,
-				setViewModes: viewModes => set({ viewModes }),
+					viewModes: defaultViewModes,
+					setViewModes: viewModes => set({ viewModes }),
 
-				pathIndex: defaultPathIndex,
-				setPathIndex: pathIndex => set({ pathIndex }),
-			}),
+					pathIndex: defaultPathIndex,
+					setPathIndex: pathIndex => set({ pathIndex }),
+				}),
+				{
+					name: "eslint-explorer",
+					storage: createJSONStorage(() => hashStorage),
+				},
+			),
 			{
 				name: "eslint-explorer",
 			},
