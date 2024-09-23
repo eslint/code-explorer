@@ -7,33 +7,8 @@ import { ToolSelector } from "./components/tool-selector";
 import { ThemeProvider } from "./components/theme-provider";
 
 function App() {
-	const {
-		language,
-		tool,
-		jsCode,
-		setJsCode,
-		jsonCode,
-		setJsonCode,
-		markdownCode,
-		setMarkdownCode,
-	} = useExplorer();
+	const { language, tool, code, setCode } = useExplorer();
 	const activeTool = tools.find(({ value }) => value === tool) ?? tools[0];
-
-	let editorValue;
-	switch (language) {
-		case "javascript":
-			editorValue = jsCode;
-			break;
-		case "json":
-			editorValue = jsonCode;
-			break;
-		case "markdown":
-			editorValue = markdownCode;
-			break;
-		default:
-			editorValue = "";
-	}
-
 	return (
 		<ThemeProvider>
 			<div className="antialiased touch-manipulation font-sans">
@@ -42,19 +17,9 @@ function App() {
 					<div className="h-full overflow-hidden">
 						<div className="grid sm:grid-cols-2 divide-x border-t h-full">
 							<Editor
-								value={editorValue}
+								value={code[language]}
 								onChange={value => {
-									switch (language) {
-										case "javascript":
-											setJsCode(value);
-											break;
-										case "json":
-											setJsonCode(value);
-											break;
-										case "markdown":
-											setMarkdownCode(value);
-											break;
-									}
+									setCode({ ...code, [language]: value });
 								}}
 							/>
 							<div className="bg-foreground/5 overflow-auto h-[70dvh] sm:h-full relative flex flex-col">
