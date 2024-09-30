@@ -36,6 +36,11 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 		key = (data as Record<string, string>)?.type ?? typeof data;
 	}
 
+	// filter out hidden properties
+	const properties = Object.entries(data).filter(
+		([name]) => !name.startsWith("__"),
+	);
+
 	return (
 		<AccordionItem
 			value={path + "." + index + "." + key}
@@ -46,7 +51,7 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 			</AccordionTrigger>
 			<AccordionContent className="p-4 border-t">
 				<div className="space-y-1">
-					{Object.entries(data).map((item, index) => (
+					{properties.map((item, index) => (
 						<TreeEntry
 							key={item[0]}
 							data={item}

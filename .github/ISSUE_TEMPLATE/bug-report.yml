@@ -10,13 +10,6 @@ body:
           value: By opening an issue, you agree to abide by the [OpenJS Foundation Code of Conduct](https://eslint.org/conduct).
     - type: textarea
       attributes:
-          label: URL(s)
-          description: |
-              Please tell us which URL(s) have a problem:
-      validations:
-          required: true
-    - type: textarea
-      attributes:
           label: What did you do?
           description: |
               You can use Markdown in this field.

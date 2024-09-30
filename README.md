@@ -17,7 +17,7 @@ To install and set up the project, follow these steps:
 
 1. Ensure you have Node.js v20 installed. You can download it from the [official Node.js website](https://nodejs.org/).
 2. Clone the repository to your local machine.
-3. Install the project dependencies using npm with the `--force` flag.
+3. Install the project dependencies using npm - `npm install`.
 
 This will install all the necessary packages and dependencies required to run the project.
 
@@ -28,12 +28,6 @@ Once the installation is complete, you can proceed to the next section to get st
 Run the development server with `npm run start`.
 
 Open [http://localhost:5173](http://localhost:5173) with your browser to see the result.
-
-## Features
-
--   This app is built with React, a popular JavaScript library for building user interfaces.
--   It uses create-react-app, a tool for scaffolding React apps.
--   The app is configured to use ESLint, a tool for linting JavaScript code.
 
 ## Scripts
 
