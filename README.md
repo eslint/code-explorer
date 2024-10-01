@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository contains the source code for the ESLint [Code Explorer](https://explorer.eslint.org). Code Explorer is designed to help developers explore and understand source code to aid in the creation of creating custom ESLint rules. Each language supported by Code Explorer exposes the same information that ESLint rules have access to.
+This repository contains the source code for the ESLint [Code Explorer](https://explorer.eslint.org). Code Explorer is designed to help developers explore and understand source code to aid in the creation of custom ESLint rules. Each language supported by Code Explorer exposes the same information that ESLint rules have access to.
 
 At a minimum, each language displays the AST for any code that is entered into the editor. You can toggle different parser settings for each language to see how that affects the AST. For JavaScript, you also get to see scope and code path information.
 
