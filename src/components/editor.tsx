@@ -114,7 +114,7 @@ export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange }) => {
 
 	const editorClasses = clsx("relative", {
 		"h-[calc(100vh-152px)]": readOnly,
-		"h-[calc(100vh-72px)]": !readOnly,
+		"h-[calc(100vh-80px)]": !readOnly,
 	});
 
 	const dropMessageClasses = clsx(
