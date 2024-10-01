@@ -345,7 +345,7 @@ export const defaultPathIndex: PathIndex = {
 };
 
 export const defaultViewModes: ViewModes = {
-	astView: "json",
+	astView: "tree",
 	scopeView: "flat",
 	pathView: "graph",
 };
