@@ -1,15 +1,10 @@
-# eslint-code-explorer
+# ESLint Code Explorer
 
-This repository contains a tool designed to help developers explore and understand the scope and structure of their JavaScript and TypeScript codebases. It leverages ESLint's scope analysis capabilities to provide a detailed view of variables, references, and scopes within the code.
+## Overview
 
-Key features of this repository include:
+This repository contains the source code for the ESLint [Code Explorer](https://explorer.eslint.org). Code Explorer is designed to help developers explore and understand source code to aid in the creation of custom ESLint rules. Each language supported by Code Explorer exposes the same information that ESLint rules have access to.
 
--   Visualization of scopes, variables, and references using an interactive UI.
--   Components such as `ScopeItem` and `TreeEntry` to render detailed information about each scope and its contents.
--   Integration with ESLint's scope analysis to accurately represent the code structure.
--   A user-friendly interface with expandable and collapsible sections for better navigation.
-
-This tool is particularly useful for developers looking to gain insights into their code's structure, identify potential issues, and improve code quality through better understanding of scope and variable usage.
+At a minimum, each language displays the AST for any code that is entered into the editor. You can toggle different parser settings for each language to see how that affects the AST. For JavaScript, you also get to see scope and code path information.
 
 ## Installation
 
@@ -38,3 +33,12 @@ Open [http://localhost:5173](http://localhost:5173) with your browser to see the
 
 -   The app is configured to use ESLint for linting JavaScript code, with its configuration stored in the `eslint.config.mjs` file.
 -   The app is also configured to use Prettier for code formatting, with its configuration stored in the `.prettierrc` file.
+
+## License
+
+Apache 2.0
+
+## Credits
+
+-   [AST Explorer](https://astexplorer.net) - the original AST visualization tool. We took great inspiration from AST explorer when creating this tool.
+-   [escope Demo](http://mazurov.github.io/escope-demo/) - the original demo of the [escope](https://github.com/estools/escope) utility that [`eslint-scope`](https://github.com/eslint/js/tree/main/packages/eslint-scope) utility is based on.
