@@ -14,20 +14,10 @@ export const renderValue = (value: unknown): string[] => {
 		return ["Object", "{}"];
 	}
 
-	if (value instanceof Object && !(value as { type: string }).type) {
-		const keys = Object.keys(value);
-		return [
-			"Object",
-			keys.length > 3
-				? `{${keys.slice(0, 3).join(", ")}, ...}`
-				: `{${keys.join(", ")}}`,
-		];
-	}
-
 	if (typeof value === "object" && value !== null) {
 		const keys = Object.keys(value);
 		return [
-			(value as { type: string })?.type,
+			(value as { type: string })?.type || "Object",
 			keys.length > 3
 				? `{${keys.slice(0, 3).join(", ")}, ...}`
 				: `{${keys.join(", ")}}`,
