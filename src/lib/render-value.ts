@@ -17,7 +17,7 @@ export const renderValue = (value: unknown): string[] => {
 	if (typeof value === "object" && value !== null) {
 		const keys = Object.keys(value);
 		return [
-			(value as { type: string })?.type || "Object",
+			(value as { type: string })?.type ?? "Object",
 			keys.length > 3
 				? `{${keys.slice(0, 3).join(", ")}, ...}`
 				: `{${keys.join(", ")}}`,
