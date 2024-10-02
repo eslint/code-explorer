@@ -56,8 +56,7 @@ export const ESLintPlaygroundTheme = EditorView.theme(
 	{ dark: true },
 );
 
-// The highlighting style for code in the ESLint playground theme.
-export const ESLintPlaygroundHighlightStyle = HighlightStyle.define([
+const HighlightDefinition = HighlightStyle.define([
 	{
 		tag: tags.string,
 		color: "var(--editor-string-color)",
@@ -100,4 +99,5 @@ export const ESLintPlaygroundHighlightStyle = HighlightStyle.define([
 	},
 ]);
 
-export const Highlight = syntaxHighlighting(ESLintPlaygroundHighlightStyle);
+export const ESLintPlaygroundHighlightStyle =
+	syntaxHighlighting(HighlightDefinition);

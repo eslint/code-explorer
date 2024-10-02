@@ -11,7 +11,10 @@ import { EditorState } from "@codemirror/state";
 import clsx from "clsx";
 import { LanguageSupport } from "@codemirror/language";
 import { debounce } from "../lib/utils";
-import { ESLintPlaygroundTheme, Highlight } from "@/utils/codemirror-themes";
+import {
+	ESLintPlaygroundTheme,
+	ESLintPlaygroundHighlightStyle,
+} from "@/utils/codemirror-themes";
 
 const languageExtensions: Record<string, (isJSX?: boolean) => LanguageSupport> =
 	{
@@ -44,8 +47,7 @@ export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange }) => {
 		wrap ? EditorView.lineWrapping : [],
 		readOnly ? EditorState.readOnly.of(true) : [],
 		ESLintPlaygroundTheme,
-		// ESLintPlaygroundHighlightStyle,
-		Highlight,
+		ESLintPlaygroundHighlightStyle,
 	];
 
 	const debouncedOnChange = useCallback(
