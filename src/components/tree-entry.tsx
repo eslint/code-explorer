@@ -112,7 +112,7 @@ export const TreeEntry: FC<TreeEntryProperties> = ({ data, path }) => {
 		<>
 			<div className="flex items-center gap-3">
 				<>
-					{isExpandable && (
+					{isExpandable ? (
 						<button
 							onClick={toggleOpen}
 							aria-label="Toggle"
@@ -120,6 +120,8 @@ export const TreeEntry: FC<TreeEntryProperties> = ({ data, path }) => {
 						>
 							<Icon size={16} className="text-muted-foreground" />
 						</button>
+					) : (
+						<div className="w-4 h-4"></div>
 					)}
 					{key && <span className="flex-none">{key}</span>}
 					{renderParts}
