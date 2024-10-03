@@ -14,13 +14,10 @@ export const Wrap: FC = () => {
 		setWrap,
 	} = useExplorer();
 
-	if (tool === "ast" && astView !== "json") {
-		return null;
-	}
+	const isAstViewNotJson = tool === "ast" && astView !== "json";
+	const isPathViewNotCode = tool === "path" && pathView !== "code";
 
-	if (tool === "path" && pathView !== "code") {
-		return null;
-	}
+	if (isAstViewNotJson || isPathViewNotCode) return null;
 
 	return (
 		<Button
