@@ -91,36 +91,39 @@ export const TreeEntry: FC<TreeEntryProperties> = ({ data, path }) => {
 	const [key, value] = data;
 	const [open, setOpen] = useState(false);
 	const Icon = open ? MinusSquareIcon : PlusSquareIcon;
-
 	const toggleOpen = () => setOpen(!open);
+	const isObject = typeof value === "object" && value !== null;
+	const isExpandable =
+		isObject &&
+		(Array.isArray(value)
+			? value.length > 0
+			: Object.keys(value).length > 0);
+	const values = renderValue(value);
+	const renderParts = values.map((part, partIndex) => (
+		<span
+			key={partIndex}
+			className={`${values.length === 1 ? "flex-1" : ""} ${partIndex ? "text-muted-foreground" : "text-primary"}`}
+		>
+			{part}
+		</span>
+	));
 
 	return (
 		<>
 			<div className="flex items-center gap-3">
-				{(typeof value === "object" &&
-					Object.values(value ?? {}).length) ||
-				(Array.isArray(value) && value.length) ? (
-					<button
-						onClick={toggleOpen}
-						aria-label="Toggle"
-						type="button"
-					>
-						<Icon size={16} className="text-muted-foreground" />
-					</button>
-				) : (
-					<div className="w-4 h-4" />
-				)}
-				{key && <span>{key}</span>}
-				{renderValue(value).map((part, partIndex) => (
-					<span
-						key={partIndex}
-						className={
-							partIndex ? "text-muted-foreground" : "text-primary"
-						}
-					>
-						{part}
-					</span>
-				))}
+				<>
+					{isExpandable && (
+						<button
+							onClick={toggleOpen}
+							aria-label="Toggle"
+							type="button"
+						>
+							<Icon size={16} className="text-muted-foreground" />
+						</button>
+					)}
+					{key && <span className="flex-none">{key}</span>}
+					{renderParts}
+				</>
 			</div>
 			{open ? (
 				<SanitizeValue
