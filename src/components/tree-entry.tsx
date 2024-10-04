@@ -4,6 +4,7 @@ import { renderValue } from "@/lib/render-value";
 import { ScopeItem } from "./scope/scope-item";
 import { Reference, Variable, Scope } from "eslint-scope";
 import type { FC, ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 type TreeEntryProperties = {
 	readonly data: [string, unknown];
@@ -102,7 +103,11 @@ export const TreeEntry: FC<TreeEntryProperties> = ({ data, path }) => {
 	const renderParts = values.map((part, partIndex) => (
 		<span
 			key={partIndex}
-			className={`${values.length === 1 ? "flex-1" : ""} ${partIndex ? "text-muted-foreground" : "text-primary"}`}
+			className={cn(
+				"flex-none",
+				partIndex ? "text-muted-foreground" : "text-primary",
+				values.length === 1 && "flex-1",
+			)}
 		>
 			{part}
 		</span>
@@ -111,21 +116,20 @@ export const TreeEntry: FC<TreeEntryProperties> = ({ data, path }) => {
 	return (
 		<>
 			<div className="flex items-center gap-3">
-				<>
-					{isExpandable ? (
-						<button
-							onClick={toggleOpen}
-							aria-label="Toggle"
-							type="button"
-						>
-							<Icon size={16} className="text-muted-foreground" />
-						</button>
-					) : (
-						<div className="w-4 h-4"></div>
-					)}
-					{key && <span className="flex-none">{key}</span>}
-					{renderParts}
-				</>
+				{isExpandable ? (
+					<button
+						onClick={toggleOpen}
+						aria-label="Toggle"
+						type="button"
+						className="flex-none"
+					>
+						<Icon size={16} className="text-muted-foreground" />
+					</button>
+				) : (
+					<div className="w-4 h-4"></div>
+				)}
+				{key && <span className="flex-none">{key}</span>}
+				{renderParts}
 			</div>
 			{open ? (
 				<SanitizeValue
