@@ -44,9 +44,9 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 	return (
 		<AccordionItem
 			value={path + "." + index + "." + key}
-			className="border rounded-lg overflow-hidden"
+			className="border border-card rounded-lg overflow-hidden"
 		>
-			<AccordionTrigger className="text-sm bg-muted-foreground/5 px-4 py-3 capitalize">
+			<AccordionTrigger className="text-sm bg-card px-4 py-3 capitalize">
 				{isArray && `${Math.max(index, 0)}.`} {key}
 			</AccordionTrigger>
 			<AccordionContent className="p-4 border-t">

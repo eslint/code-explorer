@@ -1,3 +1,4 @@
+@import "./codemirror-themes.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -41,18 +42,16 @@
 		--scrollbar-track: 0deg 0% 93.33%;
 		--scrollbar-thumb: 0deg 0% 53.33%;
 		--scrollbar-thumb-hover: 0deg 0% 33.33%;
-
-		--editor-background: 0deg 0% 100%;
 	}
 
 	.dark {
-		--background: 224 71.4% 4.1%;
+		--background: 220deg 42.86% 10.98%;
 		--foreground: 210 20% 98%;
 
-		--card: 224 71.4% 4.1%;
+		--card: 216.36deg 24.44% 26.47%;
 		--card-foreground: 210 20% 98%;
 
-		--popover: 224 71.4% 4.1%;
+		--popover: 220deg 42.86% 10.98%;
 		--popover-foreground: 210 20% 98%;
 
 		--primary: 240 100% 86%;
@@ -61,7 +60,7 @@
 		--secondary: 215 27.9% 16.9%;
 		--secondary-foreground: 210 20% 98%;
 
-		--muted: 215 27.9% 16.9%;
+		--muted: 214.29deg 32.56% 16.86%;
 		--muted-foreground: 217.9 10.6% 64.9%;
 
 		--accent: 215 27.9% 16.9%;
@@ -71,7 +70,7 @@
 		--destructive-foreground: 210 20% 98%;
 
 		--border: 215 27.9% 16.9%;
-		--input: 215 27.9% 16.9%;
+		--input: 216.36deg 24.44% 26.47%;
 		--ring: 216 12.2% 83.9%;
 
 		--drop-container-bg-color: 0deg 0% 24.71% / 67%;
@@ -80,8 +79,6 @@
 		--scrollbar-track: 0deg 0% 18.04%;
 		--scrollbar-thumb: 0deg 0% 53.33%;
 		--scrollbar-thumb-hover: 0deg 0% 33.33%;
-
-		--editor-background: 223.64deg 47.83% 4.51%;
 	}
 }
 
@@ -108,4 +105,24 @@
 	.ͼ1.cm-focused {
 		outline: none;
 	}
+}
+
+.cm-theme-light {
+	min-width: 100%;
+}
+
+.cm-focused .cm-selectionBackground,
+.cm-selectionBackground,
+.cm-content ::selection {
+	background-color: var(--color-primary-800) !important;
+}
+
+.cm-completionMatchedText {
+	text-decoration: none !important;
+	font-weight: bold;
+}
+
+.cm-tooltip.cm-tooltip-autocomplete,
+.cm-tooltip.cm-tooltip-autocomplete > ul {
+	border-radius: 0.125rem;
 }
