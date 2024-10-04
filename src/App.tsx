@@ -32,7 +32,7 @@ function App() {
 										}}
 									/>
 								</Panel>
-								<PanelResizeHandle className="w-2 bg-gutter dark:bg-gray-900 bg-gray-100 bg-no-repeat bg-center" />
+								<PanelResizeHandle className="w-2 bg-gutter dark:bg-gray-600 bg-gray-200 bg-no-repeat bg-center" />
 								<Panel defaultSize={50} minSize={25}>
 									<div className="bg-muted overflow-auto h-[70dvh] sm:h-full relative flex flex-col">
 										<div className="flex sm:items-center flex-col sm:flex-row justify-between p-4 gap-2 z-10">
