@@ -16,7 +16,7 @@ function App() {
 				<div className="flex flex-col h-screen">
 					<Navbar />
 					<div className="h-full overflow-hidden">
-						<div className="grid sm:grid-cols-2 divide-x border-t h-full">
+						<div className="border-t h-full">
 							<PanelGroup
 								direction="horizontal"
 								className="border-t h-full"
