@@ -24,14 +24,14 @@ export const ScopeViewMode: FC = () => {
 			type="single"
 			value={scopeView}
 			onValueChange={handleValueChange}
-			className="border rounded-md"
+			className="border rounded-md border-card"
 		>
 			{scopeViewOptions.map(option => (
 				<ToggleGroupItem
 					key={option.value}
 					value={option.value}
 					className={cn(
-						"border -m-px flex items-center gap-1.5",
+						"border border-card -m-px flex items-center gap-1.5",
 						option.value === scopeView
 							? "!bg-background"
 							: "border-transparent hover:bg-transparent text-muted-foreground",

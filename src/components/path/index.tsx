@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useExplorer } from "@/hooks/use-explorer";
 import { Editor } from "../editor";
 import type { FC } from "react";
@@ -25,33 +25,44 @@ export const CodePath: FC = () => {
 	const [extracted, setExtracted] = useState<ParsedResponse | null>(null);
 	const [error, setError] = useState<string | null>(null);
 
+	const fetchCodePath = async () => {
+		try {
+			const response = await generateCodePath(
+				javascript,
+				esVersion,
+				sourceType,
+			);
+			if ("error" in response) {
+				throw new Error(response.error);
+			}
+			const newExtracted = JSON.parse(
+				response.response,
+			) as ParsedResponse;
+			if (newExtracted.codePathList.length < indexes) {
+				setPathIndex({
+					index: 0,
+					indexes: newExtracted.codePathList.length,
+				});
+			} else {
+				setPathIndex({
+					...pathIndex,
+					indexes: newExtracted.codePathList.length,
+				});
+			}
+			setError(null);
+			setExtracted(newExtracted);
+		} catch (newError) {
+			setError(parseError(newError));
+		}
+	};
+
+	useEffect(() => {
+		fetchCodePath();
+	}, []);
+
 	useDebouncedEffect(
 		() => {
-			generateCodePath(javascript, esVersion, sourceType)
-				.then(response => {
-					if ("error" in response) {
-						throw new Error(response.error);
-					}
-
-					return JSON.parse(response.response) as ParsedResponse;
-				})
-				.then(newExtracted => {
-					if (newExtracted.codePathList.length < indexes) {
-						setPathIndex({
-							index: 0,
-							indexes: newExtracted.codePathList.length,
-						});
-					} else {
-						setPathIndex({
-							...pathIndex,
-							indexes: newExtracted.codePathList.length,
-						});
-					}
-					setError(null);
-					return newExtracted;
-				})
-				.then(setExtracted)
-				.catch(newError => setError(parseError(newError)));
+			fetchCodePath();
 		},
 		500,
 		[javascript, esVersion, sourceType, index, indexes],

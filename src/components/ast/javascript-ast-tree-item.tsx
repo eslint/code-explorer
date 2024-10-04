@@ -20,9 +20,9 @@ export const JavascriptAstTreeItem: FC<JavascriptAstTreeItemProperties> = ({
 }) => (
 	<AccordionItem
 		value={`${index}-${data.type}`}
-		className="border rounded-lg overflow-hidden"
+		className="border border-card rounded-lg overflow-hidden"
 	>
-		<AccordionTrigger className="text-sm bg-muted-foreground/5 px-4 py-3 capitalize">
+		<AccordionTrigger className="text-sm bg-card px-4 py-3 capitalize">
 			{data.type}
 		</AccordionTrigger>
 		<AccordionContent className="p-4 border-t">
