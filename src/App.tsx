@@ -34,8 +34,8 @@ function App() {
 								</Panel>
 								<PanelResizeHandle className="w-2 bg-gutter dark:bg-gray-900 bg-gray-100 bg-no-repeat bg-center" />
 								<Panel defaultSize={50} minSize={25}>
-									<div className="bg-foreground/5 overflow-auto h-[70dvh] sm:h-full relative flex flex-col">
-										<div className="flex sm:items-center flex-col sm:flex-row justify-between p-4 gap-2 z-10 border-b">
+									<div className="bg-muted overflow-auto h-[70dvh] sm:h-full relative flex flex-col">
+										<div className="flex sm:items-center flex-col sm:flex-row justify-between p-4 gap-2 z-10">
 											<ToolSelector />
 											<div className="flex items-center gap-1">
 												{activeTool.options.map(
