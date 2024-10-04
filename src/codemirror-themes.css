@@ -95,7 +95,3 @@
 	--editor-bracket-match-background-color: var(--color-neutral-700);
 	--editor-bracket-match-color: var(--color-neutral-25);
 }
-
-.cm-editor ::selection {
-	color: #fff;
-}

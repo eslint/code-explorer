@@ -52,6 +52,10 @@ export const ESLintPlaygroundTheme = EditorView.theme(
 		".cm-tooltip.cm-tooltip-autocomplete > ul > li": {
 			margin: "0",
 		},
+		"&.cm-editor .cm-content .cm-line ::selection": {
+			backgroundColor: "var(--color-primary-800) !important",
+			color: "#fff !important",
+		},
 	},
 	{ dark: true },
 );
