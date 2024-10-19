@@ -1,9 +1,9 @@
 /**
- * @fileoverview Script to update the README with sponsors details in all packages.
+ * @fileoverview Script to update the README with sponsors details.
  *
  *   node tools/update-readme.js
  *
- * @author Milos Djermanovic
+ * @author AMARESH S M
  */
 
 //-----------------------------------------------------------------------------
