@@ -3,7 +3,7 @@
  *
  *   node tools/update-readme.js
  *
- * @author AMARESH S M
+ * @author Amaresh S M
  */
 
 //-----------------------------------------------------------------------------
