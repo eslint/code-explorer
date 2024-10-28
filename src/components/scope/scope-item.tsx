@@ -1,11 +1,11 @@
 import { Scope, Variable, Reference } from "eslint-scope";
+import { TreeEntry } from "../tree-entry";
+import type { FC } from "react";
 import {
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
-} from "@/components/ui/accordion";
-import { TreeEntry } from "../tree-entry";
-import type { FC } from "react";
+} from "../ui/accordion";
 
 type ScopeItemProperties = {
 	isArray: boolean;
@@ -41,25 +41,48 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 		([name]) => !name.startsWith("__"),
 	);
 
+	if (path.length === 1) {
+		return (
+			<AccordionItem
+				value={path + "." + index + "." + key}
+				className="border border-card rounded-lg overflow-hidden"
+			>
+				<AccordionTrigger className="text-sm bg-card px-4 py-3 capitalize">
+					{isArray && `${Math.max(index, 0)}.`} {key}
+				</AccordionTrigger>
+				<AccordionContent className="p-4 border-t">
+					<div className="space-y-1">
+						{properties.map((item, index) => (
+							<TreeEntry
+								key={item[0]}
+								data={item}
+								path={path + "." + index}
+							/>
+						))}
+					</div>
+				</AccordionContent>
+			</AccordionItem>
+		);
+	}
+
 	return (
-		<AccordionItem
-			value={path + "." + index + "." + key}
-			className="border border-card rounded-lg overflow-hidden"
-		>
-			<AccordionTrigger className="text-sm bg-card px-4 py-3 capitalize">
+		<div className="border border-card rounded-lg overflow-hidden">
+			<button className="flex items-center font-medium text-sm bg-card px-4 py-3 capitalize w-full">
 				{isArray && `${Math.max(index, 0)}.`} {key}
-			</AccordionTrigger>
-			<AccordionContent className="p-4 border-t">
-				<div className="space-y-1">
-					{properties.map((item, index) => (
-						<TreeEntry
-							key={item[0]}
-							data={item}
-							path={path + "." + index}
-						/>
-					))}
+			</button>
+			<div className="overflow-hidden text-sm">
+				<div className="p-4 border-t">
+					<div className="space-y-1">
+						{properties.map((item, index) => (
+							<TreeEntry
+								key={item[0]}
+								data={item}
+								path={path + "." + index}
+							/>
+						))}
+					</div>
 				</div>
-			</AccordionContent>
-		</AccordionItem>
+			</div>
+		</div>
 	);
 };
