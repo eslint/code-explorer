@@ -18,6 +18,9 @@ export const JavascriptAst: FC = () => {
 		tree = espree.parse(explorer.code.javascript, {
 			ecmaVersion: explorer.jsOptions.esVersion,
 			sourceType: explorer.jsOptions.sourceType,
+			ecmaFeatures: {
+				jsx: explorer.jsOptions.isJSX,
+			},
 		});
 
 		ast = JSON.stringify(tree, null, 2);
