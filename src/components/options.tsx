@@ -67,7 +67,7 @@ const MarkdownPanel: React.FC = () => {
 };
 
 const CssPanel: React.FC = () => {
-	return <div />;
+	return null;
 };
 
 const JavaScriptPanel = () => {
