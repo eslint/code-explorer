@@ -6,6 +6,7 @@ import CodeMirror from "@uiw/react-codemirror";
 import { json } from "@codemirror/lang-json";
 import { javascript } from "@codemirror/lang-javascript";
 import { markdown } from "@codemirror/lang-markdown";
+import { css } from "@codemirror/lang-css";
 import { EditorView } from "@codemirror/view";
 import { EditorState } from "@codemirror/state";
 import clsx from "clsx";
@@ -21,6 +22,7 @@ const languageExtensions: Record<string, (isJSX?: boolean) => LanguageSupport> =
 		javascript: (isJSX: boolean = false) => javascript({ jsx: isJSX }),
 		json: () => json(),
 		markdown: () => markdown(),
+		css: () => css(),
 	};
 
 type EditorProperties = {

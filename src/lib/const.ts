@@ -11,6 +11,7 @@ import type {
 	JsOptions,
 	JsonOptions,
 	MarkdownOptions,
+	CssOptions,
 	PathIndex,
 	ViewModes,
 	Code,
@@ -31,6 +32,11 @@ export const languages = [
 		value: "markdown",
 		label: "Markdown",
 		icon: "/languages/markdown.svg",
+	},
+	{
+		value: "css",
+		label: "CSS",
+		icon: "/languages/css.svg",
 	},
 ];
 
@@ -184,6 +190,13 @@ export const markdownModes = [
 	},
 ];
 
+export const cssModes = [
+	{
+		value: "css",
+		label: "CSS",
+	},
+];
+
 export const astViewOptions = [
 	{
 		value: "tree",
@@ -318,10 +331,41 @@ often used for documentation.
 
 `.trim();
 
+export const defaultCssCode = `
+/**
+ * Type or paste some CSS here to learn more about
+ * the static analysis that ESLint can do for you.
+ *
+ * The tabs are:
+ *
+ * - AST - The Abstract Syntax Tree of the code, which can
+ *   be useful to understand the structure of the code. You
+ *   can view this structure as JSON or in a tree format.
+ *
+ * You can change the way that the CSS code is interpreted
+ * by clicking "CSS" in the header and selecting different
+ * options.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+	font-family: sans-serif;
+}
+
+h1 {
+	color: #333;
+}
+
+p {
+	margin: 1em 0;
+}`.trim();
+
 export const defaultCode: Code = {
 	javascript: defaultJsCode,
 	json: defaultJsonCode,
 	markdown: defaultMarkdownCode,
+	css: defaultCssCode,
 };
 
 export const defaultJsOptions: JsOptions = {
@@ -337,6 +381,10 @@ export const defaultJsonOptions: JsonOptions = {
 
 export const defaultMarkdownOptions: MarkdownOptions = {
 	markdownMode: "commonmark",
+};
+
+export const defaultCssOptions: CssOptions = {
+	cssMode: "css",
 };
 
 export const defaultPathIndex: PathIndex = {
