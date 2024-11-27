@@ -59,6 +59,7 @@ export const generateCodePath = async (
 	code: string,
 	esVersion: Version,
 	sourceType: SourceType,
+	isJSX: boolean,
 ): Promise<
 	| {
 			error: string;
@@ -127,6 +128,11 @@ export const generateCodePath = async (
 		languageOptions: {
 			ecmaVersion: esVersion,
 			sourceType,
+			parserOptions: {
+				ecmaFeatures: {
+					jsx: isJSX,
+				},
+			},
 		},
 	};
 
