@@ -1,6 +1,6 @@
 # Adding Languages
 
-In order to add a language to Code Explorer, follow these steps.
+To add a language to Code Explorer, follow these steps.
 
 ## Step 1: Add a logo
 
