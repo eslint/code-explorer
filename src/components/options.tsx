@@ -66,6 +66,10 @@ const MarkdownPanel: React.FC = () => {
 	);
 };
 
+const CssPanel: React.FC = () => {
+	return null;
+};
+
 const JavaScriptPanel = () => {
 	const explorer = useExplorer();
 	const { jsOptions, setJsOptions } = explorer;
@@ -129,6 +133,8 @@ const Panel = ({ language }: { language: string }) => {
 			return <JSONPanel />;
 		case "markdown":
 			return <MarkdownPanel />;
+		case "css":
+			return <CssPanel />;
 		default:
 			return <JavaScriptPanel />;
 	}

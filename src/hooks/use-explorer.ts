@@ -11,16 +11,23 @@ import {
 	defaultJsOptions,
 	defaultJsonOptions,
 	defaultMarkdownOptions,
+	defaultCssOptions,
 	defaultPathIndex,
 	defaultViewModes,
 } from "../lib/const";
 export type SourceType = Exclude<Options["sourceType"], undefined>;
 export type Version = Exclude<Options["ecmaVersion"], undefined>;
-export type Language = "javascript" | "json" | "markdown";
+export type Language = "javascript" | "json" | "markdown" | "css";
 export type JsonMode = "json" | "jsonc" | "json5";
 export type MarkdownMode = "commonmark" | "gfm";
+export type CssMode = "css";
 
-export type Code = { javascript: string; json: string; markdown: string };
+export type Code = {
+	javascript: string;
+	json: string;
+	markdown: string;
+	css: string;
+};
 export type JsOptions = {
 	parser: string;
 	sourceType: SourceType;
@@ -34,6 +41,10 @@ export type JsonOptions = {
 
 export type MarkdownOptions = {
 	markdownMode: MarkdownMode;
+};
+
+export type CssOptions = {
+	cssMode: CssMode;
 };
 
 export type PathIndex = {
@@ -65,6 +76,9 @@ type ExplorerState = {
 
 	markdownOptions: MarkdownOptions;
 	setMarkdownOptions: (markdownOptions: MarkdownOptions) => void;
+
+	cssOptions: CssOptions;
+	setCssOptions: (cssOptions: CssOptions) => void;
 
 	wrap: boolean;
 	setWrap: (wrap: boolean) => void;
@@ -114,6 +128,9 @@ export const useExplorer = create<ExplorerState>()(
 
 					jsonOptions: defaultJsonOptions,
 					setJsonOptions: jsonOptions => set({ jsonOptions }),
+
+					cssOptions: defaultCssOptions,
+					setCssOptions: cssOptions => set({ cssOptions }),
 
 					markdownOptions: defaultMarkdownOptions,
 					setMarkdownOptions: markdownOptions =>
