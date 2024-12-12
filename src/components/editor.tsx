@@ -2,22 +2,27 @@
 
 import { useEffect, useRef, useState, FC, useCallback } from "react";
 import { useExplorer } from "@/hooks/use-explorer";
-import { useTheme } from "./theme-provider";
 import CodeMirror from "@uiw/react-codemirror";
 import { json } from "@codemirror/lang-json";
 import { javascript } from "@codemirror/lang-javascript";
 import { markdown } from "@codemirror/lang-markdown";
+import { css } from "@codemirror/lang-css";
 import { EditorView } from "@codemirror/view";
 import { EditorState } from "@codemirror/state";
 import clsx from "clsx";
 import { LanguageSupport } from "@codemirror/language";
-import { debounce, getPreferredColorScheme } from "../lib/utils";
+import { debounce } from "../lib/utils";
+import {
+	ESLintPlaygroundTheme,
+	ESLintPlaygroundHighlightStyle,
+} from "@/utils/codemirror-themes";
 
 const languageExtensions: Record<string, (isJSX?: boolean) => LanguageSupport> =
 	{
 		javascript: (isJSX: boolean = false) => javascript({ jsx: isJSX }),
 		json: () => json(),
 		markdown: () => markdown(),
+		css: () => css(),
 	};
 
 type EditorProperties = {
@@ -27,7 +32,6 @@ type EditorProperties = {
 };
 
 export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange }) => {
-	const { theme } = useTheme();
 	const { wrap, language, jsOptions } = useExplorer();
 	const { isJSX } = jsOptions;
 	const [isDragOver, setIsDragOver] = useState<boolean>(false);
@@ -44,6 +48,8 @@ export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange }) => {
 		activeLanguageExtension,
 		wrap ? EditorView.lineWrapping : [],
 		readOnly ? EditorState.readOnly.of(true) : [],
+		ESLintPlaygroundTheme,
+		ESLintPlaygroundHighlightStyle,
 	];
 
 	const debouncedOnChange = useCallback(
@@ -149,7 +155,6 @@ export const Editor: FC<EditorProperties> = ({ readOnly, value, onChange }) => {
 				value={value}
 				extensions={editorExtensions}
 				onChange={value => debouncedOnChange(value)}
-				theme={theme === "system" ? getPreferredColorScheme() : theme}
 				readOnly={readOnly}
 			/>
 		</div>

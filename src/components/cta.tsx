@@ -1,4 +1,4 @@
-import { ExternalLinkIcon } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { Button } from "./ui/button";
 import type { FC } from "react";
 
@@ -11,8 +11,8 @@ export const CallToAction: FC = () => (
 				rel="noreferrer"
 			>
 				<span className="hidden sm:block">GitHub</span>
-				<span className="sm:hidden">
-					<ExternalLinkIcon size={16} />
+				<span className="sm:ml-2">
+					<ExternalLink size={16} />
 				</span>
 			</a>
 		</Button>

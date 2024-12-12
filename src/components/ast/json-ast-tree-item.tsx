@@ -22,9 +22,9 @@ export const JsonAstTreeItem: FC<JsonAstTreeItemProperties> = ({
 }) => (
 	<AccordionItem
 		value={`${index}-${data.type}`}
-		className="border rounded-lg overflow-hidden min-w-80"
+		className="border border-card rounded-lg overflow-hidden min-w-80"
 	>
-		<AccordionTrigger className="text-sm bg-muted-foreground/5 px-4 py-3 capitalize">
+		<AccordionTrigger className="text-sm bg-card px-4 py-3 capitalize">
 			{data.type}
 		</AccordionTrigger>
 		<AccordionContent className="p-4 overflow-x-scroll mr-2">
