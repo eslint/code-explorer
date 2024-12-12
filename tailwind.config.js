@@ -75,21 +75,26 @@ module.exports = {
 	},
 	plugins: [
 		require("tailwindcss-animate"),
-		function ({ addUtilities, theme }) {
-			addUtilities(
-				{
-					".scrollbar-thumb": {
-						scrollbarColor: `${theme("colors.scrollbar-thumb")} ${theme("colors.scrollbar-track")}`,
-					},
-					".scrollbar-thumb-hover": {
-						scrollbarColor: `${theme("colors.scrollbar-thumb-hover")} ${theme("colors.scrollbar-track")}`,
-					},
-					".scrollbar-track": {
-						scrollbarWidth: "thin",
-					},
+		function ({ addBase, theme }) {
+			addBase({
+				"::-webkit-scrollbar": {
+					width: "8px",
 				},
-				["responsive", "hover"],
-			);
+				"::-webkit-scrollbar-thumb": {
+					backgroundColor: theme("colors.scrollbar-thumb"),
+					borderRadius: "4px",
+				},
+				"::-webkit-scrollbar-thumb:hover": {
+					backgroundColor: theme("colors.scrollbar-thumb-hover"),
+				},
+				"::-webkit-scrollbar-track": {
+					backgroundColor: theme("colors.scrollbar-track"),
+				},
+				"*": {
+					scrollbarColor: `${theme("colors.scrollbar-thumb")} ${theme("colors.scrollbar-track")}`,
+					scrollbarWidth: "thin",
+				},
+			});
 		},
 	],
 	purge: {

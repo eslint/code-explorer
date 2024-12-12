@@ -25,7 +25,7 @@ export const JavascriptAstTreeItem: FC<JavascriptAstTreeItemProperties> = ({
 		<AccordionTrigger className="text-sm bg-card px-4 py-3 capitalize">
 			{data.type}
 		</AccordionTrigger>
-		<AccordionContent className="p-4 overflow-x-scroll mr-2">
+		<AccordionContent className="p-4 overflow-x-auto mr-2">
 			<div className="space-y-1">
 				{Object.entries(data).map(item => (
 					<TreeEntry key={item[0]} data={item} />

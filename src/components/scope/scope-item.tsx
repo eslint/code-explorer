@@ -49,7 +49,7 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 			<AccordionTrigger className="text-sm bg-card px-4 py-3 capitalize">
 				{isArray && `${Math.max(index, 0)}.`} {key}
 			</AccordionTrigger>
-			<AccordionContent className="p-4 overflow-x-scroll mr-2">
+			<AccordionContent className="p-4 overflow-x-auto mr-2">
 				<div className="space-y-1">
 					{properties.map((item, index) => (
 						<TreeEntry
