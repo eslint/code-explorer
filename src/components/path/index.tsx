@@ -31,6 +31,7 @@ export const CodePath: FC = () => {
 				javascript,
 				esVersion,
 				sourceType,
+				jsOptions.isJSX,
 			);
 			if ("error" in response) {
 				throw new Error(response.error);
