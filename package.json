@@ -5,6 +5,7 @@
   "description": "A tool that visualizes JS and TS code structure and scope using ESLint's scope analysis.",
   "repository": "eslint/code-explorer",
   "funding": "https://opencollective.com/eslint",
+  "homepage": "https://explorer.eslint.org",
   "bugs": "https://github.com/eslint/code-explorer/issues",
   "type": "module",
   "scripts": {
