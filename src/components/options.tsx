@@ -71,18 +71,16 @@ const CssPanel: React.FC = () => {
 	const { cssOptions, setCssOptions } = explorer;
 	const { tolerant } = cssOptions;
 	return (
-		<>
-			<div className="flex items-center gap-1.5">
-				<Switch
-					id="tolerant"
-					checked={tolerant}
-					onCheckedChange={(value: boolean) => {
-						setCssOptions({ ...cssOptions, tolerant: value });
-					}}
-				/>
-				<Label htmlFor="tolerant">Tolerant Parsing</Label>
-			</div>
-		</>
+		<div className="flex items-center gap-1.5">
+			<Switch
+				id="tolerant"
+				checked={tolerant}
+				onCheckedChange={(value: boolean) => {
+					setCssOptions({ ...cssOptions, tolerant: value });
+				}}
+			/>
+			<Label htmlFor="tolerant">Tolerant Parsing</Label>
+		</div>
 	);
 };
 
