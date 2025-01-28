@@ -10,9 +10,14 @@ import { ErrorState } from "../error-boundary";
 export const CssAst: FC = () => {
 	const { code, cssOptions, viewModes } = useExplorer();
 	const { astView } = viewModes;
-	const { cssMode } = cssOptions;
+	const { cssMode, tolerant } = cssOptions;
 	const language = css.languages[cssMode];
-	const result = language.parse({ body: code.css });
+	const result = language.parse(
+		{ body: code.css },
+		{
+			languageOptions: { tolerant },
+		},
+	);
 
 	if (!result.ok) {
 		const message = parseError(result.errors[0]);

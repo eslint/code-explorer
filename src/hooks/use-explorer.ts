@@ -45,6 +45,7 @@ export type MarkdownOptions = {
 
 export type CssOptions = {
 	cssMode: CssMode;
+	tolerant: boolean;
 };
 
 export type PathIndex = {

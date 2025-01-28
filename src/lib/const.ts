@@ -385,6 +385,7 @@ export const defaultMarkdownOptions: MarkdownOptions = {
 
 export const defaultCssOptions: CssOptions = {
 	cssMode: "css",
+	tolerant: false,
 };
 
 export const defaultPathIndex: PathIndex = {
