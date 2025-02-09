@@ -1,11 +1,11 @@
 import { Decoration, ViewPlugin } from "@codemirror/view";
 
 const highlightRangeDecoration = Decoration.mark({
-	class: "eslint-code-explorer_highlight-range",
+	class: "eslint-code-explorer_highlighted-range",
 });
-export type HighlightRange = [rangeFrom: number, rangeTo: number];
+export type HighlightedRange = [rangeFrom: number, rangeTo: number];
 
-export const highlightRangesExtension = (ranges: HighlightRange[]) =>
+export const highlightedRangesExtension = (ranges: HighlightedRange[]) =>
 	ViewPlugin.define(() => ({}), {
 		decorations: () =>
 			Decoration.set(

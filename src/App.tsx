@@ -1,8 +1,7 @@
 import "./App.css";
-
 import { Navbar } from "./components/navbar";
 import { useExplorer } from "./hooks/use-explorer";
-import { useHighlightRanges } from "./hooks/use-highlight-ranges";
+import { useHighlightedRanges } from "./hooks/use-highlighted-ranges";
 import { tools } from "./lib/tools";
 import { Editor } from "./components/editor";
 import { EsquerySelectorInput } from "./components/esquery-selector-input";
@@ -13,7 +12,7 @@ import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 function App() {
 	const { language, tool, code, setCode, jsOptions } = useExplorer();
 
-	const highlightRanges = useHighlightRanges();
+	const highlightedRanges = useHighlightedRanges();
 
 	const activeTool = tools.find(({ value }) => value === tool) ?? tools[0];
 	return (
@@ -33,7 +32,7 @@ function App() {
 								<Panel defaultSize={50} minSize={25}>
 									<Editor
 										value={code[language]}
-										highlightRanges={highlightRanges}
+										highlightedRanges={highlightedRanges}
 										onChange={value => {
 											setCode({
 												...code,

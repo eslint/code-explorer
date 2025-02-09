@@ -127,6 +127,6 @@
 	border-radius: 0.125rem;
 }
 
-.eslint-code-explorer_highlight-range {
-	@apply bg-editorRangeHighlightColor;
+.eslint-code-explorer_highlighted-range {
+	@apply bg-editorHighlightedRangeColor;
 }

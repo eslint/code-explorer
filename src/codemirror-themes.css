@@ -80,7 +80,7 @@
 	--editor-bracket-match-outline-color: var(--color-neutral-200);
 	--editor-bracket-match-background-color: var(--color-neutral-100);
 	--editor-bracket-match-color: none;
-	--editor-range-highlight-color: 209deg 54% 81%;
+	--editor-highlighted-range-color: 209deg 54% 81%;
 }
 
 .dark {
@@ -95,5 +95,5 @@
 	--editor-bracket-match-outline-color: var(--color-neutral-600);
 	--editor-bracket-match-background-color: var(--color-neutral-700);
 	--editor-bracket-match-color: var(--color-neutral-25);
-	--editor-range-highlight-color: 209deg 54% 31%;
+	--editor-highlighted-range-color: 209deg 54% 31%;
 }

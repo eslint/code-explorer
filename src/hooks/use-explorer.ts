@@ -92,7 +92,7 @@ type ExplorerState = {
 	setPathIndex: (pathIndex: PathIndex) => void;
 
 	esquerySelector: string;
-	setEsquerySelector: (esqueryQuery: string) => void;
+	setEsquerySelector: (esquerySelector: string) => void;
 };
 
 const hashStorage: StateStorage = {

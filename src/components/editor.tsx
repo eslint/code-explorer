@@ -17,9 +17,9 @@ import {
 	ESLintPlaygroundHighlightStyle,
 } from "@/utils/codemirror-themes";
 import {
-	highlightRangesExtension,
-	type HighlightRange,
-} from "@/utils/highlight-ranges";
+	highlightedRangesExtension,
+	type HighlightedRange,
+} from "@/utils/highlighted-ranges";
 
 const languageExtensions: Record<string, (isJSX?: boolean) => LanguageSupport> =
 	{
@@ -32,14 +32,14 @@ const languageExtensions: Record<string, (isJSX?: boolean) => LanguageSupport> =
 type EditorProperties = {
 	readOnly?: boolean;
 	value?: string;
-	highlightRanges?: HighlightRange[];
+	highlightedRanges?: HighlightedRange[];
 	onChange?: (value: string) => void;
 };
 
 export const Editor: FC<EditorProperties> = ({
 	readOnly,
 	value,
-	highlightRanges = [],
+	highlightedRanges = [],
 	onChange,
 }) => {
 	const { wrap, language, jsOptions } = useExplorer();
@@ -60,7 +60,7 @@ export const Editor: FC<EditorProperties> = ({
 		readOnly ? EditorState.readOnly.of(true) : [],
 		ESLintPlaygroundTheme,
 		ESLintPlaygroundHighlightStyle,
-		highlightRangesExtension(highlightRanges),
+		highlightedRangesExtension(highlightedRanges),
 	];
 
 	const debouncedOnChange = useCallback(
