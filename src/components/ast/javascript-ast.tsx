@@ -6,6 +6,7 @@ import { JavascriptAstTreeItem } from "./javascript-ast-tree-item";
 import type { FC } from "react";
 import { parseError } from "@/lib/parse-error";
 import { ErrorState } from "../error-boundary";
+import { parseJavascriptAST } from "@/lib/parse-javascript-ast";
 
 export const JavascriptAst: FC = () => {
 	const explorer = useExplorer();
@@ -15,12 +16,9 @@ export const JavascriptAst: FC = () => {
 	let tree: ReturnType<typeof espree.parse> | null = null;
 
 	try {
-		tree = espree.parse(explorer.code.javascript, {
-			ecmaVersion: explorer.jsOptions.esVersion,
-			sourceType: explorer.jsOptions.sourceType,
-			ecmaFeatures: {
-				jsx: explorer.jsOptions.isJSX,
-			},
+		tree = parseJavascriptAST({
+			code: explorer.code.javascript,
+			jsOptions: explorer.jsOptions,
 		});
 
 		ast = JSON.stringify(tree, null, 2);

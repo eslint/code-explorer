@@ -33,6 +33,7 @@ export type JsOptions = {
 	sourceType: SourceType;
 	esVersion: Version;
 	isJSX: boolean;
+	esquerySelectorEnabled: boolean;
 };
 
 export type JsonOptions = {
@@ -89,6 +90,9 @@ type ExplorerState = {
 
 	pathIndex: PathIndex;
 	setPathIndex: (pathIndex: PathIndex) => void;
+
+	esquerySelector: string;
+	setEsquerySelector: (esqueryQuery: string) => void;
 };
 
 const hashStorage: StateStorage = {
@@ -145,6 +149,10 @@ export const useExplorer = create<ExplorerState>()(
 
 					pathIndex: defaultPathIndex,
 					setPathIndex: pathIndex => set({ pathIndex }),
+
+					esquerySelector: "",
+					setEsquerySelector: esquerySelector =>
+						set({ esquerySelector }),
 				}),
 				{
 					name: "eslint-explorer",
