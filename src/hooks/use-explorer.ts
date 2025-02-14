@@ -1,21 +1,33 @@
 import { create } from "zustand";
-import { devtools, persist } from "zustand/middleware";
+import {
+	devtools,
+	persist,
+	StateStorage,
+	createJSONStorage,
+} from "zustand/middleware";
 import type { Options } from "espree";
 import {
 	defaultCode,
 	defaultJsOptions,
 	defaultJsonOptions,
 	defaultMarkdownOptions,
+	defaultCssOptions,
 	defaultPathIndex,
 	defaultViewModes,
 } from "../lib/const";
 export type SourceType = Exclude<Options["sourceType"], undefined>;
 export type Version = Exclude<Options["ecmaVersion"], undefined>;
-export type Language = "javascript" | "json" | "markdown";
+export type Language = "javascript" | "json" | "markdown" | "css";
 export type JsonMode = "json" | "jsonc" | "json5";
 export type MarkdownMode = "commonmark" | "gfm";
+export type CssMode = "css";
 
-export type Code = { javascript: string; json: string; markdown: string };
+export type Code = {
+	javascript: string;
+	json: string;
+	markdown: string;
+	css: string;
+};
 export type JsOptions = {
 	parser: string;
 	sourceType: SourceType;
@@ -29,6 +41,11 @@ export type JsonOptions = {
 
 export type MarkdownOptions = {
 	markdownMode: MarkdownMode;
+};
+
+export type CssOptions = {
+	cssMode: CssMode;
+	tolerant: boolean;
 };
 
 export type PathIndex = {
@@ -61,6 +78,9 @@ type ExplorerState = {
 	markdownOptions: MarkdownOptions;
 	setMarkdownOptions: (markdownOptions: MarkdownOptions) => void;
 
+	cssOptions: CssOptions;
+	setCssOptions: (cssOptions: CssOptions) => void;
+
 	wrap: boolean;
 	setWrap: (wrap: boolean) => void;
 
@@ -71,37 +91,66 @@ type ExplorerState = {
 	setPathIndex: (pathIndex: PathIndex) => void;
 };
 
+const hashStorage: StateStorage = {
+	getItem: (key): string => {
+		const searchParams = new URLSearchParams(location.hash.slice(1));
+		const storedValue = searchParams.get(key) ?? "";
+		return storedValue ? JSON.parse(atob(storedValue)) : "";
+	},
+	setItem: (key, newValue): void => {
+		const searchParams = new URLSearchParams(location.hash.slice(1));
+		const encodedValue = btoa(JSON.stringify(newValue));
+		searchParams.set(key, encodedValue);
+		location.hash = searchParams.toString();
+	},
+	removeItem: (key): void => {
+		const searchParams = new URLSearchParams(location.hash.slice(1));
+		searchParams.delete(key);
+		location.hash = searchParams.toString();
+	},
+};
+
 export const useExplorer = create<ExplorerState>()(
 	devtools(
 		persist(
-			set => ({
-				tool: "ast",
-				setTool: tool => set({ tool }),
+			persist(
+				set => ({
+					tool: "ast",
+					setTool: tool => set({ tool }),
 
-				code: defaultCode,
-				setCode: code => set({ code }),
+					code: defaultCode,
+					setCode: code => set({ code }),
 
-				language: "javascript",
-				setLanguage: language => set({ language }),
+					language: "javascript",
+					setLanguage: language => set({ language }),
 
-				jsOptions: defaultJsOptions,
-				setJsOptions: jsOptions => set({ jsOptions }),
+					jsOptions: defaultJsOptions,
+					setJsOptions: jsOptions => set({ jsOptions }),
 
-				jsonOptions: defaultJsonOptions,
-				setJsonOptions: jsonOptions => set({ jsonOptions }),
+					jsonOptions: defaultJsonOptions,
+					setJsonOptions: jsonOptions => set({ jsonOptions }),
 
-				markdownOptions: defaultMarkdownOptions,
-				setMarkdownOptions: markdownOptions => set({ markdownOptions }),
+					cssOptions: defaultCssOptions,
+					setCssOptions: cssOptions => set({ cssOptions }),
 
-				wrap: true,
-				setWrap: wrap => set({ wrap }),
+					markdownOptions: defaultMarkdownOptions,
+					setMarkdownOptions: markdownOptions =>
+						set({ markdownOptions }),
 
-				viewModes: defaultViewModes,
-				setViewModes: viewModes => set({ viewModes }),
+					wrap: true,
+					setWrap: wrap => set({ wrap }),
 
-				pathIndex: defaultPathIndex,
-				setPathIndex: pathIndex => set({ pathIndex }),
-			}),
+					viewModes: defaultViewModes,
+					setViewModes: viewModes => set({ viewModes }),
+
+					pathIndex: defaultPathIndex,
+					setPathIndex: pathIndex => set({ pathIndex }),
+				}),
+				{
+					name: "eslint-explorer",
+					storage: createJSONStorage(() => hashStorage),
+				},
+			),
 			{
 				name: "eslint-explorer",
 			},

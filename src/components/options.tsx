@@ -66,6 +66,24 @@ const MarkdownPanel: React.FC = () => {
 	);
 };
 
+const CssPanel: React.FC = () => {
+	const explorer = useExplorer();
+	const { cssOptions, setCssOptions } = explorer;
+	const { tolerant } = cssOptions;
+	return (
+		<div className="flex items-center gap-1.5">
+			<Switch
+				id="tolerant"
+				checked={tolerant}
+				onCheckedChange={(value: boolean) => {
+					setCssOptions({ ...cssOptions, tolerant: value });
+				}}
+			/>
+			<Label htmlFor="tolerant">Tolerant Parsing</Label>
+		</div>
+	);
+};
+
 const JavaScriptPanel = () => {
 	const explorer = useExplorer();
 	const { jsOptions, setJsOptions } = explorer;
@@ -129,6 +147,8 @@ const Panel = ({ language }: { language: string }) => {
 			return <JSONPanel />;
 		case "markdown":
 			return <MarkdownPanel />;
+		case "css":
+			return <CssPanel />;
 		default:
 			return <JavaScriptPanel />;
 	}

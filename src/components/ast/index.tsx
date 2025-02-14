@@ -3,6 +3,7 @@
 import { useExplorer } from "@/hooks/use-explorer";
 import { JavascriptAst } from "./javascript-ast";
 import { JsonAst } from "./json-ast";
+import { CssAst } from "./css-ast";
 import { MarkdownAst } from "./markdown-ast";
 import type { FC } from "react";
 
@@ -14,6 +15,8 @@ export const Ast: FC = () => {
 			return <MarkdownAst />;
 		case "json":
 			return <JsonAst />;
+		case "css":
+			return <CssAst />;
 		default:
 			return <JavascriptAst />;
 	}
