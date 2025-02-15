@@ -8,6 +8,7 @@ import { ToolSelector } from "./components/tool-selector";
 import { ThemeProvider } from "./components/theme-provider";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { useAST } from "@/hooks/use-ast";
+import { convertNodesToRanges } from "@/lib/convert-nodes-to-ranges";
 
 function App() {
 	const { language, tool, code, setCode, esquerySelector } = useExplorer();
@@ -35,7 +36,9 @@ function App() {
 										highlightedRanges={
 											!result.ok
 												? undefined
-												: result.highlightedRanges
+												: convertNodesToRanges(
+														result.esqueryMatchedNodes,
+													)
 										}
 										onChange={value => {
 											setCode({
