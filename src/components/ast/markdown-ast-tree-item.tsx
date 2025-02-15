@@ -11,7 +11,7 @@ type ASTNode = {
 	readonly [key: string]: unknown;
 };
 
-type MarkdownAstTreeItemProperties = {
+export type MarkdownAstTreeItemProperties = {
 	readonly index: number;
 	readonly data: ASTNode;
 };

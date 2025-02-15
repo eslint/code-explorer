@@ -7,7 +7,7 @@ import { TreeEntry } from "../tree-entry";
 import type { FC } from "react";
 import type * as espree from "espree";
 
-type JavascriptAstTreeItemProperties = {
+export type JavascriptAstTreeItemProperties = {
 	readonly index: number;
 	readonly data:
 		| ReturnType<typeof espree.parse>

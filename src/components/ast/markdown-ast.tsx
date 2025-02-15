@@ -1,18 +1,19 @@
-import markdown from "@eslint/markdown";
 import { Accordion } from "@/components/ui/accordion";
 import { Editor } from "@/components/editor";
+import { useAST } from "@/hooks/use-ast";
 import { useExplorer } from "@/hooks/use-explorer";
-import { MarkdownAstTreeItem } from "./markdown-ast-tree-item";
+import {
+	MarkdownAstTreeItem,
+	type MarkdownAstTreeItemProperties,
+} from "./markdown-ast-tree-item";
 import type { FC } from "react";
 import { parseError } from "@/lib/parse-error";
 import { ErrorState } from "../error-boundary";
 
 export const MarkdownAst: FC = () => {
-	const { code, markdownOptions, viewModes } = useExplorer();
+	const result = useAST();
+	const { viewModes } = useExplorer();
 	const { astView } = viewModes;
-	const { markdownMode } = markdownOptions;
-	const language = markdown.languages[markdownMode];
-	const result = language.parse({ body: code.markdown });
 
 	if (!result.ok) {
 		const message = parseError(result.errors[0]);
@@ -28,7 +29,10 @@ export const MarkdownAst: FC = () => {
 				className="px-8 font-mono space-y-3"
 				defaultValue={["0-root"]}
 			>
-				<MarkdownAstTreeItem data={result.ast} index={0} />
+				<MarkdownAstTreeItem
+					data={result.ast as MarkdownAstTreeItemProperties["data"]}
+					index={0}
+				/>
 			</Accordion>
 		);
 	}

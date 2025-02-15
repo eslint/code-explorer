@@ -11,7 +11,7 @@ type ASTNode = {
 	readonly [key: string]: unknown;
 };
 
-type JsonAstTreeItemProperties = {
+export type JsonAstTreeItemProperties = {
 	readonly index: number;
 	readonly data: ASTNode;
 };

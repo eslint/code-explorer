@@ -1,33 +1,30 @@
-import * as espree from "espree";
 import { Accordion } from "@/components/ui/accordion";
 import { Editor } from "@/components/editor";
 import { useExplorer } from "@/hooks/use-explorer";
-import { JavascriptAstTreeItem } from "./javascript-ast-tree-item";
+import { useAST } from "@/hooks/use-ast";
+import {
+	JavascriptAstTreeItem,
+	type JavascriptAstTreeItemProperties,
+} from "./javascript-ast-tree-item";
 import type { FC } from "react";
 import { parseError } from "@/lib/parse-error";
 import { ErrorState } from "../error-boundary";
-import { parseJavascriptAST } from "@/lib/parse-javascript-ast";
 
 export const JavascriptAst: FC = () => {
+	const result = useAST();
 	const explorer = useExplorer();
 	const { viewModes } = explorer;
 	const { astView } = viewModes;
-	let ast = "";
-	let tree: ReturnType<typeof espree.parse> | null = null;
 
-	try {
-		tree = parseJavascriptAST({
-			code: explorer.code.javascript,
-			jsOptions: explorer.jsOptions,
-		});
-
-		ast = JSON.stringify(tree, null, 2);
-	} catch (error) {
-		const message = parseError(error);
+	if (!result.ok) {
+		const message = parseError(result.errors[0]);
 		return <ErrorState message={message} />;
 	}
+
+	const ast = JSON.stringify(result.ast, null, 2);
+
 	if (astView === "tree") {
-		if (tree === null) {
+		if (result.ast === null) {
 			return null;
 		}
 
@@ -37,7 +34,10 @@ export const JavascriptAst: FC = () => {
 				className="px-8 font-mono space-y-3"
 				defaultValue={["0-Program"]}
 			>
-				<JavascriptAstTreeItem data={tree} index={0} />
+				<JavascriptAstTreeItem
+					data={result.ast as JavascriptAstTreeItemProperties["data"]}
+					index={0}
+				/>
 			</Accordion>
 		);
 	}
