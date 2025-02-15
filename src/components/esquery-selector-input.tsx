@@ -8,9 +8,9 @@ export const EsquerySelectorInput: FC = () => {
 	const htmlId = useId();
 
 	return (
-		<div className="p-2 flex flex-row gap-1.5 items-center border-b">
+		<div className="p-2 flex gap-1.5 items-center border-b">
 			<Label htmlFor={htmlId} className="whitespace-pre">
-				esquery Selector
+				ESQuery Selector
 			</Label>
 			<TextField
 				id={htmlId}

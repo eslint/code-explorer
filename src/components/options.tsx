@@ -87,8 +87,7 @@ const CssPanel: React.FC = () => {
 const JavaScriptPanel = () => {
 	const explorer = useExplorer();
 	const { jsOptions, setJsOptions } = explorer;
-	const { parser, sourceType, esVersion, isJSX, esquerySelectorEnabled } =
-		jsOptions;
+	const { parser, sourceType, esVersion, isJSX } = jsOptions;
 	return (
 		<>
 			<LabeledSelect
@@ -137,20 +136,6 @@ const JavaScriptPanel = () => {
 					}}
 				/>
 				<Label htmlFor="jsx">JSX</Label>
-			</div>
-
-			<div className="flex items-center gap-1.5">
-				<Switch
-					id="esquerySelector"
-					checked={esquerySelectorEnabled}
-					onCheckedChange={(value: boolean) => {
-						setJsOptions({
-							...jsOptions,
-							esquerySelectorEnabled: value,
-						});
-					}}
-				/>
-				<Label htmlFor="esquerySelector">esquery Selector</Label>
 			</div>
 		</>
 	);

@@ -2,6 +2,7 @@ import { ModeToggle } from "./mode-toggle";
 import { Options } from "./options";
 import { CallToAction } from "./cta";
 import type { FC } from "react";
+import { EsqueryShowInputToggle } from "@/components/esquery-show-input-toggle";
 
 export const Navbar: FC = () => (
 	<nav className="border-t-4 border-primary">
@@ -25,6 +26,7 @@ export const Navbar: FC = () => (
 				</a>
 			</div>
 			<div className="flex items-center gap-2">
+				<EsqueryShowInputToggle />
 				<ModeToggle />
 				<Options />
 				<CallToAction />
