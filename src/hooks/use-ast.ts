@@ -96,6 +96,8 @@ function getHighlightedRanges(
 						node.position.start.offset,
 						node.position.end.offset,
 					];
+				} else if (isNodeWithLoc(node)) {
+					return [node.loc.start.offset, node.loc.end.offset];
 				}
 				assert(
 					"start" in node &&
@@ -114,6 +116,10 @@ function getHighlightedRanges(
 
 type NodeWithPosition = {
 	position: { start: PositionElem; end: PositionElem };
+};
+
+type NodeWithLoc = {
+	loc: { start: PositionElem; end: PositionElem };
 };
 
 type PositionElem = {
@@ -137,5 +143,25 @@ function isNodeWithPosition(node: unknown): node is NodeWithPosition {
 		node.position.end !== null &&
 		"offset" in node.position.end &&
 		typeof node.position.end.offset === "number"
+	);
+}
+
+function isNodeWithLoc(node: unknown): node is NodeWithLoc {
+	return (
+		typeof node === "object" &&
+		node !== null &&
+		"loc" in node &&
+		typeof node.loc === "object" &&
+		node.loc !== null &&
+		"start" in node.loc &&
+		typeof node.loc.start === "object" &&
+		node.loc.start !== null &&
+		"offset" in node.loc.start &&
+		typeof node.loc.start.offset === "number" &&
+		"end" in node.loc &&
+		typeof node.loc.end === "object" &&
+		node.loc.end !== null &&
+		"offset" in node.loc.end &&
+		typeof node.loc.end.offset === "number"
 	);
 }
