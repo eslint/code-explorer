@@ -32,6 +32,9 @@ export const MarkdownAst: FC = () => {
 				<MarkdownAstTreeItem
 					data={result.ast as MarkdownAstTreeItemProperties["data"]}
 					index={0}
+					esqueryMatchedNodes={
+						result.esqueryMatchedNodes as MarkdownAstTreeItemProperties["esqueryMatchedNodes"]
+					}
 				/>
 			</Accordion>
 		);

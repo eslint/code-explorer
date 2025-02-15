@@ -32,6 +32,9 @@ export const JsonAst: FC = () => {
 				<JsonAstTreeItem
 					data={result.ast as JsonAstTreeItemProperties["data"]}
 					index={0}
+					esqueryMatchedNodes={
+						result.esqueryMatchedNodes as JsonAstTreeItemProperties["esqueryMatchedNodes"]
+					}
 				/>
 			</Accordion>
 		);

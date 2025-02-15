@@ -12,11 +12,13 @@ export type JavascriptAstTreeItemProperties = {
 	readonly data:
 		| ReturnType<typeof espree.parse>
 		| ReturnType<typeof espree.parse>["body"][number];
+	readonly esqueryMatchedNodes: unknown[];
 };
 
 export const JavascriptAstTreeItem: FC<JavascriptAstTreeItemProperties> = ({
 	data,
 	index,
+	esqueryMatchedNodes,
 }) => (
 	<AccordionItem
 		value={`${index}-${data.type}`}
@@ -28,7 +30,11 @@ export const JavascriptAstTreeItem: FC<JavascriptAstTreeItemProperties> = ({
 		<AccordionContent className="p-4 border-t">
 			<div className="space-y-1">
 				{Object.entries(data).map(item => (
-					<TreeEntry key={item[0]} data={item} />
+					<TreeEntry
+						key={item[0]}
+						data={item}
+						esqueryMatchedNodes={esqueryMatchedNodes}
+					/>
 				))}
 			</div>
 		</AccordionContent>

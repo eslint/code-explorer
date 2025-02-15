@@ -37,6 +37,9 @@ export const JavascriptAst: FC = () => {
 				<JavascriptAstTreeItem
 					data={result.ast as JavascriptAstTreeItemProperties["data"]}
 					index={0}
+					esqueryMatchedNodes={
+						result.esqueryMatchedNodes as JavascriptAstTreeItemProperties["esqueryMatchedNodes"]
+					}
 				/>
 			</Accordion>
 		);

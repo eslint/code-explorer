@@ -32,6 +32,9 @@ export const CssAst: FC = () => {
 				<CssAstTreeItem
 					data={result.ast as CssAstTreeItemProperties["data"]}
 					index={0}
+					esqueryMatchedNodes={
+						result.esqueryMatchedNodes as CssAstTreeItemProperties["esqueryMatchedNodes"]
+					}
 				/>
 			</Accordion>
 		);
