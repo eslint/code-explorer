@@ -7,18 +7,17 @@ import { useExplorer } from "@/hooks/use-explorer";
 
 export const EsqueryShowInputToggle: FC = () => {
 	const explorer = useExplorer();
-	const { jsOptions, setJsOptions } = explorer;
-	const { esquerySelectorEnabled } = jsOptions;
+	const { esquerySelector, setEsquerySelector } = explorer;
 
 	return (
 		<div className="flex items-center gap-1.5 px-2">
 			<Switch
 				id="esquerySelector"
-				checked={esquerySelectorEnabled}
+				checked={esquerySelector.enabled}
 				onCheckedChange={(value: boolean) => {
-					setJsOptions({
-						...jsOptions,
-						esquerySelectorEnabled: value,
+					setEsquerySelector({
+						...esquerySelector,
+						enabled: value,
 					});
 				}}
 			/>

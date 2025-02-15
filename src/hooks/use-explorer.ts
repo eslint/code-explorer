@@ -33,7 +33,6 @@ export type JsOptions = {
 	sourceType: SourceType;
 	esVersion: Version;
 	isJSX: boolean;
-	esquerySelectorEnabled: boolean;
 };
 
 export type JsonOptions = {
@@ -91,8 +90,14 @@ type ExplorerState = {
 	pathIndex: PathIndex;
 	setPathIndex: (pathIndex: PathIndex) => void;
 
-	esquerySelector: string;
-	setEsquerySelector: (esquerySelector: string) => void;
+	esquerySelector: {
+		enabled: boolean;
+		selector: string;
+	};
+	setEsquerySelector: (esquerySelector: {
+		enabled: boolean;
+		selector: string;
+	}) => void;
 };
 
 const hashStorage: StateStorage = {
@@ -150,7 +155,10 @@ export const useExplorer = create<ExplorerState>()(
 					pathIndex: defaultPathIndex,
 					setPathIndex: pathIndex => set({ pathIndex }),
 
-					esquerySelector: "",
+					esquerySelector: {
+						enabled: false,
+						selector: "",
+					},
 					setEsquerySelector: esquerySelector =>
 						set({ esquerySelector }),
 				}),

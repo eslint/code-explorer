@@ -15,8 +15,13 @@ export const EsquerySelectorInput: FC = () => {
 			<TextField
 				id={htmlId}
 				className="flex-1"
-				value={esquerySelector}
-				onChange={e => setEsquerySelector(e.target.value)}
+				value={esquerySelector.selector}
+				onChange={e =>
+					setEsquerySelector({
+						...esquerySelector,
+						selector: e.target.value,
+					})
+				}
 			/>
 		</div>
 	);

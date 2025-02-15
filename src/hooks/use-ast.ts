@@ -67,50 +67,65 @@ export function useAST() {
 	}
 
 	if (astParseResult.ok) {
+		let highlightedRanges: HighlightedRange[] = [];
+
+		if (esquerySelector.enabled) {
+			const esqueryMatchedNodes = getEsqueryMatchedNodes(
+				astParseResult.ast,
+				esquerySelector.selector,
+			);
+			if (esqueryMatchedNodes) {
+				highlightedRanges = convertNodesToRanges(esqueryMatchedNodes);
+			}
+		}
+
 		return {
 			...astParseResult,
-			highlightedRanges: !jsOptions.esquerySelectorEnabled
-				? []
-				: getHighlightedRanges(astParseResult.ast, esquerySelector),
+			highlightedRanges,
 		};
 	} else {
 		return astParseResult;
 	}
 }
 
-function getHighlightedRanges(
+function getEsqueryMatchedNodes(
 	ast: unknown,
 	esquerySelector: string | undefined,
-): HighlightedRange[] {
-	let highlightedRanges: HighlightedRange[] = [];
+) {
 	if (esquerySelector) {
 		try {
 			const esqueryMatchedNodes = esquery.match(
 				ast as EstreeNode,
 				esquery.parse(esquerySelector),
 			) as unknown[];
-			highlightedRanges = esqueryMatchedNodes.map(node => {
-				assert(typeof node === "object" && node !== null);
-				if (isNodeWithPosition(node)) {
-					return [
-						node.position.start.offset,
-						node.position.end.offset,
-					];
-				} else if (isNodeWithLoc(node)) {
-					return [node.loc.start.offset, node.loc.end.offset];
-				}
-				assert(
-					"start" in node &&
-						typeof node.start === "number" &&
-						"end" in node &&
-						typeof node.end === "number",
-				);
-				return [node.start, node.end];
-			});
+			return esqueryMatchedNodes;
 		} catch {
 			// error occured e.g. because the esquery selector is no valid selector --> just ignore (no highlighted ranges)
 		}
 	}
+}
+
+function convertNodesToRanges(
+	esqueryMatchedNodes: unknown[],
+): HighlightedRange[] {
+	const highlightedRanges: HighlightedRange[] = esqueryMatchedNodes.map(
+		node => {
+			assert(typeof node === "object" && node !== null);
+			if (isNodeWithPosition(node)) {
+				return [node.position.start.offset, node.position.end.offset];
+			} else if (isNodeWithLoc(node)) {
+				return [node.loc.start.offset, node.loc.end.offset];
+			}
+			assert(
+				"start" in node &&
+					typeof node.start === "number" &&
+					"end" in node &&
+					typeof node.end === "number",
+			);
+			return [node.start, node.end];
+		},
+	);
+
 	return highlightedRanges;
 }
 

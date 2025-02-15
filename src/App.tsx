@@ -10,7 +10,7 @@ import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { useAST } from "@/hooks/use-ast";
 
 function App() {
-	const { language, tool, code, setCode, jsOptions } = useExplorer();
+	const { language, tool, code, setCode, esquerySelector } = useExplorer();
 
 	const result = useAST();
 
@@ -27,7 +27,7 @@ function App() {
 								className="border-t h-full"
 							>
 								<Panel defaultSize={50} minSize={25}>
-									{jsOptions.esquerySelectorEnabled && (
+									{esquerySelector.enabled && (
 										<EsquerySelectorInput />
 									)}
 									<Editor

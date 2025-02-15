@@ -373,7 +373,6 @@ export const defaultJsOptions: JsOptions = {
 	sourceType: "module",
 	esVersion: "latest",
 	isJSX: true,
-	esquerySelectorEnabled: false,
 };
 
 export const defaultJsonOptions: JsonOptions = {
