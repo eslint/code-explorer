@@ -13,7 +13,7 @@ import { convertNodesToRanges } from "@/lib/convert-nodes-to-ranges";
 function App() {
 	const { language, tool, code, setCode, esquerySelector } = useExplorer();
 
-	const result = useAST();
+	const astParseResult = useAST();
 
 	const activeTool = tools.find(({ value }) => value === tool) ?? tools[0];
 	return (
@@ -34,10 +34,10 @@ function App() {
 									<Editor
 										value={code[language]}
 										highlightedRanges={
-											!result.ok
+											!astParseResult.ok
 												? undefined
 												: convertNodesToRanges(
-														result.esqueryMatchedNodes,
+														astParseResult.esqueryMatchedNodes,
 													)
 										}
 										onChange={value => {

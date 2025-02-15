@@ -5,6 +5,7 @@ import json from "@eslint/json";
 import markdown from "@eslint/markdown";
 import esquery from "esquery";
 import { useExplorer } from "@/hooks/use-explorer";
+import { assertIsUnreachable } from "@/lib/utils";
 
 export function useAST() {
 	const {
@@ -62,6 +63,10 @@ export function useAST() {
 			);
 			break;
 		}
+
+		default: {
+			assertIsUnreachable(language);
+		}
 	}
 
 	if (astParseResult.ok) {
@@ -83,11 +88,8 @@ export function useAST() {
 	}
 }
 
-function getEsqueryMatchedNodes(
-	ast: unknown,
-	esquerySelector: string | undefined,
-) {
-	if (esquerySelector) {
+function getEsqueryMatchedNodes(ast: unknown, esquerySelector: string) {
+	if (esquerySelector.trim().length > 0) {
 		try {
 			const esqueryMatchedNodes = esquery.match(
 				ast as EstreeNode,
@@ -95,7 +97,7 @@ function getEsqueryMatchedNodes(
 			) as unknown[];
 			return esqueryMatchedNodes;
 		} catch {
-			// error occured e.g. because the esquery selector is no valid selector --> just ignore (no highlighted ranges)
+			// error occured e.g. because the esquery selector is no valid selector --> just ignore (no nodes matched --> no highlighted ranges)
 		}
 	}
 	return [];

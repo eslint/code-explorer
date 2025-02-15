@@ -1,29 +1,34 @@
 import type { HighlightedRange } from "@/utils/highlighted-ranges";
-import { assert } from "@/lib/utils";
 
 export function convertNodesToRanges(
 	esqueryMatchedNodes: unknown[],
 ): HighlightedRange[] {
-	const highlightedRanges: HighlightedRange[] = esqueryMatchedNodes.map(
-		node => {
-			assert(typeof node === "object" && node !== null);
-			if (isNodeWithPosition(node)) {
-				return [node.position.start.offset, node.position.end.offset];
-			} else if (isNodeWithLoc(node)) {
-				return [node.loc.start.offset, node.loc.end.offset];
+	const highlightedRanges: HighlightedRange[] = esqueryMatchedNodes
+		.map(node => {
+			if (isNodeWithStartEnd(node)) {
+				return [node.start, node.end] satisfies HighlightedRange;
 			}
-			assert(
-				"start" in node &&
-					typeof node.start === "number" &&
-					"end" in node &&
-					typeof node.end === "number",
-			);
-			return [node.start, node.end];
-		},
-	);
+			if (isNodeWithPosition(node)) {
+				return [
+					node.position.start.offset,
+					node.position.end.offset,
+				] satisfies HighlightedRange;
+			} else if (isNodeWithLoc(node)) {
+				return [
+					node.loc.start.offset,
+					node.loc.end.offset,
+				] satisfies HighlightedRange;
+			}
+		})
+		.filter(range => range !== undefined);
 
 	return highlightedRanges;
 }
+
+type NodeWithStartEnd = {
+	start: number;
+	end: number;
+};
 
 type NodeWithPosition = {
 	position: { start: PositionElem; end: PositionElem };
@@ -36,6 +41,17 @@ type NodeWithLoc = {
 type PositionElem = {
 	offset: number;
 };
+
+function isNodeWithStartEnd(node: unknown): node is NodeWithStartEnd {
+	return (
+		typeof node === "object" &&
+		node !== null &&
+		"start" in node &&
+		typeof node.start === "number" &&
+		"end" in node &&
+		typeof node.end === "number"
+	);
+}
 
 function isNodeWithPosition(node: unknown): node is NodeWithPosition {
 	return (

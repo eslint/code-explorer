@@ -33,3 +33,7 @@ export function assert(value: unknown): asserts value {
 		throw new Error("Assertion failed");
 	}
 }
+
+export function assertIsUnreachable(value: never): never {
+	throw new Error(`Unexpected value: ${value}`);
+}

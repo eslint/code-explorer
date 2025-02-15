@@ -53,6 +53,11 @@ export type PathIndex = {
 	indexes: number;
 };
 
+export type EsquerySelector = {
+	enabled: boolean;
+	selector: string;
+};
+
 export type ViewModes = {
 	astView: "tree" | "json";
 	scopeView: "flat" | "nested";
@@ -90,14 +95,8 @@ type ExplorerState = {
 	pathIndex: PathIndex;
 	setPathIndex: (pathIndex: PathIndex) => void;
 
-	esquerySelector: {
-		enabled: boolean;
-		selector: string;
-	};
-	setEsquerySelector: (esquerySelector: {
-		enabled: boolean;
-		selector: string;
-	}) => void;
+	esquerySelector: EsquerySelector;
+	setEsquerySelector: (esquerySelector: EsquerySelector) => void;
 };
 
 const hashStorage: StateStorage = {
