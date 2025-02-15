@@ -8,11 +8,13 @@ export const EsquerySelectorInput: FC = () => {
 	const htmlId = useId();
 
 	return (
-		<div className="space-y-1.5 m-2">
-			<Label htmlFor={htmlId}>esquery Selector</Label>
+		<div className="p-2 flex flex-row gap-1.5 items-center border-b">
+			<Label htmlFor={htmlId} className="whitespace-pre">
+				esquery Selector
+			</Label>
 			<TextField
 				id={htmlId}
-				className="w-full"
+				className="flex-1"
 				value={esquerySelector}
 				onChange={e => setEsquerySelector(e.target.value)}
 			/>
