@@ -17,9 +17,6 @@ export const ESLintPlaygroundTheme = EditorView.theme(
 			paddingRight: "1px",
 			backgroundColor: "var(--body-background-color)",
 		},
-		".cm-activeLine": {
-			backgroundColor: "transparent",
-		},
 		".cm-activeLineGutter": {
 			backgroundColor: "var(--body-background-color)",
 		},
