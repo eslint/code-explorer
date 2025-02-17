@@ -17,7 +17,7 @@ export const ESLintPlaygroundTheme = EditorView.theme(
 			paddingRight: "1px",
 			backgroundColor: "var(--body-background-color)",
 		},
-		".cm-activeLine, .cm-activeLineGutter": {
+		".cm-activeLineGutter": {
 			backgroundColor: "var(--body-background-color)",
 		},
 		".cm-content": {
@@ -53,7 +53,6 @@ export const ESLintPlaygroundTheme = EditorView.theme(
 			margin: "0",
 		},
 		"&.cm-editor .cm-content .cm-line ::selection": {
-			backgroundColor: "var(--color-primary-800) !important",
 			color: "#fff !important",
 		},
 	},
