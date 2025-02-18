@@ -54,7 +54,6 @@ export type PathIndex = {
 };
 
 export type EsquerySelector = {
-	enabled: boolean;
 	selector: string;
 };
 
@@ -155,7 +154,6 @@ export const useExplorer = create<ExplorerState>()(
 					setPathIndex: pathIndex => set({ pathIndex }),
 
 					esquerySelector: {
-						enabled: false,
 						selector: "",
 					},
 					setEsquerySelector: esquerySelector =>

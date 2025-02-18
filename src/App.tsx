@@ -11,7 +11,7 @@ import { useAST } from "@/hooks/use-ast";
 import { convertNodesToRanges } from "@/lib/convert-nodes-to-ranges";
 
 function App() {
-	const { language, tool, code, setCode, esquerySelector } = useExplorer();
+	const { language, tool, code, setCode } = useExplorer();
 
 	const astParseResult = useAST();
 
@@ -28,9 +28,7 @@ function App() {
 								className="border-t h-full"
 							>
 								<Panel defaultSize={50} minSize={25}>
-									{esquerySelector.enabled && (
-										<EsquerySelectorInput />
-									)}
+									<EsquerySelectorInput />
 									<Editor
 										value={code[language]}
 										highlightedRanges={

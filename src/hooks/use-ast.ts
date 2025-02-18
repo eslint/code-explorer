@@ -70,14 +70,10 @@ export function useAST() {
 	}
 
 	if (astParseResult.ok) {
-		let esqueryMatchedNodes: unknown[] = [];
-
-		if (esquerySelector.enabled) {
-			esqueryMatchedNodes = getEsqueryMatchedNodes(
-				astParseResult.ast,
-				esquerySelector.selector,
-			);
-		}
+		const esqueryMatchedNodes = getEsqueryMatchedNodes(
+			astParseResult.ast,
+			esquerySelector.selector,
+		);
 
 		return {
 			...astParseResult,
