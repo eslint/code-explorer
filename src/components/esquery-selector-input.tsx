@@ -21,6 +21,7 @@ export const EsquerySelectorInput: FC = () => {
 			</Label>
 			<TextField
 				id={htmlId}
+				placeholder={'e.g. "ImportDeclaration > Literal"'}
 				className={cn(
 					"flex-1",
 					!astParseResult.ok ||
