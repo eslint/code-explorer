@@ -59,7 +59,6 @@ export const CodePath: FC = () => {
 
 	useEffect(() => {
 		fetchCodePath();
-		// eslint-disable-next-line react-hooks/exhaustive-deps -- we want to fetch code path once on mount, afterwards the "useDebouncedEffect" takes over
 	}, []);
 
 	useDebouncedEffect(
