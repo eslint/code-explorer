@@ -53,6 +53,7 @@ module.exports = {
 				editorBackground: "hsl(var(--editor-background))",
 				editorHighlightedRangeColor:
 					"hsl(var(--editor-highlighted-range-color))",
+				nonmatchingEsquerySelector: "var(--color-rose-200)",
 			},
 			borderRadius: {
 				lg: "var(--radius)",
