@@ -72,7 +72,7 @@ export function useAST() {
 	if (astParseResult.ok) {
 		const esqueryMatchedNodes = getEsqueryMatchedNodes(
 			astParseResult.ast,
-			esquerySelector.selector,
+			esquerySelector?.selector ?? "",
 		);
 
 		return {

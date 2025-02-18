@@ -11,7 +11,7 @@ export const EsquerySelectorInput: FC = () => {
 	const htmlId = useId();
 
 	const highlightAsNotMatching =
-		esquerySelector.selector.trim() &&
+		esquerySelector?.selector.trim() &&
 		(!astParseResult.ok || astParseResult.esqueryMatchedNodes.length === 0);
 
 	return (
@@ -27,7 +27,7 @@ export const EsquerySelectorInput: FC = () => {
 						(highlightAsNotMatching &&
 							"bg-nonmatchingEsquerySelector"),
 				)}
-				value={esquerySelector.selector}
+				value={esquerySelector?.selector ?? ""}
 				onChange={e =>
 					setEsquerySelector({
 						...esquerySelector,

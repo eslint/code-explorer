@@ -94,7 +94,7 @@ type ExplorerState = {
 	pathIndex: PathIndex;
 	setPathIndex: (pathIndex: PathIndex) => void;
 
-	esquerySelector: EsquerySelector;
+	esquerySelector?: EsquerySelector;
 	setEsquerySelector: (esquerySelector: EsquerySelector) => void;
 };
 
