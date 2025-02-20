@@ -12,5 +12,6 @@ export const highlightedRangesExtension = (ranges: HighlightedRange[]) =>
 				ranges.map(([rangeFrom, rangeTo]) =>
 					highlightRangeDecoration.range(rangeFrom, rangeTo),
 				),
+				true,
 			),
 	});
