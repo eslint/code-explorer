@@ -138,7 +138,3 @@
 .cm-editor:has(.cm-selectionBackground) .cm-activeLine {
 	background-color: transparent;
 }
-
-.eslint-code-explorer_highlighted-range {
-	@apply bg-editorHighlightedRangeColor;
-}

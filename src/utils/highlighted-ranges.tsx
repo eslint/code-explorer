@@ -1,7 +1,7 @@
 import { Decoration, ViewPlugin } from "@codemirror/view";
 
 const highlightRangeDecoration = Decoration.mark({
-	class: "eslint-code-explorer_highlighted-range",
+	class: "bg-editorHighlightedRangeColor",
 });
 export type HighlightedRange = [rangeFrom: number, rangeTo: number];
 
