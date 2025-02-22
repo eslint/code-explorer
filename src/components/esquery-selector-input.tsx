@@ -26,7 +26,7 @@ export const EsquerySelectorInput: FC = () => {
 					"flex-1",
 					!astParseResult.ok ||
 						(highlightAsNotMatching &&
-							"bg-nonmatchingEsquerySelector"),
+							"bg-nonmatchingEsquerySelector hover:bg-nonmatchingEsquerySelector"),
 				)}
 				value={esquerySelector?.selector ?? ""}
 				onChange={e =>
