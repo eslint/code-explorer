@@ -8,6 +8,7 @@ import type { FC, ReactNode } from "react";
 type TreeEntryProperties = {
 	readonly data: [string, unknown];
 	readonly path?: string;
+	readonly esqueryMatchedNodes: unknown[];
 };
 
 const isProbablyNode = (value: unknown) => {
@@ -26,11 +27,13 @@ const SanitizeValue = ({
 	path,
 	isArray,
 	index,
+	esqueryMatchedNodes,
 }: {
 	value: unknown;
 	isArray: boolean;
 	path?: string;
 	index: number;
+	esqueryMatchedNodes: unknown[];
 }): ReactNode => {
 	if (!value) {
 		return null;
@@ -45,6 +48,7 @@ const SanitizeValue = ({
 					value={item}
 					index={index}
 					isArray={Array.isArray(value)}
+					esqueryMatchedNodes={esqueryMatchedNodes}
 				/>
 			));
 		}
@@ -70,6 +74,7 @@ const SanitizeValue = ({
 					isArray={isArray}
 					data={value as Scope}
 					index={index}
+					esqueryMatchedNodes={esqueryMatchedNodes}
 				/>
 			</div>
 		);
@@ -82,12 +87,17 @@ const SanitizeValue = ({
 				isArray={isArray}
 				data={value as Scope}
 				index={index}
+				esqueryMatchedNodes={esqueryMatchedNodes}
 			/>
 		</div>
 	);
 };
 
-export const TreeEntry: FC<TreeEntryProperties> = ({ data, path }) => {
+export const TreeEntry: FC<TreeEntryProperties> = ({
+	data,
+	path,
+	esqueryMatchedNodes,
+}) => {
 	const [key, value] = data;
 	const [open, setOpen] = useState(false);
 	const Icon = open ? MinusSquareIcon : PlusSquareIcon;
@@ -128,6 +138,7 @@ export const TreeEntry: FC<TreeEntryProperties> = ({ data, path }) => {
 					value={value}
 					isArray={Array.isArray(value)}
 					index={0}
+					esqueryMatchedNodes={esqueryMatchedNodes}
 				/>
 			) : null}
 		</>

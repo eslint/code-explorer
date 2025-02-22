@@ -6,12 +6,14 @@ import {
 } from "@/components/ui/accordion";
 import { TreeEntry } from "../tree-entry";
 import type { FC } from "react";
+import { cn } from "@/lib/utils";
 
 type ScopeItemProperties = {
 	isArray: boolean;
 	readonly index: number;
 	readonly path: string;
 	readonly data: Scope | Variable | Reference | null;
+	readonly esqueryMatchedNodes: unknown[];
 };
 
 export const ScopeItem: FC<ScopeItemProperties> = ({
@@ -19,6 +21,7 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 	index,
 	path,
 	isArray,
+	esqueryMatchedNodes,
 }) => {
 	if (!data) {
 		return null;
@@ -36,6 +39,8 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 		key = (data as Record<string, string>)?.type ?? typeof data;
 	}
 
+	const isEsqueryMatchedNode = esqueryMatchedNodes.includes(data);
+
 	// filter out hidden properties
 	const properties = Object.entries(data).filter(
 		([name]) => !name.startsWith("__"),
@@ -44,7 +49,10 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 	return (
 		<AccordionItem
 			value={path + "." + index + "." + key}
-			className="border border-card rounded-lg overflow-hidden"
+			className={cn(
+				"border border-card rounded-lg overflow-hidden",
+				isEsqueryMatchedNode && "border-primary border-4",
+			)}
 		>
 			<AccordionTrigger className="text-sm bg-card px-4 py-3 capitalize">
 				{isArray && `${Math.max(index, 0)}.`} {key}
@@ -56,6 +64,7 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 							key={item[0]}
 							data={item}
 							path={path + "." + index}
+							esqueryMatchedNodes={esqueryMatchedNodes}
 						/>
 					))}
 				</div>

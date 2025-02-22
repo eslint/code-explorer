@@ -64,6 +64,7 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-scope": "^8.1.0",
     "espree": "^10.1.0",
+    "esquery": "^1.6.0",
     "global": "^4.4.0",
     "graphviz-react": "^1.2.5",
     "lucide-react": "^0.407.0",
@@ -77,6 +78,7 @@
   "devDependencies": {
     "@types/eslint-scope": "^3.7.7",
     "@types/espree": "^10.0.0",
+    "@types/esquery": "^1.5.4",
     "@types/node": "^18.19.44",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",

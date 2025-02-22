@@ -42,6 +42,8 @@
 		--scrollbar-track: 0deg 0% 93.33%;
 		--scrollbar-thumb: 0deg 0% 53.33%;
 		--scrollbar-thumb-hover: 0deg 0% 33.33%;
+
+		--nonmatching-esquery-selector: var(--color-rose-200);
 	}
 
 	.dark {
@@ -79,6 +81,8 @@
 		--scrollbar-track: 0deg 0% 18.04%;
 		--scrollbar-thumb: 0deg 0% 53.33%;
 		--scrollbar-thumb-hover: 0deg 0% 33.33%;
+
+		--nonmatching-esquery-selector: var(--color-rose-900);
 	}
 }
 
