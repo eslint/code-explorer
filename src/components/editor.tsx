@@ -64,11 +64,9 @@ export const Editor: FC<EditorProperties> = ({
 	];
 
 	const debouncedOnChange = useCallback(
-		(value: string) => {
-			debounce(() => {
-				onChange?.(value);
-			}, 400)();
-		},
+		debounce((value: string) => {
+			onChange?.(value);
+		}, 400),
 		[onChange],
 	);
 
