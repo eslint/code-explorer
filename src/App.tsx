@@ -32,11 +32,11 @@ function App() {
 									<Editor
 										value={code[language]}
 										highlightedRanges={
-											!astParseResult.ok
-												? undefined
-												: convertNodesToRanges(
+											astParseResult.ok
+												? convertNodesToRanges(
 														astParseResult.esqueryMatchedNodes,
 													)
+												: undefined
 										}
 										onChange={value => {
 											setCode({
