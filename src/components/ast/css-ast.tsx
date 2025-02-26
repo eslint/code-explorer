@@ -1,23 +1,19 @@
-import css from "@eslint/css";
 import { Accordion } from "@/components/ui/accordion";
 import { Editor } from "@/components/editor";
+import { useAST } from "@/hooks/use-ast";
 import { useExplorer } from "@/hooks/use-explorer";
-import { CssAstTreeItem } from "./css-ast-tree-item";
+import {
+	CssAstTreeItem,
+	type CssAstTreeItemProperties,
+} from "./css-ast-tree-item";
 import type { FC } from "react";
 import { parseError } from "@/lib/parse-error";
 import { ErrorState } from "../error-boundary";
 
 export const CssAst: FC = () => {
-	const { code, cssOptions, viewModes } = useExplorer();
+	const result = useAST();
+	const { viewModes } = useExplorer();
 	const { astView } = viewModes;
-	const { cssMode, tolerant } = cssOptions;
-	const language = css.languages[cssMode];
-	const result = language.parse(
-		{ body: code.css },
-		{
-			languageOptions: { tolerant },
-		},
-	);
 
 	if (!result.ok) {
 		const message = parseError(result.errors[0]);
@@ -33,7 +29,13 @@ export const CssAst: FC = () => {
 				className="px-8 font-mono space-y-3"
 				defaultValue={["0-StyleSheet"]}
 			>
-				<CssAstTreeItem data={result.ast} index={0} />
+				<CssAstTreeItem
+					data={result.ast as CssAstTreeItemProperties["data"]}
+					index={0}
+					esqueryMatchedNodes={
+						result.esqueryMatchedNodes as CssAstTreeItemProperties["esqueryMatchedNodes"]
+					}
+				/>
 			</Accordion>
 		);
 	}

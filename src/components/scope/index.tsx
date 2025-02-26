@@ -8,26 +8,23 @@ import { ScopeItem } from "./scope-item";
 import type { FC } from "react";
 import { parseError } from "@/lib/parse-error";
 import { ErrorState } from "../error-boundary";
+import { useAST } from "@/hooks/use-ast";
 
 export const Scope: FC = () => {
 	const explorer = useExplorer();
-	const { code, jsOptions, viewModes } = explorer;
-	const { javascript } = code;
-	const { sourceType, esVersion, isJSX } = jsOptions;
+	const result = useAST();
+	const { jsOptions, viewModes } = explorer;
+	const { sourceType, esVersion } = jsOptions;
 	const { scopeView } = viewModes;
-	let ast = {};
 	let scopeManager = null;
 
+	if (!result.ok) {
+		const message = parseError(result.errors[0]);
+		return <ErrorState message={message} />;
+	}
+
 	try {
-		ast = espree.parse(javascript, {
-			range: true,
-			ecmaVersion: esVersion,
-			sourceType: sourceType,
-			ecmaFeatures: {
-				jsx: isJSX,
-			},
-		});
-		scopeManager = eslintScope.analyze(ast, {
+		scopeManager = eslintScope.analyze(result.ast as object, {
 			sourceType: sourceType as never,
 			ecmaVersion:
 				esVersion === "latest" ? espree.latestEcmaVersion : esVersion,
@@ -52,6 +49,7 @@ export const Scope: FC = () => {
 							data={subScope}
 							path={index.toString()}
 							index={index + 1}
+							esqueryMatchedNodes={result.esqueryMatchedNodes}
 						/>
 					))}
 				</>
@@ -61,6 +59,7 @@ export const Scope: FC = () => {
 					data={scopeManager.globalScope}
 					path={"-1"}
 					index={-1}
+					esqueryMatchedNodes={result.esqueryMatchedNodes}
 				/>
 			)}
 		</Accordion>

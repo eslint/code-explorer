@@ -3,12 +3,18 @@ import { Navbar } from "./components/navbar";
 import { useExplorer } from "./hooks/use-explorer";
 import { tools } from "./lib/tools";
 import { Editor } from "./components/editor";
+import { EsquerySelectorInput } from "./components/esquery-selector-input";
 import { ToolSelector } from "./components/tool-selector";
 import { ThemeProvider } from "./components/theme-provider";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import { useAST } from "@/hooks/use-ast";
+import { convertNodesToRanges } from "@/lib/convert-nodes-to-ranges";
 
 function App() {
 	const { language, tool, code, setCode } = useExplorer();
+
+	const astParseResult = useAST();
+
 	const activeTool = tools.find(({ value }) => value === tool) ?? tools[0];
 	return (
 		<ThemeProvider>
@@ -22,8 +28,16 @@ function App() {
 								className="border-t h-full"
 							>
 								<Panel defaultSize={50} minSize={25}>
+									<EsquerySelectorInput />
 									<Editor
 										value={code[language]}
+										highlightedRanges={
+											astParseResult.ok
+												? convertNodesToRanges(
+														astParseResult.esqueryMatchedNodes,
+													)
+												: undefined
+										}
 										onChange={value => {
 											setCode({
 												...code,

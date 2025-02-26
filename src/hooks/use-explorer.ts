@@ -53,6 +53,10 @@ export type PathIndex = {
 	indexes: number;
 };
 
+export type EsquerySelector = {
+	selector: string;
+};
+
 export type ViewModes = {
 	astView: "tree" | "json";
 	scopeView: "flat" | "nested";
@@ -89,6 +93,9 @@ type ExplorerState = {
 
 	pathIndex: PathIndex;
 	setPathIndex: (pathIndex: PathIndex) => void;
+
+	esquerySelector?: EsquerySelector;
+	setEsquerySelector: (esquerySelector: EsquerySelector) => void;
 };
 
 const hashStorage: StateStorage = {
@@ -145,6 +152,12 @@ export const useExplorer = create<ExplorerState>()(
 
 					pathIndex: defaultPathIndex,
 					setPathIndex: pathIndex => set({ pathIndex }),
+
+					esquerySelector: {
+						selector: "",
+					},
+					setEsquerySelector: esquerySelector =>
+						set({ esquerySelector }),
 				}),
 				{
 					name: "eslint-explorer",
