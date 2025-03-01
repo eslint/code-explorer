@@ -12,6 +12,7 @@
     "build:preview": "vite preview",
     "build:readme": "node tools/update-readme.js",
     "start": "vite",
+    "compile": "tsc",
     "lint": "npm-run-all --parallel lint:js",
     "lint:fix": "npm-run-all --parallel lint:fix:*",
     "lint:js": "eslint .",

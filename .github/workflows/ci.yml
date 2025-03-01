@@ -1,0 +1,50 @@
+name: CI
+
+# configure concurrency: cancel pending and in-progress workflow runs if a new commit to the same branch is pushed (`github.head_ref` is the source branch of PRs, `github.ref_name` is the branch name of non-PR events)
+concurrency:
+    group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+    cancel-in-progress: true
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+        types:
+            - opened # new PR was created
+            - synchronize # the last commit of the `head_ref` (= source branch) changed, e.g. a new commit was pushed or the source branch was rebased
+            - ready_for_review # the PR switched from draft to non-draft
+            - reopened # PR had been closed and got reopened
+
+jobs:
+    check:
+        name: Checks (typechecking, linting, formatting)
+        # run only if triggered by push on a branch or by a PR event for a PR which is not a draft
+        if: ${{ !github.event.pull_request || github.event.pull_request.draft == false }}
+        runs-on: ubuntu-24.04
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Install Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version-file: ".nvmrc"
+                  cache: npm
+
+            - name: Install dependencies
+              run: |
+                  npm ci
+
+            - name: Typecheck everything (tsc)
+              run: |
+                  npm run compile
+
+            - name: Lint everything (eslint)
+              run: |
+                  npm run lint
+
+            - name: Check formatting of everything (prettier)
+              run: |
+                  npm run fmt
