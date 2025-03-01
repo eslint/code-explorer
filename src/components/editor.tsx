@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, FC, useCallback } from "react";
+import { useEffect, useRef, useState, FC, useMemo } from "react";
 import { useExplorer } from "@/hooks/use-explorer";
 import CodeMirror from "@uiw/react-codemirror";
 import { json } from "@codemirror/lang-json";
@@ -63,10 +63,11 @@ export const Editor: FC<EditorProperties> = ({
 		highlightedRangesExtension(highlightedRanges),
 	];
 
-	const debouncedOnChange = useCallback(
-		debounce((value: string) => {
-			onChange?.(value);
-		}, 400),
+	const debouncedOnChange = useMemo(
+		() =>
+			debounce((value: string) => {
+				onChange?.(value);
+			}, 400),
 		[onChange],
 	);
 
