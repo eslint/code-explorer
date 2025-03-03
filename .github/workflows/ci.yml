@@ -39,7 +39,7 @@ jobs:
 
             - name: Typecheck everything (tsc)
               run: |
-                  npm run compile
+                  npm run build
 
             - name: Lint everything (eslint)
               run: |
