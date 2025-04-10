@@ -26,7 +26,7 @@ export const MarkdownAst: FC = () => {
 		return (
 			<Accordion
 				type="multiple"
-				className="px-8 font-mono space-y-3"
+				className="px-8 pb-4 font-mono space-y-3"
 				defaultValue={["0-root"]}
 			>
 				<MarkdownAstTreeItem
