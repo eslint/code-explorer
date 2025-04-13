@@ -19,7 +19,7 @@
     "lint:fix:js": "eslint --max-warnings 0 . --fix",
     "fmt": "prettier --check .",
     "fmt:fix": "prettier --write .",
-    "test:e2e": "PW_TEST_CONNECT_WS_ENDPOINT=ws://127.0.0.1:3000/ playwright test",
+    "test:e2e": "cross-env PW_TEST_CONNECT_WS_ENDPOINT=ws://127.0.0.1:3000/ playwright test",
     "test:e2e:update": "npm run test:e2e -- --update-snapshots"
   },
   "lint-staged": {
@@ -87,6 +87,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
+    "cross-env": "^7.0.3",
     "eslint": "^8.57.0",
     "got": "^14.4.3",
     "lint-staged": "^15.2.9",
