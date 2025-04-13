@@ -1,5 +1,15 @@
+/**
+ * Tests for code editing functionality and AST tool interaction.
+ */
 import test, { expect } from "@playwright/test";
 
+/**
+ * This test verifies that:
+ * - Users can edit code in the editor
+ * - The AST updates in response to code changes
+ * - ESQuery selectors correctly highlight matching code and AST nodes
+ * - AST node expansion functionality works properly
+ */
 test(`should change code, then highlight code and AST nodes matching ESQuery selector`, async ({
 	page,
 }) => {

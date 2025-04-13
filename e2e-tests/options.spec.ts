@@ -1,5 +1,14 @@
+/**
+ * Tests for language selection and options panel functionality.
+ */
 import { test, expect } from "@playwright/test";
 
+/**
+ * This test verifies that:
+ * - Users can open the language options popover
+ * - Users can switch between supported languages (JavaScript, JSON, Markdown, CSS)
+ * - For each language the entire page is correctly rendered
+ */
 test("should switch language and show options for each", async ({ page }) => {
 	await page.goto("/");
 
