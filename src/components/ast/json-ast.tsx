@@ -26,7 +26,7 @@ export const JsonAst: FC = () => {
 		return (
 			<Accordion
 				type="multiple"
-				className="px-8 font-mono space-y-3"
+				className="px-8 font-mono space-y-3 min-w-max"
 				defaultValue={["0-Document"]}
 			>
 				<JsonAstTreeItem
