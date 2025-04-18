@@ -177,7 +177,11 @@ export const Options: FC = () => {
 	return (
 		<Popover>
 			<PopoverTrigger asChild>
-				<Button variant="outline" className="flex items-center gap-1.5">
+				<Button
+					aria-label="Language Options"
+					variant="outline"
+					className="flex items-center gap-1.5"
+				>
 					<img
 						src={currentLanguage.icon}
 						alt={currentLanguage.label}

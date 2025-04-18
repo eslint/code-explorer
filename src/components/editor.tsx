@@ -163,6 +163,7 @@ export const Editor: FC<EditorProperties> = ({
 				</div>
 			)}
 			<CodeMirror
+				aria-label="Code Editor"
 				className="h-full overflow-auto scrollbar-thumb scrollbar-track text-sm"
 				value={value}
 				extensions={editorExtensions}
