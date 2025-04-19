@@ -79,7 +79,7 @@ const MarkdownPanel: React.FC = () => {
 					});
 				}}
 				items={markdownFrontmatters}
-				placeholder="Off"
+				placeholder="Front Matter"
 			/>
 		</>
 	);
