@@ -131,8 +131,8 @@ export const Editor: FC<EditorProperties> = ({
 	}, [readOnly]);
 
 	const editorClasses = clsx("relative", {
-		"h-[calc(100vh-152px)]": readOnly,
-		"h-[calc(100vh-72px)]": !readOnly,
+		"h-[calc(100%-72px)]": readOnly,
+		"h-[calc(100%-57px)]": !readOnly,
 	});
 
 	const dropMessageClasses = clsx(
