@@ -20,6 +20,7 @@ export type Version = Exclude<Options["ecmaVersion"], undefined>;
 export type Language = "javascript" | "json" | "markdown" | "css";
 export type JsonMode = "json" | "jsonc" | "json5";
 export type MarkdownMode = "commonmark" | "gfm";
+export type MarkdownFrontmatter = "off" | "yaml" | "toml";
 export type CssMode = "css";
 
 export type Code = {
@@ -41,6 +42,7 @@ export type JsonOptions = {
 
 export type MarkdownOptions = {
 	markdownMode: MarkdownMode;
+	markdownFrontmatter: MarkdownFrontmatter;
 };
 
 export type CssOptions = {
