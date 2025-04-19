@@ -48,9 +48,19 @@ export function useAST() {
 		}
 
 		case "markdown": {
-			const { markdownMode } = markdownOptions;
+			const { markdownMode, markdownFrontmatter } = markdownOptions;
 			const language = markdown.languages[markdownMode];
-			astParseResult = language.parse({ body: code.markdown });
+			astParseResult = language.parse(
+				{ body: code.markdown },
+				{
+					languageOptions: {
+						frontmatter:
+							markdownFrontmatter === "off"
+								? false
+								: markdownFrontmatter,
+					},
+				},
+			);
 			break;
 		}
 

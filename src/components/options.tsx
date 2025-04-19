@@ -10,6 +10,7 @@ import { useExplorer } from "@/hooks/use-explorer";
 import {
 	jsonModes,
 	markdownModes,
+	markdownFrontmatters,
 	languages,
 	parsers,
 	sourceTypes,
@@ -24,6 +25,7 @@ import type {
 	JsonMode,
 	Language,
 	MarkdownMode,
+	MarkdownFrontmatter,
 	SourceType,
 	Version,
 } from "@/hooks/use-explorer";
@@ -50,19 +52,36 @@ const JSONPanel: React.FC = () => {
 const MarkdownPanel: React.FC = () => {
 	const explorer = useExplorer();
 	const { markdownOptions, setMarkdownOptions } = explorer;
-	const { markdownMode } = markdownOptions;
+	const { markdownMode, markdownFrontmatter } = markdownOptions;
 	return (
-		<LabeledSelect
-			id="markdownMode"
-			label="Mode"
-			value={markdownMode}
-			onValueChange={(value: string) => {
-				const markdownMode = value as MarkdownMode;
-				setMarkdownOptions({ ...markdownOptions, markdownMode });
-			}}
-			items={markdownModes}
-			placeholder="Mode"
-		/>
+		<>
+			<LabeledSelect
+				id="markdownMode"
+				label="Mode"
+				value={markdownMode}
+				onValueChange={(value: string) => {
+					const markdownMode = value as MarkdownMode;
+					setMarkdownOptions({ ...markdownOptions, markdownMode });
+				}}
+				items={markdownModes}
+				placeholder="Mode"
+			/>
+
+			<LabeledSelect
+				id="markdownFrontmatter"
+				label="Front Matter"
+				value={markdownFrontmatter}
+				onValueChange={(value: string) => {
+					const markdownFrontmatter = value as MarkdownFrontmatter;
+					setMarkdownOptions({
+						...markdownOptions,
+						markdownFrontmatter,
+					});
+				}}
+				items={markdownFrontmatters}
+				placeholder="Off"
+			/>
+		</>
 	);
 };
 
