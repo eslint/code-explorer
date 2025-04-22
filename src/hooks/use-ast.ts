@@ -43,7 +43,12 @@ export function useAST() {
 		case "json": {
 			const { jsonMode } = jsonOptions;
 			const language = json.languages[jsonMode];
-			astParseResult = language.parse({ body: code.json });
+			astParseResult = language.parse({
+				body: code.json,
+				path: "",
+				physicalPath: "",
+				bom: false,
+			});
 			break;
 		}
 
@@ -51,7 +56,7 @@ export function useAST() {
 			const { markdownMode, markdownFrontmatter } = markdownOptions;
 			const language = markdown.languages[markdownMode];
 			astParseResult = language.parse(
-				{ body: code.markdown },
+				{ body: code.markdown, path: "", physicalPath: "", bom: false },
 				{
 					languageOptions: {
 						frontmatter:
@@ -68,7 +73,7 @@ export function useAST() {
 			const { cssMode, tolerant } = cssOptions;
 			const language = css.languages[cssMode];
 			astParseResult = language.parse(
-				{ body: code.css },
+				{ body: code.css, path: "", physicalPath: "", bom: false },
 				{ languageOptions: { tolerant } },
 			);
 			break;
