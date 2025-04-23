@@ -190,6 +190,21 @@ export const markdownModes = [
 	},
 ];
 
+export const markdownFrontmatters = [
+	{
+		value: "off",
+		label: "Off",
+	},
+	{
+		value: "yaml",
+		label: "YAML",
+	},
+	{
+		value: "toml",
+		label: "TOML",
+	},
+];
+
 export const cssModes = [
 	{
 		value: "css",
@@ -381,6 +396,7 @@ export const defaultJsonOptions: JsonOptions = {
 
 export const defaultMarkdownOptions: MarkdownOptions = {
 	markdownMode: "commonmark",
+	markdownFrontmatter: "off",
 };
 
 export const defaultCssOptions: CssOptions = {
