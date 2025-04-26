@@ -4,8 +4,9 @@ import tseslint from "typescript-eslint";
 import pluginReact from "eslint-plugin-react";
 import pluginReactHooks from "eslint-plugin-react-hooks";
 import pluginJsxA11y from "eslint-plugin-jsx-a11y";
+import { defineConfig, globalIgnores } from "@eslint/config-helpers";
 
-export default [
+export default defineConfig([
 	pluginJs.configs.recommended,
 	...tseslint.configs.recommended,
 	pluginReact.configs.flat.recommended,
@@ -35,7 +36,5 @@ export default [
 			},
 		},
 	},
-	{
-		ignores: ["**/*.config.js", "build/**"],
-	},
-];
+	globalIgnores(["**/*.config.js", "build/**"]),
+]);
