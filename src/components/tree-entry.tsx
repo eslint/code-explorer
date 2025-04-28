@@ -101,15 +101,16 @@ export const TreeEntry: FC<TreeEntryProperties> = ({
 	const [key, value] = data;
 	const [open, setOpen] = useState(false);
 	const Icon = open ? MinusSquareIcon : PlusSquareIcon;
+	const isToggleable =
+		(typeof value === "object" && Object.values(value ?? {}).length) ||
+		(Array.isArray(value) && value.length);
 
 	const toggleOpen = () => setOpen(!open);
 
 	return (
 		<>
 			<div className="flex items-center gap-3">
-				{(typeof value === "object" &&
-					Object.values(value ?? {}).length) ||
-				(Array.isArray(value) && value.length) ? (
+				{isToggleable ? (
 					<button
 						onClick={toggleOpen}
 						aria-label="Toggle"
@@ -120,7 +121,18 @@ export const TreeEntry: FC<TreeEntryProperties> = ({
 				) : (
 					<div className="w-4 h-4" />
 				)}
-				{key && <span>{key}</span>}
+				{key &&
+					(isToggleable ? (
+						<button
+							onClick={toggleOpen}
+							type="button"
+							className="hover:underline"
+						>
+							{key}
+						</button>
+					) : (
+						<span>{key}</span>
+					))}
 				{renderValue(value).map((part, partIndex) => (
 					<span
 						key={partIndex}
