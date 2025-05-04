@@ -17,8 +17,8 @@
     "lint:fix": "npm-run-all --parallel lint:fix:*",
     "lint:js": "eslint --max-warnings 0 .",
     "lint:fix:js": "eslint --max-warnings 0 . --fix",
-    "fmt": "prettier --check .",
-    "fmt:fix": "prettier --write ."
+    "fmt": "prettier --write .",
+    "fmt:check": "prettier --check ."
   },
   "lint-staged": {
     "**/*.{ts,tsx,jsx,js}": [

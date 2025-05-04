@@ -47,4 +47,4 @@ jobs:
 
             - name: Check formatting of everything (prettier)
               run: |
-                  npm run fmt
+                  npm run fmt:check
