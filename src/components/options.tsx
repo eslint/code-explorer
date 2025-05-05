@@ -33,19 +33,37 @@ import type {
 const JSONPanel: React.FC = () => {
 	const explorer = useExplorer();
 	const { jsonOptions, setJsonOptions } = explorer;
-	const { jsonMode } = jsonOptions;
+	const { jsonMode, allowTrailingCommas } = jsonOptions;
 	return (
-		<LabeledSelect
-			id="jsonMode"
-			label="Mode"
-			value={jsonMode}
-			onValueChange={(value: string) => {
-				const jsonMode = value as JsonMode;
-				setJsonOptions({ ...jsonOptions, jsonMode });
-			}}
-			items={jsonModes}
-			placeholder="Mode"
-		/>
+		<>
+			<LabeledSelect
+				id="jsonMode"
+				label="Mode"
+				value={jsonMode}
+				onValueChange={(value: string) => {
+					const jsonMode = value as JsonMode;
+					setJsonOptions({ ...jsonOptions, jsonMode });
+				}}
+				items={jsonModes}
+				placeholder="Mode"
+			/>
+
+			<div className="flex items-center gap-1.5">
+				<Switch
+					id="allowTrailingCommas"
+					checked={allowTrailingCommas}
+					onCheckedChange={(value: boolean) => {
+						setJsonOptions({
+							...jsonOptions,
+							allowTrailingCommas: value,
+						});
+					}}
+				/>
+				<Label htmlFor="allowTrailingCommas">
+					Allow Trailing Commas
+				</Label>
+			</div>
+		</>
 	);
 };
 

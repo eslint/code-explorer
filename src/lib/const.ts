@@ -392,6 +392,7 @@ export const defaultJsOptions: JsOptions = {
 
 export const defaultJsonOptions: JsonOptions = {
 	jsonMode: "jsonc",
+	allowTrailingCommas: false,
 };
 
 export const defaultMarkdownOptions: MarkdownOptions = {

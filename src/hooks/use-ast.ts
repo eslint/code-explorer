@@ -41,14 +41,21 @@ export function useAST() {
 		}
 
 		case "json": {
-			const { jsonMode } = jsonOptions;
+			const { jsonMode, allowTrailingCommas } = jsonOptions;
 			const language = json.languages[jsonMode];
-			astParseResult = language.parse({
-				body: code.json,
-				path: "",
-				physicalPath: "",
-				bom: false,
-			});
+			astParseResult = language.parse(
+				{
+					body: code.json,
+					path: "",
+					physicalPath: "",
+					bom: false,
+				},
+				{
+					languageOptions: {
+						allowTrailingCommas,
+					},
+				},
+			);
 			break;
 		}
 
