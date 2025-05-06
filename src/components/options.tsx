@@ -48,21 +48,23 @@ const JSONPanel: React.FC = () => {
 				placeholder="Mode"
 			/>
 
-			<div className="flex items-center gap-1.5">
-				<Switch
-					id="allowTrailingCommas"
-					checked={allowTrailingCommas}
-					onCheckedChange={(value: boolean) => {
-						setJsonOptions({
-							...jsonOptions,
-							allowTrailingCommas: value,
-						});
-					}}
-				/>
-				<Label htmlFor="allowTrailingCommas">
-					Allow Trailing Commas
-				</Label>
-			</div>
+			{jsonMode === "jsonc" && (
+				<div className="flex items-center gap-1.5">
+					<Switch
+						id="allowTrailingCommas"
+						checked={allowTrailingCommas}
+						onCheckedChange={(value: boolean) => {
+							setJsonOptions({
+								...jsonOptions,
+								allowTrailingCommas: value,
+							});
+						}}
+					/>
+					<Label htmlFor="allowTrailingCommas">
+						Allow Trailing Commas
+					</Label>
+				</div>
+			)}
 		</>
 	);
 };
