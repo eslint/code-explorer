@@ -38,6 +38,7 @@ export type JsOptions = {
 
 export type JsonOptions = {
 	jsonMode: JsonMode;
+	allowTrailingCommas: boolean;
 };
 
 export type MarkdownOptions = {
