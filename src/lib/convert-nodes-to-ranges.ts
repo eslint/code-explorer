@@ -18,6 +18,8 @@ export function convertNodesToRanges(
 					node.loc.start.offset,
 					node.loc.end.offset,
 				] satisfies HighlightedRange;
+			} else if (isNodeWithRange(node)) {
+				return [node.range[0], node.range[1]];
 			}
 		})
 		.filter(range => range !== undefined);
@@ -40,6 +42,10 @@ type NodeWithLoc = {
 
 type PositionElem = {
 	offset: number;
+};
+
+type NodeWithRange = {
+	range: [number, number];
 };
 
 function isNodeWithStartEnd(node: unknown): node is NodeWithStartEnd {
@@ -90,5 +96,17 @@ function isNodeWithLoc(node: unknown): node is NodeWithLoc {
 		node.loc.end !== null &&
 		"offset" in node.loc.end &&
 		typeof node.loc.end.offset === "number"
+	);
+}
+
+function isNodeWithRange(node: unknown): node is NodeWithRange {
+	return (
+		typeof node === "object" &&
+		node !== null &&
+		"range" in node &&
+		Array.isArray(node.range) &&
+		node.range.length === 2 &&
+		typeof node.range[0] === "number" &&
+		typeof node.range[1] === "number"
 	);
 }

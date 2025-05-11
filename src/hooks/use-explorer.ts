@@ -17,7 +17,7 @@ import {
 } from "../lib/const";
 export type SourceType = Exclude<Options["sourceType"], undefined>;
 export type Version = Exclude<Options["ecmaVersion"], undefined>;
-export type Language = "javascript" | "json" | "markdown" | "css";
+export type Language = "javascript" | "json" | "markdown" | "css" | "html";
 export type JsonMode = "json" | "jsonc" | "json5";
 export type MarkdownMode = "commonmark" | "gfm";
 export type MarkdownFrontmatter = "off" | "yaml" | "toml";
@@ -28,6 +28,7 @@ export type Code = {
 	json: string;
 	markdown: string;
 	css: string;
+	html: string;
 };
 export type JsOptions = {
 	parser: string;

@@ -38,6 +38,11 @@ export const languages = [
 		label: "CSS",
 		icon: "/languages/css.svg",
 	},
+	{
+		value: "html",
+		label: "HTML",
+		icon: "/languages/html.svg",
+	},
 ];
 
 export const parsers = [
@@ -376,11 +381,35 @@ p {
 	margin: 1em 0;
 }`.trim();
 
+export const defaultHtmlCode = `
+<!--
+Type or paste some HTML here to learn more about
+the static analysis that ESLint can do for you.
+
+The tabs are:
+
+- AST - The Abstract Syntax Tree of the code, which can
+be useful to understand the structure of the code. You
+can view this structure as JSON or in a tree format.
+-->
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <title>HTML</title>
+    </head>
+    <body>
+        <p>Text</p>
+    </body>
+</html>
+`.trim();
+
 export const defaultCode: Code = {
 	javascript: defaultJsCode,
 	json: defaultJsonCode,
 	markdown: defaultMarkdownCode,
 	css: defaultCssCode,
+	html: defaultHtmlCode,
 };
 
 export const defaultJsOptions: JsOptions = {

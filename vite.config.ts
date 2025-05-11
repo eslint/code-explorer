@@ -9,6 +9,9 @@ export default defineConfig({
 			"@": path.resolve(__dirname, "src"),
 		},
 	},
+	optimizeDeps: {
+		include: ["@html-eslint/eslint-plugin"],
+	},
 	build: {
 		outDir: "build",
 	},
