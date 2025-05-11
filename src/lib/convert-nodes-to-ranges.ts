@@ -19,7 +19,10 @@ export function convertNodesToRanges(
 					node.loc.end.offset,
 				] satisfies HighlightedRange;
 			} else if (isNodeWithRange(node)) {
-				return [node.range[0], node.range[1]];
+				return [
+					node.range[0],
+					node.range[1],
+				] satisfies HighlightedRange;
 			}
 		})
 		.filter(range => range !== undefined);
