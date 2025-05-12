@@ -15,6 +15,7 @@ import {
 	defaultPathIndex,
 	defaultViewModes,
 } from "../lib/const";
+
 export type SourceType = Exclude<Options["sourceType"], undefined>;
 export type Version = Exclude<Options["ecmaVersion"], undefined>;
 export type Language = "javascript" | "json" | "markdown" | "css";
@@ -101,20 +102,25 @@ type ExplorerState = {
 	setEsquerySelector: (esquerySelector: EsquerySelector) => void;
 };
 
+// Helper function to get URLSearchParams from location hash
+const getHashParams = (): URLSearchParams => {
+	return new URLSearchParams(location.hash.slice(1));
+};
+
+// Optimized hash storage implementation
 const hashStorage: StateStorage = {
 	getItem: (key): string => {
-		const searchParams = new URLSearchParams(location.hash.slice(1));
-		const storedValue = searchParams.get(key) ?? "";
+		const storedValue = getHashParams().get(key) ?? "";
 		return storedValue ? JSON.parse(atob(storedValue)) : "";
 	},
 	setItem: (key, newValue): void => {
-		const searchParams = new URLSearchParams(location.hash.slice(1));
+		const searchParams = getHashParams();
 		const encodedValue = btoa(JSON.stringify(newValue));
 		searchParams.set(key, encodedValue);
 		location.hash = searchParams.toString();
 	},
 	removeItem: (key): void => {
-		const searchParams = new URLSearchParams(location.hash.slice(1));
+		const searchParams = getHashParams();
 		searchParams.delete(key);
 		location.hash = searchParams.toString();
 	},
@@ -123,53 +129,72 @@ const hashStorage: StateStorage = {
 export const useExplorer = create<ExplorerState>()(
 	devtools(
 		persist(
-			persist(
-				set => ({
-					tool: "ast",
-					setTool: tool => set({ tool }),
+			set => ({
+				tool: "ast",
+				setTool: tool => set({ tool }),
 
-					code: defaultCode,
-					setCode: code => set({ code }),
+				code: defaultCode,
+				setCode: code => set({ code }),
 
-					language: "javascript",
-					setLanguage: language => set({ language }),
+				language: "javascript",
+				setLanguage: language => set({ language }),
 
-					jsOptions: defaultJsOptions,
-					setJsOptions: jsOptions => set({ jsOptions }),
+				jsOptions: defaultJsOptions,
+				setJsOptions: jsOptions => set({ jsOptions }),
 
-					jsonOptions: defaultJsonOptions,
-					setJsonOptions: jsonOptions => set({ jsonOptions }),
+				jsonOptions: defaultJsonOptions,
+				setJsonOptions: jsonOptions => set({ jsonOptions }),
 
-					cssOptions: defaultCssOptions,
-					setCssOptions: cssOptions => set({ cssOptions }),
+				cssOptions: defaultCssOptions,
+				setCssOptions: cssOptions => set({ cssOptions }),
 
-					markdownOptions: defaultMarkdownOptions,
-					setMarkdownOptions: markdownOptions =>
-						set({ markdownOptions }),
+				markdownOptions: defaultMarkdownOptions,
+				setMarkdownOptions: markdownOptions => set({ markdownOptions }),
 
-					wrap: true,
-					setWrap: wrap => set({ wrap }),
+				wrap: true,
+				setWrap: wrap => set({ wrap }),
 
-					viewModes: defaultViewModes,
-					setViewModes: viewModes => set({ viewModes }),
+				viewModes: defaultViewModes,
+				setViewModes: viewModes => set({ viewModes }),
 
-					pathIndex: defaultPathIndex,
-					setPathIndex: pathIndex => set({ pathIndex }),
+				pathIndex: defaultPathIndex,
+				setPathIndex: pathIndex => set({ pathIndex }),
 
-					esquerySelector: {
-						selector: "",
-					},
-					setEsquerySelector: esquerySelector =>
-						set({ esquerySelector }),
-				}),
-				{
-					name: "eslint-explorer",
-					storage: createJSONStorage(() => hashStorage),
+				esquerySelector: {
+					selector: "",
 				},
-			),
+				setEsquerySelector: esquerySelector => set({ esquerySelector }),
+			}),
 			{
 				name: "eslint-explorer",
+				storage: createJSONStorage(() => hashStorage),
+
+				onRehydrateStorage: () => state => {
+					if (!state) return;
+
+					const code = (state.code ?? {}) as Partial<Code>;
+
+					const hasMissing =
+						!code.javascript ||
+						!code.json ||
+						!code.markdown ||
+						!code.css;
+
+					if (hasMissing) {
+						const patchedCode: Code = {
+							javascript:
+								code.javascript ?? defaultCode.javascript,
+							json: code.json ?? defaultCode.json,
+							markdown: code.markdown ?? defaultCode.markdown,
+							css: code.css ?? defaultCode.css,
+						};
+						state.setCode(patchedCode);
+					}
+				},
 			},
 		),
+		{
+			name: "eslint-explorer",
+		},
 	),
 );
