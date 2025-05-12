@@ -102,12 +102,10 @@ type ExplorerState = {
 	setEsquerySelector: (esquerySelector: EsquerySelector) => void;
 };
 
-// Helper function to get URLSearchParams from location hash
 const getHashParams = (): URLSearchParams => {
 	return new URLSearchParams(location.hash.slice(1));
 };
 
-// Optimized hash storage implementation
 const hashStorage: StateStorage = {
 	getItem: (key): string => {
 		const storedValue = getHashParams().get(key) ?? "";
@@ -129,46 +127,52 @@ const hashStorage: StateStorage = {
 export const useExplorer = create<ExplorerState>()(
 	devtools(
 		persist(
-			set => ({
-				tool: "ast",
-				setTool: tool => set({ tool }),
+			persist(
+				set => ({
+					tool: "ast",
+					setTool: tool => set({ tool }),
 
-				code: defaultCode,
-				setCode: code => set({ code }),
+					code: defaultCode,
+					setCode: code => set({ code }),
 
-				language: "javascript",
-				setLanguage: language => set({ language }),
+					language: "javascript",
+					setLanguage: language => set({ language }),
 
-				jsOptions: defaultJsOptions,
-				setJsOptions: jsOptions => set({ jsOptions }),
+					jsOptions: defaultJsOptions,
+					setJsOptions: jsOptions => set({ jsOptions }),
 
-				jsonOptions: defaultJsonOptions,
-				setJsonOptions: jsonOptions => set({ jsonOptions }),
+					jsonOptions: defaultJsonOptions,
+					setJsonOptions: jsonOptions => set({ jsonOptions }),
 
-				cssOptions: defaultCssOptions,
-				setCssOptions: cssOptions => set({ cssOptions }),
+					cssOptions: defaultCssOptions,
+					setCssOptions: cssOptions => set({ cssOptions }),
 
-				markdownOptions: defaultMarkdownOptions,
-				setMarkdownOptions: markdownOptions => set({ markdownOptions }),
+					markdownOptions: defaultMarkdownOptions,
+					setMarkdownOptions: markdownOptions =>
+						set({ markdownOptions }),
 
-				wrap: true,
-				setWrap: wrap => set({ wrap }),
+					wrap: true,
+					setWrap: wrap => set({ wrap }),
 
-				viewModes: defaultViewModes,
-				setViewModes: viewModes => set({ viewModes }),
+					viewModes: defaultViewModes,
+					setViewModes: viewModes => set({ viewModes }),
 
-				pathIndex: defaultPathIndex,
-				setPathIndex: pathIndex => set({ pathIndex }),
+					pathIndex: defaultPathIndex,
+					setPathIndex: pathIndex => set({ pathIndex }),
 
-				esquerySelector: {
-					selector: "",
+					esquerySelector: {
+						selector: "",
+					},
+					setEsquerySelector: esquerySelector =>
+						set({ esquerySelector }),
+				}),
+				{
+					name: "eslint-explorer",
+					storage: createJSONStorage(() => hashStorage),
 				},
-				setEsquerySelector: esquerySelector => set({ esquerySelector }),
-			}),
+			),
 			{
 				name: "eslint-explorer",
-				storage: createJSONStorage(() => hashStorage),
-
 				onRehydrateStorage: () => state => {
 					if (!state) return;
 
@@ -193,8 +197,5 @@ export const useExplorer = create<ExplorerState>()(
 				},
 			},
 		),
-		{
-			name: "eslint-explorer",
-		},
 	),
 );
