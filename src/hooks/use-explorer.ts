@@ -176,22 +176,20 @@ export const useExplorer = create<ExplorerState>()(
 				onRehydrateStorage: () => state => {
 					if (!state) return;
 
-					const code = (state.code ?? {}) as Partial<Code>;
+					let needsPatching = false;
+					const patchedCode = { ...defaultCode };
 
-					const hasMissing =
-						!code.javascript ||
-						!code.json ||
-						!code.markdown ||
-						!code.css;
+					(Object.keys(defaultCode) as (keyof Code)[]).forEach(
+						key => {
+							if (state.code && key in state.code) {
+								patchedCode[key] = state.code[key];
+							} else {
+								needsPatching = true;
+							}
+						},
+					);
 
-					if (hasMissing) {
-						const patchedCode: Code = {
-							javascript:
-								code.javascript ?? defaultCode.javascript,
-							json: code.json ?? defaultCode.json,
-							markdown: code.markdown ?? defaultCode.markdown,
-							css: code.css ?? defaultCode.css,
-						};
+					if (needsPatching) {
 						state.setCode(patchedCode);
 					}
 				},
