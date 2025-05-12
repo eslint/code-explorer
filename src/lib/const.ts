@@ -382,6 +382,7 @@ p {
 }`.trim();
 
 export const defaultHtmlCode = `
+<!DOCTYPE html>
 <!--
 Type or paste some HTML here to learn more about
 the static analysis that ESLint can do for you.
@@ -393,7 +394,6 @@ be useful to understand the structure of the code. You
 can view this structure as JSON or in a tree format.
 -->
 
-<!DOCTYPE html>
 <html lang="ko">
     <head>
         <meta charset="UTF-8">
