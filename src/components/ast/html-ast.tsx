@@ -27,7 +27,7 @@ export const HtmlAst: FC = () => {
 			<Accordion
 				type="multiple"
 				className="px-8 pb-4 font-mono space-y-3 min-w-max"
-				defaultValue={["0-StyleSheet"]}
+				defaultValue={["0-Program"]}
 			>
 				<HtmlAstTreeItem
 					data={result.ast as HtmlAstTreeItemProperties["data"]}

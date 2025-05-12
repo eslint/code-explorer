@@ -180,7 +180,7 @@ const JavaScriptPanel = () => {
 	);
 };
 
-const HTMLPanel = () => {
+const HTMLPanel: React.FC = () => {
 	return <></>;
 };
 

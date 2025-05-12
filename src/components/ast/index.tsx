@@ -5,8 +5,8 @@ import { JavascriptAst } from "./javascript-ast";
 import { JsonAst } from "./json-ast";
 import { CssAst } from "./css-ast";
 import { MarkdownAst } from "./markdown-ast";
-import type { FC } from "react";
 import { HtmlAst } from "./html-ast";
+import type { FC } from "react";
 
 export const Ast: FC = () => {
 	const { language } = useExplorer();
