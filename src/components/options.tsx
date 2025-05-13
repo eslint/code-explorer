@@ -124,7 +124,7 @@ const CssPanel: React.FC = () => {
 	);
 };
 
-const JavaScriptPanel = () => {
+const JavaScriptPanel: React.FC = () => {
 	const explorer = useExplorer();
 	const { jsOptions, setJsOptions } = explorer;
 	const { parser, sourceType, esVersion, isJSX } = jsOptions;
