@@ -3,6 +3,7 @@ import type { Node as EstreeNode } from "estree";
 import css from "@eslint/css";
 import json from "@eslint/json";
 import markdown from "@eslint/markdown";
+import html from "@html-eslint/eslint-plugin";
 import esquery from "esquery";
 import { useExplorer } from "@/hooks/use-explorer";
 import { assertIsUnreachable } from "@/lib/utils";
@@ -83,6 +84,17 @@ export function useAST() {
 				{ body: code.css, path: "", physicalPath: "", bom: false },
 				{ languageOptions: { tolerant } },
 			);
+			break;
+		}
+
+		case "html": {
+			const language = html.languages.html;
+			astParseResult = language.parse({
+				body: code.html,
+				path: "",
+				physicalPath: "",
+				bom: false,
+			});
 			break;
 		}
 

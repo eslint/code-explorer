@@ -7,6 +7,7 @@ import { json } from "@codemirror/lang-json";
 import { javascript } from "@codemirror/lang-javascript";
 import { markdown } from "@codemirror/lang-markdown";
 import { css } from "@codemirror/lang-css";
+import { html } from "@codemirror/lang-html";
 import { EditorView } from "@codemirror/view";
 import { EditorState } from "@codemirror/state";
 import clsx from "clsx";
@@ -27,6 +28,7 @@ const languageExtensions: Record<string, (isJSX?: boolean) => LanguageSupport> =
 		json: () => json(),
 		markdown: () => markdown(),
 		css: () => css(),
+		html: () => html(),
 	};
 
 type EditorProperties = {

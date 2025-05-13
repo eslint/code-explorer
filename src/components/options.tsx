@@ -181,6 +181,10 @@ const JavaScriptPanel = () => {
 	);
 };
 
+const HTMLPanel: React.FC = () => {
+	return <></>;
+};
+
 const Panel = ({ language }: { language: string }) => {
 	switch (language) {
 		case "json":
@@ -189,6 +193,8 @@ const Panel = ({ language }: { language: string }) => {
 			return <MarkdownPanel />;
 		case "css":
 			return <CssPanel />;
+		case "html":
+			return <HTMLPanel />;
 		default:
 			return <JavaScriptPanel />;
 	}
