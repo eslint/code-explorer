@@ -23,6 +23,7 @@ Add an SVG logo into the `public/languages/` directory.
 1. Default the default code for the new language (such as `defaultJsonCode` or `defaultCssCode`).
 1. Add an entry in the `defaultCode` variable for the new language's default code.
 1. Export a variable containing the default options for the new language (such as `defaultJsonOptions` or `defaultCssOptions`).
+1. Add an entry to the `esquerySelectorPlaceholder` constant for the new language, using an appropriate example selector.
 
 ## Step 4: Update `src/hooks/use-explorer.ts` (yes, again)
 
