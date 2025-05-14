@@ -4,9 +4,10 @@ import { TextField } from "@/components/ui/text-field";
 import { useExplorer } from "@/hooks/use-explorer";
 import { useAST } from "@/hooks/use-ast";
 import { cn } from "@/lib/utils";
+import { esquerySelectorPlaceholder } from "@/lib/const";
 
 export const EsquerySelectorInput: FC = () => {
-	const { esquerySelector, setEsquerySelector } = useExplorer();
+	const { esquerySelector, setEsquerySelector, language } = useExplorer();
 	const astParseResult = useAST();
 	const htmlId = useId();
 
@@ -21,7 +22,7 @@ export const EsquerySelectorInput: FC = () => {
 			</Label>
 			<TextField
 				id={htmlId}
-				placeholder={'e.g. "ImportDeclaration > Literal"'}
+				placeholder={esquerySelectorPlaceholder[language]}
 				className={cn(
 					"flex-1",
 					!astParseResult.ok ||
