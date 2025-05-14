@@ -1,24 +1,10 @@
 import { useId, type FC } from "react";
 import { Label } from "@/components/ui/label";
 import { TextField } from "@/components/ui/text-field";
-import { useExplorer, type Language } from "@/hooks/use-explorer";
+import { useExplorer } from "@/hooks/use-explorer";
 import { useAST } from "@/hooks/use-ast";
 import { cn } from "@/lib/utils";
-
-const esquerySelectorPlaceholder = (language: Language) => {
-	switch (language) {
-		case "javascript":
-			return 'e.g. "ImportDeclaration > Literal"';
-		case "json":
-			return 'e.g. "Member > String"';
-		case "markdown":
-			return 'e.g. "Heading > Text"';
-		case "css":
-			return 'e.g. "Block > Declaration"';
-		case "html":
-			return 'e.g. "Document > Doctype"';
-	}
-};
+import { esquerySelectorPlaceholder } from "@/lib/const";
 
 export const EsquerySelectorInput: FC = () => {
 	const { esquerySelector, setEsquerySelector, language } = useExplorer();
@@ -36,7 +22,7 @@ export const EsquerySelectorInput: FC = () => {
 			</Label>
 			<TextField
 				id={htmlId}
-				placeholder={esquerySelectorPlaceholder(language)}
+				placeholder={esquerySelectorPlaceholder[language]}
 				className={cn(
 					"flex-1",
 					!astParseResult.ok ||

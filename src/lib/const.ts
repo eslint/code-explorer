@@ -256,6 +256,14 @@ export const pathViewOptions = [
 	},
 ];
 
+export const esquerySelectorPlaceholder = {
+	javascript: 'e.g. "ImportDeclaration > Literal"',
+	json: 'e.g. "Member > String"',
+	markdown: 'e.g. "Heading > Text"',
+	css: 'e.g. "Block > Declaration"',
+	html: 'e.g. "Document > Doctype"',
+};
+
 export const defaultJsCode = `
 /**
  * Type or paste some JavaScript here to learn more about
