@@ -15,6 +15,7 @@ import {
 	defaultPathIndex,
 	defaultViewModes,
 } from "../lib/const";
+
 export type SourceType = Exclude<Options["sourceType"], undefined>;
 export type Version = Exclude<Options["ecmaVersion"], undefined>;
 export type Language = "javascript" | "json" | "markdown" | "css" | "html";
@@ -102,20 +103,23 @@ type ExplorerState = {
 	setEsquerySelector: (esquerySelector: EsquerySelector) => void;
 };
 
+const getHashParams = (): URLSearchParams => {
+	return new URLSearchParams(location.hash.slice(1));
+};
+
 const hashStorage: StateStorage = {
 	getItem: (key): string => {
-		const searchParams = new URLSearchParams(location.hash.slice(1));
-		const storedValue = searchParams.get(key) ?? "";
+		const storedValue = getHashParams().get(key) ?? "";
 		return storedValue ? JSON.parse(atob(storedValue)) : "";
 	},
 	setItem: (key, newValue): void => {
-		const searchParams = new URLSearchParams(location.hash.slice(1));
+		const searchParams = getHashParams();
 		const encodedValue = btoa(JSON.stringify(newValue));
 		searchParams.set(key, encodedValue);
 		location.hash = searchParams.toString();
 	},
 	removeItem: (key): void => {
-		const searchParams = new URLSearchParams(location.hash.slice(1));
+		const searchParams = getHashParams();
 		searchParams.delete(key);
 		location.hash = searchParams.toString();
 	},
@@ -170,6 +174,26 @@ export const useExplorer = create<ExplorerState>()(
 			),
 			{
 				name: "eslint-explorer",
+				onRehydrateStorage: () => state => {
+					if (!state) return;
+
+					let needsPatching = false;
+					const patchedCode = { ...defaultCode };
+
+					(Object.keys(defaultCode) as (keyof Code)[]).forEach(
+						key => {
+							if (state.code && key in state.code) {
+								patchedCode[key] = state.code[key];
+							} else {
+								needsPatching = true;
+							}
+						},
+					);
+
+					if (needsPatching) {
+						state.setCode(patchedCode);
+					}
+				},
 			},
 		),
 	),
