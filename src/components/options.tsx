@@ -15,7 +15,6 @@ import {
 	parsers,
 	sourceTypes,
 	versions,
-	defaultCode,
 } from "@/lib/const";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
@@ -214,13 +213,6 @@ export const Options: FC = () => {
 	const handleChangeLanguage = (value: string) => {
 		const language = value as Language;
 		explorer.setLanguage(language);
-
-		if (explorer.code[language] === undefined) {
-			explorer.setCode({
-				...explorer.code,
-				[language]: defaultCode[language],
-			});
-		}
 
 		if (language !== "javascript" && explorer.tool !== "ast") {
 			explorer.setTool("ast");
