@@ -75,6 +75,11 @@ const config: PlaywrightTestConfig = {
 			},
 			reuseExistingServer: !process.env.CI,
 		},
+		{
+			command: "npm run start",
+			url: "http://localhost:5173",
+			reuseExistingServer: !process.env.CI,
+		},
 	],
 };
 
