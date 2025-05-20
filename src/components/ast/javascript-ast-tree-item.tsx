@@ -35,7 +35,7 @@ export const JavascriptAstTreeItem: FC<JavascriptAstTreeItemProperties> = ({
 				{data.type}
 			</AccordionTrigger>
 			<AccordionContent className="p-4 border-t">
-				<div className="space-y-1">
+				<ul className="space-y-1">
 					{Object.entries(data).map(item => (
 						<TreeEntry
 							key={item[0]}
@@ -43,7 +43,7 @@ export const JavascriptAstTreeItem: FC<JavascriptAstTreeItemProperties> = ({
 							esqueryMatchedNodes={esqueryMatchedNodes}
 						/>
 					))}
-				</div>
+				</ul>
 			</AccordionContent>
 		</AccordionItem>
 	);

@@ -109,11 +109,11 @@ export const TreeEntry: FC<TreeEntryProperties> = ({
 
 	return (
 		<>
-			<div className="flex items-center gap-3">
+			<li className="flex items-center gap-3">
 				{isToggleable ? (
 					<button
 						onClick={toggleOpen}
-						aria-label="Toggle"
+						aria-label="Toggle Property"
 						type="button"
 					>
 						<Icon size={16} className="text-muted-foreground" />
@@ -143,7 +143,7 @@ export const TreeEntry: FC<TreeEntryProperties> = ({
 						{part}
 					</span>
 				))}
-			</div>
+			</li>
 			{open ? (
 				<SanitizeValue
 					path={path}
