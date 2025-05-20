@@ -23,6 +23,6 @@ export default defineConfig({
 	},
 	server: {
 		// accept connections from everywhere because Playwright browsers run from within a Docker container which has some random IP
-		allowedHosts: ["host.docker.internal", "localhost"],
+		allowedHosts: true,
 	},
 });
