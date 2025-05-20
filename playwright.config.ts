@@ -13,14 +13,16 @@ if (countOfCpus !== 0) {
 	}
 }
 
+const isInCi = process.env.CI === "true";
+
 const config: PlaywrightTestConfig = {
 	testDir: "./e2e-tests",
 	fullyParallel: true,
 	// fail a Playwright run in CI if some test.only is in the source code
-	forbidOnly: !!process.env.CI,
-	retries: process.env.CI ? 1 : 0,
+	forbidOnly: isInCi,
+	retries: isInCi ? 1 : 0,
 	workers,
-	reporter: process.env.CI ? [["html"], ["github"]] : "html",
+	reporter: isInCi ? [["html"], ["github"]] : "html",
 
 	use: {
 		baseURL: `http://localhost:5173`,
@@ -73,12 +75,12 @@ const config: PlaywrightTestConfig = {
 				signal: "SIGTERM",
 				timeout: 10_000,
 			},
-			reuseExistingServer: !process.env.CI,
+			reuseExistingServer: !isInCi,
 		},
 		{
 			command: "npm run start",
 			url: "http://localhost:5173",
-			reuseExistingServer: !process.env.CI,
+			reuseExistingServer: !isInCi,
 		},
 	],
 };
@@ -86,12 +88,6 @@ const config: PlaywrightTestConfig = {
 export default config;
 
 function createDockerRunCommand(port: number) {
-	let dockerRunCommand = `docker run --rm --init --workdir /home/pwuser --user pwuser --network host`;
-	if (!process.env.CI) {
-		// on development machines, we forward the X11 socket to the host system to allow GUI applications to run from within the container
-		dockerRunCommand += ` -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix`;
-	}
-	dockerRunCommand += ` mcr.microsoft.com/playwright:v1.51.1-noble /bin/sh -c "npx -y playwright@1.51.1 run-server --port ${port} --host 0.0.0.0"`;
-
+	const dockerRunCommand = `docker run --rm --init --workdir /home/pwuser --user pwuser --network host mcr.microsoft.com/playwright:v1.51.1-noble /bin/sh -c "npx -y playwright@1.51.1 run-server --port ${port} --host 0.0.0.0"`;
 	return dockerRunCommand;
 }
