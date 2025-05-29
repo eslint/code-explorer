@@ -29,6 +29,7 @@ export default defineConfig([
 			"jsx-a11y/alt-text": "warn",
 			"react-hooks/rules-of-hooks": "error",
 			"react-hooks/exhaustive-deps": "warn",
+			"react-hooks/react-compiler": "error",
 		},
 		settings: {
 			react: {
