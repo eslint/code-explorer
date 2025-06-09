@@ -208,6 +208,10 @@ export const markdownFrontmatters = [
 		value: "toml",
 		label: "TOML",
 	},
+	{
+		value: "json",
+		label: "JSON",
+	},
 ];
 
 export const cssModes = [
