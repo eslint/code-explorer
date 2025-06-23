@@ -21,7 +21,7 @@ export type Version = Exclude<Options["ecmaVersion"], undefined>;
 export type Language = "javascript" | "json" | "markdown" | "css" | "html";
 export type JsonMode = "json" | "jsonc" | "json5";
 export type MarkdownMode = "commonmark" | "gfm";
-export type MarkdownFrontmatter = "off" | "yaml" | "toml";
+export type MarkdownFrontmatter = "off" | "yaml" | "toml" | "json";
 export type CssMode = "css";
 
 export type Code = {
