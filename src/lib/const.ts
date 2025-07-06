@@ -124,6 +124,14 @@ export const versions: {
 		label: "15",
 	},
 	{
+		value: 16,
+		label: "16",
+	},
+	{
+		value: 17,
+		label: "17",
+	},
+	{
 		value: 2015,
 		label: "2015",
 	},
@@ -162,6 +170,14 @@ export const versions: {
 	{
 		value: 2024,
 		label: "2024",
+	},
+	{
+		value: 2025,
+		label: "2025",
+	},
+	{
+		value: 2026,
+		label: "2026",
 	},
 	{
 		value: "latest",
