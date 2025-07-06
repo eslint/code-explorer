@@ -27,6 +27,7 @@ export function useAST() {
 		case "javascript": {
 			try {
 				const ast = espree.parse(code.javascript, {
+					// @ts-expect-error
 					ecmaVersion: jsOptions.esVersion,
 					sourceType: jsOptions.sourceType,
 					ecmaFeatures: {

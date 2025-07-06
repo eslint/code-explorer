@@ -17,34 +17,7 @@ import {
 } from "../lib/const";
 
 export type SourceType = Exclude<Options["sourceType"], undefined>;
-export type Version =
-	| 3
-	| 5
-	| 6
-	| 7
-	| 8
-	| 9
-	| 10
-	| 11
-	| 12
-	| 13
-	| 14
-	| 15
-	| 16
-	| 17
-	| 2015
-	| 2016
-	| 2017
-	| 2018
-	| 2019
-	| 2020
-	| 2021
-	| 2022
-	| 2023
-	| 2024
-	| 2025
-	| 2026
-	| "latest";
+export type Version = Exclude<Options["ecmaVersion"], undefined> | 17 | 2026;
 export type Language = "javascript" | "json" | "markdown" | "css" | "html";
 export type JsonMode = "json" | "jsonc" | "json5";
 export type MarkdownMode = "commonmark" | "gfm";
