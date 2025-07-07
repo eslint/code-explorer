@@ -47,9 +47,9 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
 	};
 
 	return (
-		<ThemeProviderContext.Provider {...props} value={{ theme, setTheme }}>
+		<ThemeProviderContext {...props} value={{ theme, setTheme }}>
 			{children}
-		</ThemeProviderContext.Provider>
+		</ThemeProviderContext>
 	);
 };
 
