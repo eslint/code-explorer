@@ -27,6 +27,7 @@ export function useAST() {
 		case "javascript": {
 			try {
 				const ast = espree.parse(code.javascript, {
+					// @ts-expect-error mismatch between the latest release of `espree` and `@types/espree`.
 					ecmaVersion: jsOptions.esVersion,
 					sourceType: jsOptions.sourceType,
 					ecmaFeatures: {
