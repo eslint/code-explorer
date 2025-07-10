@@ -7,6 +7,7 @@ import html from "@html-eslint/eslint-plugin";
 import esquery from "esquery";
 import { useExplorer } from "@/hooks/use-explorer";
 import { assertIsUnreachable } from "@/lib/utils";
+import { templateEngineSyntaxPresets } from "@/lib/const";
 
 export function useAST() {
 	const {
@@ -16,6 +17,7 @@ export function useAST() {
 		cssOptions,
 		jsonOptions,
 		markdownOptions,
+		htmlOptions,
 		esquerySelector,
 	} = useExplorer();
 
@@ -89,13 +91,23 @@ export function useAST() {
 		}
 
 		case "html": {
+			const { templateEngineSyntax, frontmatter } = htmlOptions;
 			const language = html.languages.html;
-			astParseResult = language.parse({
-				body: code.html,
-				path: "",
-				physicalPath: "",
-				bom: false,
-			});
+			astParseResult = language.parse(
+				{
+					body: code.html,
+					path: "",
+					physicalPath: "",
+					bom: false,
+				},
+				{
+					languageOptions: {
+						templateEngineSyntax:
+							templateEngineSyntaxPresets[templateEngineSyntax],
+						frontmatter,
+					},
+				},
+			);
 			break;
 		}
 

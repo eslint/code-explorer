@@ -12,6 +12,7 @@ import type {
 	JsonOptions,
 	MarkdownOptions,
 	CssOptions,
+	HtmlOptions,
 	PathIndex,
 	ViewModes,
 	Code,
@@ -237,6 +238,32 @@ export const cssModes = [
 	},
 ];
 
+export const templateEngineSyntaxes = [
+	{
+		value: "none",
+		label: "None",
+	},
+	{
+		value: "handlebars",
+		label: "Handlebars",
+	},
+	{
+		value: "twig",
+		label: "Twig",
+	},
+	{
+		value: "erb",
+		label: "ERB",
+	},
+];
+
+export const templateEngineSyntaxPresets = {
+	none: {},
+	handlebars: { "{{": "}}" },
+	twig: { "{{": "}}", "{%": "%}", "{#": "#}" },
+	erb: { "<%": "%>" },
+};
+
 export const astViewOptions = [
 	{
 		value: "tree",
@@ -461,6 +488,11 @@ export const defaultMarkdownOptions: MarkdownOptions = {
 export const defaultCssOptions: CssOptions = {
 	cssMode: "css",
 	tolerant: false,
+};
+
+export const defaultHtmlOptions: HtmlOptions = {
+	templateEngineSyntax: "none",
+	frontmatter: false,
 };
 
 export const defaultPathIndex: PathIndex = {
