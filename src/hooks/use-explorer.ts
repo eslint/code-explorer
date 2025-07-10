@@ -12,6 +12,7 @@ import {
 	defaultJsonOptions,
 	defaultMarkdownOptions,
 	defaultCssOptions,
+	defaultHtmlOptions,
 	defaultPathIndex,
 	defaultViewModes,
 } from "../lib/const";
@@ -23,6 +24,7 @@ export type JsonMode = "json" | "jsonc" | "json5";
 export type MarkdownMode = "commonmark" | "gfm";
 export type MarkdownFrontmatter = "off" | "yaml" | "toml" | "json";
 export type CssMode = "css";
+export type TemplateEngineSyntax = "none" | "handlebars" | "twig" | "erb";
 
 export type Code = {
 	javascript: string;
@@ -51,6 +53,11 @@ export type MarkdownOptions = {
 export type CssOptions = {
 	cssMode: CssMode;
 	tolerant: boolean;
+};
+
+export type HtmlOptions = {
+	templateEngineSyntax: TemplateEngineSyntax;
+	frontmatter: boolean;
 };
 
 export type PathIndex = {
@@ -89,6 +96,9 @@ type ExplorerState = {
 
 	cssOptions: CssOptions;
 	setCssOptions: (cssOptions: CssOptions) => void;
+
+	htmlOptions: HtmlOptions;
+	setHtmlOptions: (htmlOptions: HtmlOptions) => void;
 
 	wrap: boolean;
 	setWrap: (wrap: boolean) => void;
@@ -151,6 +161,9 @@ export const useExplorer = create<ExplorerState>()(
 					markdownOptions: defaultMarkdownOptions,
 					setMarkdownOptions: markdownOptions =>
 						set({ markdownOptions }),
+
+					htmlOptions: defaultHtmlOptions,
+					setHtmlOptions: htmlOptions => set({ htmlOptions }),
 
 					wrap: true,
 					setWrap: wrap => set({ wrap }),

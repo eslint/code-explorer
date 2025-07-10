@@ -15,6 +15,7 @@ import {
 	parsers,
 	sourceTypes,
 	versions,
+	templateEngineSyntaxes,
 } from "@/lib/const";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
@@ -28,6 +29,7 @@ import type {
 	MarkdownFrontmatter,
 	SourceType,
 	Version,
+	TemplateEngineSyntax,
 } from "@/hooks/use-explorer";
 
 const JSONPanel: React.FC = () => {
@@ -181,7 +183,38 @@ const JavaScriptPanel: React.FC = () => {
 };
 
 const HTMLPanel: React.FC = () => {
-	return <></>;
+	const explorer = useExplorer();
+	const { htmlOptions, setHtmlOptions } = explorer;
+	const { templateEngineSyntax, frontmatter } = htmlOptions;
+
+	return (
+		<>
+			<LabeledSelect
+				id="templateEngineSyntax"
+				label="Template Engine Syntax"
+				value={templateEngineSyntax}
+				onValueChange={(value: string) => {
+					const templateEngineSyntax = value as TemplateEngineSyntax;
+					setHtmlOptions({
+						...htmlOptions,
+						templateEngineSyntax,
+					});
+				}}
+				items={templateEngineSyntaxes}
+				placeholder="Template Engine Syntax"
+			/>
+			<div className="flex items-center gap-1.5">
+				<Switch
+					id="htmlFrontmatter"
+					checked={frontmatter}
+					onCheckedChange={(value: boolean) => {
+						setHtmlOptions({ ...htmlOptions, frontmatter: value });
+					}}
+				/>
+				<Label htmlFor="htmlFrontmatter">Front Matter</Label>
+			</div>
+		</>
+	);
 };
 
 const Panel = ({ language }: { language: string }) => {
