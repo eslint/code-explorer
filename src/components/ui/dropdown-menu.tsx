@@ -40,8 +40,6 @@ const DropdownMenuSubTrigger = ({
 		<ChevronRight className="ml-auto h-4 w-4" />
 	</DropdownMenuPrimitive.SubTrigger>
 );
-DropdownMenuSubTrigger.displayName =
-	DropdownMenuPrimitive.SubTrigger.displayName;
 
 const DropdownMenuSubContent = ({
 	className,
@@ -57,8 +55,6 @@ const DropdownMenuSubContent = ({
 		{...props}
 	/>
 );
-DropdownMenuSubContent.displayName =
-	DropdownMenuPrimitive.SubContent.displayName;
 
 const DropdownMenuContent = ({
 	className,
@@ -78,7 +74,6 @@ const DropdownMenuContent = ({
 		/>
 	</DropdownMenuPrimitive.Portal>
 );
-DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
 
 const DropdownMenuItem = ({
 	className,
@@ -98,7 +93,6 @@ const DropdownMenuItem = ({
 		{...props}
 	/>
 );
-DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
 
 const DropdownMenuCheckboxItem = ({
 	className,
@@ -124,8 +118,6 @@ const DropdownMenuCheckboxItem = ({
 		{children}
 	</DropdownMenuPrimitive.CheckboxItem>
 );
-DropdownMenuCheckboxItem.displayName =
-	DropdownMenuPrimitive.CheckboxItem.displayName;
 
 const DropdownMenuRadioItem = ({
 	className,
@@ -149,7 +141,6 @@ const DropdownMenuRadioItem = ({
 		{children}
 	</DropdownMenuPrimitive.RadioItem>
 );
-DropdownMenuRadioItem.displayName = DropdownMenuPrimitive.RadioItem.displayName;
 
 const DropdownMenuLabel = ({
 	className,
@@ -169,7 +160,6 @@ const DropdownMenuLabel = ({
 		{...props}
 	/>
 );
-DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName;
 
 const DropdownMenuSeparator = ({
 	className,
@@ -182,7 +172,6 @@ const DropdownMenuSeparator = ({
 		{...props}
 	/>
 );
-DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName;
 
 const DropdownMenuShortcut = ({
 	className,
@@ -198,7 +187,6 @@ const DropdownMenuShortcut = ({
 		/>
 	);
 };
-DropdownMenuShortcut.displayName = "DropdownMenuShortcut";
 
 export {
 	DropdownMenu,

@@ -34,8 +34,6 @@ const ToggleGroup = ({
 	</ToggleGroupPrimitive.Root>
 );
 
-ToggleGroup.displayName = ToggleGroupPrimitive.Root.displayName;
-
 const ToggleGroupItem = ({
 	className,
 	children,
@@ -63,7 +61,5 @@ const ToggleGroupItem = ({
 		</ToggleGroupPrimitive.Item>
 	);
 };
-
-ToggleGroupItem.displayName = ToggleGroupPrimitive.Item.displayName;
 
 export { ToggleGroup, ToggleGroupItem };

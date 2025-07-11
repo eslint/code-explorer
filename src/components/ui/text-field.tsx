@@ -21,6 +21,5 @@ const TextField = ({ className, ref, ...props }: TextFieldProps) => {
 		/>
 	);
 };
-TextField.displayName = "TextField";
 
 export { TextField };

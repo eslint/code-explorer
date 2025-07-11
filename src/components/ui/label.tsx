@@ -22,6 +22,5 @@ const Label = ({
 		{...props}
 	/>
 );
-Label.displayName = LabelPrimitive.Root.displayName;
 
 export { Label };
