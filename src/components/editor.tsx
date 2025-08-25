@@ -85,21 +85,18 @@ export const Editor: FC<EditorProperties> = ({
 
 		const editorContainer = editorContainerRef.current;
 
+		const isFileDrag = (event: DragEvent) =>
+			event.dataTransfer?.types.includes("Files");
+
 		const handleDragEnter = (event: DragEvent) => {
-			const hasFiles = Array.from(
-				event.dataTransfer?.types ?? [],
-			).includes("Files");
-			if (!hasFiles) return;
+			if (!isFileDrag(event)) return;
 			dragDepthRef.current += 1;
 			setIsDragOver(true);
 		};
 
 		const handleDragOver = (event: DragEvent) => {
 			event.preventDefault();
-			const hasFiles = Array.from(
-				event.dataTransfer?.types ?? [],
-			).includes("Files");
-			if (!hasFiles) return;
+			if (!isFileDrag(event)) return;
 			setIsDragOver(true);
 		};
 
