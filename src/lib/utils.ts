@@ -8,10 +8,10 @@ export const cn = (...inputs: ClassValue[]): string => twMerge(clsx(inputs));
 export function debounce<T extends (...args: any[]) => void>(
 	func: T,
 	delay: number,
-): (...args: Parameters<T>) => void {
-	let timeoutId: NodeJS.Timeout;
+) {
+	let timeoutId: ReturnType<typeof setTimeout>;
 
-	return (...args: Parameters<T>) => {
+	const debounced = (...args: Parameters<T>) => {
 		if (timeoutId) {
 			clearTimeout(timeoutId);
 		}
@@ -19,6 +19,16 @@ export function debounce<T extends (...args: any[]) => void>(
 		timeoutId = setTimeout(() => {
 			func(...args);
 		}, delay);
+	};
+
+	debounced.cancel = () => {
+		if (timeoutId) {
+			clearTimeout(timeoutId);
+		}
+	};
+
+	return debounced as ((...args: Parameters<T>) => void) & {
+		cancel: () => void;
 	};
 }
 
