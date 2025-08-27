@@ -2,7 +2,8 @@ import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import type { ClassValue } from "clsx";
 
-export const cn = (...inputs: ClassValue[]): string => twMerge(clsx(inputs));
+export const mergeClassNames = (...inputs: ClassValue[]): string =>
+	twMerge(clsx(inputs));
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function debounce<T extends (...args: any[]) => void>(

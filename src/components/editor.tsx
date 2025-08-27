@@ -10,7 +10,7 @@ import { css } from "@codemirror/lang-css";
 import { html } from "@codemirror/lang-html";
 import { EditorView } from "@codemirror/view";
 import { LanguageSupport } from "@codemirror/language";
-import { cn, debounce } from "@/lib/utils";
+import { mergeClassNames, debounce } from "@/lib/utils";
 import {
 	ESLintPlaygroundTheme,
 	ESLintPlaygroundHighlightStyle,
@@ -152,12 +152,12 @@ export const Editor: FC<EditorProperties> = ({
 		};
 	}, [onChange, readOnly]);
 
-	const editorClasses = cn("relative", {
+	const editorClasses = mergeClassNames("relative", {
 		"h-[calc(100%-72px)]": readOnly,
 		"h-[calc(100%-57px)]": !readOnly,
 	});
 
-	const dropAreaClass = cn(
+	const dropAreaClass = mergeClassNames(
 		"absolute inset-0 z-10 pointer-events-none flex items-center justify-center transition-opacity duration-150 bg-dropContainer",
 		{
 			"opacity-0": !isDragOver,

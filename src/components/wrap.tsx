@@ -2,7 +2,7 @@
 
 import { WrapTextIcon } from "lucide-react";
 import { useExplorer } from "@/hooks/use-explorer";
-import { cn } from "@/lib/utils";
+import { mergeClassNames } from "@/lib/utils";
 import { Button } from "./ui/button";
 import type { FC } from "react";
 
@@ -23,7 +23,7 @@ export const Wrap: FC = () => {
 		<Button
 			onClick={() => setWrap(!wrap)}
 			variant={wrap ? "outline" : "ghost"}
-			className={cn(
+			className={mergeClassNames(
 				"flex items-center gap-2",
 				!wrap && "text-muted-foreground border border-transparent",
 			)}
