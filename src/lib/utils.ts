@@ -2,16 +2,17 @@ import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import type { ClassValue } from "clsx";
 
-export const cn = (...inputs: ClassValue[]): string => twMerge(clsx(inputs));
+export const mergeClassNames = (...inputs: ClassValue[]): string =>
+	twMerge(clsx(inputs));
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function debounce<T extends (...args: any[]) => void>(
 	func: T,
 	delay: number,
-): (...args: Parameters<T>) => void {
-	let timeoutId: NodeJS.Timeout;
+) {
+	let timeoutId: ReturnType<typeof setTimeout>;
 
-	return (...args: Parameters<T>) => {
+	const debounced = (...args: Parameters<T>) => {
 		if (timeoutId) {
 			clearTimeout(timeoutId);
 		}
@@ -19,6 +20,16 @@ export function debounce<T extends (...args: any[]) => void>(
 		timeoutId = setTimeout(() => {
 			func(...args);
 		}, delay);
+	};
+
+	debounced.cancel = () => {
+		if (timeoutId) {
+			clearTimeout(timeoutId);
+		}
+	};
+
+	return debounced as ((...args: Parameters<T>) => void) & {
+		cancel: () => void;
 	};
 }
 

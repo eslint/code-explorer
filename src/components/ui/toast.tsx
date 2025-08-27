@@ -5,7 +5,7 @@ import * as ToastPrimitives from "@radix-ui/react-toast";
 import { cva, type VariantProps } from "class-variance-authority";
 import { X } from "lucide-react";
 
-import { cn } from "@/lib/utils";
+import { mergeClassNames } from "@/lib/utils";
 
 const ToastProvider = ToastPrimitives.Provider;
 
@@ -16,7 +16,7 @@ const ToastViewport = ({
 }: React.ComponentPropsWithRef<typeof ToastPrimitives.Viewport>) => (
 	<ToastPrimitives.Viewport
 		ref={ref}
-		className={cn(
+		className={mergeClassNames(
 			"fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[420px]",
 			className,
 		)}
@@ -50,7 +50,7 @@ const Toast = ({
 	return (
 		<ToastPrimitives.Root
 			ref={ref}
-			className={cn(toastVariants({ variant }), className)}
+			className={mergeClassNames(toastVariants({ variant }), className)}
 			{...props}
 		/>
 	);
@@ -63,7 +63,7 @@ const ToastAction = ({
 }: React.ComponentPropsWithRef<typeof ToastPrimitives.Action>) => (
 	<ToastPrimitives.Action
 		ref={ref}
-		className={cn(
+		className={mergeClassNames(
 			"inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium ring-offset-background transition-colors hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group-[.destructive]:border-muted/40 group-[.destructive]:hover:border-destructive/30 group-[.destructive]:hover:bg-destructive group-[.destructive]:hover:text-destructive-foreground group-[.destructive]:focus:ring-destructive",
 			className,
 		)}
@@ -78,7 +78,7 @@ const ToastClose = ({
 }: React.ComponentPropsWithRef<typeof ToastPrimitives.Close>) => (
 	<ToastPrimitives.Close
 		ref={ref}
-		className={cn(
+		className={mergeClassNames(
 			"absolute right-2 top-2 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity hover:text-foreground focus:opacity-100 focus:outline-none focus:ring-2 group-hover:opacity-100 group-[.destructive]:text-red-300 group-[.destructive]:hover:text-red-50 group-[.destructive]:focus:ring-red-400 group-[.destructive]:focus:ring-offset-red-600",
 			className,
 		)}
@@ -96,7 +96,7 @@ const ToastTitle = ({
 }: React.ComponentPropsWithRef<typeof ToastPrimitives.Title>) => (
 	<ToastPrimitives.Title
 		ref={ref}
-		className={cn("text-sm font-semibold", className)}
+		className={mergeClassNames("text-sm font-semibold", className)}
 		{...props}
 	/>
 );
@@ -108,7 +108,7 @@ const ToastDescription = ({
 }: React.ComponentPropsWithRef<typeof ToastPrimitives.Description>) => (
 	<ToastPrimitives.Description
 		ref={ref}
-		className={cn("text-sm opacity-90", className)}
+		className={mergeClassNames("text-sm opacity-90", className)}
 		{...props}
 	/>
 );

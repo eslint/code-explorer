@@ -3,7 +3,7 @@
 import { useExplorer } from "@/hooks/use-explorer";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { scopeViewOptions } from "@/lib/const";
-import { cn } from "@/lib/utils";
+import { mergeClassNames } from "@/lib/utils";
 import type { FC } from "react";
 
 export const ScopeViewMode: FC = () => {
@@ -30,7 +30,7 @@ export const ScopeViewMode: FC = () => {
 				<ToggleGroupItem
 					key={option.value}
 					value={option.value}
-					className={cn(
+					className={mergeClassNames(
 						"border border-card -m-px flex items-center gap-1.5",
 						option.value === scopeView
 							? "!bg-background"

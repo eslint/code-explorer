@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, FC, useMemo } from "react";
-import { useExplorer } from "@/hooks/use-explorer";
+import { useExplorer, type Language } from "@/hooks/use-explorer";
 import CodeMirror from "@uiw/react-codemirror";
 import { json } from "@codemirror/lang-json";
 import { javascript } from "@codemirror/lang-javascript";
@@ -9,10 +9,8 @@ import { markdown } from "@codemirror/lang-markdown";
 import { css } from "@codemirror/lang-css";
 import { html } from "@codemirror/lang-html";
 import { EditorView } from "@codemirror/view";
-import { EditorState } from "@codemirror/state";
-import clsx from "clsx";
 import { LanguageSupport } from "@codemirror/language";
-import { debounce } from "../lib/utils";
+import { mergeClassNames, debounce } from "@/lib/utils";
 import {
 	ESLintPlaygroundTheme,
 	ESLintPlaygroundHighlightStyle,
@@ -22,14 +20,16 @@ import {
 	type HighlightedRange,
 } from "@/utils/highlighted-ranges";
 
-const languageExtensions: Record<string, (isJSX?: boolean) => LanguageSupport> =
-	{
-		javascript: (isJSX: boolean = false) => javascript({ jsx: isJSX }),
-		json: () => json(),
-		markdown: () => markdown(),
-		css: () => css(),
-		html: () => html(),
-	};
+const languageExtensions: Record<
+	Language,
+	(isJSX?: boolean) => LanguageSupport
+> = {
+	javascript: (isJSX: boolean = false) => javascript({ jsx: isJSX }),
+	json: () => json(),
+	markdown: () => markdown(),
+	css: () => css(),
+	html: () => html(),
+};
 
 type EditorProperties = {
 	readOnly?: boolean;
@@ -48,22 +48,23 @@ export const Editor: FC<EditorProperties> = ({
 	const { isJSX } = jsOptions;
 	const [isDragOver, setIsDragOver] = useState<boolean>(false);
 	const editorContainerRef = useRef<HTMLDivElement | null>(null);
-	const dropMessageRef = useRef<HTMLDivElement | null>(null);
+	const dragDepthRef = useRef(0);
 
-	const activeLanguageExtension = readOnly
-		? languageExtensions.json()
-		: languageExtensions[language]
-			? languageExtensions[language](isJSX)
-			: [];
+	const activeLanguageExtension = useMemo<LanguageSupport>(() => {
+		if (readOnly) return languageExtensions.json();
+		return languageExtensions[language](isJSX);
+	}, [readOnly, language, isJSX]);
 
-	const editorExtensions = [
-		activeLanguageExtension,
-		wrap ? EditorView.lineWrapping : [],
-		readOnly ? EditorState.readOnly.of(true) : [],
-		ESLintPlaygroundTheme,
-		ESLintPlaygroundHighlightStyle,
-		highlightedRangesExtension(highlightedRanges),
-	];
+	const editorExtensions = useMemo(
+		() => [
+			activeLanguageExtension,
+			wrap ? EditorView.lineWrapping : [],
+			ESLintPlaygroundTheme,
+			ESLintPlaygroundHighlightStyle,
+			highlightedRangesExtension(highlightedRanges),
+		],
+		[activeLanguageExtension, wrap, highlightedRanges],
+	);
 
 	const debouncedOnChange = useMemo(
 		() =>
@@ -74,92 +75,103 @@ export const Editor: FC<EditorProperties> = ({
 	);
 
 	useEffect(() => {
+		return () => {
+			debouncedOnChange.cancel();
+		};
+	}, [debouncedOnChange]);
+
+	useEffect(() => {
 		if (readOnly) return;
 
 		const editorContainer = editorContainerRef.current;
-		const dropMessageDiv = dropMessageRef.current;
+
+		const isFileDrag = (event: DragEvent) =>
+			event.dataTransfer?.types.includes("Files");
+
+		const handleDragEnter = (event: DragEvent) => {
+			if (!isFileDrag(event)) return;
+			dragDepthRef.current += 1;
+			setIsDragOver(true);
+		};
 
 		const handleDragOver = (event: DragEvent) => {
 			event.preventDefault();
+			if (!isFileDrag(event)) return;
 			setIsDragOver(true);
 		};
 
 		const handleDragLeave = () => {
-			setIsDragOver(false);
+			if (dragDepthRef.current > 0) {
+				dragDepthRef.current -= 1;
+			}
+			if (dragDepthRef.current <= 0) {
+				dragDepthRef.current = 0;
+				setIsDragOver(false);
+			}
 		};
 
 		const handleDrop = async (event: DragEvent) => {
 			event.preventDefault();
+			dragDepthRef.current = 0;
 			setIsDragOver(false);
 
 			const files = event.dataTransfer?.files;
 			if (files?.length) {
 				const file = files[0];
 				const text = await file.text();
-				if (editorContainer) {
-					const editor: HTMLDivElement | null =
-						editorContainer.querySelector(".cm-content");
-					if (editor) {
-						editor.innerText = text;
-					}
-				}
+				onChange?.(text);
 			}
 		};
 
+		const handleDragEnd = () => {
+			dragDepthRef.current = 0;
+			setIsDragOver(false);
+		};
+
+		editorContainer?.addEventListener("dragenter", handleDragEnter);
 		editorContainer?.addEventListener("dragover", handleDragOver);
 		editorContainer?.addEventListener("dragleave", handleDragLeave);
 		editorContainer?.addEventListener("drop", handleDrop);
+		window.addEventListener("dragend", handleDragEnd);
 
-		if (dropMessageDiv) {
-			dropMessageDiv.addEventListener("dragover", handleDragOver);
-			dropMessageDiv.addEventListener("dragleave", handleDragLeave);
-			dropMessageDiv.addEventListener("drop", handleDrop);
-		}
+		// Prevent navigation when dropping files outside the editor
+		const preventWindowNav = (event: DragEvent) => {
+			event.preventDefault();
+		};
+		window.addEventListener("dragover", preventWindowNav);
+		window.addEventListener("drop", preventWindowNav);
 
 		return () => {
+			editorContainer?.removeEventListener("dragenter", handleDragEnter);
 			editorContainer?.removeEventListener("dragover", handleDragOver);
 			editorContainer?.removeEventListener("dragleave", handleDragLeave);
 			editorContainer?.removeEventListener("drop", handleDrop);
-
-			if (dropMessageDiv) {
-				dropMessageDiv.removeEventListener("dragover", handleDragOver);
-				dropMessageDiv.removeEventListener(
-					"dragleave",
-					handleDragLeave,
-				);
-				dropMessageDiv.removeEventListener("drop", handleDrop);
-			}
+			window.removeEventListener("dragend", handleDragEnd);
+			window.removeEventListener("dragover", preventWindowNav);
+			window.removeEventListener("drop", preventWindowNav);
 		};
-	}, [readOnly]);
+	}, [onChange, readOnly]);
 
-	const editorClasses = clsx("relative", {
+	const editorClasses = mergeClassNames("relative", {
 		"h-[calc(100%-72px)]": readOnly,
 		"h-[calc(100%-57px)]": !readOnly,
 	});
 
-	const dropMessageClasses = clsx(
-		"absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-dropMessage text-white p-2 rounded-lg z-10",
+	const dropAreaClass = mergeClassNames(
+		"absolute inset-0 z-10 pointer-events-none flex items-center justify-center transition-opacity duration-150 bg-dropContainer",
 		{
-			flex: isDragOver,
-			hidden: !isDragOver,
-		},
-	);
-
-	const dropAreaClass = clsx(
-		"absolute top-1/2 h-full w-full left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white p-2 z-10",
-		{
-			"bg-dropContainer": isDragOver,
-			"bg-transparent": !isDragOver,
-			flex: isDragOver,
-			hidden: !isDragOver,
+			"opacity-0": !isDragOver,
 		},
 	);
 
 	return (
 		<div ref={editorContainerRef} className={editorClasses}>
 			{!readOnly && (
-				<div ref={dropMessageRef} className={dropAreaClass}>
-					<div className={dropMessageClasses}>
+				<div className={dropAreaClass}>
+					<div
+						className="bg-dropMessage text-white p-2 rounded-lg"
+						role="status"
+					>
 						Drop here to read file
 					</div>
 				</div>
@@ -168,7 +180,7 @@ export const Editor: FC<EditorProperties> = ({
 				className="h-full overflow-auto scrollbar-thumb scrollbar-track text-sm"
 				value={value}
 				extensions={editorExtensions}
-				onChange={value => debouncedOnChange(value)}
+				onChange={debouncedOnChange}
 				readOnly={readOnly}
 			/>
 		</div>

@@ -6,7 +6,7 @@ import {
 import { TreeEntry } from "../tree-entry";
 import type { FC } from "react";
 import type * as espree from "espree";
-import { cn } from "@/lib/utils";
+import { mergeClassNames } from "@/lib/utils";
 
 export type JavascriptAstTreeItemProperties = {
 	readonly index: number;
@@ -26,7 +26,7 @@ export const JavascriptAstTreeItem: FC<JavascriptAstTreeItemProperties> = ({
 	return (
 		<AccordionItem
 			value={`${index}-${data.type}`}
-			className={cn(
+			className={mergeClassNames(
 				"border border-card rounded-lg overflow-hidden",
 				isEsqueryMatchedNode && "border-primary border-4",
 			)}
