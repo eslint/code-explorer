@@ -1,5 +1,3 @@
-"use client";
-
 import * as espree from "espree";
 import * as eslintScope from "eslint-scope";
 import { useExplorer } from "@/hooks/use-explorer";

@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useRef, useState, FC, useMemo } from "react";
 import { useExplorer, type Language } from "@/hooks/use-explorer";
 import CodeMirror from "@uiw/react-codemirror";

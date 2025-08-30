@@ -1,5 +1,3 @@
-"use client";
-
 import { useExplorer } from "@/hooks/use-explorer";
 import { JavascriptAst } from "./javascript-ast";
 import { JsonAst } from "./json-ast";

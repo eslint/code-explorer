@@ -1,5 +1,3 @@
-"use client";
-
 import { useExplorer } from "@/hooks/use-explorer";
 import {
 	Select,

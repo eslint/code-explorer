@@ -1,5 +1,3 @@
-"use client";
-
 import { useExplorer } from "@/hooks/use-explorer";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { scopeViewOptions } from "@/lib/const";

@@ -1,5 +1,3 @@
-"use client";
-
 import { MoonIcon, SunIcon, Monitor } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {

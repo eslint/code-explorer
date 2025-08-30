@@ -1,5 +1,3 @@
-"use client";
-
 import { WrapTextIcon } from "lucide-react";
 import { useExplorer } from "@/hooks/use-explorer";
 import { mergeClassNames } from "@/lib/utils";
