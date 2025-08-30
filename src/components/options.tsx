@@ -21,7 +21,7 @@ import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import type { FC } from "react";
 import { Settings } from "lucide-react";
-import LabeledSelect from "./LabeledSelect";
+import LabeledSelect from "./labeled-select";
 import type {
 	JsonMode,
 	Language,
