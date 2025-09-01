@@ -1,7 +1,5 @@
 // @ts-nocheck
 
-"use server";
-
 import { Linter } from "eslint-linter-browserify";
 import { CodePathStack } from "@/lib/code-path-stack";
 import type { SourceType, Version } from "@/hooks/use-explorer";
