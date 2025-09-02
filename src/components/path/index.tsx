@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { useExplorer } from "@/hooks/use-explorer";
 import { Editor } from "../editor";
