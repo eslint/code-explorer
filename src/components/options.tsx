@@ -30,7 +30,7 @@ import type {
 	TemplateEngineSyntax,
 } from "@/hooks/use-explorer";
 
-const JSONPanel: React.FC = () => {
+const JSONPanel: FC = () => {
 	const explorer = useExplorer();
 	const { jsonOptions, setJsonOptions } = explorer;
 	const { jsonMode, allowTrailingCommas } = jsonOptions;
@@ -69,7 +69,7 @@ const JSONPanel: React.FC = () => {
 	);
 };
 
-const MarkdownPanel: React.FC = () => {
+const MarkdownPanel: FC = () => {
 	const explorer = useExplorer();
 	const { markdownOptions, setMarkdownOptions } = explorer;
 	const { markdownMode, markdownFrontmatter } = markdownOptions;
@@ -105,7 +105,7 @@ const MarkdownPanel: React.FC = () => {
 	);
 };
 
-const CssPanel: React.FC = () => {
+const CssPanel: FC = () => {
 	const explorer = useExplorer();
 	const { cssOptions, setCssOptions } = explorer;
 	const { tolerant } = cssOptions;
@@ -123,7 +123,7 @@ const CssPanel: React.FC = () => {
 	);
 };
 
-const JavaScriptPanel: React.FC = () => {
+const JavaScriptPanel: FC = () => {
 	const explorer = useExplorer();
 	const { jsOptions, setJsOptions } = explorer;
 	const { parser, sourceType, esVersion, isJSX } = jsOptions;
@@ -180,7 +180,7 @@ const JavaScriptPanel: React.FC = () => {
 	);
 };
 
-const HTMLPanel: React.FC = () => {
+const HTMLPanel: FC = () => {
 	const explorer = useExplorer();
 	const { htmlOptions, setHtmlOptions } = explorer;
 	const { templateEngineSyntax, frontmatter } = htmlOptions;
