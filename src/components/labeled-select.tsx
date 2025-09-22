@@ -25,7 +25,7 @@ interface PanelProps {
 	icon?: boolean;
 }
 
-const LabeledSelect = (props: PanelProps) => {
+export const LabeledSelect = (props: PanelProps) => {
 	const {
 		id,
 		label,
@@ -69,5 +69,3 @@ const LabeledSelect = (props: PanelProps) => {
 		</div>
 	);
 };
-
-export default LabeledSelect;
