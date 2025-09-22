@@ -24,3 +24,6 @@ npm-debug.log*
 
 # typescript
 *.tsbuildinfo
+
+# Automatically generated files by GitHub Actions workflow
+tools/update-readme.js
