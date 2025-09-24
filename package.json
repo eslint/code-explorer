@@ -10,7 +10,6 @@
   "scripts": {
     "build": "vite build",
     "build:preview": "vite preview",
-    "build:readme": "node tools/update-readme.js",
     "start": "vite",
     "build:types": "tsc",
     "lint": "eslint",
@@ -86,7 +85,6 @@
     "@vitejs/plugin-react": "^4.4.1",
     "babel-plugin-react-compiler": "^19.1.0-rc.2",
     "eslint": "^9.25.1",
-    "got": "^14.4.3",
     "lint-staged": "^15.2.9",
     "postcss": "^8",
     "prettier": "^3.6.2",
