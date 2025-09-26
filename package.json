@@ -67,7 +67,7 @@
     "esquery": "^1.6.0",
     "global": "^4.4.0",
     "graphviz-react": "^1.2.5",
-    "lucide-react": "^0.407.0",
+    "lucide-react": "^0.544.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "tailwind-merge": "^2.4.0",
