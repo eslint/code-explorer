@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getPreferredColorScheme } from "../lib/utils";
+import { getPreferredColorScheme } from "@/lib/utils";
 
 export type Theme = "dark" | "light" | "system";
 

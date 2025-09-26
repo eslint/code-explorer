@@ -5,18 +5,20 @@ import {
 } from "@/components/ui/accordion";
 import { TreeEntry } from "../tree-entry";
 import type { FC } from "react";
-import type * as espree from "espree";
 import { mergeClassNames } from "@/lib/utils";
 
-export type JavascriptAstTreeItemProperties = {
-	readonly index: number;
-	readonly data:
-		| ReturnType<typeof espree.parse>
-		| ReturnType<typeof espree.parse>["body"][number];
-	readonly esqueryMatchedNodes: unknown[];
+export type ASTNode = {
+	readonly type: string;
+	readonly [key: string]: unknown;
 };
 
-export const JavascriptAstTreeItem: FC<JavascriptAstTreeItemProperties> = ({
+export type ASTTreeItemProperties = {
+	readonly index: number;
+	readonly data: ASTNode;
+	readonly esqueryMatchedNodes: ASTNode[];
+};
+
+export const ASTTreeItem: FC<ASTTreeItemProperties> = ({
 	data,
 	index,
 	esqueryMatchedNodes,

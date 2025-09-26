@@ -1,44 +1,23 @@
-import { useExplorer } from "@/hooks/use-explorer";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { pathViewOptions } from "@/lib/const";
-import { mergeClassNames } from "@/lib/utils";
 import type { FC } from "react";
+import { useExplorer } from "@/hooks/use-explorer";
+import { pathViewOptions } from "@/lib/const";
+import { ViewModeToggle } from "@/components/view-mode-toggle";
 
 export const PathViewMode: FC = () => {
 	const explorer = useExplorer();
 	const { viewModes, setViewModes } = explorer;
 	const { pathView } = viewModes;
 
-	const handleValueChange = (value: string) => {
-		if (!value) {
-			return;
-		}
-
-		setViewModes({ ...viewModes, pathView: value as "code" | "graph" });
-	};
-
 	return (
-		<ToggleGroup
-			type="single"
+		<ViewModeToggle
 			value={pathView}
-			onValueChange={handleValueChange}
-			className="border rounded-md"
-		>
-			{pathViewOptions.map(option => (
-				<ToggleGroupItem
-					key={option.value}
-					value={option.value}
-					className={mergeClassNames(
-						"border -m-px flex items-center gap-1.5",
-						option.value === pathView
-							? "!bg-background"
-							: "border-transparent hover:bg-transparent text-muted-foreground",
-					)}
-				>
-					<option.icon size={16} />
-					{option.label}
-				</ToggleGroupItem>
-			))}
-		</ToggleGroup>
+			options={pathViewOptions}
+			onValueChange={value =>
+				setViewModes({
+					...viewModes,
+					pathView: value as "code" | "graph",
+				})
+			}
+		/>
 	);
 };
