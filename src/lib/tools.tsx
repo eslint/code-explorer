@@ -1,4 +1,4 @@
-import { Ast } from "@/components/ast";
+import { AST } from "@/components/ast";
 import { CodePath } from "@/components/path";
 import { Scope } from "@/components/scope";
 import { Wrap } from "@/components/wrap";
@@ -12,7 +12,7 @@ export const tools = [
 	{
 		name: "AST",
 		value: "ast",
-		component: withErrorBoundary(Ast),
+		component: withErrorBoundary(AST),
 		options: [Wrap, AstViewMode],
 	},
 	{
