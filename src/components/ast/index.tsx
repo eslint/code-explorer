@@ -3,10 +3,10 @@ import { useAST } from "@/hooks/use-ast";
 import { useExplorer } from "@/hooks/use-explorer";
 import { Accordion } from "@/components/ui/accordion";
 import { Editor } from "@/components/editor";
+import { ErrorState } from "@/components/error-boundary";
+import { ASTTreeItem } from "@/components/ast/ast-tree-item";
+import type { ASTNode } from "@/components/ast/ast-tree-item";
 import { parseError } from "@/lib/parse-error";
-import { ErrorState } from "../error-boundary";
-import { ASTTreeItem } from "./ast-tree-item";
-import type { ASTNode } from "./ast-tree-item";
 
 export const AST: FC = () => {
 	const result = useAST();

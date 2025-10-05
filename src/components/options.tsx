@@ -14,11 +14,11 @@ import {
 	versions,
 	templateEngineSyntaxes,
 } from "@/lib/const";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import type { FC } from "react";
 import { Settings } from "lucide-react";
-import { LabeledSelect } from "./labeled-select";
-import { LabeledSwitch } from "./labeled-switch";
+import { LabeledSelect } from "@/components/labeled-select";
+import { LabeledSwitch } from "@/components/labeled-switch";
 import type {
 	JsonMode,
 	Language,

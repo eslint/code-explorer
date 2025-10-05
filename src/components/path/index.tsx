@@ -6,7 +6,7 @@ import Graphviz from "graphviz-react";
 import { generateCodePath } from "@/lib/generate-code-path";
 import { parseError } from "@/lib/parse-error";
 import useDebouncedEffect from "use-debounced-effect";
-import { ErrorState } from "../error-boundary";
+import { ErrorState } from "@/components/error-boundary";
 
 type ParsedResponse = {
 	codePathList: {
