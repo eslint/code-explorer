@@ -4,8 +4,7 @@ import { useExplorer } from "@/hooks/use-explorer";
 import { Accordion } from "@/components/ui/accordion";
 import { Editor } from "@/components/editor";
 import { ErrorState } from "@/components/error-boundary";
-import { ASTTreeItem } from "@/components/ast/ast-tree-item";
-import type { ASTNode } from "@/components/ast/ast-tree-item";
+import { ASTTreeItem, type ASTNode } from "@/components/ast/ast-tree-item";
 import { parseError } from "@/lib/parse-error";
 
 export const AST: FC = () => {
