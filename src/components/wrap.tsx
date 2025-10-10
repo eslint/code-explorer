@@ -1,7 +1,7 @@
 import { WrapTextIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useExplorer } from "@/hooks/use-explorer";
 import { mergeClassNames } from "@/lib/utils";
-import { Button } from "./ui/button";
 import type { FC } from "react";
 
 export const Wrap: FC = () => {

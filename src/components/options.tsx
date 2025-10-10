@@ -1,9 +1,22 @@
+import { Settings } from "lucide-react";
 import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/ui/popover";
-import { useExplorer } from "@/hooks/use-explorer";
+import { Button } from "@/components/ui/button";
+import { LabeledSelect } from "@/components/labeled-select";
+import { LabeledSwitch } from "@/components/labeled-switch";
+import {
+	useExplorer,
+	type JsonMode,
+	type Language,
+	type MarkdownMode,
+	type MarkdownFrontmatter,
+	type SourceType,
+	type Version,
+	type TemplateEngineSyntax,
+} from "@/hooks/use-explorer";
 import {
 	jsonModes,
 	markdownModes,
@@ -14,20 +27,7 @@ import {
 	versions,
 	templateEngineSyntaxes,
 } from "@/lib/const";
-import { Button } from "@/components/ui/button";
 import type { FC } from "react";
-import { Settings } from "lucide-react";
-import { LabeledSelect } from "@/components/labeled-select";
-import { LabeledSwitch } from "@/components/labeled-switch";
-import type {
-	JsonMode,
-	Language,
-	MarkdownMode,
-	MarkdownFrontmatter,
-	SourceType,
-	Version,
-	TemplateEngineSyntax,
-} from "@/hooks/use-explorer";
 
 const JSONPanel: FC = () => {
 	const explorer = useExplorer();

@@ -1,5 +1,6 @@
 import { MoonIcon, SunIcon, Monitor } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTheme, Theme } from "@/components/theme-provider";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -7,7 +8,6 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { FC } from "react";
-import { useTheme, Theme } from "./theme-provider";
 
 const icons = {
 	light: (
