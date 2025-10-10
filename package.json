@@ -72,7 +72,7 @@
     "zustand": "^4.5.7"
   },
   "devDependencies": {
-    "@types/eslint-scope": "^3.7.7",
+    "@types/eslint-scope": "^8.3.2",
     "@types/espree": "^10.1.0",
     "@types/esquery": "^1.5.4",
     "@types/node": "^20",
