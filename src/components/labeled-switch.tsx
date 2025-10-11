@@ -1,6 +1,6 @@
-import type { FC } from "react";
-import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import type { FC } from "react";
 
 type LabeledSwitchProps = {
 	id: string;

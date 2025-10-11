@@ -1,6 +1,6 @@
-import { ModeToggle } from "./mode-toggle";
-import { Options } from "./options";
-import { CallToAction } from "./cta";
+import { CallToAction } from "@/components/cta";
+import { ModeToggle } from "@/components/mode-toggle";
+import { Options } from "@/components/options";
 import type { FC } from "react";
 
 export const Navbar: FC = () => (

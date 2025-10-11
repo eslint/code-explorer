@@ -1,5 +1,5 @@
+import { Component, type FC, type ReactNode } from "react";
 import { parseError } from "@/lib/parse-error";
-import { Component, FC, ReactNode } from "react";
 
 interface Props {
 	children?: ReactNode;

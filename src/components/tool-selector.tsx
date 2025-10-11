@@ -1,6 +1,6 @@
+import { Button } from "@/components/ui/button";
 import { useExplorer } from "@/hooks/use-explorer";
 import { tools } from "@/lib/tools";
-import { Button } from "./ui/button";
 import type { FC } from "react";
 
 export const ToolSelector: FC = () => {

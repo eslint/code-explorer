@@ -1,7 +1,7 @@
-import type { FC } from "react";
-import type { LucideIcon } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { mergeClassNames } from "@/lib/utils";
+import type { LucideIcon } from "lucide-react";
+import type { FC } from "react";
 
 type ViewModeOption = {
 	value: string;

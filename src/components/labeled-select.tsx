@@ -1,3 +1,4 @@
+import { Label } from "@/components/ui/label";
 import {
 	Select,
 	SelectContent,
@@ -6,7 +7,6 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Version } from "@/hooks/use-explorer";
-import { Label } from "./ui/label";
 
 type OnValueChangeType = (value: string) => void;
 type ItemsType = {

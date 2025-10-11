@@ -1,6 +1,3 @@
-import { useEffect, useRef, useState, FC, useMemo } from "react";
-import { useExplorer, type Language } from "@/hooks/use-explorer";
-import CodeMirror from "@uiw/react-codemirror";
 import { json } from "@codemirror/lang-json";
 import { javascript } from "@codemirror/lang-javascript";
 import { markdown } from "@codemirror/lang-markdown";
@@ -8,6 +5,9 @@ import { css } from "@codemirror/lang-css";
 import { html } from "@codemirror/lang-html";
 import { EditorView } from "@codemirror/view";
 import { LanguageSupport } from "@codemirror/language";
+import CodeMirror from "@uiw/react-codemirror";
+import { useEffect, useRef, useState, useMemo, type FC } from "react";
+import { useExplorer, type Language } from "@/hooks/use-explorer";
 import { mergeClassNames, debounce } from "@/lib/utils";
 import {
 	ESLintPlaygroundTheme,
