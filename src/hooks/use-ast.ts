@@ -1,10 +1,10 @@
 import * as espree from "espree";
+import esquery from "esquery";
 import type { Node as EstreeNode } from "estree";
 import css from "@eslint/css";
 import json from "@eslint/json";
 import markdown from "@eslint/markdown";
 import html from "@html-eslint/eslint-plugin";
-import esquery from "esquery";
 import { useExplorer } from "@/hooks/use-explorer";
 import { assertIsUnreachable } from "@/lib/utils";
 import { templateEngineSyntaxPresets } from "@/lib/const";

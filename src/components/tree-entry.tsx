@@ -1,9 +1,8 @@
-import { MinusSquareIcon, PlusSquareIcon } from "lucide-react";
-import { useState } from "react";
-import { renderValue } from "@/lib/render-value";
-import { ScopeItem } from "./scope/scope-item";
 import { Reference, Variable, Scope } from "eslint-scope";
-import type { FC, ReactNode } from "react";
+import { MinusSquareIcon, PlusSquareIcon } from "lucide-react";
+import { useState, type FC, type ReactNode } from "react";
+import { ScopeItem } from "@/components/scope/scope-item";
+import { renderValue } from "@/lib/render-value";
 
 type TreeEntryProperties = {
 	readonly data: [string, unknown];
