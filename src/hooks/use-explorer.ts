@@ -117,21 +117,31 @@ const getHashParams = (): URLSearchParams => {
 	return new URLSearchParams(location.hash.slice(1));
 };
 
-const hashStorage: StateStorage = {
+const hybridStorage: StateStorage = {
 	getItem: (key): string => {
-		const storedValue = getHashParams().get(key) ?? "";
-		return storedValue ? JSON.parse(atob(storedValue)) : "";
+		// Priority: URL hash first, then localStorage fallback
+		const hashValue = getHashParams().get(key);
+		if (hashValue) {
+			return JSON.parse(atob(hashValue));
+		}
+
+		const localValue = localStorage.getItem(key);
+		return localValue || "";
 	},
 	setItem: (key, newValue): void => {
 		const searchParams = getHashParams();
 		const encodedValue = btoa(JSON.stringify(newValue));
 		searchParams.set(key, encodedValue);
 		location.hash = searchParams.toString();
+
+		localStorage.setItem(key, newValue);
 	},
 	removeItem: (key): void => {
 		const searchParams = getHashParams();
 		searchParams.delete(key);
 		location.hash = searchParams.toString();
+
+		localStorage.removeItem(key);
 	},
 };
 
@@ -179,7 +189,7 @@ export const useExplorer = create<ExplorerState>()(
 			}),
 			{
 				name: "eslint-explorer",
-				storage: createJSONStorage(() => hashStorage),
+				storage: createJSONStorage(() => hybridStorage),
 				onRehydrateStorage: () => state => {
 					if (!state) return;
 
