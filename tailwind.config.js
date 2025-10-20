@@ -104,10 +104,5 @@ export default {
 			);
 		},
 	],
-	purge: {
-		content: ["./{pages,components,app,src}/**/*.{ts,tsx}"],
-		options: {
-			safelist: ["cm-editor", "cm-gutter", "ͼ1", "cm-focused"],
-		},
-	},
+	safelist: ["cm-editor", "cm-gutter", "ͼ1", "cm-focused"],
 };
