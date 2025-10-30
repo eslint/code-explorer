@@ -28,7 +28,7 @@
     "pre-commit": "lint-staged"
   },
   "engines": {
-    "node": ">= 20"
+    "node": ">= 20.19.5"
   },
   "dependencies": {
     "@codemirror/lang-css": "^6.3.1",
