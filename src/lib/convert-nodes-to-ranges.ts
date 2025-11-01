@@ -1,28 +1,25 @@
-import type { HighlightedRange } from "@/utils/highlighted-ranges";
+import type { SourceRange } from "@eslint/core";
 
 export function convertNodesToRanges(
 	esqueryMatchedNodes: unknown[],
-): HighlightedRange[] {
-	const highlightedRanges: HighlightedRange[] = esqueryMatchedNodes
+): SourceRange[] {
+	const highlightedRanges: SourceRange[] = esqueryMatchedNodes
 		.map(node => {
 			if (isNodeWithStartEnd(node)) {
-				return [node.start, node.end] satisfies HighlightedRange;
+				return [node.start, node.end] satisfies SourceRange;
 			}
 			if (isNodeWithPosition(node)) {
 				return [
 					node.position.start.offset,
 					node.position.end.offset,
-				] satisfies HighlightedRange;
+				] satisfies SourceRange;
 			} else if (isNodeWithLoc(node)) {
 				return [
 					node.loc.start.offset,
 					node.loc.end.offset,
-				] satisfies HighlightedRange;
+				] satisfies SourceRange;
 			} else if (isNodeWithRange(node)) {
-				return [
-					node.range[0],
-					node.range[1],
-				] satisfies HighlightedRange;
+				return [node.range[0], node.range[1]] satisfies SourceRange;
 			}
 		})
 		.filter(range => range !== undefined);
@@ -48,7 +45,7 @@ type PositionElem = {
 };
 
 type NodeWithRange = {
-	range: [number, number];
+	range: SourceRange;
 };
 
 function isNodeWithStartEnd(node: unknown): node is NodeWithStartEnd {

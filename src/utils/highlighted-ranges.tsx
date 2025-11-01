@@ -1,11 +1,11 @@
 import { Decoration, ViewPlugin } from "@codemirror/view";
+import type { SourceRange } from "@eslint/core";
 
 const highlightRangeDecoration = Decoration.mark({
 	class: "bg-editorHighlightedRangeColor",
 });
-export type HighlightedRange = [rangeFrom: number, rangeTo: number];
 
-export const highlightedRangesExtension = (ranges: HighlightedRange[]) =>
+export const highlightedRangesExtension = (ranges: SourceRange[]) =>
 	ViewPlugin.define(() => ({}), {
 		decorations: () =>
 			Decoration.set(
