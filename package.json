@@ -42,7 +42,7 @@
     "@eslint/json": "^0.13.2",
     "@eslint/markdown": "^7.5.0",
     "@html-eslint/eslint-plugin": "^0.42.0",
-    "@lezer/highlight": "^1.2.2",
+    "@lezer/highlight": "^1.2.3",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-dropdown-menu": "^2.1.16",
