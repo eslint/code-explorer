@@ -72,6 +72,7 @@
     "zustand": "^4.5.7"
   },
   "devDependencies": {
+    "@eslint/core": "^0.17.0",
     "@types/eslint-scope": "^8.3.2",
     "@types/espree": "^10.1.0",
     "@types/esquery": "^1.5.4",
