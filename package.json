@@ -58,7 +58,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "codemirror": "^6.0.2",
-    "eslint-linter-browserify": "^9.38.0",
+    "eslint-linter-browserify": "^9.39.0",
     "eslint-scope": "^8.4.0",
     "espree": "^10.4.0",
     "esquery": "^1.6.0",
