@@ -41,7 +41,7 @@
     "@eslint/js": "^9.39.1",
     "@eslint/json": "^0.14.0",
     "@eslint/markdown": "^7.5.1",
-    "@html-eslint/eslint-plugin": "^0.47.0",
+    "@html-eslint/eslint-plugin": "^0.47.1",
     "@lezer/highlight": "^1.2.3",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-dialog": "^1.1.15",
