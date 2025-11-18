@@ -333,6 +333,7 @@ export const defaultJsCode = `
  */
 
 import js from "@eslint/js";
+import { defineConfig } from "eslint/config";
 
 function getConfig() {
     return {
@@ -342,10 +343,10 @@ function getConfig() {
     };
 }
 
-export default [
-    ...js.configs.recommended,
+export default defineConfig([
+    js.configs.recommended,
     getConfig()
-];`.trim();
+]);`.trim();
 
 export const defaultJsonCode = `
 /**

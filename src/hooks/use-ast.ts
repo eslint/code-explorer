@@ -1,6 +1,7 @@
 import * as espree from "espree";
 import esquery from "esquery";
 import type { Node as EstreeNode } from "estree";
+import type { ParseResult, FileError } from "@eslint/core";
 import css from "@eslint/css";
 import json from "@eslint/json";
 import markdown from "@eslint/markdown";
@@ -21,9 +22,7 @@ export function useAST() {
 		esquerySelector,
 	} = useExplorer();
 
-	let astParseResult:
-		| { ok: true; ast: unknown }
-		| { ok: false; errors: Array<unknown> };
+	let astParseResult: ParseResult<unknown>;
 
 	switch (language) {
 		case "javascript": {
@@ -40,7 +39,7 @@ export function useAST() {
 				astParseResult = { ast, ok: true };
 			} catch (err) {
 				// error occured e.g. because the JS code cannot be parsed into an AST, or the esquery selector is no valid selector --> just ignore (no highlighted ranges)
-				astParseResult = { ok: false, errors: [err] };
+				astParseResult = { ok: false, errors: [err as FileError] };
 			}
 			break;
 		}

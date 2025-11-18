@@ -13,10 +13,8 @@ import {
 	ESLintPlaygroundTheme,
 	ESLintPlaygroundHighlightStyle,
 } from "@/utils/codemirror-themes";
-import {
-	highlightedRangesExtension,
-	type HighlightedRange,
-} from "@/utils/highlighted-ranges";
+import { highlightedRangesExtension } from "@/utils/highlighted-ranges";
+import type { SourceRange } from "@eslint/core";
 
 const languageExtensions: Record<
 	Language,
@@ -32,7 +30,7 @@ const languageExtensions: Record<
 type EditorProperties = {
 	readOnly?: boolean;
 	value?: string;
-	highlightedRanges?: HighlightedRange[];
+	highlightedRanges?: SourceRange[];
 	onChange?: (value: string) => void;
 };
 
