@@ -38,7 +38,7 @@ export function useAST() {
 				});
 				astParseResult = { ast, ok: true };
 			} catch (err) {
-				// error occured e.g. because the JS code cannot be parsed into an AST, or the esquery selector is no valid selector --> just ignore (no highlighted ranges)
+				// error occurred e.g. because the JS code cannot be parsed into an AST, or the esquery selector is no valid selector --> just ignore (no highlighted ranges)
 				astParseResult = { ok: false, errors: [err as FileError] };
 			}
 			break;
@@ -140,7 +140,7 @@ function getEsqueryMatchedNodes(ast: unknown, esquerySelector: string) {
 			) as unknown[];
 			return esqueryMatchedNodes;
 		} catch {
-			// error occured e.g. because the esquery selector is no valid selector --> just ignore (no nodes matched --> no highlighted ranges)
+			// error occurred e.g. because the esquery selector is no valid selector --> just ignore (no nodes matched --> no highlighted ranges)
 		}
 	}
 	return [];
