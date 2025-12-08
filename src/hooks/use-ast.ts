@@ -92,7 +92,7 @@ export function useAST() {
 
 		case "html": {
 			const { templateEngineSyntax, frontmatter } = htmlOptions;
-			const language = html.languages.html;
+			const language = html.languages!.html;
 			astParseResult = language.parse(
 				{
 					body: code.html,
