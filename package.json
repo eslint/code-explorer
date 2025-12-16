@@ -1,6 +1,5 @@
 {
   "name": "eslint-code-explorer",
-  "version": "0.1.0",
   "private": true,
   "description": "A tool that visualizes JS and TS code structure and scope using ESLint's scope analysis.",
   "repository": "eslint/code-explorer",
@@ -18,7 +17,7 @@
     "fmt:check": "prettier --check ."
   },
   "lint-staged": {
-    "**/*.{ts,tsx,jsx,js}": [
+    "**/*.{js,jsx,ts,tsx}": [
       "eslint --fix",
       "prettier --write"
     ],
