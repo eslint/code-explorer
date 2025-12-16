@@ -8,7 +8,7 @@ import { useAST } from "@/hooks/use-ast";
 import { useExplorer } from "@/hooks/use-explorer";
 import { convertNodesToRanges } from "@/lib/convert-nodes-to-ranges";
 import { tools } from "@/lib/tools";
-import "./App.css";
+import "./app.css";
 
 function App() {
 	const { language, tool, code, setCode } = useExplorer();
