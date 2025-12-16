@@ -16,7 +16,6 @@ export default defineConfig([
 	{
 		files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
 		plugins: {
-			react: pluginReact,
 			"jsx-a11y": pluginJsxA11y,
 		},
 		languageOptions: {
