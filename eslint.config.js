@@ -7,15 +7,15 @@ import pluginJsxA11y from "eslint-plugin-jsx-a11y";
 import { defineConfig, globalIgnores } from "@eslint/config-helpers";
 
 export default defineConfig([
+	globalIgnores(["**/*.config.js", "build/**"]),
+
 	pluginJs.configs.recommended,
-	...tseslint.configs.recommended,
+	tseslint.configs.recommended,
 	pluginReact.configs.flat.recommended,
 	pluginReactHooks.configs.flat.recommended,
 	{
 		files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
 		plugins: {
-			react: pluginReact,
-			"react-hooks": pluginReactHooks,
 			"jsx-a11y": pluginJsxA11y,
 		},
 		languageOptions: {
@@ -35,5 +35,4 @@ export default defineConfig([
 			},
 		},
 	},
-	globalIgnores(["**/*.config.js", "build/**"]),
 ]);
