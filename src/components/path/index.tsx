@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { useExplorer } from "@/hooks/use-explorer";
 import { Editor } from "../editor";
@@ -8,6 +6,7 @@ import Graphviz from "graphviz-react";
 import { generateCodePath } from "@/lib/generate-code-path";
 import { parseError } from "@/lib/parse-error";
 import useDebouncedEffect from "use-debounced-effect";
+import { ErrorState } from "@/components/error-boundary";
 
 type ParsedResponse = {
 	codePathList: {
@@ -71,13 +70,7 @@ export const CodePath: FC = () => {
 	);
 
 	if (error) {
-		return (
-			<div className="bg-red-50 dark:bg-gray-900 pl-1.5 pt-1.5 h-full">
-				<div className="p-4 text-red-600 dark:text-red-400">
-					Error: {error}
-				</div>
-			</div>
-		);
+		return <ErrorState message={error} />;
 	}
 
 	if (!extracted) {

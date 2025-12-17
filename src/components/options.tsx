@@ -1,12 +1,22 @@
-"use client";
-
+import { Settings } from "lucide-react";
 import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/ui/popover";
-import { Switch } from "@/components/ui/switch";
-import { useExplorer } from "@/hooks/use-explorer";
+import { Button } from "@/components/ui/button";
+import { LabeledSelect } from "@/components/labeled-select";
+import { LabeledSwitch } from "@/components/labeled-switch";
+import {
+	useExplorer,
+	type JsonMode,
+	type Language,
+	type MarkdownMode,
+	type MarkdownFrontmatter,
+	type SourceType,
+	type Version,
+	type TemplateEngineSyntax,
+} from "@/hooks/use-explorer";
 import {
 	jsonModes,
 	markdownModes,
@@ -15,22 +25,11 @@ import {
 	parsers,
 	sourceTypes,
 	versions,
+	templateEngineSyntaxes,
 } from "@/lib/const";
-import { Button } from "./ui/button";
-import { Label } from "./ui/label";
 import type { FC } from "react";
-import { Settings } from "lucide-react";
-import LabeledSelect from "./LabeledSelect";
-import type {
-	JsonMode,
-	Language,
-	MarkdownMode,
-	MarkdownFrontmatter,
-	SourceType,
-	Version,
-} from "@/hooks/use-explorer";
 
-const JSONPanel: React.FC = () => {
+const JSONPanel: FC = () => {
 	const explorer = useExplorer();
 	const { jsonOptions, setJsonOptions } = explorer;
 	const { jsonMode, allowTrailingCommas } = jsonOptions;
@@ -49,27 +48,23 @@ const JSONPanel: React.FC = () => {
 			/>
 
 			{jsonMode === "jsonc" && (
-				<div className="flex items-center gap-1.5">
-					<Switch
-						id="allowTrailingCommas"
-						checked={allowTrailingCommas}
-						onCheckedChange={(value: boolean) => {
-							setJsonOptions({
-								...jsonOptions,
-								allowTrailingCommas: value,
-							});
-						}}
-					/>
-					<Label htmlFor="allowTrailingCommas">
-						Allow Trailing Commas
-					</Label>
-				</div>
+				<LabeledSwitch
+					id="allowTrailingCommas"
+					label="Allow Trailing Commas"
+					checked={allowTrailingCommas}
+					onCheckedChange={(value: boolean) => {
+						setJsonOptions({
+							...jsonOptions,
+							allowTrailingCommas: value,
+						});
+					}}
+				/>
 			)}
 		</>
 	);
 };
 
-const MarkdownPanel: React.FC = () => {
+const MarkdownPanel: FC = () => {
 	const explorer = useExplorer();
 	const { markdownOptions, setMarkdownOptions } = explorer;
 	const { markdownMode, markdownFrontmatter } = markdownOptions;
@@ -105,25 +100,23 @@ const MarkdownPanel: React.FC = () => {
 	);
 };
 
-const CssPanel: React.FC = () => {
+const CssPanel: FC = () => {
 	const explorer = useExplorer();
 	const { cssOptions, setCssOptions } = explorer;
 	const { tolerant } = cssOptions;
 	return (
-		<div className="flex items-center gap-1.5">
-			<Switch
-				id="tolerant"
-				checked={tolerant}
-				onCheckedChange={(value: boolean) => {
-					setCssOptions({ ...cssOptions, tolerant: value });
-				}}
-			/>
-			<Label htmlFor="tolerant">Tolerant Parsing</Label>
-		</div>
+		<LabeledSwitch
+			id="tolerant"
+			label="Tolerant Parsing"
+			checked={tolerant}
+			onCheckedChange={(value: boolean) => {
+				setCssOptions({ ...cssOptions, tolerant: value });
+			}}
+		/>
 	);
 };
 
-const JavaScriptPanel: React.FC = () => {
+const JavaScriptPanel: FC = () => {
 	const explorer = useExplorer();
 	const { jsOptions, setJsOptions } = explorer;
 	const { parser, sourceType, esVersion, isJSX } = jsOptions;
@@ -166,25 +159,52 @@ const JavaScriptPanel: React.FC = () => {
 				placeholder="ECMAScript Version"
 			/>
 
-			<div className="flex items-center gap-1.5">
-				<Switch
-					id="jsx"
-					checked={isJSX}
-					onCheckedChange={(value: boolean) => {
-						setJsOptions({ ...jsOptions, isJSX: value });
-					}}
-				/>
-				<Label htmlFor="jsx">JSX</Label>
-			</div>
+			<LabeledSwitch
+				id="jsx"
+				label="JSX"
+				checked={isJSX}
+				onCheckedChange={(value: boolean) => {
+					setJsOptions({ ...jsOptions, isJSX: value });
+				}}
+			/>
 		</>
 	);
 };
 
-const HTMLPanel: React.FC = () => {
-	return <></>;
+const HTMLPanel: FC = () => {
+	const explorer = useExplorer();
+	const { htmlOptions, setHtmlOptions } = explorer;
+	const { templateEngineSyntax, frontmatter } = htmlOptions;
+
+	return (
+		<>
+			<LabeledSelect
+				id="templateEngineSyntax"
+				label="Template Engine Syntax"
+				value={templateEngineSyntax}
+				onValueChange={(value: string) => {
+					const templateEngineSyntax = value as TemplateEngineSyntax;
+					setHtmlOptions({
+						...htmlOptions,
+						templateEngineSyntax,
+					});
+				}}
+				items={templateEngineSyntaxes}
+				placeholder="Template Engine Syntax"
+			/>
+			<LabeledSwitch
+				id="htmlFrontmatter"
+				label="Front Matter"
+				checked={frontmatter}
+				onCheckedChange={(value: boolean) => {
+					setHtmlOptions({ ...htmlOptions, frontmatter: value });
+				}}
+			/>
+		</>
+	);
 };
 
-const Panel = ({ language }: { language: string }) => {
+const Panel: FC<{ language: Language }> = ({ language }) => {
 	switch (language) {
 		case "json":
 			return <JSONPanel />;

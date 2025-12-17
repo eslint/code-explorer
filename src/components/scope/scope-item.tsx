@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/accordion";
 import { TreeEntry } from "../tree-entry";
 import type { FC } from "react";
-import { cn } from "@/lib/utils";
+import { mergeClassNames } from "@/lib/utils";
 
 type ScopeItemProperties = {
 	isArray: boolean;
@@ -50,7 +50,7 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 		return (
 			<AccordionItem
 				value={path + "." + index + "." + key}
-				className={cn(
+				className={mergeClassNames(
 					"border border-card rounded-lg overflow-hidden",
 					isEsqueryMatchedNode && "border-primary border-4",
 				)}
@@ -76,7 +76,7 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 
 	return (
 		<div
-			className={cn(
+			className={mergeClassNames(
 				"border border-card rounded-lg overflow-hidden",
 				isEsqueryMatchedNode && "border-primary border-4",
 			)}

@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { TextField } from "@/components/ui/text-field";
 import { useExplorer } from "@/hooks/use-explorer";
 import { useAST } from "@/hooks/use-ast";
-import { cn } from "@/lib/utils";
+import { mergeClassNames } from "@/lib/utils";
 import { esquerySelectorPlaceholder } from "@/lib/const";
 
 export const EsquerySelectorInput: FC = () => {
@@ -23,7 +23,7 @@ export const EsquerySelectorInput: FC = () => {
 			<TextField
 				id={htmlId}
 				placeholder={esquerySelectorPlaceholder[language]}
-				className={cn(
+				className={mergeClassNames(
 					"flex-1",
 					!astParseResult.ok ||
 						(highlightAsNotMatching &&

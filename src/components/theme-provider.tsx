@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getPreferredColorScheme } from "../lib/utils";
+import { getPreferredColorScheme } from "@/lib/utils";
 
 export type Theme = "dark" | "light" | "system";
 
@@ -47,9 +47,9 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
 	};
 
 	return (
-		<ThemeProviderContext.Provider {...props} value={{ theme, setTheme }}>
+		<ThemeProviderContext {...props} value={{ theme, setTheme }}>
 			{children}
-		</ThemeProviderContext.Provider>
+		</ThemeProviderContext>
 	);
 };
 

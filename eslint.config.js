@@ -10,6 +10,7 @@ export default defineConfig([
 	pluginJs.configs.recommended,
 	...tseslint.configs.recommended,
 	pluginReact.configs.flat.recommended,
+	pluginReactHooks.configs.flat.recommended,
 	{
 		files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
 		plugins: {
@@ -27,8 +28,6 @@ export default defineConfig([
 			"@typescript-eslint/ban-ts-comment": "off",
 			"jsx-a11y/anchor-is-valid": "warn",
 			"jsx-a11y/alt-text": "warn",
-			"react-hooks/rules-of-hooks": "error",
-			"react-hooks/exhaustive-deps": "warn",
 		},
 		settings: {
 			react: {

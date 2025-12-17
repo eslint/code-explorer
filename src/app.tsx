@@ -1,14 +1,14 @@
-import "./App.css";
-import { Navbar } from "./components/navbar";
-import { useExplorer } from "./hooks/use-explorer";
-import { tools } from "./lib/tools";
-import { Editor } from "./components/editor";
-import { EsquerySelectorInput } from "./components/esquery-selector-input";
-import { ToolSelector } from "./components/tool-selector";
-import { ThemeProvider } from "./components/theme-provider";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import { Editor } from "@/components/editor";
+import { EsquerySelectorInput } from "@/components/esquery-selector-input";
+import { Navbar } from "@/components/navbar";
+import { ThemeProvider } from "@/components/theme-provider";
+import { ToolSelector } from "@/components/tool-selector";
 import { useAST } from "@/hooks/use-ast";
+import { useExplorer } from "@/hooks/use-explorer";
 import { convertNodesToRanges } from "@/lib/convert-nodes-to-ranges";
+import { tools } from "@/lib/tools";
+import "./app.css";
 
 function App() {
 	const { language, tool, code, setCode } = useExplorer();

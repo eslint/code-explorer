@@ -1,10 +1,9 @@
-"use client";
-
 import * as espree from "espree";
 import * as eslintScope from "eslint-scope";
 import { useExplorer } from "@/hooks/use-explorer";
 import { Accordion } from "@/components/ui/accordion";
 import { ScopeItem } from "./scope-item";
+import type { Program } from "estree";
 import type { FC } from "react";
 import { parseError } from "@/lib/parse-error";
 import { ErrorState } from "../error-boundary";
@@ -24,7 +23,7 @@ export const Scope: FC = () => {
 	}
 
 	try {
-		scopeManager = eslintScope.analyze(result.ast as object, {
+		scopeManager = eslintScope.analyze(result.ast as Program, {
 			sourceType: sourceType as never,
 			ecmaVersion:
 				esVersion === "latest" ? espree.latestEcmaVersion : esVersion,

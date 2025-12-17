@@ -1,5 +1,4 @@
-"use client";
-
+import { Label } from "@/components/ui/label";
 import {
 	Select,
 	SelectContent,
@@ -8,7 +7,6 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Version } from "@/hooks/use-explorer";
-import { Label } from "./ui/label";
 
 type OnValueChangeType = (value: string) => void;
 type ItemsType = {
@@ -27,7 +25,7 @@ interface PanelProps {
 	icon?: boolean;
 }
 
-const LabeledSelect = (props: PanelProps) => {
+export const LabeledSelect = (props: PanelProps) => {
 	const {
 		id,
 		label,
@@ -71,5 +69,3 @@ const LabeledSelect = (props: PanelProps) => {
 		</div>
 	);
 };
-
-export default LabeledSelect;

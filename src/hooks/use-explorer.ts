@@ -12,17 +12,19 @@ import {
 	defaultJsonOptions,
 	defaultMarkdownOptions,
 	defaultCssOptions,
+	defaultHtmlOptions,
 	defaultPathIndex,
 	defaultViewModes,
 } from "../lib/const";
 
 export type SourceType = Exclude<Options["sourceType"], undefined>;
-export type Version = Exclude<Options["ecmaVersion"], undefined>;
+export type Version = Exclude<Options["ecmaVersion"], undefined> | 17 | 2026;
 export type Language = "javascript" | "json" | "markdown" | "css" | "html";
 export type JsonMode = "json" | "jsonc" | "json5";
 export type MarkdownMode = "commonmark" | "gfm";
-export type MarkdownFrontmatter = "off" | "yaml" | "toml";
+export type MarkdownFrontmatter = "off" | "yaml" | "toml" | "json";
 export type CssMode = "css";
+export type TemplateEngineSyntax = "none" | "handlebars" | "twig" | "erb";
 
 export type Code = {
 	javascript: string;
@@ -51,6 +53,11 @@ export type MarkdownOptions = {
 export type CssOptions = {
 	cssMode: CssMode;
 	tolerant: boolean;
+};
+
+export type HtmlOptions = {
+	templateEngineSyntax: TemplateEngineSyntax;
+	frontmatter: boolean;
 };
 
 export type PathIndex = {
@@ -90,6 +97,9 @@ type ExplorerState = {
 	cssOptions: CssOptions;
 	setCssOptions: (cssOptions: CssOptions) => void;
 
+	htmlOptions: HtmlOptions;
+	setHtmlOptions: (htmlOptions: HtmlOptions) => void;
+
 	wrap: boolean;
 	setWrap: (wrap: boolean) => void;
 
@@ -107,73 +117,79 @@ const getHashParams = (): URLSearchParams => {
 	return new URLSearchParams(location.hash.slice(1));
 };
 
-const hashStorage: StateStorage = {
+const hybridStorage: StateStorage = {
 	getItem: (key): string => {
-		const storedValue = getHashParams().get(key) ?? "";
-		return storedValue ? JSON.parse(atob(storedValue)) : "";
+		// Priority: URL hash first, then localStorage fallback
+		const hashValue = getHashParams().get(key);
+		if (hashValue) {
+			return JSON.parse(atob(hashValue));
+		}
+
+		const localValue = localStorage.getItem(key);
+		return localValue || "";
 	},
 	setItem: (key, newValue): void => {
 		const searchParams = getHashParams();
 		const encodedValue = btoa(JSON.stringify(newValue));
 		searchParams.set(key, encodedValue);
 		location.hash = searchParams.toString();
+
+		localStorage.setItem(key, newValue);
 	},
 	removeItem: (key): void => {
 		const searchParams = getHashParams();
 		searchParams.delete(key);
 		location.hash = searchParams.toString();
+
+		localStorage.removeItem(key);
 	},
 };
 
 export const useExplorer = create<ExplorerState>()(
 	devtools(
 		persist(
-			persist(
-				set => ({
-					tool: "ast",
-					setTool: tool => set({ tool }),
+			set => ({
+				tool: "ast",
+				setTool: tool => set({ tool }),
 
-					code: defaultCode,
-					setCode: code => set({ code }),
+				code: defaultCode,
+				setCode: code => set({ code }),
 
-					language: "javascript",
-					setLanguage: language => set({ language }),
+				language: "javascript",
+				setLanguage: language => set({ language }),
 
-					jsOptions: defaultJsOptions,
-					setJsOptions: jsOptions => set({ jsOptions }),
+				jsOptions: defaultJsOptions,
+				setJsOptions: jsOptions => set({ jsOptions }),
 
-					jsonOptions: defaultJsonOptions,
-					setJsonOptions: jsonOptions => set({ jsonOptions }),
+				jsonOptions: defaultJsonOptions,
+				setJsonOptions: jsonOptions => set({ jsonOptions }),
 
-					cssOptions: defaultCssOptions,
-					setCssOptions: cssOptions => set({ cssOptions }),
+				cssOptions: defaultCssOptions,
+				setCssOptions: cssOptions => set({ cssOptions }),
 
-					markdownOptions: defaultMarkdownOptions,
-					setMarkdownOptions: markdownOptions =>
-						set({ markdownOptions }),
+				markdownOptions: defaultMarkdownOptions,
+				setMarkdownOptions: markdownOptions => set({ markdownOptions }),
 
-					wrap: true,
-					setWrap: wrap => set({ wrap }),
+				htmlOptions: defaultHtmlOptions,
+				setHtmlOptions: htmlOptions => set({ htmlOptions }),
 
-					viewModes: defaultViewModes,
-					setViewModes: viewModes => set({ viewModes }),
+				wrap: true,
+				setWrap: wrap => set({ wrap }),
 
-					pathIndex: defaultPathIndex,
-					setPathIndex: pathIndex => set({ pathIndex }),
+				viewModes: defaultViewModes,
+				setViewModes: viewModes => set({ viewModes }),
 
-					esquerySelector: {
-						selector: "",
-					},
-					setEsquerySelector: esquerySelector =>
-						set({ esquerySelector }),
-				}),
-				{
-					name: "eslint-explorer",
-					storage: createJSONStorage(() => hashStorage),
+				pathIndex: defaultPathIndex,
+				setPathIndex: pathIndex => set({ pathIndex }),
+
+				esquerySelector: {
+					selector: "",
 				},
-			),
+				setEsquerySelector: esquerySelector => set({ esquerySelector }),
+			}),
 			{
 				name: "eslint-explorer",
+				storage: createJSONStorage(() => hybridStorage),
 				onRehydrateStorage: () => state => {
 					if (!state) return;
 

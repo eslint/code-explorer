@@ -1,12 +1,14 @@
 import * as espree from "espree";
+import esquery from "esquery";
 import type { Node as EstreeNode } from "estree";
+import type { ParseResult, FileError } from "@eslint/core";
 import css from "@eslint/css";
 import json from "@eslint/json";
 import markdown from "@eslint/markdown";
 import html from "@html-eslint/eslint-plugin";
-import esquery from "esquery";
 import { useExplorer } from "@/hooks/use-explorer";
 import { assertIsUnreachable } from "@/lib/utils";
+import { templateEngineSyntaxPresets } from "@/lib/const";
 
 export function useAST() {
 	const {
@@ -16,17 +18,18 @@ export function useAST() {
 		cssOptions,
 		jsonOptions,
 		markdownOptions,
+		htmlOptions,
 		esquerySelector,
 	} = useExplorer();
 
-	let astParseResult:
-		| { ok: true; ast: unknown }
-		| { ok: false; errors: Array<unknown> };
+	let astParseResult: ParseResult<unknown>;
 
 	switch (language) {
 		case "javascript": {
 			try {
 				const ast = espree.parse(code.javascript, {
+					range: true,
+					// @ts-expect-error mismatch between the latest release of `espree` and `@types/espree`.
 					ecmaVersion: jsOptions.esVersion,
 					sourceType: jsOptions.sourceType,
 					ecmaFeatures: {
@@ -35,8 +38,8 @@ export function useAST() {
 				});
 				astParseResult = { ast, ok: true };
 			} catch (err) {
-				// error occured e.g. because the JS code cannot be parsed into an AST, or the esquery selector is no valid selector --> just ignore (no highlighted ranges)
-				astParseResult = { ok: false, errors: [err] };
+				// error occurred e.g. because the JS code cannot be parsed into an AST, or the esquery selector is no valid selector --> just ignore (no highlighted ranges)
+				astParseResult = { ok: false, errors: [err as FileError] };
 			}
 			break;
 		}
@@ -88,13 +91,23 @@ export function useAST() {
 		}
 
 		case "html": {
-			const language = html.languages.html;
-			astParseResult = language.parse({
-				body: code.html,
-				path: "",
-				physicalPath: "",
-				bom: false,
-			});
+			const { templateEngineSyntax, frontmatter } = htmlOptions;
+			const language = html.languages!.html;
+			astParseResult = language.parse(
+				{
+					body: code.html,
+					path: "",
+					physicalPath: "",
+					bom: false,
+				},
+				{
+					languageOptions: {
+						templateEngineSyntax:
+							templateEngineSyntaxPresets[templateEngineSyntax],
+						frontmatter,
+					},
+				},
+			);
 			break;
 		}
 
@@ -127,7 +140,7 @@ function getEsqueryMatchedNodes(ast: unknown, esquerySelector: string) {
 			) as unknown[];
 			return esqueryMatchedNodes;
 		} catch {
-			// error occured e.g. because the esquery selector is no valid selector --> just ignore (no nodes matched --> no highlighted ranges)
+			// error occurred e.g. because the esquery selector is no valid selector --> just ignore (no nodes matched --> no highlighted ranges)
 		}
 	}
 	return [];

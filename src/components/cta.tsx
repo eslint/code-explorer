@@ -1,5 +1,5 @@
 import { ExternalLink } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import type { FC } from "react";
 
 export const CallToAction: FC = () => (

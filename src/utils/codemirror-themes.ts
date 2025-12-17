@@ -1,6 +1,6 @@
+import { HighlightStyle, syntaxHighlighting } from "@codemirror/language";
 import { EditorView } from "@codemirror/view";
 import { tags } from "@lezer/highlight";
-import { HighlightStyle, syntaxHighlighting } from "@codemirror/language";
 
 export const ESLintPlaygroundTheme = EditorView.theme(
 	{

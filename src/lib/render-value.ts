@@ -24,9 +24,5 @@ export const renderValue = (value: unknown): string[] => {
 		];
 	}
 
-	if (typeof value === "boolean") {
-		return ["boolean"];
-	}
-
 	return [String(value)];
 };

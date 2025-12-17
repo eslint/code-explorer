@@ -5,20 +5,20 @@ import {
 } from "@/components/ui/accordion";
 import { TreeEntry } from "../tree-entry";
 import type { FC } from "react";
-import { cn } from "@/lib/utils";
+import { mergeClassNames } from "@/lib/utils";
 
-type ASTNode = {
+export type ASTNode = {
 	readonly type: string;
 	readonly [key: string]: unknown;
 };
 
-export type JsonAstTreeItemProperties = {
+export type ASTTreeItemProperties = {
 	readonly index: number;
 	readonly data: ASTNode;
 	readonly esqueryMatchedNodes: ASTNode[];
 };
 
-export const JsonAstTreeItem: FC<JsonAstTreeItemProperties> = ({
+export const ASTTreeItem: FC<ASTTreeItemProperties> = ({
 	data,
 	index,
 	esqueryMatchedNodes,
@@ -28,7 +28,7 @@ export const JsonAstTreeItem: FC<JsonAstTreeItemProperties> = ({
 	return (
 		<AccordionItem
 			value={`${index}-${data.type}`}
-			className={cn(
+			className={mergeClassNames(
 				"border border-card rounded-lg overflow-hidden",
 				isEsqueryMatchedNode && "border-primary border-4",
 			)}

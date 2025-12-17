@@ -25,6 +25,9 @@ npm-debug.log*
 # typescript
 *.tsbuildinfo
 
+# Automatically generated files by GitHub Actions workflow
+/.shared-workflows
+
 # Playwright
 /test-results/
 /playwright-report/

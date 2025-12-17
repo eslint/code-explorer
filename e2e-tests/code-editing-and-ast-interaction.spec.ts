@@ -45,12 +45,14 @@ test(`should change code, then highlight code and AST nodes matching ESQuery sel
 	await page
 		.getByRole("region", { name: "Program" })
 		.getByRole("listitem")
-		.filter({ hasText: "Array" })
-		.getByRole("button", { name: "Toggle Property" })
+		.filter({ hasText: "bodyArray[1 element]" })
+		.getByLabel("Toggle Property")
 		.click();
 	await page.getByRole("button", { name: "ExpressionStatement" }).click();
 	await page
-		.getByRole("region", { name: "ExpressionStatement" })
+		.getByRole("region", { name: "Program" })
+		.getByRole("listitem")
+		.filter({ hasText: "expressionCallExpression{type" })
 		.getByLabel("Toggle Property")
 		.click();
 

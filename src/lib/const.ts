@@ -12,6 +12,7 @@ import type {
 	JsonOptions,
 	MarkdownOptions,
 	CssOptions,
+	HtmlOptions,
 	PathIndex,
 	ViewModes,
 	Code,
@@ -124,6 +125,14 @@ export const versions: {
 		label: "15",
 	},
 	{
+		value: 16,
+		label: "16",
+	},
+	{
+		value: 17,
+		label: "17",
+	},
+	{
 		value: 2015,
 		label: "2015",
 	},
@@ -162,6 +171,14 @@ export const versions: {
 	{
 		value: 2024,
 		label: "2024",
+	},
+	{
+		value: 2025,
+		label: "2025",
+	},
+	{
+		value: 2026,
+		label: "2026",
 	},
 	{
 		value: "latest",
@@ -208,6 +225,10 @@ export const markdownFrontmatters = [
 		value: "toml",
 		label: "TOML",
 	},
+	{
+		value: "json",
+		label: "JSON",
+	},
 ];
 
 export const cssModes = [
@@ -216,6 +237,32 @@ export const cssModes = [
 		label: "CSS",
 	},
 ];
+
+export const templateEngineSyntaxes = [
+	{
+		value: "none",
+		label: "None",
+	},
+	{
+		value: "handlebars",
+		label: "Handlebars",
+	},
+	{
+		value: "twig",
+		label: "Twig",
+	},
+	{
+		value: "erb",
+		label: "ERB",
+	},
+];
+
+export const templateEngineSyntaxPresets = {
+	none: {},
+	handlebars: { "{{": "}}" },
+	twig: { "{{": "}}", "{%": "%}", "{#": "#}" },
+	erb: { "<%": "%>" },
+};
 
 export const astViewOptions = [
 	{
@@ -286,6 +333,7 @@ export const defaultJsCode = `
  */
 
 import js from "@eslint/js";
+import { defineConfig } from "eslint/config";
 
 function getConfig() {
     return {
@@ -295,10 +343,10 @@ function getConfig() {
     };
 }
 
-export default [
-    ...js.configs.recommended,
+export default defineConfig([
+    js.configs.recommended,
     getConfig()
-];`.trim();
+]);`.trim();
 
 export const defaultJsonCode = `
 /**
@@ -441,6 +489,11 @@ export const defaultMarkdownOptions: MarkdownOptions = {
 export const defaultCssOptions: CssOptions = {
 	cssMode: "css",
 	tolerant: false,
+};
+
+export const defaultHtmlOptions: HtmlOptions = {
+	templateEngineSyntax: "none",
+	frontmatter: false,
 };
 
 export const defaultPathIndex: PathIndex = {
