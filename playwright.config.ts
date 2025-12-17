@@ -1,6 +1,6 @@
 import os from "node:os";
 
-import { devices, PlaywrightTestConfig } from "@playwright/test";
+import { devices, type PlaywrightTestConfig } from "@playwright/test";
 
 const countOfCpus = os.cpus().length;
 let workers;
