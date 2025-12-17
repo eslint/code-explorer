@@ -13,7 +13,7 @@ To install and set up the project, follow these steps:
 1. Ensure you have Node.js v20 installed. You can download it from the [official Node.js website](https://nodejs.org/).
 2. Clone the repository to your local machine.
 3. Install the project dependencies using npm - `npm install`.
-4. Setup Docker to run E2E tests via Playwright ([Docker Desktop](https://www.docker.com/products/docker-desktop/) or [Docker Engine](https://docs.docker.com/engine/install/)).
+4. Install Playwright browsers if you plan to run the E2E tests: `npx playwright install --with-deps`.
 
 This will install all the necessary packages and dependencies required to run the project.
 
@@ -29,7 +29,7 @@ Open [http://localhost:5173](http://localhost:5173) with your browser to see the
 
 - `npm run start`: Starts the development server.
 - `npm run build`: Builds the app for production.
-- `npm run test:e2e:update`: Runs all End-to-End tests and updates the screenshots/snapshots.
+- `npm run test:e2e`: Runs all End-to-End tests with Playwright.
 
 ## Configuration
 

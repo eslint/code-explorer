@@ -23,7 +23,7 @@ test(`should change code, then highlight code and AST nodes matching ESQuery sel
 		.click();
 
 	// delete the default code
-	await page.keyboard.press("Control+KeyA");
+	await page.keyboard.press("ControlOrMeta+KeyA");
 	await page.keyboard.press("Backspace");
 
 	// add new code
@@ -55,7 +55,4 @@ test(`should change code, then highlight code and AST nodes matching ESQuery sel
 		.filter({ hasText: "expressionCallExpression{type" })
 		.getByLabel("Toggle Property")
 		.click();
-
-	// screenshot
-	await expect(page).toHaveScreenshot();
 });

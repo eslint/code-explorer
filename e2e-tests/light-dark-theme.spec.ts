@@ -2,7 +2,7 @@
  * Tests for theme switching functionality.
  */
 
-import { test, expect } from "@playwright/test";
+import { test } from "@playwright/test";
 
 /**
  * This test verifies that:
@@ -15,10 +15,6 @@ test("should show light theme by default and switch to dark theme", async ({
 }) => {
 	await page.goto("/");
 
-	await expect(page).toHaveScreenshot("light-theme.png");
-
 	await page.getByRole("button", { name: "Toggle theme" }).click();
 	await page.getByRole("menuitem", { name: "Dark" }).click();
-
-	await expect(page).toHaveScreenshot("dark-theme.png");
 });

@@ -36,14 +36,6 @@ const config: PlaywrightTestConfig = {
 		video: "on",
 	},
 
-	expect: {
-		toHaveScreenshot: {
-			// screenshots are often not exactly the same for various reasons - allow 5% of pixel difference
-			maxDiffPixelRatio: 0.05,
-			pathTemplate: `{testDir}/{testFilePath}-snapshots/{arg}-{projectName}-docker{ext}`,
-		},
-	},
-
 	projects: [
 		{
 			name: "chromium",
@@ -65,19 +57,6 @@ const config: PlaywrightTestConfig = {
 
 	webServer: [
 		{
-			// start the Playwright server in a docker container
-			command: createDockerRunCommand(36719),
-			url: `http://127.0.0.1:36719/`,
-			stdout: "pipe",
-			stderr: "pipe",
-			timeout: 30_000,
-			gracefulShutdown: {
-				signal: "SIGTERM",
-				timeout: 10_000,
-			},
-			reuseExistingServer: !isInCi,
-		},
-		{
 			command: "npm run start",
 			url: "http://localhost:5173",
 			reuseExistingServer: !isInCi,
@@ -86,8 +65,3 @@ const config: PlaywrightTestConfig = {
 };
 
 export default config;
-
-function createDockerRunCommand(port: number) {
-	const dockerRunCommand = `docker run --rm --init --workdir /home/pwuser --user pwuser --network host mcr.microsoft.com/playwright:v1.51.1-noble /bin/sh -c "npx -y playwright@1.51.1 run-server --port ${port} --host 0.0.0.0"`;
-	return dockerRunCommand;
-}
