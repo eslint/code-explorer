@@ -1,8 +1,9 @@
 // @ts-nocheck
 
 import { Linter } from "eslint-linter-browserify";
+import type { EcmaVersion } from "espree";
 import { CodePathStack } from "@/lib/code-path-stack";
-import type { SourceType, Version } from "@/hooks/use-explorer";
+import type { SourceType } from "@/hooks/use-explorer";
 
 const makeDotArrows = codePath => {
 	const stack = [{ segment: codePath.initialSegment, index: 0 }];
@@ -55,7 +56,7 @@ const makeDotArrows = codePath => {
 
 export const generateCodePath = async (
 	code: string,
-	esVersion: Version,
+	esVersion: EcmaVersion,
 	sourceType: SourceType,
 	isJSX: boolean,
 ): Promise<

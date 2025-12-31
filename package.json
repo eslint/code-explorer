@@ -59,7 +59,7 @@
     "codemirror": "^6.0.2",
     "eslint-linter-browserify": "^9.39.2",
     "eslint-scope": "^8.4.0",
-    "espree": "^10.4.0",
+    "espree": "^11.1.0",
     "esquery": "^1.6.0",
     "graphviz-react": "^1.2.5",
     "lucide-react": "^0.562.0",
@@ -73,7 +73,6 @@
   "devDependencies": {
     "@eslint/core": "^0.17.0",
     "@types/eslint-scope": "^8.3.2",
-    "@types/espree": "^10.1.0",
     "@types/esquery": "^1.5.4",
     "@types/node": "^20.19.27",
     "@types/react": "^19.2.7",
