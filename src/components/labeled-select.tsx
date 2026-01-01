@@ -1,3 +1,4 @@
+import type { EcmaVersion } from "espree";
 import { Label } from "@/components/ui/label";
 import {
 	Select,
@@ -6,11 +7,10 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { Version } from "@/hooks/use-explorer";
 
 type OnValueChangeType = (value: string) => void;
 type ItemsType = {
-	value: string | Version;
+	value: string | EcmaVersion;
 	label: string;
 	icon?: string;
 };

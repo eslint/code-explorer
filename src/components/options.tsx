@@ -1,3 +1,4 @@
+import type { EcmaVersion } from "espree";
 import { Settings } from "lucide-react";
 import {
 	Popover,
@@ -14,7 +15,6 @@ import {
 	type MarkdownMode,
 	type MarkdownFrontmatter,
 	type SourceType,
-	type Version,
 	type TemplateEngineSyntax,
 } from "@/hooks/use-explorer";
 import {
@@ -152,7 +152,7 @@ const JavaScriptPanel: FC = () => {
 				label="ECMAScript Version"
 				value={esVersion as string}
 				onValueChange={(value: string) => {
-					const esVersion = value as Version;
+					const esVersion = value as EcmaVersion;
 					setJsOptions({ ...jsOptions, esVersion });
 				}}
 				items={versions}
