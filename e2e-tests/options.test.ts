@@ -22,4 +22,7 @@ test("should switch language and show options for each", async ({ page }) => {
 
 	await page.getByRole("combobox", { name: "Language" }).click();
 	await page.getByRole("option", { name: "CSS CSS" }).click();
+
+	await page.getByRole("combobox", { name: "Language" }).click();
+	await page.getByRole("option", { name: "HTML HTML" }).click();
 });
