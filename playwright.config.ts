@@ -1,21 +1,13 @@
 import os from "node:os";
 
-import { devices, type PlaywrightTestConfig } from "@playwright/test";
+import { defineConfig, devices } from "@playwright/test";
 
 const countOfCpus = os.cpus().length;
-let workers;
-if (countOfCpus !== 0) {
-	if (countOfCpus <= 4) {
-		workers = countOfCpus; // utilize all logical processors
-	} else {
-		// if the number of CPUs is greater than 4, we set it to 4 to limit RAM usage
-		workers = 4;
-	}
-}
+const workers = countOfCpus ? Math.min(countOfCpus, 4) : undefined;
 
 const isInCi = process.env.CI === "true";
 
-const config: PlaywrightTestConfig = {
+export default defineConfig({
 	testDir: "./e2e-tests",
 	fullyParallel: true,
 	// fail a Playwright run in CI if some test.only is in the source code
@@ -62,6 +54,4 @@ const config: PlaywrightTestConfig = {
 			reuseExistingServer: !isInCi,
 		},
 	],
-};
-
-export default config;
+});
