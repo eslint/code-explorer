@@ -3,7 +3,10 @@ import os from "node:os";
 import { defineConfig, devices } from "@playwright/test";
 
 const countOfCpus = os.cpus().length;
-const workers = countOfCpus ? Math.min(countOfCpus, 4) : undefined;
+const workers = countOfCpus
+	? // utilize all logical processors up to a max of 4 to limit RAM usage
+		Math.min(countOfCpus, 4)
+	: undefined;
 
 const isInCi = process.env.CI === "true";
 
