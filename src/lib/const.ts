@@ -1,3 +1,4 @@
+import type { EcmaVersion } from "espree";
 import {
 	AlignLeftIcon,
 	CodeIcon,
@@ -7,7 +8,6 @@ import {
 } from "lucide-react";
 import type {
 	SourceType,
-	Version,
 	JsOptions,
 	JsonOptions,
 	MarkdownOptions,
@@ -73,7 +73,7 @@ export const sourceTypes: {
 ];
 
 export const versions: {
-	value: Version;
+	value: EcmaVersion;
 	label: string;
 }[] = [
 	{
