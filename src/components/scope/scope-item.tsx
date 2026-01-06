@@ -59,7 +59,7 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 					{`${Math.max(index, 0)}. ${key}`}
 				</AccordionTrigger>
 				<AccordionContent className="p-4 border-t">
-					<div className="space-y-1">
+					<ul className="space-y-1">
 						{properties.map((item, index) => (
 							<TreeEntry
 								key={item[0]}
@@ -68,7 +68,7 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 								esqueryMatchedNodes={esqueryMatchedNodes}
 							/>
 						))}
-					</div>
+					</ul>
 				</AccordionContent>
 			</AccordionItem>
 		);

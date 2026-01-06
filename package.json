@@ -14,7 +14,8 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "fmt": "prettier --write .",
-    "fmt:check": "prettier --check ."
+    "fmt:check": "prettier --check .",
+    "test:e2e": "playwright test"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
@@ -72,6 +73,7 @@
   },
   "devDependencies": {
     "@eslint/core": "^0.17.0",
+    "@playwright/test": "^1.57.0",
     "@types/eslint-scope": "^8.3.2",
     "@types/espree": "^10.1.0",
     "@types/esquery": "^1.5.4",
