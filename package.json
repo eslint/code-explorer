@@ -61,7 +61,7 @@
     "eslint-linter-browserify": "^9.39.2",
     "eslint-scope": "^8.4.0",
     "espree": "^10.4.0",
-    "esquery": "^1.6.0",
+    "esquery": "^1.7.0",
     "graphviz-react": "^1.2.5",
     "lucide-react": "^0.562.0",
     "react": "^19.2.3",
