@@ -77,7 +77,7 @@
     "@types/eslint-scope": "^8.3.2",
     "@types/espree": "^10.1.0",
     "@types/esquery": "^1.5.4",
-    "@types/node": "^20.19.28",
+    "@types/node": "^20.19.29",
     "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.2",
