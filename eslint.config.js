@@ -4,30 +4,26 @@ import tseslint from "typescript-eslint";
 import pluginReact from "eslint-plugin-react";
 import pluginReactHooks from "eslint-plugin-react-hooks";
 import pluginJsxA11y from "eslint-plugin-jsx-a11y";
-import { defineConfig, globalIgnores } from "@eslint/config-helpers";
+import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
-	globalIgnores(["**/*.config.js", "build/**"]),
+	globalIgnores(["build/**"]),
 
 	pluginJs.configs.recommended,
 	tseslint.configs.recommended,
 	pluginReact.configs.flat.recommended,
+	pluginReact.configs.flat["jsx-runtime"],
+	pluginJsxA11y.flatConfigs.recommended,
 	pluginReactHooks.configs.flat.recommended,
 	{
 		files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
-		plugins: {
-			"jsx-a11y": pluginJsxA11y,
-		},
 		languageOptions: {
 			globals: globals.browser,
 			sourceType: "module",
 		},
 		rules: {
-			"react/react-in-jsx-scope": "off", // React 17+ doesn't require React to be in scope
 			"react/prop-types": "off", // TypeScript handles type checking
 			"@typescript-eslint/ban-ts-comment": "off",
-			"jsx-a11y/anchor-is-valid": "warn",
-			"jsx-a11y/alt-text": "warn",
 		},
 		settings: {
 			react: {
