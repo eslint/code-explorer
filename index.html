@@ -14,15 +14,104 @@
 			content="#B7B7FF"
 			media="(prefers-color-scheme: dark)"
 		/>
-		<meta name="description" content="ESLint Code Explorer" />
+
+		<!-- SEO Meta Tags -->
+		<title>ESLint Code Explorer — Visualize AST, Scope & Code Paths</title>
+		<meta
+			name="description"
+			content="Explore and visualize Abstract Syntax Trees (AST), scope analysis, and code paths for JavaScript, TypeScript, CSS, JSON, HTML, and Markdown. A free online tool by ESLint to help developers understand source code and build custom ESLint rules."
+		/>
+		<meta
+			name="keywords"
+			content="ESLint, AST explorer, Abstract Syntax Tree, JavaScript AST, TypeScript AST, scope analysis, code path analysis, ESLint rules, source code visualization, syntax tree explorer, espree parser, esquery, CSS AST, JSON AST, Markdown AST, HTML AST, online AST tool, code explorer"
+		/>
+		<meta name="author" content="ESLint" />
+		<meta name="robots" content="index, follow" />
+		<link rel="canonical" href="https://explorer.eslint.org" />
+
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://explorer.eslint.org" />
+		<meta
+			property="og:title"
+			content="ESLint Code Explorer — Visualize AST, Scope & Code Paths"
+		/>
+		<meta
+			property="og:description"
+			content="Explore and visualize Abstract Syntax Trees (AST), scope analysis, and code paths for JavaScript, TypeScript, CSS, JSON, HTML, and Markdown. Free online tool by ESLint."
+		/>
+		<meta
+			property="og:image"
+			content="https://explorer.eslint.org/opengraph-image.png"
+		/>
+		<meta property="og:site_name" content="ESLint Code Explorer" />
+		<meta property="og:locale" content="en_US" />
+
+		<!-- Twitter Card -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta
+			name="twitter:title"
+			content="ESLint Code Explorer — Visualize AST, Scope & Code Paths"
+		/>
+		<meta
+			name="twitter:description"
+			content="Explore and visualize Abstract Syntax Trees (AST), scope analysis, and code paths for JavaScript, TypeScript, CSS, JSON, HTML, and Markdown. Free online tool by ESLint."
+		/>
+		<meta
+			name="twitter:image"
+			content="https://explorer.eslint.org/opengraph-image.png"
+		/>
+		<meta name="twitter:site" content="@eslint" />
+
+		<!-- Structured Data (JSON-LD) -->
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "WebApplication",
+				"name": "ESLint Code Explorer",
+				"url": "https://explorer.eslint.org",
+				"description": "Explore and visualize Abstract Syntax Trees (AST), scope analysis, and code paths for JavaScript, TypeScript, CSS, JSON, HTML, and Markdown. A free online tool by ESLint to help developers understand source code and build custom ESLint rules.",
+				"applicationCategory": "DeveloperApplication",
+				"operatingSystem": "Any",
+				"offers": {
+					"@type": "Offer",
+					"price": "0",
+					"priceCurrency": "USD"
+				},
+				"author": {
+					"@type": "Organization",
+					"name": "ESLint",
+					"url": "https://eslint.org"
+				},
+				"keywords": "AST explorer, ESLint, JavaScript, TypeScript, scope analysis, code path, syntax tree, source code visualization"
+			}
+		</script>
+
 		<link rel="apple-touch-icon" href="/logo192.png" />
 
 		<link rel="manifest" href="/manifest.json" />
-
-		<title>ESLint Code Explorer</title>
 	</head>
 	<body>
-		<noscript>You need to enable JavaScript to run this app.</noscript>
+		<noscript>
+			<h1>ESLint Code Explorer</h1>
+			<p>
+				ESLint Code Explorer is a free online tool to explore and
+				visualize Abstract Syntax Trees (AST), scope analysis, and code
+				paths for JavaScript, TypeScript, CSS, JSON, HTML, and Markdown.
+				It helps developers understand source code structure to aid in
+				the creation of custom ESLint rules.
+			</p>
+			<p>
+				Supported languages: JavaScript, TypeScript, CSS, JSON, HTML,
+				and Markdown. Features include AST visualization, scope
+				analysis, code path analysis, and ESQuery selector matching.
+			</p>
+			<p>
+				Please enable JavaScript to use this application, or visit
+				<a href="https://eslint.org">eslint.org</a> for more
+				information.
+			</p>
+		</noscript>
 		<div id="root"></div>
 
 		<script type="module" src="src/index.tsx"></script>
