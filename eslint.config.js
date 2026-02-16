@@ -7,7 +7,7 @@ import pluginJsxA11y from "eslint-plugin-jsx-a11y";
 import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
-	globalIgnores(["build/**"]),
+	globalIgnores(["build/**", "playwright-report/**", "test-results/**"]),
 
 	pluginJs.configs.recommended,
 	tseslint.configs.recommended,
