@@ -15,14 +15,14 @@ test("should switch language and show options for each", async ({ page }) => {
 	await page.getByRole("button", { name: "Language Options" }).click();
 
 	await page.getByRole("combobox", { name: "Language" }).click();
-	await page.getByRole("option", { name: "JSON JSON" }).click();
+	await page.getByRole("option", { name: "JSON" }).click();
 
 	await page.getByRole("combobox", { name: "Language" }).click();
-	await page.getByRole("option", { name: "Markdown Markdown" }).click();
+	await page.getByRole("option", { name: "Markdown" }).click();
 
 	await page.getByRole("combobox", { name: "Language" }).click();
-	await page.getByRole("option", { name: "CSS CSS" }).click();
+	await page.getByRole("option", { name: "CSS" }).click();
 
 	await page.getByRole("combobox", { name: "Language" }).click();
-	await page.getByRole("option", { name: "HTML HTML" }).click();
+	await page.getByRole("option", { name: "HTML" }).click();
 });
