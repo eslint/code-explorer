@@ -1,7 +1,7 @@
 /**
  * Tests for code editing functionality and AST tool interaction.
  */
-import test, { expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 /**
  * This test verifies that:
@@ -46,13 +46,13 @@ test(`should change code, then highlight code and AST nodes matching ESQuery sel
 		.getByRole("region", { name: "Program" })
 		.getByRole("listitem")
 		.filter({ hasText: "bodyArray[1 element]" })
-		.getByLabel("Toggle Property")
+		.getByRole("button", { name: "Toggle Property" })
 		.click();
 	await page.getByRole("button", { name: "ExpressionStatement" }).click();
 	await page
 		.getByRole("region", { name: "Program" })
 		.getByRole("listitem")
 		.filter({ hasText: "expressionCallExpression{type" })
-		.getByLabel("Toggle Property")
+		.getByRole("button", { name: "Toggle Property" })
 		.click();
 });
