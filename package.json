@@ -78,7 +78,7 @@
     "@types/espree": "^10.1.0",
     "@types/esquery": "^1.5.4",
     "@types/node": "^20.19.33",
-    "@types/react": "^19.2.13",
+    "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.4",
     "babel-plugin-react-compiler": "^1.0.0",
