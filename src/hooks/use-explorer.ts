@@ -22,7 +22,7 @@ export type Version = Exclude<Options["ecmaVersion"], undefined> | 17 | 2026;
 export type Language = "javascript" | "json" | "markdown" | "css" | "html";
 export type JsonMode = "json" | "jsonc" | "json5";
 export type MarkdownMode = "commonmark" | "gfm";
-export type MarkdownFrontmatter = "off" | "yaml" | "toml" | "json";
+export type MarkdownFrontmatter = "off" | "yaml" | "toml" | "json"; // TODO
 export type CssMode = "css";
 export type TemplateEngineSyntax = "none" | "handlebars" | "twig" | "erb";
 
