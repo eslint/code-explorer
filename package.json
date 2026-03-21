@@ -68,7 +68,6 @@
     "react-dom": "^19.2.4",
     "tailwind-merge": "^2.6.1",
     "tailwindcss-animate": "^1.0.7",
-    "use-debounced-effect": "^2.0.1",
     "zustand": "^4.5.7"
   },
   "devDependencies": {
@@ -94,7 +93,7 @@
     "tailwindcss": "^3.4.19",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.57.0",
-    "vite": "^7.3.1",
+    "vite": "^8.0.1",
     "yorkie": "^2.0.0"
   },
   "browserslist": {
