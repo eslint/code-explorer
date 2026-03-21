@@ -1,6 +1,7 @@
 import path from "node:path";
+import babel from "@rolldown/plugin-babel";
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import react, { reactCompilerPreset } from "@vitejs/plugin-react";
 
 const chunkGroups = {
 	// Core React dependencies (rarely change)
@@ -48,7 +49,6 @@ const chunkGroups = {
 		"tailwind-merge",
 		"class-variance-authority",
 		"lucide-react",
-		"use-debounced-effect",
 	],
 	// Visualization libraries
 	visualization: ["graphviz-react", "react-resizable-panels"],
@@ -67,10 +67,9 @@ function createChunkGroupPattern(dependencies: string[]) {
 
 export default defineConfig({
 	plugins: [
-		react({
-			babel: {
-				plugins: [["babel-plugin-react-compiler"]],
-			},
+		react(),
+		babel({
+			presets: [reactCompilerPreset()],
 		}),
 	],
 	resolve: {
