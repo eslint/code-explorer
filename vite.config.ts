@@ -41,6 +41,7 @@ const chunkGroups = {
 		"@codemirror/lang-json",
 		"@codemirror/lang-markdown",
 		"@codemirror/language",
+		"@codemirror/view",
 		"@lezer/highlight",
 	],
 	// Utilities and styling (frequently changing)
