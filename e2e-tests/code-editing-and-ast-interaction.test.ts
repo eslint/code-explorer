@@ -3,6 +3,17 @@
  */
 import { expect, test } from "@playwright/test";
 
+type HighlightSamplesState = {
+	intervalId: number;
+	samples: string[];
+};
+
+declare global {
+	interface Window {
+		__highlightSamples?: HighlightSamplesState;
+	}
+}
+
 /**
  * This test verifies that:
  * - Users can edit code in the editor
@@ -55,4 +66,64 @@ test(`should change code, then highlight code and AST nodes matching ESQuery sel
 		.filter({ hasText: "expressionCallExpression{type" })
 		.getByRole("button", { name: "Toggle Property" })
 		.click();
+});
+
+test(`should keep ESQuery highlights aligned while typing before a matching literal`, async ({
+	page,
+}) => {
+	await page.goto("/");
+
+	const codeEditor = page
+		.getByRole("region", { name: "Code Editor Panel" })
+		.getByRole("textbox")
+		.nth(1);
+	const highlight = page.locator(".bg-editorHighlightedRangeColor");
+
+	await codeEditor.click();
+	await codeEditor.press("ControlOrMeta+KeyA");
+	await codeEditor.press("Backspace");
+	await codeEditor.pressSequentially("42;");
+
+	await page
+		.getByRole("textbox", { name: "ESQuery Selector" })
+		.fill("Literal");
+
+	await expect(highlight).toHaveText("42");
+
+	await codeEditor.click();
+	await codeEditor.press("Home");
+	await page.evaluate(() => {
+		window.__highlightSamples = {
+			intervalId: window.setInterval(() => {
+				window.__highlightSamples?.samples.push(
+					Array.from(
+						document.querySelectorAll(
+							".bg-editorHighlightedRangeColor",
+						),
+					)
+						.map(node => node.textContent ?? "")
+						.join(""),
+				);
+			}, 20),
+			samples: [],
+		};
+	});
+	await codeEditor.pressSequentially("+ + + +", { delay: 50 });
+
+	const highlightSamples = await page.evaluate(() => {
+		const highlightSamples = window.__highlightSamples?.samples ?? [];
+
+		if (window.__highlightSamples) {
+			window.clearInterval(window.__highlightSamples.intervalId);
+			delete window.__highlightSamples;
+		}
+
+		return highlightSamples;
+	});
+
+	expect(highlightSamples.length).toBeGreaterThan(0);
+	expect(
+		highlightSamples.every(highlightText => highlightText === "42"),
+	).toBe(true);
+	await expect(highlight).toHaveText("42");
 });
