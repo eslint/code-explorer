@@ -1,7 +1,7 @@
 /**
  * Tests for the Code Analysis Tools Panel.
  */
-import { test } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 /**
  * This test verifies that:
@@ -13,9 +13,12 @@ test("should switch to each tool and show it", async ({ page }) => {
 	await page.goto("/");
 
 	await page.getByRole("button", { name: "Scope" }).click();
-	await page.getByRole("button", { name: "global" }).click();
-	// move mouse away to avoid accordion hover state
-	await page.mouse.move(0, 0);
+	const globalScopeButton = page.getByRole("button", { name: "global" });
+
+	await expect(globalScopeButton).toHaveAttribute("aria-expanded", "false");
+	await globalScopeButton.click();
+	await expect(globalScopeButton).toHaveAttribute("aria-expanded", "true");
 
 	await page.getByRole("button", { name: "Code Path" }).click();
+	await expect(page.getByTestId("rf__background")).toBeVisible();
 });

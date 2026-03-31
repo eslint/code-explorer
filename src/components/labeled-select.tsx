@@ -53,7 +53,7 @@ export const LabeledSelect = (props: PanelProps) => {
 								<div className="flex items-center gap-1.5">
 									<img
 										src={item.icon}
-										alt={item.label}
+										alt=""
 										width={16}
 										height={16}
 										className="w-4 h-4"

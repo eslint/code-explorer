@@ -17,8 +17,6 @@ export const AST: FC = () => {
 		return <ErrorState message={message} />;
 	}
 
-	const ast = JSON.stringify(result.ast, null, 2);
-
 	if (astView === "tree") {
 		if (result.ast === null) {
 			return null;
@@ -42,5 +40,5 @@ export const AST: FC = () => {
 		);
 	}
 
-	return <Editor readOnly value={ast} />;
+	return <Editor readOnly value={JSON.stringify(result.ast, null, 2)} />;
 };
