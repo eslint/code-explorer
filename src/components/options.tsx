@@ -67,7 +67,7 @@ const JSONPanel: FC = () => {
 const MarkdownPanel: FC = () => {
 	const explorer = useExplorer();
 	const { markdownOptions, setMarkdownOptions } = explorer;
-	const { markdownMode, markdownFrontmatter } = markdownOptions;
+	const { markdownMode, markdownFrontmatter, markdownMath } = markdownOptions;
 	return (
 		<>
 			<LabeledSelect
@@ -95,6 +95,18 @@ const MarkdownPanel: FC = () => {
 				}}
 				items={markdownFrontmatters}
 				placeholder="Front Matter"
+			/>
+
+			<LabeledSwitch
+				id="markdownMath"
+				label="Math"
+				checked={markdownMath}
+				onCheckedChange={(value: boolean) => {
+					setMarkdownOptions({
+						...markdownOptions,
+						markdownMath: value,
+					});
+				}}
 			/>
 		</>
 	);

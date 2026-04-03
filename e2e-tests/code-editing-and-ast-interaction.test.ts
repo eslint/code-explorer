@@ -127,3 +127,5 @@ test(`should keep ESQuery highlights aligned while typing before a matching lite
 	).toBe(true);
 	await expect(highlight).toHaveText("42");
 });
+
+// TODO: Add tests for verifying Math parsing option in Markdown.

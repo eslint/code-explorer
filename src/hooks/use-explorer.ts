@@ -48,6 +48,7 @@ export type JsonOptions = {
 export type MarkdownOptions = {
 	markdownMode: MarkdownMode;
 	markdownFrontmatter: MarkdownFrontmatter;
+	markdownMath: boolean;
 };
 
 export type CssOptions = {
