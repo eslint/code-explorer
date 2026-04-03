@@ -117,12 +117,74 @@ const getHashParams = (): URLSearchParams => {
 	return new URLSearchParams(location.hash.slice(1));
 };
 
+const versionedHashPrefix = "v2:";
+
+function isPersistedStorageValue(
+	value: unknown,
+): value is { state: unknown; version: number } {
+	return (
+		typeof value === "object" &&
+		value !== null &&
+		"state" in value &&
+		"version" in value &&
+		typeof value.version === "number"
+	);
+}
+
+function isSerializedPersistedStorageValue(value: string) {
+	try {
+		const parsedValue = JSON.parse(value);
+		return isPersistedStorageValue(parsedValue);
+	} catch {
+		return false;
+	}
+}
+
+function encodeHashStorageValue(value: string) {
+	const bytes = new TextEncoder().encode(value);
+	let binary = "";
+
+	for (const byte of bytes) {
+		binary += String.fromCharCode(byte);
+	}
+
+	return `${versionedHashPrefix}${btoa(binary)}`;
+}
+
+function decodeHashStorageValue(value: string) {
+	try {
+		if (value.startsWith(versionedHashPrefix)) {
+			const binary = atob(value.slice(versionedHashPrefix.length));
+			const bytes = Uint8Array.from(binary, character =>
+				character.charCodeAt(0),
+			);
+			const decodedValue = new TextDecoder().decode(bytes);
+
+			return isSerializedPersistedStorageValue(decodedValue)
+				? decodedValue
+				: null;
+		}
+
+		const legacyValue = JSON.parse(atob(value));
+		return typeof legacyValue === "string" &&
+			isSerializedPersistedStorageValue(legacyValue)
+			? legacyValue
+			: null;
+	} catch {
+		return null;
+	}
+}
+
 const hybridStorage: StateStorage = {
 	getItem: (key): string => {
 		// Priority: URL hash first, then localStorage fallback
 		const hashValue = getHashParams().get(key);
 		if (hashValue) {
-			return JSON.parse(atob(hashValue));
+			const decodedHashValue = decodeHashStorageValue(hashValue);
+
+			if (decodedHashValue !== null) {
+				return decodedHashValue;
+			}
 		}
 
 		const localValue = localStorage.getItem(key);
@@ -130,7 +192,7 @@ const hybridStorage: StateStorage = {
 	},
 	setItem: (key, newValue): void => {
 		const searchParams = getHashParams();
-		const encodedValue = btoa(JSON.stringify(newValue));
+		const encodedValue = encodeHashStorageValue(newValue);
 		searchParams.set(key, encodedValue);
 		location.hash = searchParams.toString();
 
