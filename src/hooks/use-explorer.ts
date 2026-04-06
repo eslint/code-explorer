@@ -117,7 +117,7 @@ const getHashParams = (): URLSearchParams => {
 	return new URLSearchParams(location.hash.slice(1));
 };
 
-const versionedHashPrefix = "v2:";
+const versionedHashPrefix = "v2.";
 
 function isPersistedStorageValue(
 	value: unknown,
@@ -140,6 +140,26 @@ function isSerializedPersistedStorageValue(value: string) {
 	}
 }
 
+function encodeBase64Url(value: string) {
+	return value.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+
+function decodeBase64Url(value: string) {
+	const base64 = value.replace(/-/g, "+").replace(/_/g, "/");
+	const paddingLength = (4 - (base64.length % 4)) % 4;
+
+	return `${base64}${"=".repeat(paddingLength)}`;
+}
+
+function decodeVersionedHashStorageValue(value: string) {
+	const bytes = Uint8Array.from(value, character => character.charCodeAt(0));
+	const decodedValue = new TextDecoder().decode(bytes);
+
+	return isSerializedPersistedStorageValue(decodedValue)
+		? decodedValue
+		: null;
+}
+
 function encodeHashStorageValue(value: string) {
 	const bytes = new TextEncoder().encode(value);
 	let binary = "";
@@ -148,21 +168,17 @@ function encodeHashStorageValue(value: string) {
 		binary += String.fromCharCode(byte);
 	}
 
-	return `${versionedHashPrefix}${btoa(binary)}`;
+	return `${versionedHashPrefix}${encodeBase64Url(btoa(binary))}`;
 }
 
 function decodeHashStorageValue(value: string) {
 	try {
 		if (value.startsWith(versionedHashPrefix)) {
-			const binary = atob(value.slice(versionedHashPrefix.length));
-			const bytes = Uint8Array.from(binary, character =>
-				character.charCodeAt(0),
+			const binary = atob(
+				decodeBase64Url(value.slice(versionedHashPrefix.length)),
 			);
-			const decodedValue = new TextDecoder().decode(bytes);
 
-			return isSerializedPersistedStorageValue(decodedValue)
-				? decodedValue
-				: null;
+			return decodeVersionedHashStorageValue(binary);
 		}
 
 		const legacyValue = JSON.parse(atob(value));

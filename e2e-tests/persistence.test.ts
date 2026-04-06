@@ -58,7 +58,7 @@ test("should persist unicode code safely in the URL hash", async ({ page }) => {
 	await replaceEditorValue(page, unicodeCode);
 
 	await expect.poll(() => getPersistedJavaScriptCode(page)).toBe(unicodeCode);
-	await expect.poll(() => getStoredHashValue(page)).toContain("v2:");
+	await expect.poll(() => getStoredHashValue(page)).toContain("v2.");
 
 	const persistedHash = await page.evaluate(() => window.location.hash);
 
@@ -127,8 +127,13 @@ test("should fall back to localStorage when a v2 hash is malformed", async ({
 			binary += String.fromCharCode(byte);
 		}
 
+		const base64Url = btoa(binary)
+			.replace(/\+/g, "-")
+			.replace(/\//g, "_")
+			.replace(/=+$/, "");
+
 		const searchParams = new URLSearchParams();
-		searchParams.set(key, `v2:${btoa(binary)}`);
+		searchParams.set(key, `v2.${base64Url}`);
 		return searchParams.toString();
 	}, storageKey);
 
