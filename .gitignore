@@ -27,3 +27,9 @@ npm-debug.log*
 
 # Automatically generated files by GitHub Actions workflow
 /.shared-workflows
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

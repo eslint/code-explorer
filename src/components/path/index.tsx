@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useExplorer } from "@/hooks/use-explorer";
 import { Editor } from "../editor";
 import type { FC } from "react";
 import Graphviz from "graphviz-react";
 import { generateCodePath } from "@/lib/generate-code-path";
 import { parseError } from "@/lib/parse-error";
-import useDebouncedEffect from "use-debounced-effect";
 import { ErrorState } from "@/components/error-boundary";
 
 type ParsedResponse = {
@@ -18,56 +17,68 @@ export const CodePath: FC = () => {
 	const explorer = useExplorer();
 	const { code, jsOptions, pathIndex, setPathIndex, viewModes } = explorer;
 	const { javascript } = code;
-	const { sourceType, esVersion } = jsOptions;
+	const { sourceType, esVersion, isJSX } = jsOptions;
 	const { pathView } = viewModes;
 	const { index, indexes } = pathIndex;
 	const [extracted, setExtracted] = useState<ParsedResponse | null>(null);
 	const [error, setError] = useState<string | null>(null);
-
-	const fetchCodePath = async () => {
-		try {
-			const response = await generateCodePath(
-				javascript,
-				esVersion,
-				sourceType,
-				jsOptions.isJSX,
-			);
-			if ("error" in response) {
-				throw new Error(response.error);
-			}
-			const newExtracted = JSON.parse(
-				response.response,
-			) as ParsedResponse;
-			if (newExtracted.codePathList.length < indexes) {
-				setPathIndex({
-					index: 0,
-					indexes: newExtracted.codePathList.length,
-				});
-			} else {
-				setPathIndex({
-					...pathIndex,
-					indexes: newExtracted.codePathList.length,
-				});
-			}
-			setError(null);
-			setExtracted(newExtracted);
-		} catch (newError) {
-			setError(parseError(newError));
-		}
-	};
+	const hasMountedDebouncedEffect = useRef(false);
 
 	useEffect(() => {
-		fetchCodePath();
-		// eslint-disable-next-line react-hooks/exhaustive-deps -- we want to fetch code path once on mount, afterwards the "useDebouncedEffect" takes over
-	}, []);
+		const fetchCodePath = async () => {
+			try {
+				const response = await generateCodePath(
+					javascript,
+					esVersion,
+					sourceType,
+					isJSX,
+				);
+				if ("error" in response) {
+					throw new Error(response.error);
+				}
+				const newExtracted = JSON.parse(
+					response.response,
+				) as ParsedResponse;
+				if (newExtracted.codePathList.length < indexes) {
+					setPathIndex({
+						index: 0,
+						indexes: newExtracted.codePathList.length,
+					});
+				} else {
+					setPathIndex({
+						index,
+						indexes: newExtracted.codePathList.length,
+					});
+				}
+				setError(null);
+				setExtracted(newExtracted);
+			} catch (newError) {
+				setError(parseError(newError));
+			}
+		};
 
-	useDebouncedEffect(
-		() => {
+		if (!hasMountedDebouncedEffect.current) {
+			hasMountedDebouncedEffect.current = true;
 			fetchCodePath();
-		},
-		500,
-		[javascript, esVersion, sourceType, index, indexes],
-	);
+			return;
+		}
+
+		const timeoutId = setTimeout(() => {
+			fetchCodePath();
+		}, 500);
+
+		return () => {
+			clearTimeout(timeoutId);
+		};
+	}, [
+		javascript,
+		esVersion,
+		sourceType,
+		isJSX,
+		index,
+		indexes,
+		setPathIndex,
+	]);
 
 	if (error) {
 		return <ErrorState message={error} />;
