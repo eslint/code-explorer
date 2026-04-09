@@ -73,7 +73,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
-    "@eslint/core": "^1.2.0",
+    "@eslint/core": "^1.2.1",
     "@playwright/test": "^1.58.2",
     "@rolldown/plugin-babel": "^0.2.2",
     "@types/eslint-scope": "^8.4.0",
