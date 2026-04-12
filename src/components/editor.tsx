@@ -28,6 +28,7 @@ const languageExtensions: Record<
 };
 
 type EditorProperties = {
+	ariaLabel: string;
 	readOnly?: boolean;
 	value?: string;
 	highlightedRanges?: SourceRange[];
@@ -35,6 +36,7 @@ type EditorProperties = {
 };
 
 export const Editor: FC<EditorProperties> = ({
+	ariaLabel,
 	readOnly,
 	value,
 	highlightedRanges = [],
@@ -55,11 +57,12 @@ export const Editor: FC<EditorProperties> = ({
 		() => [
 			activeLanguageExtension,
 			wrap ? EditorView.lineWrapping : [],
+			EditorView.contentAttributes.of({ "aria-label": ariaLabel }),
 			ESLintPlaygroundTheme,
 			ESLintPlaygroundHighlightStyle,
 			highlightedRangesExtension(highlightedRanges),
 		],
-		[activeLanguageExtension, wrap, highlightedRanges],
+		[activeLanguageExtension, wrap, ariaLabel, highlightedRanges],
 	);
 
 	const debouncedOnChange = useMemo(
@@ -173,7 +176,6 @@ export const Editor: FC<EditorProperties> = ({
 				</div>
 			)}
 			<CodeMirror
-				aria-label="Code Editor"
 				className="h-full overflow-auto scrollbar-thumb scrollbar-track text-sm"
 				value={value}
 				extensions={editorExtensions}

@@ -91,7 +91,7 @@ export const CodePath: FC = () => {
 	const codePath = extracted.codePathList[index].dot;
 
 	if (pathView === "code") {
-		return <Editor readOnly value={codePath} />;
+		return <Editor ariaLabel="Code Path" readOnly value={codePath} />;
 	}
 
 	return (
