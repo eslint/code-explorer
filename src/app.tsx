@@ -1,4 +1,4 @@
-import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import { Group, Panel, Separator } from "react-resizable-panels";
 import { Editor } from "@/components/editor";
 import { EsquerySelectorInput } from "@/components/esquery-selector-input";
 import { Navbar } from "@/components/navbar";
@@ -23,13 +23,10 @@ function App() {
 					<Navbar />
 					<div className="h-full overflow-hidden">
 						<div className="border-t h-full">
-							<PanelGroup
-								direction="horizontal"
-								className="border-t h-full"
-							>
+							<Group className="border-t h-full">
 								<Panel
-									defaultSize={50}
-									minSize={25}
+									defaultSize="50%"
+									minSize="25%"
 									role="region"
 									aria-label="Code Editor Panel"
 								>
@@ -51,10 +48,10 @@ function App() {
 										}}
 									/>
 								</Panel>
-								<PanelResizeHandle className="w-2 bg-gutter dark:bg-gray-600 bg-gray-200 bg-no-repeat bg-center" />
+								<Separator className="w-2 bg-gutter dark:bg-gray-600 bg-gray-200 bg-no-repeat bg-center" />
 								<Panel
-									defaultSize={50}
-									minSize={25}
+									defaultSize="50%"
+									minSize="25%"
 									role="region"
 									aria-label="Code Analysis Tools Panel"
 								>
@@ -72,7 +69,7 @@ function App() {
 										<activeTool.component />
 									</div>
 								</Panel>
-							</PanelGroup>
+							</Group>
 						</div>
 					</div>
 				</div>
