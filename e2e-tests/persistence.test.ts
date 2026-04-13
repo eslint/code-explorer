@@ -1,4 +1,16 @@
+/**
+ * @fileoverview Tests for state persistence functionality.
+ */
+
+//-----------------------------------------------------------------------------
+// Imports
+//-----------------------------------------------------------------------------
+
 import { expect, test, type Page } from "@playwright/test";
+
+//-----------------------------------------------------------------------------
+// Helpers
+//-----------------------------------------------------------------------------
 
 const storageKey = "eslint-explorer";
 
@@ -46,6 +58,10 @@ async function replaceEditorValue(page: Page, value: string) {
 	await codeEditor.press("Backspace");
 	await codeEditor.pressSequentially(value);
 }
+
+//-----------------------------------------------------------------------------
+// Tests
+//-----------------------------------------------------------------------------
 
 test("should persist unicode code safely in the URL hash", async ({ page }) => {
 	await page.addInitScript(key => {
