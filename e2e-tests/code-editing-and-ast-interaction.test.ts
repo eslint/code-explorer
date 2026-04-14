@@ -2,6 +2,7 @@
  * Tests for code editing functionality and AST tool interaction.
  */
 import { expect, test } from "@playwright/test";
+import { getCodeEditor, replaceCodeEditorValue } from "./helpers/code-editor";
 
 type HighlightSamplesState = {
 	intervalId: number;
@@ -26,19 +27,7 @@ test(`should change code, then highlight code and AST nodes matching ESQuery sel
 }) => {
 	await page.goto("/");
 
-	// focus code editor textbox
-	await page
-		.getByRole("region", { name: "Code Editor Panel" })
-		.getByRole("textbox")
-		.nth(1)
-		.click();
-
-	// delete the default code
-	await page.keyboard.press("ControlOrMeta+KeyA");
-	await page.keyboard.press("Backspace");
-
-	// add new code
-	await page.keyboard.type("console.log('Hello, World!');");
+	await replaceCodeEditorValue(page, "console.log('Hello, World!');");
 
 	// add an ESQuery selector
 	await page.getByRole("textbox", { name: "ESQuery Selector" }).click();
@@ -73,22 +62,16 @@ test(`should keep ESQuery highlights aligned while typing before a matching lite
 }) => {
 	await page.goto("/");
 
-	const codeEditor = page
-		.getByRole("region", { name: "Code Editor Panel" })
-		.getByRole("textbox")
-		.nth(1);
-	const highlight = page.locator(".bg-editorHighlightedRangeColor");
+	const codeEditor = getCodeEditor(page);
+	const highlight = codeEditor.locator(".bg-editorHighlightedRangeColor");
 
-	await codeEditor.click();
-	await codeEditor.press("ControlOrMeta+KeyA");
-	await codeEditor.press("Backspace");
-	await codeEditor.pressSequentially("42;");
+	await replaceCodeEditorValue(page, "42;");
 
 	await page
 		.getByRole("textbox", { name: "ESQuery Selector" })
 		.fill("Literal");
 
-	await expect(highlight).toHaveText("42");
+	await expect(highlight).toHaveText(["42"]);
 
 	await codeEditor.click();
 	await codeEditor.press("Home");
@@ -125,5 +108,5 @@ test(`should keep ESQuery highlights aligned while typing before a matching lite
 	expect(
 		highlightSamples.every(highlightText => highlightText === "42"),
 	).toBe(true);
-	await expect(highlight).toHaveText("42");
+	await expect(highlight).toHaveText(["42"]);
 });
