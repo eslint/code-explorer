@@ -8,7 +8,7 @@ import { useAST } from "@/hooks/use-ast";
 import { useExplorer } from "@/hooks/use-explorer";
 import { convertNodesToRanges } from "@/lib/convert-nodes-to-ranges";
 import { tools } from "@/lib/tools";
-import "./App.css";
+import "./app.css";
 
 function App() {
 	const { language, tool, code, setCode } = useExplorer();
@@ -27,7 +27,12 @@ function App() {
 								direction="horizontal"
 								className="border-t h-full"
 							>
-								<Panel defaultSize={50} minSize={25}>
+								<Panel
+									defaultSize={50}
+									minSize={25}
+									role="region"
+									aria-label="Code Editor Panel"
+								>
 									<EsquerySelectorInput />
 									<Editor
 										value={code[language]}
@@ -47,7 +52,12 @@ function App() {
 									/>
 								</Panel>
 								<PanelResizeHandle className="w-2 bg-gutter dark:bg-gray-600 bg-gray-200 bg-no-repeat bg-center" />
-								<Panel defaultSize={50} minSize={25}>
+								<Panel
+									defaultSize={50}
+									minSize={25}
+									role="region"
+									aria-label="Code Analysis Tools Panel"
+								>
 									<div className="bg-muted overflow-auto h-full relative flex flex-col">
 										<div className="flex sm:items-center flex-col sm:flex-row justify-between p-4 gap-2 z-10">
 											<ToolSelector />

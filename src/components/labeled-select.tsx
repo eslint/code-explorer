@@ -40,7 +40,7 @@ export const LabeledSelect = (props: PanelProps) => {
 		<div className="space-y-1.5">
 			<Label htmlFor={id}>{label}</Label>
 			<Select value={value} onValueChange={onValueChange}>
-				<SelectTrigger className="w-full" disabled={isDisabled}>
+				<SelectTrigger id={id} className="w-full" disabled={isDisabled}>
 					<SelectValue placeholder={placeholder} />
 				</SelectTrigger>
 				<SelectContent>
@@ -53,7 +53,7 @@ export const LabeledSelect = (props: PanelProps) => {
 								<div className="flex items-center gap-1.5">
 									<img
 										src={item.icon}
-										alt={item.label}
+										alt=""
 										width={16}
 										height={16}
 										className="w-4 h-4"

@@ -29,7 +29,9 @@ export function useAST() {
 			try {
 				const ast = espree.parse(code.javascript, {
 					range: true,
-					// @ts-expect-error mismatch between the latest release of `espree` and `@types/espree`.
+					loc: true,
+					comment: true,
+					tokens: true,
 					ecmaVersion: jsOptions.esVersion,
 					sourceType: jsOptions.sourceType,
 					ecmaFeatures: {
@@ -38,7 +40,7 @@ export function useAST() {
 				});
 				astParseResult = { ast, ok: true };
 			} catch (err) {
-				// error occured e.g. because the JS code cannot be parsed into an AST, or the esquery selector is no valid selector --> just ignore (no highlighted ranges)
+				// error occurred e.g. because the JS code cannot be parsed into an AST, or the esquery selector is no valid selector --> just ignore (no highlighted ranges)
 				astParseResult = { ok: false, errors: [err as FileError] };
 			}
 			break;
@@ -92,7 +94,7 @@ export function useAST() {
 
 		case "html": {
 			const { templateEngineSyntax, frontmatter } = htmlOptions;
-			const language = html.languages.html;
+			const language = html.languages!.html;
 			astParseResult = language.parse(
 				{
 					body: code.html,
@@ -140,7 +142,7 @@ function getEsqueryMatchedNodes(ast: unknown, esquerySelector: string) {
 			) as unknown[];
 			return esqueryMatchedNodes;
 		} catch {
-			// error occured e.g. because the esquery selector is no valid selector --> just ignore (no nodes matched --> no highlighted ranges)
+			// error occurred e.g. because the esquery selector is no valid selector --> just ignore (no nodes matched --> no highlighted ranges)
 		}
 	}
 	return [];
