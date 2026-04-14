@@ -59,9 +59,9 @@ function App() {
 									aria-label="Code Analysis Tools Panel"
 								>
 									<div className="bg-muted overflow-auto h-full relative flex flex-col">
-										<div className="flex sm:items-center flex-col sm:flex-row justify-between p-4 gap-2 z-10">
+										<div className="flex flex-col gap-2 p-4 z-10 sm:flex-row sm:flex-wrap sm:justify-between">
 											<ToolSelector />
-											<div className="flex items-center gap-1">
+											<div className="flex flex-wrap items-center gap-1">
 												{activeTool.options.map(
 													(Option, index) => (
 														<Option key={index} />
