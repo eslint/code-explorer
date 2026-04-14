@@ -100,6 +100,14 @@ test("should switch language and show options for each", async ({ page }) => {
 		await expect(
 			page.getByRole("combobox", { exact: true, name: "Front Matter" }),
 		).toBeVisible();
+
+		// `Math` Switch
+		await expect(
+			page.getByRole("switch", {
+				exact: true,
+				name: "Math",
+			}),
+		).toBeVisible();
 	});
 
 	// CSS

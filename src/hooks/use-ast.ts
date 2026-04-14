@@ -66,7 +66,8 @@ export function useAST() {
 		}
 
 		case "markdown": {
-			const { markdownMode, markdownFrontmatter } = markdownOptions;
+			const { markdownMode, markdownFrontmatter, markdownMath } =
+				markdownOptions;
 			const language = markdown.languages[markdownMode];
 			astParseResult = language.parse(
 				{ body: code.markdown, path: "", physicalPath: "", bom: false },
@@ -76,6 +77,7 @@ export function useAST() {
 							markdownFrontmatter === "off"
 								? false
 								: markdownFrontmatter,
+						math: markdownMath,
 					},
 				},
 			);
