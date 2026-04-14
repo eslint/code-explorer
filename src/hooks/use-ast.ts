@@ -32,7 +32,6 @@ export function useAST() {
 					loc: true,
 					comment: true,
 					tokens: true,
-					// @ts-expect-error mismatch between the latest release of `espree` and `@types/espree`.
 					ecmaVersion: jsOptions.esVersion,
 					sourceType: jsOptions.sourceType,
 					ecmaFeatures: {
