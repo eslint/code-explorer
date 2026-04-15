@@ -24,7 +24,7 @@ export const Scope: FC = () => {
 
 	try {
 		scopeManager = eslintScope.analyze(result.ast as Program, {
-			sourceType: sourceType as never,
+			sourceType,
 			ecmaVersion:
 				esVersion === "latest" ? espree.latestEcmaVersion : esVersion,
 			jsx: isJSX,
