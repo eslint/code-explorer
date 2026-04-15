@@ -32,6 +32,7 @@ function App() {
 								>
 									<EsquerySelectorInput />
 									<Editor
+										ariaLabel="Code Editor"
 										value={code[language]}
 										highlightedRanges={
 											astParseResult.ok

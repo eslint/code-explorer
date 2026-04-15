@@ -40,5 +40,11 @@ export const AST: FC = () => {
 		);
 	}
 
-	return <Editor readOnly value={JSON.stringify(result.ast, null, 2)} />;
+	return (
+		<Editor
+			ariaLabel="AST JSON"
+			readOnly
+			value={JSON.stringify(result.ast, null, 2)}
+		/>
+	);
 };
