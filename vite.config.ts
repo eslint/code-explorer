@@ -27,7 +27,6 @@ const chunkGroups = {
 		"@radix-ui/react-select",
 		"@radix-ui/react-slot",
 		"@radix-ui/react-switch",
-		"@radix-ui/react-toast",
 		"@radix-ui/react-toggle",
 		"@radix-ui/react-toggle-group",
 	],

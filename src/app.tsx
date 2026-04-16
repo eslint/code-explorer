@@ -1,4 +1,4 @@
-import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import { Group, Panel, Separator } from "react-resizable-panels";
 import { Editor } from "@/components/editor";
 import { EsquerySelectorInput } from "@/components/esquery-selector-input";
 import { Navbar } from "@/components/navbar";
@@ -23,18 +23,16 @@ function App() {
 					<Navbar />
 					<div className="h-full overflow-hidden">
 						<div className="border-t h-full">
-							<PanelGroup
-								direction="horizontal"
-								className="border-t h-full"
-							>
+							<Group className="border-t h-full">
 								<Panel
-									defaultSize={50}
-									minSize={25}
+									defaultSize="50%"
+									minSize="25%"
 									role="region"
 									aria-label="Code Editor Panel"
 								>
 									<EsquerySelectorInput />
 									<Editor
+										ariaLabel="Code Editor"
 										value={code[language]}
 										highlightedRanges={
 											astParseResult.ok
@@ -51,17 +49,17 @@ function App() {
 										}}
 									/>
 								</Panel>
-								<PanelResizeHandle className="w-2 bg-gutter dark:bg-gray-600 bg-gray-200 bg-no-repeat bg-center" />
+								<Separator className="w-2 bg-gutter dark:bg-gray-600 bg-gray-200 bg-no-repeat bg-center" />
 								<Panel
-									defaultSize={50}
-									minSize={25}
+									defaultSize="50%"
+									minSize="25%"
 									role="region"
 									aria-label="Code Analysis Tools Panel"
 								>
 									<div className="bg-muted overflow-auto h-full relative flex flex-col">
-										<div className="flex sm:items-center flex-col sm:flex-row justify-between p-4 gap-2 z-10">
+										<div className="flex flex-col gap-2 p-4 z-10 sm:flex-row sm:flex-wrap sm:justify-between">
 											<ToolSelector />
-											<div className="flex items-center gap-1">
+											<div className="flex flex-wrap items-center gap-1">
 												{activeTool.options.map(
 													(Option, index) => (
 														<Option key={index} />
@@ -72,7 +70,7 @@ function App() {
 										<activeTool.component />
 									</div>
 								</Panel>
-							</PanelGroup>
+							</Group>
 						</div>
 					</div>
 				</div>
