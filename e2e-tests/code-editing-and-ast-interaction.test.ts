@@ -1,7 +1,16 @@
 /**
- * Tests for code editing functionality and AST tool interaction.
+ * @fileoverview Tests for code editing functionality and AST tool interaction.
  */
+
+//-----------------------------------------------------------------------------
+// Imports
+//-----------------------------------------------------------------------------
+
 import { expect, test } from "@playwright/test";
+
+//-----------------------------------------------------------------------------
+// Type Definitions
+//-----------------------------------------------------------------------------
 
 type HighlightSamplesState = {
 	intervalId: number;
@@ -13,6 +22,10 @@ declare global {
 		__highlightSamples?: HighlightSamplesState;
 	}
 }
+
+//-----------------------------------------------------------------------------
+// Tests
+//-----------------------------------------------------------------------------
 
 /**
  * This test verifies that:
