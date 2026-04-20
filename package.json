@@ -58,7 +58,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "codemirror": "^6.0.2",
-    "eslint-linter-browserify": "^9.39.2",
+    "eslint-linter-browserify": "^10.2.0",
     "eslint-scope": "^9.1.2",
     "espree": "^11.2.0",
     "esquery": "^1.7.0",
@@ -74,7 +74,7 @@
   "devDependencies": {
     "@babel/core": "^7.29.0",
     "@eslint/core": "^1.2.1",
-    "@playwright/test": "^1.58.2",
+    "@playwright/test": "^1.59.1",
     "@rolldown/plugin-babel": "^0.2.2",
     "@types/esquery": "^1.5.4",
     "@types/node": "^20.19.37",
