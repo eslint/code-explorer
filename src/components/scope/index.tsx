@@ -13,7 +13,7 @@ export const Scope: FC = () => {
 	const explorer = useExplorer();
 	const result = useAST();
 	const { jsOptions, viewModes } = explorer;
-	const { sourceType, esVersion } = jsOptions;
+	const { sourceType, esVersion, isJSX } = jsOptions;
 	const { scopeView } = viewModes;
 	let scopeManager = null;
 
@@ -24,9 +24,10 @@ export const Scope: FC = () => {
 
 	try {
 		scopeManager = eslintScope.analyze(result.ast as Program, {
-			sourceType: sourceType as never,
+			sourceType,
 			ecmaVersion:
 				esVersion === "latest" ? espree.latestEcmaVersion : esVersion,
+			jsx: isJSX,
 		});
 	} catch (error) {
 		const message = parseError(error);

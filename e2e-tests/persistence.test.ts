@@ -1,4 +1,16 @@
+/**
+ * @fileoverview Tests for state persistence functionality.
+ */
+
+//-----------------------------------------------------------------------------
+// Imports
+//-----------------------------------------------------------------------------
+
 import { expect, test, type Page } from "@playwright/test";
+
+//-----------------------------------------------------------------------------
+// Helpers
+//-----------------------------------------------------------------------------
 
 const storageKey = "eslint-explorer";
 
@@ -35,17 +47,9 @@ async function getStoredHashValue(page: Page): Promise<string> {
 	}, storageKey);
 }
 
-async function replaceEditorValue(page: Page, value: string) {
-	const codeEditor = page
-		.getByRole("region", { name: "Code Editor Panel" })
-		.getByRole("textbox")
-		.nth(1);
-
-	await codeEditor.click();
-	await codeEditor.press("ControlOrMeta+KeyA");
-	await codeEditor.press("Backspace");
-	await codeEditor.pressSequentially(value);
-}
+//-----------------------------------------------------------------------------
+// Tests
+//-----------------------------------------------------------------------------
 
 test("should persist unicode code safely in the URL hash", async ({ page }) => {
 	await page.addInitScript(key => {
@@ -54,8 +58,12 @@ test("should persist unicode code safely in the URL hash", async ({ page }) => {
 	await page.goto("/");
 
 	const unicodeCode = 'const \u03C0 = "\u{1F600}";';
+	const codeEditor = page.getByRole("textbox", {
+		name: "Code Editor",
+		exact: true,
+	});
 
-	await replaceEditorValue(page, unicodeCode);
+	await codeEditor.fill(unicodeCode);
 
 	await expect.poll(() => getPersistedJavaScriptCode(page)).toBe(unicodeCode);
 	await expect.poll(() => getStoredHashValue(page)).toContain("v2.");
@@ -67,7 +75,7 @@ test("should persist unicode code safely in the URL hash", async ({ page }) => {
 	}, storageKey);
 	await page.goto(`/${persistedHash}`);
 
-	await expect(page.locator(".cm-content")).toContainText(unicodeCode);
+	await expect(codeEditor).toContainText(unicodeCode);
 });
 
 test("should still load state from legacy hash links", async ({ page }) => {
@@ -77,8 +85,12 @@ test("should still load state from legacy hash links", async ({ page }) => {
 	await page.goto("/");
 
 	const legacyCode = "console.log('legacy hash');";
+	const codeEditor = page.getByRole("textbox", {
+		name: "Code Editor",
+		exact: true,
+	});
 
-	await replaceEditorValue(page, legacyCode);
+	await codeEditor.fill(legacyCode);
 
 	await expect.poll(() => getPersistedJavaScriptCode(page)).toBe(legacyCode);
 
@@ -98,7 +110,7 @@ test("should still load state from legacy hash links", async ({ page }) => {
 	}, storageKey);
 	await page.goto(`/#${legacyHash}`);
 
-	await expect(page.locator(".cm-content")).toContainText(legacyCode);
+	await expect(codeEditor).toContainText(legacyCode);
 });
 
 test("should fall back to localStorage when a v2 hash is malformed", async ({
@@ -110,8 +122,12 @@ test("should fall back to localStorage when a v2 hash is malformed", async ({
 	await page.goto("/");
 
 	const fallbackCode = "console.log('localStorage fallback');";
+	const codeEditor = page.getByRole("textbox", {
+		name: "Code Editor",
+		exact: true,
+	});
 
-	await replaceEditorValue(page, fallbackCode);
+	await codeEditor.fill(fallbackCode);
 
 	await expect
 		.poll(() => getPersistedJavaScriptCode(page))
@@ -145,5 +161,5 @@ test("should fall back to localStorage when a v2 hash is malformed", async ({
 	);
 	await page.goto(`/#${malformedHash}`);
 
-	await expect(page.locator(".cm-content")).toContainText(fallbackCode);
+	await expect(codeEditor).toContainText(fallbackCode);
 });

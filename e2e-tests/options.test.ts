@@ -1,7 +1,16 @@
 /**
- * Tests for language selection and options panel functionality.
+ * @fileoverview Tests for language selection and options panel functionality.
  */
+
+//-----------------------------------------------------------------------------
+// Imports
+//-----------------------------------------------------------------------------
+
 import { expect, test } from "@playwright/test";
+
+//-----------------------------------------------------------------------------
+// Tests
+//-----------------------------------------------------------------------------
 
 /**
  * This test verifies that:
