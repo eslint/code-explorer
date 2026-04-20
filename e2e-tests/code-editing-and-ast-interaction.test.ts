@@ -7,7 +7,6 @@
 //-----------------------------------------------------------------------------
 
 import { expect, test } from "@playwright/test";
-import { getCodeEditor, replaceCodeEditorValue } from "./helpers/code-editor";
 
 //-----------------------------------------------------------------------------
 // Type Definitions
@@ -40,7 +39,9 @@ test(`should change code, then highlight code and AST nodes matching ESQuery sel
 }) => {
 	await page.goto("/");
 
-	await replaceCodeEditorValue(page, "console.log('Hello, World!');");
+	await page
+		.getByRole("textbox", { name: "Code Editor", exact: true })
+		.fill("console.log('Hello, World!');");
 
 	// add an ESQuery selector
 	await page.getByRole("textbox", { name: "ESQuery Selector" }).click();
@@ -75,10 +76,13 @@ test(`should keep ESQuery highlights aligned while typing before a matching lite
 }) => {
 	await page.goto("/");
 
-	const codeEditor = getCodeEditor(page);
+	const codeEditor = page.getByRole("textbox", {
+		name: "Code Editor",
+		exact: true,
+	});
 	const highlight = codeEditor.locator(".bg-editorHighlightedRangeColor");
 
-	await replaceCodeEditorValue(page, "42;");
+	await codeEditor.fill("42;");
 
 	await page
 		.getByRole("textbox", { name: "ESQuery Selector" })

@@ -7,7 +7,6 @@
 //-----------------------------------------------------------------------------
 
 import { expect, test, type Page } from "@playwright/test";
-import { getCodeEditor, replaceCodeEditorValue } from "./helpers/code-editor";
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -59,8 +58,12 @@ test("should persist unicode code safely in the URL hash", async ({ page }) => {
 	await page.goto("/");
 
 	const unicodeCode = 'const \u03C0 = "\u{1F600}";';
+	const codeEditor = page.getByRole("textbox", {
+		name: "Code Editor",
+		exact: true,
+	});
 
-	await replaceCodeEditorValue(page, unicodeCode);
+	await codeEditor.fill(unicodeCode);
 
 	await expect.poll(() => getPersistedJavaScriptCode(page)).toBe(unicodeCode);
 	await expect.poll(() => getStoredHashValue(page)).toContain("v2.");
@@ -72,7 +75,7 @@ test("should persist unicode code safely in the URL hash", async ({ page }) => {
 	}, storageKey);
 	await page.goto(`/${persistedHash}`);
 
-	await expect(getCodeEditor(page)).toContainText(unicodeCode);
+	await expect(codeEditor).toContainText(unicodeCode);
 });
 
 test("should still load state from legacy hash links", async ({ page }) => {
@@ -82,8 +85,12 @@ test("should still load state from legacy hash links", async ({ page }) => {
 	await page.goto("/");
 
 	const legacyCode = "console.log('legacy hash');";
+	const codeEditor = page.getByRole("textbox", {
+		name: "Code Editor",
+		exact: true,
+	});
 
-	await replaceCodeEditorValue(page, legacyCode);
+	await codeEditor.fill(legacyCode);
 
 	await expect.poll(() => getPersistedJavaScriptCode(page)).toBe(legacyCode);
 
@@ -103,7 +110,7 @@ test("should still load state from legacy hash links", async ({ page }) => {
 	}, storageKey);
 	await page.goto(`/#${legacyHash}`);
 
-	await expect(getCodeEditor(page)).toContainText(legacyCode);
+	await expect(codeEditor).toContainText(legacyCode);
 });
 
 test("should fall back to localStorage when a v2 hash is malformed", async ({
@@ -115,8 +122,12 @@ test("should fall back to localStorage when a v2 hash is malformed", async ({
 	await page.goto("/");
 
 	const fallbackCode = "console.log('localStorage fallback');";
+	const codeEditor = page.getByRole("textbox", {
+		name: "Code Editor",
+		exact: true,
+	});
 
-	await replaceCodeEditorValue(page, fallbackCode);
+	await codeEditor.fill(fallbackCode);
 
 	await expect
 		.poll(() => getPersistedJavaScriptCode(page))
@@ -150,5 +161,5 @@ test("should fall back to localStorage when a v2 hash is malformed", async ({
 	);
 	await page.goto(`/#${malformedHash}`);
 
-	await expect(getCodeEditor(page)).toContainText(fallbackCode);
+	await expect(codeEditor).toContainText(fallbackCode);
 });
