@@ -127,3 +127,7 @@ test(`should keep ESQuery highlights aligned while typing before a matching lite
 	).toBe(true);
 	await expect(highlight).toHaveText(["42"]);
 });
+
+test.describe("AST node expansion", () => {
+	// TODO
+});
