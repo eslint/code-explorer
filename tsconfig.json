@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2022",
     "lib": ["dom", "esnext"],
-    "types": ["vite/client"],
+    "types": ["node", "vite/client"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -18,5 +18,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*"]
+  "include": ["**/*.ts", "**/*.tsx"]
 }
