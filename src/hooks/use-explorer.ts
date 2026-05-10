@@ -288,6 +288,27 @@ export const useExplorer = create<ExplorerState>()(
 					if (needsPatching) {
 						state.setCode(patchedCode);
 					}
+
+					state.setJsOptions({
+						...defaultJsOptions,
+						...state.jsOptions,
+					});
+					state.setJsonOptions({
+						...defaultJsonOptions,
+						...state.jsonOptions,
+					});
+					state.setMarkdownOptions({
+						...defaultMarkdownOptions,
+						...state.markdownOptions,
+					});
+					state.setCssOptions({
+						...defaultCssOptions,
+						...state.cssOptions,
+					});
+					state.setHtmlOptions({
+						...defaultHtmlOptions,
+						...state.htmlOptions,
+					});
 				},
 			},
 		),

@@ -27,16 +27,15 @@ async function getPersistedJavaScriptCode(page: Page): Promise<string> {
 }
 
 async function getPersistedExplorerState(page: Page): Promise<string> {
-	const persistedValue = await page.evaluate(
-		key => window.localStorage.getItem(key),
-		storageKey,
-	);
+	return page.evaluate(key => {
+		const storedValue = window.localStorage.getItem(key);
 
-	if (!persistedValue) {
-		throw new Error("Expected explorer state to be persisted");
-	}
+		if (!storedValue) {
+			throw new Error("No persisted state found in localStorage");
+		}
 
-	return persistedValue;
+		return storedValue;
+	}, storageKey);
 }
 
 async function getStoredHashValue(page: Page): Promise<string> {
@@ -162,4 +161,38 @@ test("should fall back to localStorage when a v2 hash is malformed", async ({
 	await page.goto(`/#${malformedHash}`);
 
 	await expect(codeEditor).toContainText(fallbackCode);
+});
+
+test("should patch legacy Markdown options without math", async ({ page }) => {
+	await page.addInitScript(key => {
+		window.localStorage.setItem(
+			key,
+			JSON.stringify({
+				state: {
+					language: "markdown",
+					markdownOptions: {
+						markdownMode: "commonmark",
+						markdownFrontmatter: "off",
+					},
+				},
+				version: 0,
+			}),
+		);
+	}, storageKey);
+	await page.goto("/");
+
+	await expect
+		.poll(async () => {
+			const explorerState = JSON.parse(
+				await getPersistedExplorerState(page),
+			);
+			return explorerState.state.markdownOptions.markdownMath;
+		})
+		.toBe(false);
+
+	await page.getByRole("button", { name: "Language Options" }).click();
+
+	await expect(
+		page.getByRole("switch", { exact: true, name: "Math" }),
+	).toHaveAttribute("aria-checked", "false");
 });
