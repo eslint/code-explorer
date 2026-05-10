@@ -156,7 +156,6 @@ export const generateCodePath = async (
 			const { codePath } = target;
 
 			let text =
-				"\n" +
 				"digraph {\n" +
 				'    bgcolor="transparent";\n' +
 				'    node[shape=box,style="rounded,filled",fillcolor=white,color="#E4E7EC"];\n' +
