@@ -2,8 +2,8 @@ import { create } from "zustand";
 import {
 	devtools,
 	persist,
-	StateStorage,
 	createJSONStorage,
+	type StateStorage,
 } from "zustand/middleware";
 import type { EcmaVersion, Options } from "espree";
 import {
