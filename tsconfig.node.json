@@ -1,0 +1,34 @@
+{
+  "include": ["**/*.config.js", "**/*.config.ts"],
+  "compilerOptions": {
+    /* Type Checking */
+    "noFallthroughCasesInSwitch": true,
+
+    /* Modules */
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "types": ["node"],
+
+    /* Emit */
+    "noEmit": true,
+
+    /* JavaScript Support */
+    "allowJs": true,
+    "checkJs": true,
+
+    /* Interop Constraints */
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Language and Environment */
+    "lib": ["ES2022"],
+    "target": "es2022",
+
+    /* Projects */
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+
+    /* Completeness */
+    "skipLibCheck": true
+  }
+}

@@ -6,7 +6,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { Version } from "@/hooks/use-explorer";
+import { type Version } from "@/hooks/use-explorer";
 
 type OnValueChangeType = (value: string) => void;
 type ItemsType = {

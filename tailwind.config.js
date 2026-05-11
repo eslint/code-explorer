@@ -1,4 +1,5 @@
 import tailwindcssAnimate from "tailwindcss-animate";
+import plugin from "tailwindcss/plugin.js";
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -87,22 +88,19 @@ export default {
 	},
 	plugins: [
 		tailwindcssAnimate,
-		function ({ addUtilities, theme }) {
-			addUtilities(
-				{
-					".scrollbar-thumb": {
-						scrollbarColor: `${theme("colors.scrollbar-thumb")} ${theme("colors.scrollbar-track")}`,
-					},
-					".scrollbar-thumb-hover": {
-						scrollbarColor: `${theme("colors.scrollbar-thumb-hover")} ${theme("colors.scrollbar-track")}`,
-					},
-					".scrollbar-track": {
-						scrollbarWidth: "thin",
-					},
+		plugin(({ addUtilities, theme }) => {
+			addUtilities({
+				".scrollbar-thumb": {
+					scrollbarColor: `${theme("colors.scrollbar-thumb")} ${theme("colors.scrollbar-track")}`,
 				},
-				["responsive", "hover"],
-			);
-		},
+				".scrollbar-thumb-hover": {
+					scrollbarColor: `${theme("colors.scrollbar-thumb-hover")} ${theme("colors.scrollbar-track")}`,
+				},
+				".scrollbar-track": {
+					scrollbarWidth: "thin",
+				},
+			});
+		}),
 	],
 	safelist: ["cm-editor", "cm-gutter", "ͼ1", "cm-focused"],
 };

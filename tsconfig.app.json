@@ -1,0 +1,33 @@
+{
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "compilerOptions": {
+    /* Type Checking */
+    "noFallthroughCasesInSwitch": true,
+
+    /* Modules */
+    "module": "es2022",
+    "moduleResolution": "bundler",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "types": ["vite/client"],
+
+    /* Emit */
+    "noEmit": true,
+
+    /* Interop Constraints */
+    "forceConsistentCasingInFileNames": true,
+    "verbatimModuleSyntax": true,
+
+    /* Language and Environment */
+    "jsx": "react-jsx",
+    "lib": ["dom", "ES2022"],
+    "target": "es2022",
+
+    /* Projects */
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+
+    /* Completeness */
+    "skipLibCheck": true
+  }
+}
