@@ -18,14 +18,15 @@
 
     /* Interop Constraints */
     "erasableSyntaxOnly": true,
-    "verbatimModuleSyntax": true,
     "forceConsistentCasingInFileNames": true,
+    "verbatimModuleSyntax": true,
 
     /* Language and Environment */
     "lib": ["ES2022"],
     "target": "es2022",
 
     /* Projects */
+    "incremental": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
 
     /* Completeness */

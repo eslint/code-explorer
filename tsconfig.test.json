@@ -1,5 +1,5 @@
 {
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "include": ["e2e-tests/**/*.ts"],
   "compilerOptions": {
     /* Type Checking */
     "noFallthroughCasesInSwitch": true,
@@ -7,10 +7,7 @@
     /* Modules */
     "module": "es2022",
     "moduleResolution": "bundler",
-    "paths": {
-      "@/*": ["./src/*"]
-    },
-    "types": ["vite/client"],
+    "types": [],
 
     /* Emit */
     "noEmit": true,
@@ -20,13 +17,12 @@
     "verbatimModuleSyntax": true,
 
     /* Language and Environment */
-    "jsx": "react-jsx",
     "lib": ["dom", "ES2022"],
     "target": "es2022",
 
     /* Projects */
     "incremental": true,
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.test.tsbuildinfo",
 
     /* Completeness */
     "skipLibCheck": true
