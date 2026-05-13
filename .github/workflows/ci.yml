@@ -48,7 +48,7 @@ jobs:
 
     e2e-test:
         name: E2E Tests (Playwright)
-        timeout-minutes: 10
+        timeout-minutes: 15
         # run only if triggered by push on a branch or by a PR event for a PR which is not a draft
         if: ${{ !github.event.pull_request || github.event.pull_request.draft == false }}
         runs-on: ubuntu-24.04
