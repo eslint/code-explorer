@@ -46,6 +46,9 @@ jobs:
             - name: Check formatting of everything (prettier)
               run: npm run fmt:check
 
+            - name: Build production bundle (vite build)
+              run: npm run build
+
     e2e-test:
         name: E2E Tests (Playwright)
         timeout-minutes: 10
