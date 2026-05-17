@@ -1,0 +1,133 @@
+import { useEffect, useRef, useState } from "react";
+import { useExplorer } from "@/hooks/use-explorer";
+import { Editor } from "../editor";
+import type { FC } from "react";
+import Graphviz from "graphviz-react";
+import { generateCodePath } from "@/lib/generate-code-path";
+import { parseError } from "@/lib/parse-error";
+import { ErrorState } from "@/components/error-boundary";
+
+type ParsedResponse = {
+	codePathList: {
+		dot: string;
+	}[];
+};
+
+export const CodePath: FC = () => {
+	const explorer = useExplorer();
+	const { code, jsOptions, pathIndex, setPathIndex, viewModes } = explorer;
+	const { javascript } = code;
+	const { sourceType, esVersion, isJSX } = jsOptions;
+	const { pathView } = viewModes;
+	const { index, indexes } = pathIndex;
+	const [extracted, setExtracted] = useState<ParsedResponse | null>(null);
+	const [error, setError] = useState<string | null>(null);
+	const hasMountedDebouncedEffect = useRef(false);
+
+	useEffect(() => {
+		const fetchCodePath = async () => {
+			try {
+				const response = await generateCodePath(
+					javascript,
+					esVersion,
+					sourceType,
+					isJSX,
+				);
+				if ("error" in response) {
+					throw new Error(response.error);
+				}
+				const newExtracted = JSON.parse(
+					response.response,
+				) as ParsedResponse;
+				if (newExtracted.codePathList.length < indexes) {
+					setPathIndex({
+						index: 0,
+						indexes: newExtracted.codePathList.length,
+					});
+				} else {
+					setPathIndex({
+						index,
+						indexes: newExtracted.codePathList.length,
+					});
+				}
+				setError(null);
+				setExtracted(newExtracted);
+			} catch (newError) {
+				setError(parseError(newError));
+			}
+		};
+
+		if (!hasMountedDebouncedEffect.current) {
+			hasMountedDebouncedEffect.current = true;
+			fetchCodePath();
+			return;
+		}
+
+		const timeoutId = setTimeout(() => {
+			fetchCodePath();
+		}, 500);
+
+		return () => {
+			clearTimeout(timeoutId);
+		};
+	}, [
+		javascript,
+		esVersion,
+		sourceType,
+		isJSX,
+		index,
+		indexes,
+		setPathIndex,
+	]);
+
+	if (error) {
+		return <ErrorState message={error} />;
+	}
+
+	if (!extracted) {
+		return null;
+	}
+
+	const codePath = extracted.codePathList[index].dot;
+
+	if (pathView === "code") {
+		return <Editor ariaLabel="Code Path" readOnly value={codePath} />;
+	}
+
+	return (
+		<>
+			<svg
+				className="absolute w-full h-full select-none pointer-events-none z-0"
+				data-testid="rf__background"
+				aria-label="Canvas background"
+			>
+				<pattern
+					id="pattern"
+					x="10"
+					y="14"
+					width="20"
+					height="20"
+					patternUnits="userSpaceOnUse"
+					patternTransform="translate(-0.5,-0.5)"
+				>
+					<circle
+						cx="0.5"
+						cy="0.5"
+						r="0.5"
+						className="fill-muted-foreground"
+					/>
+				</pattern>
+				<rect
+					x="0"
+					y="0"
+					width="100%"
+					height="100%"
+					fill="url(#pattern)"
+				/>
+			</svg>
+			<div className="relative z-10">
+				<Graphviz dot={codePath} />
+			</div>
+		</>
+	);
+};

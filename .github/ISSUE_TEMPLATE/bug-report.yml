@@ -1,0 +1,53 @@
+name: "\U0001F41E Report a problem"
+description: "Report a problem on one or more pages on the site"
+title: "Bug: (fill in)"
+type: Bug
+labels:
+    - bug
+    - "repro:needed"
+body:
+    - type: markdown
+      attributes:
+          value: By opening an issue, you agree to abide by the [OpenJS Foundation Code of Conduct](https://eslint.org/conduct).
+    - type: input
+      attributes:
+          label: What browser did you use to see problem?
+      validations:
+          required: true
+    - type: textarea
+      attributes:
+          label: What did you do?
+          description: Please provide exact reproduction steps. Bug reports without reproduction steps are automatically closed.
+      validations:
+          required: true
+    - type: textarea
+      attributes:
+          label: What did you expect to happen?
+      validations:
+          required: true
+    - type: textarea
+      attributes:
+          label: What actually happened?
+      validations:
+          required: true
+    - type: checkboxes
+      attributes:
+          label: Participation
+          options:
+              - label: I am willing to submit a pull request for this issue.
+                required: false
+    - type: markdown
+      attributes:
+          value: Please **do not** open a pull request until this issue has been accepted by the team.
+    - type: checkboxes
+      attributes:
+          label: AI acknowledgment
+          options:
+              - label: I did not use AI to generate this issue report.
+                required: false
+              - label: (If the above is not checked) I have reviewed the AI-generated content before submitting.
+                required: false
+    - type: textarea
+      attributes:
+          label: Additional comments
+          description: Is there anything else that's important for the team to know?

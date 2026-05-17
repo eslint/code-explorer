@@ -1,0 +1,140 @@
+@import "./codemirror-themes.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	:root,
+	.light {
+		--background: 0 0% 100%;
+		--foreground: 224 71.4% 4.1%;
+
+		--card: 0 0% 100%;
+		--card-foreground: 224 71.4% 4.1%;
+
+		--popover: 0 0% 100%;
+		--popover-foreground: 224 71.4% 4.1%;
+
+		--primary: 250 59% 48%;
+		--primary-foreground: 0 0% 100%;
+
+		--secondary: 220 14.3% 95.9%;
+		--secondary-foreground: 220.9 39.3% 11%;
+
+		--muted: 220 14.3% 95.9%;
+		--muted-foreground: 220 8.9% 46.1%;
+
+		--accent: 220 14.3% 95.9%;
+		--accent-foreground: 220.9 39.3% 11%;
+
+		--destructive: 0 84.2% 60.2%;
+		--destructive-foreground: 210 20% 98%;
+
+		--border: 220 13% 91%;
+		--input: 220 13% 91%;
+		--ring: 224 71.4% 4.1%;
+
+		--radius: 0.5rem;
+
+		--drop-container-bg-color: 0deg 0% 77.59% / 80%;
+		--drop-message-bg-color: 0deg 0% 20%;
+
+		--scrollbar-track: 0deg 0% 93.33%;
+		--scrollbar-thumb: 0deg 0% 53.33%;
+		--scrollbar-thumb-hover: 0deg 0% 33.33%;
+
+		--nonmatching-esquery-selector: var(--color-rose-200);
+	}
+
+	.dark {
+		--background: 220deg 42.86% 10.98%;
+		--foreground: 210 20% 98%;
+
+		--card: 216.36deg 24.44% 26.47%;
+		--card-foreground: 210 20% 98%;
+
+		--popover: 220deg 42.86% 10.98%;
+		--popover-foreground: 210 20% 98%;
+
+		--primary: 240 100% 86%;
+		--primary-foreground: 0 0% 100%;
+
+		--secondary: 215 27.9% 16.9%;
+		--secondary-foreground: 210 20% 98%;
+
+		--muted: 214.29deg 32.56% 16.86%;
+		--muted-foreground: 217.9 10.6% 64.9%;
+
+		--accent: 215 27.9% 16.9%;
+		--accent-foreground: 210 20% 98%;
+
+		--destructive: 0 62.8% 30.6%;
+		--destructive-foreground: 210 20% 98%;
+
+		--border: 215 27.9% 16.9%;
+		--input: 216.36deg 24.44% 26.47%;
+		--ring: 216 12.2% 83.9%;
+
+		--drop-container-bg-color: 0deg 0% 24.71% / 67%;
+		--drop-message-bg-color: 0deg 0% 20%;
+
+		--scrollbar-track: 0deg 0% 18.04%;
+		--scrollbar-thumb: 0deg 0% 53.33%;
+		--scrollbar-thumb-hover: 0deg 0% 33.33%;
+
+		--nonmatching-esquery-selector: var(--color-rose-900);
+	}
+}
+
+@layer base {
+	* {
+		@apply border-border;
+		min-width: 0;
+	}
+	html {
+		text-rendering: optimizelegibility;
+	}
+	body {
+		@apply bg-background text-foreground;
+		min-height: 100dvh;
+	}
+	.font-sans {
+		font-family: "Space Grotesk", sans-serif;
+	}
+	.cm-editor,
+	.cm-gutter {
+		@apply bg-editorBackground;
+		height: 100%;
+	}
+	.ͼ1.cm-focused {
+		outline: none;
+	}
+}
+
+.cm-theme-light {
+	min-width: 100%;
+}
+
+.cm-focused .cm-selectionBackground,
+.cm-selectionBackground,
+.cm-content ::selection {
+	background-color: var(--color-primary-800) !important;
+}
+
+.cm-completionMatchedText {
+	text-decoration: none !important;
+	font-weight: bold;
+}
+
+.cm-tooltip.cm-tooltip-autocomplete,
+.cm-tooltip.cm-tooltip-autocomplete > ul {
+	border-radius: 0.125rem;
+}
+
+.cm-editor:not(:has(.cm-selectionBackground)) .cm-activeLine {
+	background-color: hsl(var(--accent));
+}
+
+.cm-editor:has(.cm-selectionBackground) .cm-activeLine {
+	background-color: transparent;
+}
