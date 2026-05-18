@@ -484,6 +484,7 @@ export const defaultJsonOptions: JsonOptions = {
 export const defaultMarkdownOptions: MarkdownOptions = {
 	markdownMode: "commonmark",
 	markdownFrontmatter: "off",
+	markdownMath: false,
 };
 
 export const defaultCssOptions: CssOptions = {
