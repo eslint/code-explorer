@@ -289,26 +289,12 @@ export const useExplorer = create<ExplorerState>()(
 						state.setCode(patchedCode);
 					}
 
-					state.setJsOptions({
-						...defaultJsOptions,
-						...state.jsOptions,
-					});
-					state.setJsonOptions({
-						...defaultJsonOptions,
-						...state.jsonOptions,
-					});
-					state.setMarkdownOptions({
-						...defaultMarkdownOptions,
-						...state.markdownOptions,
-					});
-					state.setCssOptions({
-						...defaultCssOptions,
-						...state.cssOptions,
-					});
-					state.setHtmlOptions({
-						...defaultHtmlOptions,
-						...state.htmlOptions,
-					});
+					if (state.markdownOptions.markdownMath === undefined) {
+						state.setMarkdownOptions({
+							...defaultMarkdownOptions,
+							...state.markdownOptions,
+						});
+					}
 				},
 			},
 		),
