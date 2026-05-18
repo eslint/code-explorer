@@ -53,6 +53,9 @@ const makeDotArrows = codePath => {
 	return `${text} [color="#98A2B3"];`;
 };
 
+const escapeDotLabelText = value =>
+	value.replace(/\\/gu, String.raw`\\`).replace(/"/gu, String.raw`\"`);
+
 export const generateCodePath = async (
 	code: string,
 	esVersion: Version,
@@ -156,7 +159,6 @@ export const generateCodePath = async (
 			const { codePath } = target;
 
 			let text =
-				"\n" +
 				"digraph {\n" +
 				'    bgcolor="transparent";\n' +
 				'    node[shape=box,style="rounded,filled",fillcolor=white,color="#E4E7EC"];\n' +
@@ -182,7 +184,7 @@ export const generateCodePath = async (
 
 				text +=
 					nodes && nodes.length > 0
-						? nodes.join(String.raw`\n`)
+						? nodes.map(escapeDotLabelText).join(String.raw`\n`)
 						: "????";
 
 				text += '"];\n';

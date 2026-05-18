@@ -1,6 +1,7 @@
 name: CI
 
-# configure concurrency: cancel pending and in-progress workflow runs if a new commit to the same branch is pushed (`github.head_ref` is the source branch of PRs, `github.ref_name` is the branch name of non-PR events)
+# configure concurrency: cancel pending and in-progress workflow runs if a new commit to the same branch is pushed
+# (`github.head_ref` is the source branch of PRs, `github.ref_name` is the branch name of non-PR events)
 concurrency:
     group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
     cancel-in-progress: true
@@ -30,28 +31,27 @@ jobs:
             - name: Install Node.js
               uses: actions/setup-node@v6
               with:
-                  node-version-file: ".nvmrc"
+                  node-version-file: .nvmrc
                   cache: npm
 
             - name: Install dependencies
-              run: |
-                  npm ci
+              run: npm ci
 
             - name: Typecheck everything (tsc)
-              run: |
-                  npm run build:types
+              run: npm run build:types
 
             - name: Lint everything (eslint)
-              run: |
-                  npm run lint
+              run: npm run lint
 
             - name: Check formatting of everything (prettier)
-              run: |
-                  npm run fmt:check
+              run: npm run fmt:check
+
+            - name: Build production bundle (vite build)
+              run: npm run build
 
     e2e-test:
         name: E2E Tests (Playwright)
-        timeout-minutes: 60
+        timeout-minutes: 10
         # run only if triggered by push on a branch or by a PR event for a PR which is not a draft
         if: ${{ !github.event.pull_request || github.event.pull_request.draft == false }}
         runs-on: ubuntu-24.04
@@ -61,20 +61,17 @@ jobs:
             - name: Install Node.js
               uses: actions/setup-node@v6
               with:
-                  node-version-file: ".nvmrc"
+                  node-version-file: .nvmrc
                   cache: npm
 
             - name: Install dependencies
-              run: |
-                  npm ci
+              run: npm ci
 
             - name: Install Playwright browsers
-              run: |
-                  npx playwright install --with-deps
+              run: npx playwright install chromium firefox webkit --with-deps --no-shell
 
             - name: Run Playwright tests
-              run: |
-                  npm run test:e2e
+              run: npm run test:e2e
 
             - uses: actions/upload-artifact@v7
               if: ${{ !cancelled() }}

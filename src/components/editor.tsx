@@ -3,9 +3,9 @@ import { javascript } from "@codemirror/lang-javascript";
 import { markdown } from "@codemirror/lang-markdown";
 import { css } from "@codemirror/lang-css";
 import { html } from "@codemirror/lang-html";
+import { foldGutter, type LanguageSupport } from "@codemirror/language";
 import { EditorView } from "@codemirror/view";
-import { LanguageSupport } from "@codemirror/language";
-import CodeMirror from "@uiw/react-codemirror";
+import CodeMirror, { type BasicSetupOptions } from "@uiw/react-codemirror";
 import { useEffect, useRef, useState, useMemo, type FC } from "react";
 import { useExplorer, type Language } from "@/hooks/use-explorer";
 import { mergeClassNames, debounce } from "@/lib/utils";
@@ -25,6 +25,15 @@ const languageExtensions: Record<
 	markdown: () => markdown(),
 	css: () => css(),
 	html: () => html(),
+};
+
+const foldGutterExtension = foldGutter({
+	closedText: "▸",
+	openText: "▾",
+});
+
+const basicSetup: BasicSetupOptions = {
+	foldGutter: false,
 };
 
 type EditorProperties = {
@@ -56,6 +65,7 @@ export const Editor: FC<EditorProperties> = ({
 	const editorExtensions = useMemo(
 		() => [
 			activeLanguageExtension,
+			foldGutterExtension,
 			wrap ? EditorView.lineWrapping : [],
 			EditorView.contentAttributes.of({ "aria-label": ariaLabel }),
 			ESLintPlaygroundTheme,
@@ -181,6 +191,7 @@ export const Editor: FC<EditorProperties> = ({
 				extensions={editorExtensions}
 				onChange={debouncedOnChange}
 				readOnly={readOnly}
+				basicSetup={basicSetup}
 			/>
 		</div>
 	);
