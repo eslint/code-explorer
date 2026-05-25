@@ -340,6 +340,114 @@ test.describe("AST node expansion", () => {
 				page.getByRole("button", { name: "1. paragraph" }),
 			).toBeVisible();
 		});
+
+		test("Frontmatter: TOML", async ({ page }) => {
+			// `Mode`: `CommonMark`
+			const modeSelect = page.getByRole("combobox", {
+				exact: true,
+				name: "Mode",
+			});
+			await modeSelect.click();
+			await page
+				.getByRole("option", { exact: true, name: "CommonMark" })
+				.click();
+			await expect(modeSelect).toHaveText("CommonMark");
+
+			// `Front Matter`: `TOML`
+			const frontMatterSelect = page.getByRole("combobox", {
+				exact: true,
+				name: "Front Matter",
+			});
+			await frontMatterSelect.click();
+			await page
+				.getByRole("option", { exact: true, name: "TOML" })
+				.click();
+			await expect(frontMatterSelect).toHaveText("TOML");
+
+			// `Math`: `false`
+			const mathSwitch = page.getByRole("switch", {
+				exact: true,
+				name: "Math",
+			});
+			await expect(mathSwitch).toHaveAttribute("aria-checked", "false");
+
+			// Hide the settings menu to ensure it doesn't interfere with the test.
+			await page.keyboard.press("Escape");
+
+			// Fill a Markdown sample with TOML frontmatter into the editor.
+			await page
+				.getByRole("textbox", { exact: true, name: "Code Editor" })
+				.fill("+++\ncount = 1\n+++\n\ntext");
+
+			// Verify that the AST structure matches expectations for TOML frontmatter.
+			await page
+				.getByRole("region", { name: "root" })
+				.getByRole("listitem")
+				.filter({ hasText: "childrenArray[2 elements]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await expect(
+				page.getByRole("button", { name: "0. toml" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "1. paragraph" }),
+			).toBeVisible();
+		});
+
+		test("Frontmatter: JSON", async ({ page }) => {
+			// `Mode`: `CommonMark`
+			const modeSelect = page.getByRole("combobox", {
+				exact: true,
+				name: "Mode",
+			});
+			await modeSelect.click();
+			await page
+				.getByRole("option", { exact: true, name: "CommonMark" })
+				.click();
+			await expect(modeSelect).toHaveText("CommonMark");
+
+			// `Front Matter`: `JSON`
+			const frontMatterSelect = page.getByRole("combobox", {
+				exact: true,
+				name: "Front Matter",
+			});
+			await frontMatterSelect.click();
+			await page
+				.getByRole("option", { exact: true, name: "JSON" })
+				.click();
+			await expect(frontMatterSelect).toHaveText("JSON");
+
+			// `Math`: `false`
+			const mathSwitch = page.getByRole("switch", {
+				exact: true,
+				name: "Math",
+			});
+			await expect(mathSwitch).toHaveAttribute("aria-checked", "false");
+
+			// Hide the settings menu to ensure it doesn't interfere with the test.
+			await page.keyboard.press("Escape");
+
+			// Fill a Markdown sample with JSON frontmatter into the editor.
+			await page
+				.getByRole("textbox", { exact: true, name: "Code Editor" })
+				.fill('---\n{"count":1}\n---\n\ntext');
+
+			// Verify that the AST structure matches expectations for JSON frontmatter.
+			await page
+				.getByRole("region", { name: "root" })
+				.getByRole("listitem")
+				.filter({ hasText: "childrenArray[2 elements]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await expect(
+				page.getByRole("button", { name: "0. json" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "1. paragraph" }),
+			).toBeVisible();
+		});
 	});
 
 	test.describe("Language: CSS", () => {});
