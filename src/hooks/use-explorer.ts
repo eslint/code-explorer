@@ -2,8 +2,8 @@ import { create } from "zustand";
 import {
 	devtools,
 	persist,
-	StateStorage,
 	createJSONStorage,
+	type StateStorage,
 } from "zustand/middleware";
 import type { EcmaVersion, Options } from "espree";
 import {
@@ -48,6 +48,7 @@ export type JsonOptions = {
 export type MarkdownOptions = {
 	markdownMode: MarkdownMode;
 	markdownFrontmatter: MarkdownFrontmatter;
+	markdownMath: boolean;
 };
 
 export type CssOptions = {
@@ -286,6 +287,13 @@ export const useExplorer = create<ExplorerState>()(
 
 					if (needsPatching) {
 						state.setCode(patchedCode);
+					}
+
+					if (state.markdownOptions.markdownMath === undefined) {
+						state.setMarkdownOptions({
+							...defaultMarkdownOptions,
+							...state.markdownOptions,
+						});
 					}
 				},
 			},

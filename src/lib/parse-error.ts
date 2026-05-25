@@ -9,10 +9,12 @@ export const parseError = (error: unknown): string => {
 
 		if ("lineNumber" in error && "column" in error) {
 			message += ` (${error.lineNumber}:${error.column})`;
+		} else if ("line" in error && "column" in error) {
+			message += ` (${error.line}:${error.column})`;
 		} else if ("lineNumber" in error) {
-			message += `(line ${error.lineNumber})`;
+			message += ` (line ${error.lineNumber})`;
 		} else if ("column" in error) {
-			message += `(column ${error.column})`;
+			message += ` (column ${error.column})`;
 		}
 	} else {
 		message = String(error);

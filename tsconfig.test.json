@@ -1,0 +1,30 @@
+{
+  "include": ["e2e-tests/**/*.ts"],
+  "compilerOptions": {
+    /* Type Checking */
+    "noFallthroughCasesInSwitch": true,
+
+    /* Modules */
+    "module": "es2022",
+    "moduleResolution": "bundler",
+    "types": [],
+
+    /* Emit */
+    "noEmit": true,
+
+    /* Interop Constraints */
+    "forceConsistentCasingInFileNames": true,
+    "verbatimModuleSyntax": true,
+
+    /* Language and Environment */
+    "lib": ["dom", "ES2022"],
+    "target": "es2022",
+
+    /* Projects */
+    "incremental": true,
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.test.tsbuildinfo",
+
+    /* Completeness */
+    "skipLibCheck": true
+  }
+}
