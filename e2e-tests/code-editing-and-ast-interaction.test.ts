@@ -217,6 +217,78 @@ test.describe("AST node expansion", () => {
 				page.getByRole("button", { name: "3. strong" }),
 			).toBeVisible();
 		});
+
+		test("Mode: GFM", async ({ page }) => {
+			// `Mode`: `GFM`
+			const modeSelect = page.getByRole("combobox", {
+				exact: true,
+				name: "Mode",
+			});
+			await modeSelect.click();
+			await page
+				.getByRole("option", {
+					exact: true,
+					name: "GitHub-Flavored",
+				})
+				.click();
+			await expect(modeSelect).toHaveText("GitHub-Flavored");
+
+			// `Front Matter`: `Off`
+			const frontMatterSelect = page.getByRole("combobox", {
+				exact: true,
+				name: "Front Matter",
+			});
+			await frontMatterSelect.click();
+			await page
+				.getByRole("option", { exact: true, name: "Off" })
+				.click();
+			await expect(frontMatterSelect).toHaveText("Off");
+
+			// `Math`: `false`
+			const mathSwitch = page.getByRole("switch", {
+				exact: true,
+				name: "Math",
+			});
+			await expect(mathSwitch).toHaveAttribute("aria-checked", "false");
+
+			// Hide the settings menu to ensure it doesn't interfere with the test.
+			await page.keyboard.press("Escape");
+
+			// Fill a GFM sample into the editor.
+			await page
+				.getByRole("textbox", { exact: true, name: "Code Editor" })
+				.fill("text, ~~delete~~, *emphasis*");
+
+			// Verify that the AST structure matches expectations for GFM.
+			await page
+				.getByRole("region", { name: "root" })
+				.getByRole("listitem")
+				.filter({ hasText: "childrenArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await page.getByRole("button", { name: "0. paragraph" }).click();
+
+			await page
+				.getByRole("region", { name: "0. paragraph" })
+				.getByRole("listitem")
+				.filter({ hasText: "childrenArray[4 elements]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await expect(
+				page.getByRole("button", { name: "0. text" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "1. delete" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "2. text" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "3. emphasis" }),
+			).toBeVisible();
+		});
 	});
 
 	test.describe("Language: CSS", () => {});
