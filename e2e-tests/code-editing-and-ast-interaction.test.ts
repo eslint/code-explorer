@@ -448,6 +448,80 @@ test.describe("AST node expansion", () => {
 				page.getByRole("button", { name: "1. paragraph" }),
 			).toBeVisible();
 		});
+
+		test("Math: true", async ({ page }) => {
+			// `Mode`: `CommonMark`
+			const modeSelect = page.getByRole("combobox", {
+				exact: true,
+				name: "Mode",
+			});
+			await modeSelect.click();
+			await page
+				.getByRole("option", { exact: true, name: "CommonMark" })
+				.click();
+			await expect(modeSelect).toHaveText("CommonMark");
+
+			// `Front Matter`: `Off`
+			const frontMatterSelect = page.getByRole("combobox", {
+				exact: true,
+				name: "Front Matter",
+			});
+			await frontMatterSelect.click();
+			await page
+				.getByRole("option", { exact: true, name: "Off" })
+				.click();
+			await expect(frontMatterSelect).toHaveText("Off");
+
+			// `Math`: `true`
+			const mathSwitch = page.getByRole("switch", {
+				exact: true,
+				name: "Math",
+			});
+			await mathSwitch.click();
+			await expect(mathSwitch).toHaveAttribute("aria-checked", "true");
+
+			// Hide the settings menu to ensure it doesn't interfere with the test.
+			await page.keyboard.press("Escape");
+
+			// Fill a Markdown sample with inline and block math into the editor.
+			await page
+				.getByRole("textbox", { exact: true, name: "Code Editor" })
+				.fill("inline $x + y$ math\n\n$$\nx + y\n$$");
+
+			// Verify that the AST structure matches expectations for math.
+			await page
+				.getByRole("region", { name: "root" })
+				.getByRole("listitem")
+				.filter({ hasText: "childrenArray[2 elements]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await expect(
+				page.getByRole("button", { name: "0. paragraph" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "1. math" }),
+			).toBeVisible();
+
+			await page.getByRole("button", { name: "0. paragraph" }).click();
+
+			await page
+				.getByRole("region", { name: "0. paragraph" })
+				.getByRole("listitem")
+				.filter({ hasText: "childrenArray[3 elements]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await expect(
+				page.getByRole("button", { name: "0. text" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "1. inlineMath" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "2. text" }),
+			).toBeVisible();
+		});
 	});
 
 	test.describe("Language: CSS", () => {});
