@@ -134,9 +134,29 @@ test.describe("AST node expansion", () => {
 		await page.getByRole("button", { name: "Language Options" }).click();
 	});
 
-	test.describe("Language: JavaScript", () => {});
+	test.describe("Language: JavaScript", () => {
+		test.beforeEach(async ({ page }) => {
+			// `Language`: select `JavaScript`
+			await page
+				.getByRole("combobox", { exact: true, name: "Language" })
+				.click();
+			await page
+				.getByRole("option", { exact: true, name: "JavaScript" })
+				.click();
+		});
+	});
 
-	test.describe("Language: JSON", () => {});
+	test.describe("Language: JSON", () => {
+		test.beforeEach(async ({ page }) => {
+			// `Language`: select `JSON`
+			await page
+				.getByRole("combobox", { exact: true, name: "Language" })
+				.click();
+			await page
+				.getByRole("option", { exact: true, name: "JSON" })
+				.click();
+		});
+	});
 
 	test.describe("Language: Markdown", () => {
 		test.beforeEach(async ({ page }) => {
@@ -524,7 +544,27 @@ test.describe("AST node expansion", () => {
 		});
 	});
 
-	test.describe("Language: CSS", () => {});
+	test.describe("Language: CSS", () => {
+		test.beforeEach(async ({ page }) => {
+			// `Language`: select `CSS`
+			await page
+				.getByRole("combobox", { exact: true, name: "Language" })
+				.click();
+			await page
+				.getByRole("option", { exact: true, name: "CSS" })
+				.click();
+		});
+	});
 
-	test.describe("Language: HTML", () => {});
+	test.describe("Language: HTML", () => {
+		test.beforeEach(async ({ page }) => {
+			// `Language`: select `HTML`
+			await page
+				.getByRole("combobox", { exact: true, name: "Language" })
+				.click();
+			await page
+				.getByRole("option", { exact: true, name: "HTML" })
+				.click();
+		});
+	});
 });
