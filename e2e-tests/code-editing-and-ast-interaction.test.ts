@@ -839,6 +839,71 @@ test.describe("AST node expansion", () => {
 				.getByRole("option", { exact: true, name: "CSS" })
 				.click();
 		});
+
+		test("Tolerant Parsing: false", async ({ page }) => {
+			// `Tolerant Parsing`: `false`
+			const tolerantSwitch = page.getByRole("switch", {
+				exact: true,
+				name: "Tolerant Parsing",
+			});
+			await expect(tolerantSwitch).toHaveAttribute(
+				"aria-checked",
+				"false",
+			);
+
+			// Hide the settings menu to ensure it doesn't interfere with the test.
+			await page.keyboard.press("Escape");
+
+			// Fill a CSS sample into the editor.
+			await page
+				.getByRole("textbox", { exact: true, name: "Code Editor" })
+				.fill("a{}");
+
+			// Verify that the AST structure matches expectations for CSS.
+			await page
+				.getByRole("region", { name: "StyleSheet" })
+				.getByRole("listitem")
+				.filter({ hasText: "childrenArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await expect(
+				page.getByRole("button", { name: "0. Rule" }),
+			).toBeVisible();
+		});
+
+		test("Tolerant Parsing: true", async ({ page }) => {
+			// `Tolerant Parsing`: `true`
+			const tolerantSwitch = page.getByRole("switch", {
+				exact: true,
+				name: "Tolerant Parsing",
+			});
+			await tolerantSwitch.click();
+			await expect(tolerantSwitch).toHaveAttribute(
+				"aria-checked",
+				"true",
+			);
+
+			// Hide the settings menu to ensure it doesn't interfere with the test.
+			await page.keyboard.press("Escape");
+
+			// Fill a CSS sample that requires tolerant parsing into the editor.
+			await page
+				.getByRole("textbox", { exact: true, name: "Code Editor" })
+				.fill("a{");
+
+			// Verify that the AST structure matches expectations for tolerant CSS.
+			await page
+				.getByRole("region", { name: "StyleSheet" })
+				.getByRole("listitem")
+				.filter({ hasText: "childrenArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await expect(
+				page.getByRole("button", { name: "0. Rule" }),
+			).toBeVisible();
+		});
 	});
 
 	test.describe("Language: HTML", () => {
