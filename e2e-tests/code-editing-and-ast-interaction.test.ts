@@ -156,6 +156,211 @@ test.describe("AST node expansion", () => {
 				.getByRole("option", { exact: true, name: "JSON" })
 				.click();
 		});
+
+		test("Mode: JSON", async ({ page }) => {
+			// `Mode`: `JSON`
+			const modeSelect = page.getByRole("combobox", {
+				exact: true,
+				name: "Mode",
+			});
+			await modeSelect.click();
+			await page
+				.getByRole("option", { exact: true, name: "json" })
+				.click();
+			await expect(modeSelect).toHaveText("json");
+
+			// Hide the settings menu to ensure it doesn't interfere with the test.
+			await page.keyboard.press("Escape");
+
+			// Fill a JSON sample into the editor.
+			await page
+				.getByRole("textbox", { exact: true, name: "Code Editor" })
+				.fill('{"foo":"bar"}');
+
+			// Verify that the AST structure matches expectations for JSON.
+			await page
+				.getByRole("region", { name: "Document" })
+				.getByRole("listitem")
+				.filter({ hasText: "bodyObject{type, members, loc, ...}" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await page
+				.getByRole("region", { name: "Document" })
+				.getByRole("listitem")
+				.filter({ hasText: "membersArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await expect(
+				page.getByRole("button", { name: "0. Member" }),
+			).toBeVisible();
+
+			await page
+				.getByRole("region", { name: "Document" })
+				.getByRole("listitem")
+				.filter({ hasText: "tokensArray[5 elements]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await expect(
+				page.getByRole("button", { name: "0. LBrace" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "1. String" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "2. Colon" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "3. String" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "4. RBrace" }),
+			).toBeVisible();
+		});
+
+		test("Mode: JSONC", async ({ page }) => {
+			// `Mode`: `JSONC`
+			const modeSelect = page.getByRole("combobox", {
+				exact: true,
+				name: "Mode",
+			});
+			await modeSelect.click();
+			await page
+				.getByRole("option", { exact: true, name: "jsonc" })
+				.click();
+			await expect(modeSelect).toHaveText("jsonc");
+
+			// `Allow Trailing Commas`: `false`
+			const allowTrailingCommasSwitch = page.getByRole("switch", {
+				exact: true,
+				name: "Allow Trailing Commas",
+			});
+			await expect(allowTrailingCommasSwitch).toHaveAttribute(
+				"aria-checked",
+				"false",
+			);
+
+			// Hide the settings menu to ensure it doesn't interfere with the test.
+			await page.keyboard.press("Escape");
+
+			// Fill a JSONC sample into the editor.
+			await page
+				.getByRole("textbox", { exact: true, name: "Code Editor" })
+				.fill('{\n// comment\n"foo":"bar"\n}');
+
+			// Verify that the AST structure matches expectations for JSONC.
+			await page
+				.getByRole("region", { name: "Document" })
+				.getByRole("listitem")
+				.filter({ hasText: "bodyObject{type, members, loc, ...}" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await page
+				.getByRole("region", { name: "Document" })
+				.getByRole("listitem")
+				.filter({ hasText: "membersArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await expect(
+				page.getByRole("button", { name: "0. Member" }),
+			).toBeVisible();
+
+			await page
+				.getByRole("region", { name: "Document" })
+				.getByRole("listitem")
+				.filter({ hasText: "tokensArray[6 elements]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await expect(
+				page.getByRole("button", { name: "0. LBrace" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "1. LineComment" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "2. String" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "3. Colon" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "4. String" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "5. RBrace" }),
+			).toBeVisible();
+		});
+
+		test("Mode: JSON5", async ({ page }) => {
+			// `Mode`: `JSON5`
+			const modeSelect = page.getByRole("combobox", {
+				exact: true,
+				name: "Mode",
+			});
+			await modeSelect.click();
+			await page
+				.getByRole("option", { exact: true, name: "json5" })
+				.click();
+			await expect(modeSelect).toHaveText("json5");
+
+			// Hide the settings menu to ensure it doesn't interfere with the test.
+			await page.keyboard.press("Escape");
+
+			// Fill a JSON5 sample into the editor.
+			await page
+				.getByRole("textbox", { exact: true, name: "Code Editor" })
+				.fill('{foo:"bar",}');
+
+			// Verify that the AST structure matches expectations for JSON5.
+			await page
+				.getByRole("region", { name: "Document" })
+				.getByRole("listitem")
+				.filter({ hasText: "bodyObject{type, members, loc, ...}" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await page
+				.getByRole("region", { name: "Document" })
+				.getByRole("listitem")
+				.filter({ hasText: "membersArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await expect(
+				page.getByRole("button", { name: "0. Member" }),
+			).toBeVisible();
+
+			await page
+				.getByRole("region", { name: "Document" })
+				.getByRole("listitem")
+				.filter({ hasText: "tokensArray[6 elements]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await expect(
+				page.getByRole("button", { name: "0. LBrace" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "1. Identifier" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "2. Colon" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "3. String" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "4. Comma" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "5. RBrace" }),
+			).toBeVisible();
+		});
 	});
 
 	test.describe("Language: Markdown", () => {
