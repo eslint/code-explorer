@@ -361,6 +361,86 @@ test.describe("AST node expansion", () => {
 				page.getByRole("button", { name: "5. RBrace" }),
 			).toBeVisible();
 		});
+
+		test("Allow Trailing Commas: true", async ({ page }) => {
+			// `Mode`: `JSONC`
+			const modeSelect = page.getByRole("combobox", {
+				exact: true,
+				name: "Mode",
+			});
+			await modeSelect.click();
+			await page
+				.getByRole("option", { exact: true, name: "jsonc" })
+				.click();
+			await expect(modeSelect).toHaveText("jsonc");
+
+			// `Allow Trailing Commas`: `true`
+			const allowTrailingCommasSwitch = page.getByRole("switch", {
+				exact: true,
+				name: "Allow Trailing Commas",
+			});
+			await allowTrailingCommasSwitch.click();
+			await expect(allowTrailingCommasSwitch).toHaveAttribute(
+				"aria-checked",
+				"true",
+			);
+
+			// Hide the settings menu to ensure it doesn't interfere with the test.
+			await page.keyboard.press("Escape");
+
+			// Fill a JSONC sample with a trailing comma into the editor.
+			await page
+				.getByRole("textbox", { exact: true, name: "Code Editor" })
+				.fill('{\n// comment\n"foo":"bar",\n}');
+
+			// Verify that the AST structure matches expectations for JSONC with trailing commas.
+			await page
+				.getByRole("region", { name: "Document" })
+				.getByRole("listitem")
+				.filter({ hasText: "bodyObject{type, members, loc, ...}" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await page
+				.getByRole("region", { name: "Document" })
+				.getByRole("listitem")
+				.filter({ hasText: "membersArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await expect(
+				page.getByRole("button", { name: "0. Member" }),
+			).toBeVisible();
+
+			await page
+				.getByRole("region", { name: "Document" })
+				.getByRole("listitem")
+				.filter({ hasText: "tokensArray[7 elements]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await expect(
+				page.getByRole("button", { name: "0. LBrace" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "1. LineComment" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "2. String" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "3. Colon" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "4. String" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "5. Comma" }),
+			).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "6. RBrace" }),
+			).toBeVisible();
+		});
 	});
 
 	test.describe("Language: Markdown", () => {
