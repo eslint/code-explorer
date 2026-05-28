@@ -1093,5 +1093,264 @@ test.describe("AST node expansion", () => {
 				.getByRole("option", { exact: true, name: "HTML" })
 				.click();
 		});
+
+		test("Template Engine Syntax: Handlebars", async ({ page }) => {
+			// `Template Engine Syntax`: `Handlebars`
+			const templateEngineSyntaxSelect = page.getByRole("combobox", {
+				exact: true,
+				name: "Template Engine Syntax",
+			});
+			await templateEngineSyntaxSelect.click();
+			await page
+				.getByRole("option", { exact: true, name: "Handlebars" })
+				.click();
+			await expect(templateEngineSyntaxSelect).toHaveText("Handlebars");
+
+			// `Front Matter`: `false`
+			const frontMatterSwitch = page.getByRole("switch", {
+				exact: true,
+				name: "Front Matter",
+			});
+			await expect(frontMatterSwitch).toHaveAttribute(
+				"aria-checked",
+				"false",
+			);
+
+			// Hide the settings menu to ensure it doesn't interfere with the test.
+			await page.keyboard.press("Escape");
+
+			// Fill an HTML sample with Handlebars syntax into the editor.
+			await page
+				.getByRole("textbox", { exact: true, name: "Code Editor" })
+				.fill("<p>{{x}}</p>");
+
+			// Verify that the AST structure matches expectations for Handlebars syntax.
+			await page
+				.getByRole("region", { name: "Program" })
+				.getByRole("listitem")
+				.filter({ hasText: "bodyArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await page.getByRole("button", { name: "0. Document" }).click();
+
+			await page
+				.getByRole("region", { name: "0. Document" })
+				.getByRole("listitem")
+				.filter({ hasText: "childrenArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await page.getByRole("button", { name: "0. Tag" }).click();
+
+			await page
+				.getByRole("region", { name: "0. Tag" })
+				.getByRole("listitem")
+				.filter({ hasText: "childrenArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await page.getByRole("button", { name: "0. Text" }).click();
+
+			await page
+				.getByRole("region", { name: "0. Text" })
+				.getByRole("listitem")
+				.filter({ hasText: "partsArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await expect(
+				page.getByRole("button", { name: "0. Template" }),
+			).toBeVisible();
+		});
+
+		test("Template Engine Syntax: Twig", async ({ page }) => {
+			// `Template Engine Syntax`: `Twig`
+			const templateEngineSyntaxSelect = page.getByRole("combobox", {
+				exact: true,
+				name: "Template Engine Syntax",
+			});
+			await templateEngineSyntaxSelect.click();
+			await page
+				.getByRole("option", { exact: true, name: "Twig" })
+				.click();
+			await expect(templateEngineSyntaxSelect).toHaveText("Twig");
+
+			// `Front Matter`: `false`
+			const frontMatterSwitch = page.getByRole("switch", {
+				exact: true,
+				name: "Front Matter",
+			});
+			await expect(frontMatterSwitch).toHaveAttribute(
+				"aria-checked",
+				"false",
+			);
+
+			// Hide the settings menu to ensure it doesn't interfere with the test.
+			await page.keyboard.press("Escape");
+
+			// Fill an HTML sample with Twig syntax into the editor.
+			await page
+				.getByRole("textbox", { exact: true, name: "Code Editor" })
+				.fill("<p>{%x%}</p>");
+
+			// Verify that the AST structure matches expectations for Twig syntax.
+			await page
+				.getByRole("region", { name: "Program" })
+				.getByRole("listitem")
+				.filter({ hasText: "bodyArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await page.getByRole("button", { name: "0. Document" }).click();
+
+			await page
+				.getByRole("region", { name: "0. Document" })
+				.getByRole("listitem")
+				.filter({ hasText: "childrenArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await page.getByRole("button", { name: "0. Tag" }).click();
+
+			await page
+				.getByRole("region", { name: "0. Tag" })
+				.getByRole("listitem")
+				.filter({ hasText: "childrenArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await page.getByRole("button", { name: "0. Text" }).click();
+
+			await page
+				.getByRole("region", { name: "0. Text" })
+				.getByRole("listitem")
+				.filter({ hasText: "partsArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await expect(
+				page.getByRole("button", { name: "0. Template" }),
+			).toBeVisible();
+		});
+
+		test("Template Engine Syntax: ERB", async ({ page }) => {
+			// `Template Engine Syntax`: `ERB`
+			const templateEngineSyntaxSelect = page.getByRole("combobox", {
+				exact: true,
+				name: "Template Engine Syntax",
+			});
+			await templateEngineSyntaxSelect.click();
+			await page
+				.getByRole("option", { exact: true, name: "ERB" })
+				.click();
+			await expect(templateEngineSyntaxSelect).toHaveText("ERB");
+
+			// `Front Matter`: `false`
+			const frontMatterSwitch = page.getByRole("switch", {
+				exact: true,
+				name: "Front Matter",
+			});
+			await expect(frontMatterSwitch).toHaveAttribute(
+				"aria-checked",
+				"false",
+			);
+
+			// Hide the settings menu to ensure it doesn't interfere with the test.
+			await page.keyboard.press("Escape");
+
+			// Fill an HTML sample with ERB syntax into the editor.
+			await page
+				.getByRole("textbox", { exact: true, name: "Code Editor" })
+				.fill("<p><%x%></p>");
+
+			// Verify that the AST structure matches expectations for ERB syntax.
+			await page
+				.getByRole("region", { name: "Program" })
+				.getByRole("listitem")
+				.filter({ hasText: "bodyArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await page.getByRole("button", { name: "0. Document" }).click();
+
+			await page
+				.getByRole("region", { name: "0. Document" })
+				.getByRole("listitem")
+				.filter({ hasText: "childrenArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await page.getByRole("button", { name: "0. Tag" }).click();
+
+			await page
+				.getByRole("region", { name: "0. Tag" })
+				.getByRole("listitem")
+				.filter({ hasText: "childrenArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await page.getByRole("button", { name: "0. Text" }).click();
+
+			await page
+				.getByRole("region", { name: "0. Text" })
+				.getByRole("listitem")
+				.filter({ hasText: "partsArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await expect(
+				page.getByRole("button", { name: "0. Template" }),
+			).toBeVisible();
+		});
+
+		test("Front Matter: true", async ({ page }) => {
+			// `Template Engine Syntax`: `None`
+			const templateEngineSyntaxSelect = page.getByRole("combobox", {
+				exact: true,
+				name: "Template Engine Syntax",
+			});
+			await expect(templateEngineSyntaxSelect).toHaveText("None");
+
+			// `Front Matter`: `true`
+			const frontMatterSwitch = page.getByRole("switch", {
+				exact: true,
+				name: "Front Matter",
+			});
+			await frontMatterSwitch.click();
+			await expect(frontMatterSwitch).toHaveAttribute(
+				"aria-checked",
+				"true",
+			);
+
+			// Hide the settings menu to ensure it doesn't interfere with the test.
+			await page.keyboard.press("Escape");
+
+			// Fill an HTML sample with front matter into the editor.
+			await page
+				.getByRole("textbox", { exact: true, name: "Code Editor" })
+				.fill("---\ntitle: Test\n---\n<p>x</p>");
+
+			// Verify that the AST structure matches expectations for HTML front matter.
+			await page
+				.getByRole("region", { name: "Program" })
+				.getByRole("listitem")
+				.filter({ hasText: "bodyArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await page.getByRole("button", { name: "0. Document" }).click();
+
+			await page
+				.getByRole("region", { name: "0. Document" })
+				.getByRole("listitem")
+				.filter({ hasText: "childrenArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await expect(
+				page.getByRole("button", { name: "0. Tag" }),
+			).toBeVisible();
+		});
 	});
 });
