@@ -144,6 +144,183 @@ test.describe("AST node expansion", () => {
 				.getByRole("option", { exact: true, name: "JavaScript" })
 				.click();
 		});
+
+		test("SourceType: Module", async ({ page }) => {
+			// `Source Type`: `Module`
+			const sourceTypeSelect = page.getByRole("combobox", {
+				exact: true,
+				name: "Source Type",
+			});
+			await sourceTypeSelect.click();
+			await page
+				.getByRole("option", { exact: true, name: "Module" })
+				.click();
+			await expect(sourceTypeSelect).toHaveText("Module");
+
+			// Hide the settings menu to ensure it doesn't interfere with the test.
+			await page.keyboard.press("Escape");
+
+			// Fill a JavaScript module sample into the editor.
+			await page
+				.getByRole("textbox", { exact: true, name: "Code Editor" })
+				.fill('import x from "x";');
+
+			// Verify that the AST structure matches expectations for module source type.
+			await page
+				.getByRole("region", { name: "Program" })
+				.getByRole("listitem")
+				.filter({ hasText: "bodyArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await expect(
+				page.getByRole("button", { name: "0. ImportDeclaration" }),
+			).toBeVisible();
+		});
+
+		test("SourceType: CommonJS", async ({ page }) => {
+			// `Source Type`: `CommonJS`
+			const sourceTypeSelect = page.getByRole("combobox", {
+				exact: true,
+				name: "Source Type",
+			});
+			await sourceTypeSelect.click();
+			await page
+				.getByRole("option", { exact: true, name: "CommonJS" })
+				.click();
+			await expect(sourceTypeSelect).toHaveText("CommonJS");
+
+			// Hide the settings menu to ensure it doesn't interfere with the test.
+			await page.keyboard.press("Escape");
+
+			// Fill a CommonJS sample into the editor.
+			await page
+				.getByRole("textbox", { exact: true, name: "Code Editor" })
+				.fill("return;");
+
+			// Verify that the AST structure matches expectations for CommonJS source type.
+			await page
+				.getByRole("region", { name: "Program" })
+				.getByRole("listitem")
+				.filter({ hasText: "bodyArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await expect(
+				page.getByRole("button", { name: "0. ReturnStatement" }),
+			).toBeVisible();
+		});
+
+		test("SourceType: Script", async ({ page }) => {
+			// `Source Type`: `Script`
+			const sourceTypeSelect = page.getByRole("combobox", {
+				exact: true,
+				name: "Source Type",
+			});
+			await sourceTypeSelect.click();
+			await page
+				.getByRole("option", { exact: true, name: "Script" })
+				.click();
+			await expect(sourceTypeSelect).toHaveText("Script");
+
+			// Hide the settings menu to ensure it doesn't interfere with the test.
+			await page.keyboard.press("Escape");
+
+			// Fill a script sample into the editor.
+			await page
+				.getByRole("textbox", { exact: true, name: "Code Editor" })
+				.fill("with (x) {}");
+
+			// Verify that the AST structure matches expectations for script source type.
+			await page
+				.getByRole("region", { name: "Program" })
+				.getByRole("listitem")
+				.filter({ hasText: "bodyArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await expect(
+				page.getByRole("button", { name: "0. WithStatement" }),
+			).toBeVisible();
+		});
+
+		test("ECMAScript Version: 2026", async ({ page }) => {
+			// `ECMAScript Version`: `2026`
+			const esVersionSelect = page.getByRole("combobox", {
+				exact: true,
+				name: "ECMAScript Version",
+			});
+			await esVersionSelect.click();
+			await page
+				.getByRole("option", { exact: true, name: "2026" })
+				.click();
+			await expect(esVersionSelect).toHaveText("2026");
+
+			// Hide the settings menu to ensure it doesn't interfere with the test.
+			await page.keyboard.press("Escape");
+
+			// Fill a JavaScript sample with using syntax into the editor.
+			await page
+				.getByRole("textbox", { exact: true, name: "Code Editor" })
+				.fill("using x = y;");
+
+			// Verify that the AST structure matches expectations for using syntax.
+			await page
+				.getByRole("region", { name: "Program" })
+				.getByRole("listitem")
+				.filter({ hasText: "bodyArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await page
+				.getByRole("button", { name: "0. VariableDeclaration" })
+				.click();
+
+			await expect(
+				page
+					.getByRole("region", { name: "0. VariableDeclaration" })
+					.getByRole("listitem")
+					.filter({ hasText: "kindusing" }),
+			).toBeVisible();
+		});
+
+		test("JSX: true", async ({ page }) => {
+			// `JSX`: `true`
+			const jsxSwitch = page.getByRole("switch", {
+				exact: true,
+				name: "JSX",
+			});
+			await expect(jsxSwitch).toHaveAttribute("aria-checked", "true");
+
+			// Hide the settings menu to ensure it doesn't interfere with the test.
+			await page.keyboard.press("Escape");
+
+			// Fill a JSX sample into the editor.
+			await page
+				.getByRole("textbox", { exact: true, name: "Code Editor" })
+				.fill("<x />;");
+
+			// Verify that the AST structure matches expectations for JSX.
+			await page
+				.getByRole("region", { name: "Program" })
+				.getByRole("listitem")
+				.filter({ hasText: "bodyArray[1 element]" })
+				.getByRole("button", { name: "Toggle Property" })
+				.click();
+
+			await page
+				.getByRole("button", { name: "0. ExpressionStatement" })
+				.click();
+
+			await expect(
+				page
+					.getByRole("region", { name: "0. ExpressionStatement" })
+					.getByRole("listitem")
+					.filter({
+						hasText: "expressionJSXElement{type, start, end, ...}",
+					}),
+			).toBeVisible();
+		});
 	});
 
 	test.describe("Language: JSON", () => {
