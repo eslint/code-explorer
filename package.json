@@ -74,7 +74,7 @@
   "devDependencies": {
     "@babel/core": "^7.29.7",
     "@eslint/core": "^1.2.1",
-    "@playwright/test": "^1.60.0",
+    "@playwright/test": "^1.61.0",
     "@rolldown/plugin-babel": "^0.2.3",
     "@types/eslint-plugin-jsx-a11y": "^6.10.1",
     "@types/esquery": "^1.5.4",
