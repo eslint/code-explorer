@@ -15,35 +15,31 @@ import { expect, test, type Page } from "@playwright/test";
 const storageKey = "eslint-explorer";
 
 async function getPersistedJavaScriptCode(page: Page): Promise<string> {
-	return page.evaluate(key => {
-		const storedValue = window.localStorage.getItem(key);
+	const storedValue = await page.localStorage.getItem(storageKey);
 
-		if (!storedValue) {
-			return "";
-		}
+	if (!storedValue) {
+		return "";
+	}
 
-		return JSON.parse(storedValue).state.code.javascript;
-	}, storageKey);
+	return JSON.parse(storedValue).state.code.javascript;
 }
 
 async function getPersistedExplorerState(page: Page): Promise<string> {
-	return page.evaluate(key => {
-		const storedValue = window.localStorage.getItem(key);
+	const storedValue = await page.localStorage.getItem(storageKey);
 
-		if (!storedValue) {
-			throw new Error("No persisted state found in localStorage");
-		}
+	if (!storedValue) {
+		throw new Error("No persisted state found in localStorage");
+	}
 
-		return storedValue;
-	}, storageKey);
+	return storedValue;
 }
 
-async function getStoredHashValue(page: Page): Promise<string> {
-	return page.evaluate(key => {
-		return (
-			new URLSearchParams(window.location.hash.slice(1)).get(key) ?? ""
-		);
-	}, storageKey);
+function getStoredHashValue(page: Page): string {
+	return (
+		new URLSearchParams(new URL(page.url()).hash.slice(1)).get(
+			storageKey,
+		) ?? ""
+	);
 }
 
 //-----------------------------------------------------------------------------
@@ -67,11 +63,9 @@ test("should persist unicode code safely in the URL hash", async ({ page }) => {
 	await expect.poll(() => getPersistedJavaScriptCode(page)).toBe(unicodeCode);
 	await expect.poll(() => getStoredHashValue(page)).toContain("v2.");
 
-	const persistedHash = await page.evaluate(() => window.location.hash);
+	const persistedHash = new URL(page.url()).hash;
 
-	await page.evaluate(key => {
-		window.localStorage.removeItem(key);
-	}, storageKey);
+	await page.localStorage.removeItem(storageKey);
 	await page.goto(`/${persistedHash}`);
 
 	await expect(codeEditor).toContainText(unicodeCode);
@@ -104,9 +98,7 @@ test("should still load state from legacy hash links", async ({ page }) => {
 		[storageKey, persistedValue],
 	);
 
-	await page.evaluate(key => {
-		window.localStorage.removeItem(key);
-	}, storageKey);
+	await page.localStorage.removeItem(storageKey);
 	await page.goto(`/#${legacyHash}`);
 
 	await expect(codeEditor).toContainText(legacyCode);
@@ -152,12 +144,7 @@ test("should fall back to localStorage when a v2 hash is malformed", async ({
 		return searchParams.toString();
 	}, storageKey);
 
-	await page.evaluate(
-		([key, value]) => {
-			window.localStorage.setItem(key, value);
-		},
-		[storageKey, persistedValue],
-	);
+	await page.localStorage.setItem(storageKey, persistedValue);
 	await page.goto(`/#${malformedHash}`);
 
 	await expect(codeEditor).toContainText(fallbackCode);
