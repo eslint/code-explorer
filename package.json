@@ -37,7 +37,7 @@
     "@codemirror/lang-json": "^6.0.2",
     "@codemirror/lang-markdown": "^6.5.0",
     "@codemirror/language": "^6.12.4",
-    "@codemirror/view": "^6.43.5",
+    "@codemirror/view": "^6.43.6",
     "@eslint/css": "^1.4.0",
     "@eslint/js": "^9.39.5",
     "@eslint/json": "^2.0.1",
