@@ -6,7 +6,7 @@
 // Imports
 //-----------------------------------------------------------------------------
 
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 //-----------------------------------------------------------------------------
 // Type Definitions
@@ -21,6 +21,40 @@ declare global {
 	interface Window {
 		__highlightSamples?: HighlightSamplesState;
 	}
+}
+
+//-----------------------------------------------------------------------------
+// Helpers
+//-----------------------------------------------------------------------------
+
+/**
+ * Sets and verifies a combobox option in the language options popup.
+ * @param page The current Playwright page.
+ * @param name The accessible name of the option control.
+ * @param value The displayed option value.
+ */
+async function setComboboxOption(page: Page, name: string, value: string) {
+	const optionSelect = page.getByRole("combobox", { exact: true, name });
+	await optionSelect.click();
+	await page.getByRole("option", { exact: true, name: value }).click();
+	await expect(optionSelect).toHaveText(value);
+}
+
+/**
+ * Sets and verifies a switch option in the language options popup.
+ * @param page The current Playwright page.
+ * @param name The accessible name of the option control.
+ * @param value The desired switch state.
+ */
+async function setSwitchOption(page: Page, name: string, value: boolean) {
+	const optionSwitch = page.getByRole("switch", { exact: true, name });
+	const expectedValue = String(value);
+
+	if ((await optionSwitch.getAttribute("aria-checked")) !== expectedValue) {
+		await optionSwitch.click();
+	}
+
+	await expect(optionSwitch).toHaveAttribute("aria-checked", expectedValue);
 }
 
 //-----------------------------------------------------------------------------
@@ -137,25 +171,12 @@ test.describe("AST node expansion", () => {
 	test.describe("Language: JavaScript", () => {
 		test.beforeEach(async ({ page }) => {
 			// `Language`: select `JavaScript`
-			await page
-				.getByRole("combobox", { exact: true, name: "Language" })
-				.click();
-			await page
-				.getByRole("option", { exact: true, name: "JavaScript" })
-				.click();
+			await setComboboxOption(page, "Language", "JavaScript");
 		});
 
 		test("SourceType: Module", async ({ page }) => {
 			// `Source Type`: `Module`
-			const sourceTypeSelect = page.getByRole("combobox", {
-				exact: true,
-				name: "Source Type",
-			});
-			await sourceTypeSelect.click();
-			await page
-				.getByRole("option", { exact: true, name: "Module" })
-				.click();
-			await expect(sourceTypeSelect).toHaveText("Module");
+			await setComboboxOption(page, "Source Type", "Module");
 
 			// Hide the settings menu to ensure it doesn't interfere with the test.
 			await page.keyboard.press("Escape");
@@ -180,15 +201,7 @@ test.describe("AST node expansion", () => {
 
 		test("SourceType: CommonJS", async ({ page }) => {
 			// `Source Type`: `CommonJS`
-			const sourceTypeSelect = page.getByRole("combobox", {
-				exact: true,
-				name: "Source Type",
-			});
-			await sourceTypeSelect.click();
-			await page
-				.getByRole("option", { exact: true, name: "CommonJS" })
-				.click();
-			await expect(sourceTypeSelect).toHaveText("CommonJS");
+			await setComboboxOption(page, "Source Type", "CommonJS");
 
 			// Hide the settings menu to ensure it doesn't interfere with the test.
 			await page.keyboard.press("Escape");
@@ -213,15 +226,7 @@ test.describe("AST node expansion", () => {
 
 		test("SourceType: Script", async ({ page }) => {
 			// `Source Type`: `Script`
-			const sourceTypeSelect = page.getByRole("combobox", {
-				exact: true,
-				name: "Source Type",
-			});
-			await sourceTypeSelect.click();
-			await page
-				.getByRole("option", { exact: true, name: "Script" })
-				.click();
-			await expect(sourceTypeSelect).toHaveText("Script");
+			await setComboboxOption(page, "Source Type", "Script");
 
 			// Hide the settings menu to ensure it doesn't interfere with the test.
 			await page.keyboard.press("Escape");
@@ -246,15 +251,7 @@ test.describe("AST node expansion", () => {
 
 		test("ECMAScript Version: 2026", async ({ page }) => {
 			// `ECMAScript Version`: `2026`
-			const esVersionSelect = page.getByRole("combobox", {
-				exact: true,
-				name: "ECMAScript Version",
-			});
-			await esVersionSelect.click();
-			await page
-				.getByRole("option", { exact: true, name: "2026" })
-				.click();
-			await expect(esVersionSelect).toHaveText("2026");
+			await setComboboxOption(page, "ECMAScript Version", "2026");
 
 			// Hide the settings menu to ensure it doesn't interfere with the test.
 			await page.keyboard.press("Escape");
@@ -286,11 +283,7 @@ test.describe("AST node expansion", () => {
 
 		test("JSX: true", async ({ page }) => {
 			// `JSX`: `true`
-			const jsxSwitch = page.getByRole("switch", {
-				exact: true,
-				name: "JSX",
-			});
-			await expect(jsxSwitch).toHaveAttribute("aria-checked", "true");
+			await setSwitchOption(page, "JSX", true);
 
 			// Hide the settings menu to ensure it doesn't interfere with the test.
 			await page.keyboard.press("Escape");
@@ -326,25 +319,12 @@ test.describe("AST node expansion", () => {
 	test.describe("Language: JSON", () => {
 		test.beforeEach(async ({ page }) => {
 			// `Language`: select `JSON`
-			await page
-				.getByRole("combobox", { exact: true, name: "Language" })
-				.click();
-			await page
-				.getByRole("option", { exact: true, name: "JSON" })
-				.click();
+			await setComboboxOption(page, "Language", "JSON");
 		});
 
 		test("Mode: JSON", async ({ page }) => {
 			// `Mode`: `JSON`
-			const modeSelect = page.getByRole("combobox", {
-				exact: true,
-				name: "Mode",
-			});
-			await modeSelect.click();
-			await page
-				.getByRole("option", { exact: true, name: "json" })
-				.click();
-			await expect(modeSelect).toHaveText("json");
+			await setComboboxOption(page, "Mode", "json");
 
 			// Hide the settings menu to ensure it doesn't interfere with the test.
 			await page.keyboard.press("Escape");
@@ -399,25 +379,10 @@ test.describe("AST node expansion", () => {
 
 		test("Mode: JSONC", async ({ page }) => {
 			// `Mode`: `JSONC`
-			const modeSelect = page.getByRole("combobox", {
-				exact: true,
-				name: "Mode",
-			});
-			await modeSelect.click();
-			await page
-				.getByRole("option", { exact: true, name: "jsonc" })
-				.click();
-			await expect(modeSelect).toHaveText("jsonc");
+			await setComboboxOption(page, "Mode", "jsonc");
 
 			// `Allow Trailing Commas`: `false`
-			const allowTrailingCommasSwitch = page.getByRole("switch", {
-				exact: true,
-				name: "Allow Trailing Commas",
-			});
-			await expect(allowTrailingCommasSwitch).toHaveAttribute(
-				"aria-checked",
-				"false",
-			);
+			await setSwitchOption(page, "Allow Trailing Commas", false);
 
 			// Hide the settings menu to ensure it doesn't interfere with the test.
 			await page.keyboard.press("Escape");
@@ -475,15 +440,7 @@ test.describe("AST node expansion", () => {
 
 		test("Mode: JSON5", async ({ page }) => {
 			// `Mode`: `JSON5`
-			const modeSelect = page.getByRole("combobox", {
-				exact: true,
-				name: "Mode",
-			});
-			await modeSelect.click();
-			await page
-				.getByRole("option", { exact: true, name: "json5" })
-				.click();
-			await expect(modeSelect).toHaveText("json5");
+			await setComboboxOption(page, "Mode", "json5");
 
 			// Hide the settings menu to ensure it doesn't interfere with the test.
 			await page.keyboard.press("Escape");
@@ -541,26 +498,10 @@ test.describe("AST node expansion", () => {
 
 		test("Allow Trailing Commas: true", async ({ page }) => {
 			// `Mode`: `JSONC`
-			const modeSelect = page.getByRole("combobox", {
-				exact: true,
-				name: "Mode",
-			});
-			await modeSelect.click();
-			await page
-				.getByRole("option", { exact: true, name: "jsonc" })
-				.click();
-			await expect(modeSelect).toHaveText("jsonc");
+			await setComboboxOption(page, "Mode", "jsonc");
 
 			// `Allow Trailing Commas`: `true`
-			const allowTrailingCommasSwitch = page.getByRole("switch", {
-				exact: true,
-				name: "Allow Trailing Commas",
-			});
-			await allowTrailingCommasSwitch.click();
-			await expect(allowTrailingCommasSwitch).toHaveAttribute(
-				"aria-checked",
-				"true",
-			);
+			await setSwitchOption(page, "Allow Trailing Commas", true);
 
 			// Hide the settings menu to ensure it doesn't interfere with the test.
 			await page.keyboard.press("Escape");
@@ -623,43 +564,18 @@ test.describe("AST node expansion", () => {
 	test.describe("Language: Markdown", () => {
 		test.beforeEach(async ({ page }) => {
 			// `Language`: select `Markdown`
-			await page
-				.getByRole("combobox", { exact: true, name: "Language" })
-				.click();
-			await page
-				.getByRole("option", { exact: true, name: "Markdown" })
-				.click();
+			await setComboboxOption(page, "Language", "Markdown");
 		});
 
 		test("Mode: CommonMark", async ({ page }) => {
 			// `Mode`: `CommonMark`
-			const modeSelect = page.getByRole("combobox", {
-				exact: true,
-				name: "Mode",
-			});
-			await modeSelect.click();
-			await page
-				.getByRole("option", { exact: true, name: "CommonMark" })
-				.click();
-			await expect(modeSelect).toHaveText("CommonMark");
+			await setComboboxOption(page, "Mode", "CommonMark");
 
 			// `Front Matter`: `Off`
-			const frontMatterSelect = page.getByRole("combobox", {
-				exact: true,
-				name: "Front Matter",
-			});
-			await frontMatterSelect.click();
-			await page
-				.getByRole("option", { exact: true, name: "Off" })
-				.click();
-			await expect(frontMatterSelect).toHaveText("Off");
+			await setComboboxOption(page, "Front Matter", "Off");
 
 			// `Math`: `false`
-			const mathSwitch = page.getByRole("switch", {
-				exact: true,
-				name: "Math",
-			});
-			await expect(mathSwitch).toHaveAttribute("aria-checked", "false");
+			await setSwitchOption(page, "Math", false);
 
 			// Hide the settings menu to ensure it doesn't interfere with the test.
 			await page.keyboard.press("Escape");
@@ -702,33 +618,13 @@ test.describe("AST node expansion", () => {
 
 		test("Mode: GFM", async ({ page }) => {
 			// `Mode`: `GFM`
-			const modeSelect = page.getByRole("combobox", {
-				exact: true,
-				name: "Mode",
-			});
-			await modeSelect.click();
-			await page
-				.getByRole("option", { exact: true, name: "GitHub-Flavored" })
-				.click();
-			await expect(modeSelect).toHaveText("GitHub-Flavored");
+			await setComboboxOption(page, "Mode", "GitHub-Flavored");
 
 			// `Front Matter`: `Off`
-			const frontMatterSelect = page.getByRole("combobox", {
-				exact: true,
-				name: "Front Matter",
-			});
-			await frontMatterSelect.click();
-			await page
-				.getByRole("option", { exact: true, name: "Off" })
-				.click();
-			await expect(frontMatterSelect).toHaveText("Off");
+			await setComboboxOption(page, "Front Matter", "Off");
 
 			// `Math`: `false`
-			const mathSwitch = page.getByRole("switch", {
-				exact: true,
-				name: "Math",
-			});
-			await expect(mathSwitch).toHaveAttribute("aria-checked", "false");
+			await setSwitchOption(page, "Math", false);
 
 			// Hide the settings menu to ensure it doesn't interfere with the test.
 			await page.keyboard.press("Escape");
@@ -771,33 +667,13 @@ test.describe("AST node expansion", () => {
 
 		test("Frontmatter: YAML", async ({ page }) => {
 			// `Mode`: `CommonMark`
-			const modeSelect = page.getByRole("combobox", {
-				exact: true,
-				name: "Mode",
-			});
-			await modeSelect.click();
-			await page
-				.getByRole("option", { exact: true, name: "CommonMark" })
-				.click();
-			await expect(modeSelect).toHaveText("CommonMark");
+			await setComboboxOption(page, "Mode", "CommonMark");
 
 			// `Front Matter`: `YAML`
-			const frontMatterSelect = page.getByRole("combobox", {
-				exact: true,
-				name: "Front Matter",
-			});
-			await frontMatterSelect.click();
-			await page
-				.getByRole("option", { exact: true, name: "YAML" })
-				.click();
-			await expect(frontMatterSelect).toHaveText("YAML");
+			await setComboboxOption(page, "Front Matter", "YAML");
 
 			// `Math`: `false`
-			const mathSwitch = page.getByRole("switch", {
-				exact: true,
-				name: "Math",
-			});
-			await expect(mathSwitch).toHaveAttribute("aria-checked", "false");
+			await setSwitchOption(page, "Math", false);
 
 			// Hide the settings menu to ensure it doesn't interfere with the test.
 			await page.keyboard.press("Escape");
@@ -825,33 +701,13 @@ test.describe("AST node expansion", () => {
 
 		test("Frontmatter: TOML", async ({ page }) => {
 			// `Mode`: `CommonMark`
-			const modeSelect = page.getByRole("combobox", {
-				exact: true,
-				name: "Mode",
-			});
-			await modeSelect.click();
-			await page
-				.getByRole("option", { exact: true, name: "CommonMark" })
-				.click();
-			await expect(modeSelect).toHaveText("CommonMark");
+			await setComboboxOption(page, "Mode", "CommonMark");
 
 			// `Front Matter`: `TOML`
-			const frontMatterSelect = page.getByRole("combobox", {
-				exact: true,
-				name: "Front Matter",
-			});
-			await frontMatterSelect.click();
-			await page
-				.getByRole("option", { exact: true, name: "TOML" })
-				.click();
-			await expect(frontMatterSelect).toHaveText("TOML");
+			await setComboboxOption(page, "Front Matter", "TOML");
 
 			// `Math`: `false`
-			const mathSwitch = page.getByRole("switch", {
-				exact: true,
-				name: "Math",
-			});
-			await expect(mathSwitch).toHaveAttribute("aria-checked", "false");
+			await setSwitchOption(page, "Math", false);
 
 			// Hide the settings menu to ensure it doesn't interfere with the test.
 			await page.keyboard.press("Escape");
@@ -879,33 +735,13 @@ test.describe("AST node expansion", () => {
 
 		test("Frontmatter: JSON", async ({ page }) => {
 			// `Mode`: `CommonMark`
-			const modeSelect = page.getByRole("combobox", {
-				exact: true,
-				name: "Mode",
-			});
-			await modeSelect.click();
-			await page
-				.getByRole("option", { exact: true, name: "CommonMark" })
-				.click();
-			await expect(modeSelect).toHaveText("CommonMark");
+			await setComboboxOption(page, "Mode", "CommonMark");
 
 			// `Front Matter`: `JSON`
-			const frontMatterSelect = page.getByRole("combobox", {
-				exact: true,
-				name: "Front Matter",
-			});
-			await frontMatterSelect.click();
-			await page
-				.getByRole("option", { exact: true, name: "JSON" })
-				.click();
-			await expect(frontMatterSelect).toHaveText("JSON");
+			await setComboboxOption(page, "Front Matter", "JSON");
 
 			// `Math`: `false`
-			const mathSwitch = page.getByRole("switch", {
-				exact: true,
-				name: "Math",
-			});
-			await expect(mathSwitch).toHaveAttribute("aria-checked", "false");
+			await setSwitchOption(page, "Math", false);
 
 			// Hide the settings menu to ensure it doesn't interfere with the test.
 			await page.keyboard.press("Escape");
@@ -933,34 +769,13 @@ test.describe("AST node expansion", () => {
 
 		test("Math: true", async ({ page }) => {
 			// `Mode`: `CommonMark`
-			const modeSelect = page.getByRole("combobox", {
-				exact: true,
-				name: "Mode",
-			});
-			await modeSelect.click();
-			await page
-				.getByRole("option", { exact: true, name: "CommonMark" })
-				.click();
-			await expect(modeSelect).toHaveText("CommonMark");
+			await setComboboxOption(page, "Mode", "CommonMark");
 
 			// `Front Matter`: `Off`
-			const frontMatterSelect = page.getByRole("combobox", {
-				exact: true,
-				name: "Front Matter",
-			});
-			await frontMatterSelect.click();
-			await page
-				.getByRole("option", { exact: true, name: "Off" })
-				.click();
-			await expect(frontMatterSelect).toHaveText("Off");
+			await setComboboxOption(page, "Front Matter", "Off");
 
 			// `Math`: `true`
-			const mathSwitch = page.getByRole("switch", {
-				exact: true,
-				name: "Math",
-			});
-			await mathSwitch.click();
-			await expect(mathSwitch).toHaveAttribute("aria-checked", "true");
+			await setSwitchOption(page, "Math", true);
 
 			// Hide the settings menu to ensure it doesn't interfere with the test.
 			await page.keyboard.press("Escape");
@@ -1009,24 +824,12 @@ test.describe("AST node expansion", () => {
 	test.describe("Language: CSS", () => {
 		test.beforeEach(async ({ page }) => {
 			// `Language`: select `CSS`
-			await page
-				.getByRole("combobox", { exact: true, name: "Language" })
-				.click();
-			await page
-				.getByRole("option", { exact: true, name: "CSS" })
-				.click();
+			await setComboboxOption(page, "Language", "CSS");
 		});
 
 		test("Tolerant Parsing: false", async ({ page }) => {
 			// `Tolerant Parsing`: `false`
-			const tolerantSwitch = page.getByRole("switch", {
-				exact: true,
-				name: "Tolerant Parsing",
-			});
-			await expect(tolerantSwitch).toHaveAttribute(
-				"aria-checked",
-				"false",
-			);
+			await setSwitchOption(page, "Tolerant Parsing", false);
 
 			// Hide the settings menu to ensure it doesn't interfere with the test.
 			await page.keyboard.press("Escape");
@@ -1051,15 +854,7 @@ test.describe("AST node expansion", () => {
 
 		test("Tolerant Parsing: true", async ({ page }) => {
 			// `Tolerant Parsing`: `true`
-			const tolerantSwitch = page.getByRole("switch", {
-				exact: true,
-				name: "Tolerant Parsing",
-			});
-			await tolerantSwitch.click();
-			await expect(tolerantSwitch).toHaveAttribute(
-				"aria-checked",
-				"true",
-			);
+			await setSwitchOption(page, "Tolerant Parsing", true);
 
 			// Hide the settings menu to ensure it doesn't interfere with the test.
 			await page.keyboard.press("Escape");
@@ -1086,35 +881,19 @@ test.describe("AST node expansion", () => {
 	test.describe("Language: HTML", () => {
 		test.beforeEach(async ({ page }) => {
 			// `Language`: select `HTML`
-			await page
-				.getByRole("combobox", { exact: true, name: "Language" })
-				.click();
-			await page
-				.getByRole("option", { exact: true, name: "HTML" })
-				.click();
+			await setComboboxOption(page, "Language", "HTML");
 		});
 
 		test("Template Engine Syntax: Handlebars", async ({ page }) => {
 			// `Template Engine Syntax`: `Handlebars`
-			const templateEngineSyntaxSelect = page.getByRole("combobox", {
-				exact: true,
-				name: "Template Engine Syntax",
-			});
-			await templateEngineSyntaxSelect.click();
-			await page
-				.getByRole("option", { exact: true, name: "Handlebars" })
-				.click();
-			await expect(templateEngineSyntaxSelect).toHaveText("Handlebars");
+			await setComboboxOption(
+				page,
+				"Template Engine Syntax",
+				"Handlebars",
+			);
 
 			// `Front Matter`: `false`
-			const frontMatterSwitch = page.getByRole("switch", {
-				exact: true,
-				name: "Front Matter",
-			});
-			await expect(frontMatterSwitch).toHaveAttribute(
-				"aria-checked",
-				"false",
-			);
+			await setSwitchOption(page, "Front Matter", false);
 
 			// Hide the settings menu to ensure it doesn't interfere with the test.
 			await page.keyboard.press("Escape");
@@ -1166,25 +945,10 @@ test.describe("AST node expansion", () => {
 
 		test("Template Engine Syntax: Twig", async ({ page }) => {
 			// `Template Engine Syntax`: `Twig`
-			const templateEngineSyntaxSelect = page.getByRole("combobox", {
-				exact: true,
-				name: "Template Engine Syntax",
-			});
-			await templateEngineSyntaxSelect.click();
-			await page
-				.getByRole("option", { exact: true, name: "Twig" })
-				.click();
-			await expect(templateEngineSyntaxSelect).toHaveText("Twig");
+			await setComboboxOption(page, "Template Engine Syntax", "Twig");
 
 			// `Front Matter`: `false`
-			const frontMatterSwitch = page.getByRole("switch", {
-				exact: true,
-				name: "Front Matter",
-			});
-			await expect(frontMatterSwitch).toHaveAttribute(
-				"aria-checked",
-				"false",
-			);
+			await setSwitchOption(page, "Front Matter", false);
 
 			// Hide the settings menu to ensure it doesn't interfere with the test.
 			await page.keyboard.press("Escape");
@@ -1236,25 +1000,10 @@ test.describe("AST node expansion", () => {
 
 		test("Template Engine Syntax: ERB", async ({ page }) => {
 			// `Template Engine Syntax`: `ERB`
-			const templateEngineSyntaxSelect = page.getByRole("combobox", {
-				exact: true,
-				name: "Template Engine Syntax",
-			});
-			await templateEngineSyntaxSelect.click();
-			await page
-				.getByRole("option", { exact: true, name: "ERB" })
-				.click();
-			await expect(templateEngineSyntaxSelect).toHaveText("ERB");
+			await setComboboxOption(page, "Template Engine Syntax", "ERB");
 
 			// `Front Matter`: `false`
-			const frontMatterSwitch = page.getByRole("switch", {
-				exact: true,
-				name: "Front Matter",
-			});
-			await expect(frontMatterSwitch).toHaveAttribute(
-				"aria-checked",
-				"false",
-			);
+			await setSwitchOption(page, "Front Matter", false);
 
 			// Hide the settings menu to ensure it doesn't interfere with the test.
 			await page.keyboard.press("Escape");
@@ -1313,15 +1062,7 @@ test.describe("AST node expansion", () => {
 			await expect(templateEngineSyntaxSelect).toHaveText("None");
 
 			// `Front Matter`: `true`
-			const frontMatterSwitch = page.getByRole("switch", {
-				exact: true,
-				name: "Front Matter",
-			});
-			await frontMatterSwitch.click();
-			await expect(frontMatterSwitch).toHaveAttribute(
-				"aria-checked",
-				"true",
-			);
+			await setSwitchOption(page, "Front Matter", true);
 
 			// Hide the settings menu to ensure it doesn't interfere with the test.
 			await page.keyboard.press("Escape");
