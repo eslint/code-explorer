@@ -17,6 +17,9 @@
     "fmt:check": "prettier --check .",
     "test:e2e": "playwright test"
   },
+  "allowScripts": {
+    "yorkie@2.0.0": true
+  },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
       "eslint --fix",
