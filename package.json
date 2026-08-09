@@ -66,7 +66,7 @@
     "espree": "^11.2.0",
     "esquery": "^1.7.0",
     "graphviz-react": "^1.2.5",
-    "lucide-react": "^1.26.0",
+    "lucide-react": "^1.28.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-resizable-panels": "^4.12.2",
