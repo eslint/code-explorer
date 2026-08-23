@@ -56,19 +56,18 @@ const makeDotArrows = codePath => {
 const escapeDotLabelText = value =>
 	value.replace(/\\/gu, String.raw`\\`).replace(/"/gu, String.raw`\"`);
 
-export const generateCodePath = async (
+export const generateCodePath = (
 	code: string,
 	esVersion: Version,
 	sourceType: SourceType,
 	isJSX: boolean,
-): Promise<
+):
 	| {
 			error: string;
 	  }
 	| {
 			response: string;
-	  }
-> => {
+	  } => {
 	const linter = new Linter({ configType: "flat" });
 
 	let stack: CodePathStack | null = null;

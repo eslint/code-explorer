@@ -25,9 +25,9 @@ export const CodePath: FC = () => {
 	const hasMountedDebouncedEffect = useRef(false);
 
 	useEffect(() => {
-		const fetchCodePath = async () => {
+		const fetchCodePath = () => {
 			try {
-				const response = await generateCodePath(
+				const response = generateCodePath(
 					javascript,
 					esVersion,
 					sourceType,
