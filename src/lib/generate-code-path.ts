@@ -4,6 +4,10 @@ import { Linter } from "eslint-linter-browserify";
 import { CodePathStack } from "@/lib/code-path-stack";
 import type { SourceType, Version } from "@/hooks/use-explorer";
 
+export type CodePathData = {
+	dot: string;
+};
+
 const makeDotArrows = codePath => {
 	const stack = [{ segment: codePath.initialSegment, index: 0 }];
 	const done = Object.create(null);
@@ -66,7 +70,7 @@ export const generateCodePath = (
 			error: string;
 	  }
 	| {
-			response: string;
+			response: CodePathData[];
 	  } => {
 	const linter = new Linter({ configType: "flat" });
 
@@ -153,8 +157,8 @@ export const generateCodePath = (
 		};
 	}
 
-	const response = {
-		codePathList: allCodePaths.map(target => {
+	return {
+		response: allCodePaths.map(target => {
 			const { codePath } = target;
 
 			let text =
@@ -197,6 +201,4 @@ export const generateCodePath = (
 			};
 		}),
 	};
-
-	return { response: JSON.stringify(response, null, 2) };
 };
