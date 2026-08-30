@@ -69,7 +69,7 @@
     "lucide-react": "^1.33.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-resizable-panels": "^4.12.2",
+    "react-resizable-panels": "^4.12.3",
     "tailwind-merge": "^2.6.1",
     "tailwindcss-animate": "^1.0.7",
     "zustand": "^5.0.15"
