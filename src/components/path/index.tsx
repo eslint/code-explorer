@@ -3,15 +3,9 @@ import { useExplorer } from "@/hooks/use-explorer";
 import { Editor } from "../editor";
 import type { FC } from "react";
 import Graphviz from "graphviz-react";
-import { generateCodePath } from "@/lib/generate-code-path";
+import { generateCodePath, type CodePathData } from "@/lib/generate-code-path";
 import { parseError } from "@/lib/parse-error";
 import { ErrorState } from "@/components/error-boundary";
-
-type ParsedResponse = {
-	codePathList: {
-		dot: string;
-	}[];
-};
 
 export const CodePath: FC = () => {
 	const explorer = useExplorer();
@@ -20,7 +14,7 @@ export const CodePath: FC = () => {
 	const { sourceType, esVersion, isJSX } = jsOptions;
 	const { pathView } = viewModes;
 	const { index, indexes } = pathIndex;
-	const [extracted, setExtracted] = useState<ParsedResponse | null>(null);
+	const [extracted, setExtracted] = useState<CodePathData[] | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const hasMountedDebouncedEffect = useRef(false);
 
@@ -36,18 +30,16 @@ export const CodePath: FC = () => {
 				if ("error" in response) {
 					throw new Error(response.error);
 				}
-				const newExtracted = JSON.parse(
-					response.response,
-				) as ParsedResponse;
-				if (newExtracted.codePathList.length < indexes) {
+				const newExtracted = response.response;
+				if (newExtracted.length < indexes) {
 					setPathIndex({
 						index: 0,
-						indexes: newExtracted.codePathList.length,
+						indexes: newExtracted.length,
 					});
 				} else {
 					setPathIndex({
 						index,
-						indexes: newExtracted.codePathList.length,
+						indexes: newExtracted.length,
 					});
 				}
 				setError(null);
@@ -88,7 +80,7 @@ export const CodePath: FC = () => {
 		return null;
 	}
 
-	const codePath = extracted.codePathList[index].dot;
+	const codePath = extracted[index].dot;
 
 	if (pathView === "code") {
 		return <Editor ariaLabel="Code Path" readOnly value={codePath} />;
