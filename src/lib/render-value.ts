@@ -10,6 +10,17 @@ export const renderValue = (value: unknown): string[] => {
 		];
 	}
 
+	if (value instanceof Map) {
+		return [
+			"Map",
+			value.size
+				? value.size === 1
+					? `{${value.size} entry}`
+					: `{${value.size} entries}`
+				: "{}",
+		];
+	}
+
 	if (value instanceof Object && Object.keys(value).length === 0) {
 		return ["Object", "{}"];
 	}
