@@ -1,6 +1,5 @@
-import babel from "@rolldown/plugin-babel";
 import { defineConfig } from "vite";
-import react, { reactCompilerPreset } from "@vitejs/plugin-react";
+import react from "@vitejs/plugin-react";
 
 const chunkGroups = {
 	// Core React dependencies (rarely change)
@@ -65,12 +64,7 @@ function createChunkGroupPattern(dependencies: string[]) {
 }
 
 export default defineConfig({
-	plugins: [
-		react(),
-		babel({
-			presets: [reactCompilerPreset()],
-		}),
-	],
+	plugins: [react({ compiler: true })],
 	resolve: {
 		tsconfigPaths: true,
 	},
