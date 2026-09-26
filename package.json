@@ -81,7 +81,7 @@
     "@rolldown/plugin-babel": "^0.2.4",
     "@types/eslint-plugin-jsx-a11y": "^6.10.1",
     "@types/esquery": "^1.5.4",
-    "@types/node": "^24.13.5",
+    "@types/node": "^24.13.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.1",
