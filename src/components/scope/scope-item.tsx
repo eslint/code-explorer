@@ -55,7 +55,7 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 					isEsqueryMatchedNode && "border-primary border-4",
 				)}
 			>
-				<AccordionTrigger className="text-sm bg-card px-4 py-3 capitalize">
+				<AccordionTrigger className="text-sm bg-card px-4 py-3">
 					{`${Math.max(index, 0)}. ${key}`}
 				</AccordionTrigger>
 				<AccordionContent className="p-4 border-t">
@@ -81,7 +81,7 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 				isEsqueryMatchedNode && "border-primary border-4",
 			)}
 		>
-			<h3 className="text-sm bg-card px-4 py-3 capitalize">{key}</h3>
+			<h3 className="text-sm bg-card px-4 py-3">{key}</h3>
 			<div className="p-4 border-t">
 				<div className="space-y-1">
 					{properties.map((item, index) => (
