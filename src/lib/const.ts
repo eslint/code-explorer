@@ -306,7 +306,7 @@ export const pathViewOptions = [
 export const esquerySelectorPlaceholder = {
 	javascript: 'e.g. "ImportDeclaration > Literal"',
 	json: 'e.g. "Member > String"',
-	markdown: 'e.g. "Heading > Text"',
+	markdown: 'e.g. "heading > text"',
 	css: 'e.g. "Block > Declaration"',
 	html: 'e.g. "Document > Doctype"',
 };
