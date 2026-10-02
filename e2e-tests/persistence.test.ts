@@ -24,6 +24,16 @@ async function getPersistedJavaScriptCode(page: Page): Promise<string> {
 	return JSON.parse(storedValue).state.code.javascript;
 }
 
+async function getPersistedEsquerySelector(page: Page): Promise<string> {
+	const storedValue = await page.localStorage.getItem(storageKey);
+
+	if (!storedValue) {
+		return "";
+	}
+
+	return JSON.parse(storedValue).state.esquerySelector.selector;
+}
+
 async function getPersistedExplorerState(page: Page): Promise<string> {
 	const storedValue = await page.localStorage.getItem(storageKey);
 
@@ -182,4 +192,26 @@ test("should patch legacy Markdown options without math", async ({ page }) => {
 	await expect(
 		page.getByRole("switch", { exact: true, name: "Math" }),
 	).toHaveAttribute("aria-checked", "false");
+});
+
+test("should not add a history entry for each state change", async ({
+	page,
+}) => {
+	await page.goto("/robots.txt");
+	await page.goto("/");
+
+	const esquerySelectorInput = page.getByRole("textbox", {
+		name: "ESQuery Selector",
+	});
+
+	await esquerySelectorInput.pressSequentially("Identifier");
+	await expect
+		.poll(() => getPersistedEsquerySelector(page))
+		.toBe("Identifier");
+
+	await page.goBack();
+	await expect(page).toHaveURL(/\/robots\.txt$/);
+
+	await page.goForward();
+	await expect(esquerySelectorInput).toHaveValue("Identifier");
 });
