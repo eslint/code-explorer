@@ -183,3 +183,32 @@ test("should patch legacy Markdown options without math", async ({ page }) => {
 		page.getByRole("switch", { exact: true, name: "Math" }),
 	).toHaveAttribute("aria-checked", "false");
 });
+
+test("should load state when the URL hash changes without a page reload", async ({
+	page,
+}) => {
+	await page.goto("/");
+
+	const codeEditor = page.getByRole("textbox", {
+		name: "Code Editor",
+		exact: true,
+	});
+
+	const firstCode = "const first = 1;";
+	await codeEditor.fill(firstCode);
+	await expect.poll(() => getPersistedJavaScriptCode(page)).toBe(firstCode);
+	const firstHash = new URL(page.url()).hash;
+
+	const secondCode = "const second = 2;";
+	await codeEditor.fill(secondCode);
+	await expect.poll(() => getPersistedJavaScriptCode(page)).toBe(secondCode);
+
+	await page.goto(`/${firstHash}`);
+	await expect(codeEditor).toContainText(firstCode);
+
+	await page.goBack();
+	await expect(codeEditor).toContainText(secondCode);
+
+	await page.goForward();
+	await expect(codeEditor).toContainText(firstCode);
+});
