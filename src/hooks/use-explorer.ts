@@ -118,6 +118,13 @@ const getHashParams = (): URLSearchParams => {
 	return new URLSearchParams(location.hash.slice(1));
 };
 
+const replaceHashParams = (searchParams: URLSearchParams) => {
+	const url = new URL(location.href);
+	url.hash = searchParams.toString();
+
+	history.replaceState(history.state, "", url);
+};
+
 const versionedHashPrefix = "v2.";
 
 function isPersistedStorageValue(
@@ -211,14 +218,14 @@ const hybridStorage: StateStorage = {
 		const searchParams = getHashParams();
 		const encodedValue = encodeHashStorageValue(newValue);
 		searchParams.set(key, encodedValue);
-		location.hash = searchParams.toString();
+		replaceHashParams(searchParams);
 
 		localStorage.setItem(key, newValue);
 	},
 	removeItem: (key): void => {
 		const searchParams = getHashParams();
 		searchParams.delete(key);
-		location.hash = searchParams.toString();
+		replaceHashParams(searchParams);
 
 		localStorage.removeItem(key);
 	},
