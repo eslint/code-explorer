@@ -215,3 +215,32 @@ test("should not add a history entry for each state change", async ({
 	await page.goForward();
 	await expect(esquerySelectorInput).toHaveValue("Identifier");
 });
+
+test("should load state when the URL hash changes without a page reload", async ({
+	page,
+}) => {
+	await page.goto("/");
+
+	const codeEditor = page.getByRole("textbox", {
+		name: "Code Editor",
+		exact: true,
+	});
+
+	const firstCode = "const first = 1;";
+	await codeEditor.fill(firstCode);
+	await expect.poll(() => getPersistedJavaScriptCode(page)).toBe(firstCode);
+	const firstHash = new URL(page.url()).hash;
+
+	const secondCode = "const second = 2;";
+	await codeEditor.fill(secondCode);
+	await expect.poll(() => getPersistedJavaScriptCode(page)).toBe(secondCode);
+
+	await page.goto(`/${firstHash}`);
+	await expect(codeEditor).toContainText(firstCode);
+
+	await page.goBack();
+	await expect(codeEditor).toContainText(secondCode);
+
+	await page.goForward();
+	await expect(codeEditor).toContainText(firstCode);
+});
