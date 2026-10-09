@@ -31,3 +31,23 @@ test("should switch to each tool and show it", async ({ page }) => {
 	await page.getByRole("button", { name: "Code Path" }).click();
 	await expect(page.getByTestId("rf__background")).toBeVisible();
 });
+
+test("should display variables in the scope set", async ({ page }) => {
+	await page.goto("/");
+	await page
+		.getByRole("textbox", { name: "Code Editor", exact: true })
+		.fill("const __x = 1;");
+	await page.getByRole("button", { name: "Scope", exact: true }).click();
+	await page.getByRole("button", { name: "2. module", exact: true }).click();
+
+	const moduleScope = page.getByRole("region", { name: "2. module" });
+	const setEntry = moduleScope
+		.getByRole("listitem")
+		.filter({ hasText: /^setMap\(1\)$/ });
+	await expect(setEntry).toBeVisible();
+	await setEntry.getByRole("button", { name: "set", exact: true }).click();
+	await moduleScope.getByRole("button", { name: "__x", exact: true }).click();
+	await expect(
+		moduleScope.getByRole("listitem").filter({ hasText: /^name__x$/ }),
+	).toBeVisible();
+});
