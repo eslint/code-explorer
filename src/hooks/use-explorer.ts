@@ -307,3 +307,7 @@ export const useExplorer = create<ExplorerState>()(
 		),
 	),
 );
+
+window.addEventListener("hashchange", () => {
+	useExplorer.persist.rehydrate();
+});
