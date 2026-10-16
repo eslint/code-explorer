@@ -7,9 +7,11 @@ const highlightRangeDecoration = Decoration.mark({
 
 function createHighlightedRangeDecorations(ranges: SourceRange[]) {
 	return Decoration.set(
-		ranges.map(([rangeFrom, rangeTo]) =>
-			highlightRangeDecoration.range(rangeFrom, rangeTo),
-		),
+		ranges
+			.filter(([rangeFrom, rangeTo]) => rangeFrom < rangeTo)
+			.map(([rangeFrom, rangeTo]) =>
+				highlightRangeDecoration.range(rangeFrom, rangeTo),
+			),
 		true,
 	);
 }
