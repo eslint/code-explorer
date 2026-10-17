@@ -1,38 +1,40 @@
 import * as espree from "espree";
 import * as eslintScope from "eslint-scope";
-import { useExplorer } from "@/hooks/use-explorer";
+import { useExplorer, type JsOptions } from "@/hooks/use-explorer";
 import { Accordion } from "@/components/ui/accordion";
 import { ScopeItem } from "./scope-item";
 import type { Program } from "estree";
-import type { FC } from "react";
+import { useMemo, type FC } from "react";
 import { parseError } from "@/lib/parse-error";
 import { ErrorState } from "../error-boundary";
 import { useAST } from "@/hooks/use-ast";
+
+type ScopeAnalysisResult =
+	| { ok: true; scopeManager: eslintScope.ScopeManager }
+	| { ok: false; error: unknown };
 
 export const Scope: FC = () => {
 	const explorer = useExplorer();
 	const result = useAST();
 	const { jsOptions, viewModes } = explorer;
-	const { sourceType, esVersion, isJSX } = jsOptions;
 	const { scopeView } = viewModes;
-	let scopeManager = null;
+
+	const scopeAnalysis = useMemo(
+		() => (result.ok ? analyzeScope(result.ast, jsOptions) : null),
+		[result.ok, result.ast, jsOptions],
+	);
 
 	if (!result.ok) {
 		const message = parseError(result.errors[0]);
 		return <ErrorState message={message} />;
 	}
 
-	try {
-		scopeManager = eslintScope.analyze(result.ast as Program, {
-			sourceType,
-			ecmaVersion:
-				esVersion === "latest" ? espree.latestEcmaVersion : esVersion,
-			jsx: isJSX,
-		});
-	} catch (error) {
-		const message = parseError(error);
+	if (!scopeAnalysis?.ok) {
+		const message = parseError(scopeAnalysis?.error);
 		return <ErrorState message={message} />;
 	}
+
+	const { scopeManager } = scopeAnalysis;
 
 	return (
 		<Accordion
@@ -65,3 +67,20 @@ export const Scope: FC = () => {
 		</Accordion>
 	);
 };
+
+function analyzeScope(
+	ast: unknown,
+	{ sourceType, esVersion, isJSX }: JsOptions,
+): ScopeAnalysisResult {
+	try {
+		const scopeManager = eslintScope.analyze(ast as Program, {
+			sourceType,
+			ecmaVersion:
+				esVersion === "latest" ? espree.latestEcmaVersion : esVersion,
+			jsx: isJSX,
+		});
+		return { ok: true, scopeManager };
+	} catch (error) {
+		return { ok: false, error };
+	}
+}

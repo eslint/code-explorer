@@ -1,3 +1,4 @@
+import { createContext, useContext, useMemo } from "react";
 import * as espree from "espree";
 import esquery from "esquery";
 import type { Node as EstreeNode } from "estree";
@@ -6,11 +7,30 @@ import css from "@eslint/css";
 import json from "@eslint/json";
 import markdown from "@eslint/markdown";
 import html from "@html-eslint/eslint-plugin";
-import { useExplorer } from "@/hooks/use-explorer";
+import { useExplorer, type ExplorerState } from "@/hooks/use-explorer";
 import { assertIsUnreachable } from "@/lib/utils";
 import { templateEngineSyntaxPresets } from "@/lib/const";
 
-export function useAST() {
+type ParseInput = Pick<
+	ExplorerState,
+	| "language"
+	| "code"
+	| "jsOptions"
+	| "cssOptions"
+	| "jsonOptions"
+	| "markdownOptions"
+	| "htmlOptions"
+>;
+
+type ASTResult = ReturnType<typeof addEsqueryMatchedNodes>;
+
+type ASTProviderProps = {
+	children: React.ReactNode;
+};
+
+const ASTProviderContext = createContext<ASTResult | null>(null);
+
+export const ASTProvider: React.FC<ASTProviderProps> = ({ children }) => {
 	const {
 		language,
 		code,
@@ -21,7 +41,56 @@ export function useAST() {
 		htmlOptions,
 		esquerySelector,
 	} = useExplorer();
+	const selector = esquerySelector?.selector ?? "";
 
+	const astParseResult = useMemo(
+		() =>
+			parseCode({
+				language,
+				code,
+				jsOptions,
+				cssOptions,
+				jsonOptions,
+				markdownOptions,
+				htmlOptions,
+			}),
+		[
+			language,
+			code,
+			jsOptions,
+			cssOptions,
+			jsonOptions,
+			markdownOptions,
+			htmlOptions,
+		],
+	);
+	const astResult = useMemo(
+		() => addEsqueryMatchedNodes(astParseResult, selector),
+		[astParseResult, selector],
+	);
+
+	return (
+		<ASTProviderContext value={astResult}>{children}</ASTProviderContext>
+	);
+};
+
+export function useAST() {
+	const context = useContext(ASTProviderContext);
+	if (!context) {
+		throw new Error("useAST must be used within an ASTProvider");
+	}
+	return context;
+}
+
+function parseCode({
+	language,
+	code,
+	jsOptions,
+	cssOptions,
+	jsonOptions,
+	markdownOptions,
+	htmlOptions,
+}: ParseInput) {
 	let astParseResult: ParseResult<unknown>;
 
 	switch (language) {
@@ -120,10 +189,17 @@ export function useAST() {
 		}
 	}
 
+	return astParseResult;
+}
+
+function addEsqueryMatchedNodes(
+	astParseResult: ParseResult<unknown>,
+	selector: string,
+) {
 	if (astParseResult.ok) {
 		const esqueryMatchedNodes = getEsqueryMatchedNodes(
 			astParseResult.ast,
-			esquerySelector?.selector ?? "",
+			selector,
 		);
 
 		return {
