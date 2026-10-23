@@ -162,6 +162,40 @@ test(`should keep ESQuery highlights aligned while typing before a matching lite
 	await expect(highlight).toHaveText(["42"]);
 });
 
+test(`should not crash when an ESQuery selector matches a node with an empty range`, async ({
+	page,
+}) => {
+	const consoleErrors: string[] = [];
+	page.on("console", message => {
+		if (message.type() === "error") {
+			consoleErrors.push(message.text());
+		}
+	});
+
+	await page.goto("/");
+
+	const codeEditor = page.getByRole("textbox", {
+		name: "Code Editor",
+		exact: true,
+	});
+	const highlight = codeEditor.locator(".bg-editorHighlightedRangeColor");
+
+	await codeEditor.fill("");
+
+	await expect(
+		page.getByRole("listitem").filter({ hasText: "bodyArray[]" }),
+	).toBeVisible();
+
+	await page
+		.getByRole("textbox", { name: "ESQuery Selector" })
+		.fill("Program");
+
+	await codeEditor.fill("42;");
+
+	await expect(highlight).toHaveText(["42;"]);
+	expect(consoleErrors).toStrictEqual([]);
+});
+
 test.describe("AST node expansion", () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto("/");
