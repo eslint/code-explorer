@@ -43,4 +43,4 @@ Now import the default options for the new language from `src/lib/const.ts`.
 
 ## Step 7: Wire the AST
 
-Add a parsing case to `parseCode` in `src/hooks/use-ast.tsx` for the new language that produces `{ ok: true, ast }`. If the language has its own options, also add them to `ParseInput` and pass them in from `ASTProvider`.
+Add a parsing case to `parseCode` in `src/components/ast-provider.tsx` for the new language that produces `{ ok: true, ast }`. If the language has its own options, also add them to `ParseInput` and pass them in from `ASTProvider`.

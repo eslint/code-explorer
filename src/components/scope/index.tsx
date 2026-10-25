@@ -7,7 +7,7 @@ import type { Program } from "estree";
 import { useMemo, type FC } from "react";
 import { parseError } from "@/lib/parse-error";
 import { ErrorState } from "../error-boundary";
-import { useAST } from "@/hooks/use-ast";
+import { useAST } from "@/components/ast-provider";
 
 type ScopeAnalysisResult =
 	| { ok: true; scopeManager: eslintScope.ScopeManager }

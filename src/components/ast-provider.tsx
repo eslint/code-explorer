@@ -90,9 +90,7 @@ function parseCode({
 	jsonOptions,
 	markdownOptions,
 	htmlOptions,
-}: ParseInput) {
-	let astParseResult: ParseResult<unknown>;
-
+}: ParseInput): ParseResult<unknown> {
 	switch (language) {
 		case "javascript": {
 			try {
@@ -107,18 +105,17 @@ function parseCode({
 						jsx: jsOptions.isJSX,
 					},
 				});
-				astParseResult = { ast, ok: true };
+				return { ast, ok: true };
 			} catch (err) {
-				// error occurred e.g. because the JS code cannot be parsed into an AST, or the esquery selector is no valid selector --> just ignore (no highlighted ranges)
-				astParseResult = { ok: false, errors: [err as FileError] };
+				// espree throws if the JS code cannot be parsed into an AST --> return the error, so that it is shown instead of the AST
+				return { ok: false, errors: [err as FileError] };
 			}
-			break;
 		}
 
 		case "json": {
 			const { jsonMode, allowTrailingCommas } = jsonOptions;
 			const language = json.languages[jsonMode];
-			astParseResult = language.parse(
+			return language.parse(
 				{
 					body: code.json,
 					path: "",
@@ -131,14 +128,13 @@ function parseCode({
 					},
 				},
 			);
-			break;
 		}
 
 		case "markdown": {
 			const { markdownMode, markdownFrontmatter, markdownMath } =
 				markdownOptions;
 			const language = markdown.languages[markdownMode];
-			astParseResult = language.parse(
+			return language.parse(
 				{ body: code.markdown, path: "", physicalPath: "", bom: false },
 				{
 					languageOptions: {
@@ -150,23 +146,21 @@ function parseCode({
 					},
 				},
 			);
-			break;
 		}
 
 		case "css": {
 			const { cssMode, tolerant } = cssOptions;
 			const language = css.languages[cssMode];
-			astParseResult = language.parse(
+			return language.parse(
 				{ body: code.css, path: "", physicalPath: "", bom: false },
 				{ languageOptions: { tolerant } },
 			);
-			break;
 		}
 
 		case "html": {
 			const { templateEngineSyntax, frontmatter } = htmlOptions;
 			const language = html.languages!.html;
-			astParseResult = language.parse(
+			return language.parse(
 				{
 					body: code.html,
 					path: "",
@@ -181,15 +175,12 @@ function parseCode({
 					},
 				},
 			);
-			break;
 		}
 
 		default: {
 			assertIsUnreachable(language);
 		}
 	}
-
-	return astParseResult;
 }
 
 function addEsqueryMatchedNodes(

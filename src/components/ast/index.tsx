@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { useAST } from "@/hooks/use-ast";
+import { useAST } from "@/components/ast-provider";
 import { useExplorer } from "@/hooks/use-explorer";
 import { Accordion } from "@/components/ui/accordion";
 import { Editor } from "@/components/editor";
