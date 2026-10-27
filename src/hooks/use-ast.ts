@@ -57,9 +57,8 @@ export function useAST() {
 					bom: false,
 				},
 				{
-					languageOptions: {
-						allowTrailingCommas,
-					},
+					languageOptions:
+						jsonMode === "jsonc" ? { allowTrailingCommas } : {},
 				},
 			);
 			break;
