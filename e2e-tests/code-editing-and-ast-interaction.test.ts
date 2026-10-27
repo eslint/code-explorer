@@ -98,7 +98,7 @@ test(`should change code, then highlight code and AST nodes matching ESQuery sel
 		.click();
 	await page.getByRole("button", { name: "ExpressionStatement" }).click();
 	await page
-		.getByRole("region", { name: "Program" })
+		.getByRole("region", { name: "0. ExpressionStatement" })
 		.getByRole("listitem")
 		.filter({ hasText: "expressionCallExpression{type" })
 		.getByRole("button", { name: "Toggle Property" })
@@ -379,6 +379,8 @@ test.describe("AST node expansion", () => {
 			await page
 				.getByRole("region", { name: "Document" })
 				.getByRole("listitem")
+				.filter({ hasText: "bodyObject{type, members, loc, ...}" })
+				.getByRole("listitem")
 				.filter({ hasText: "membersArray[1 element]" })
 				.getByRole("button", { name: "Toggle Property" })
 				.click();
@@ -437,6 +439,8 @@ test.describe("AST node expansion", () => {
 			await page
 				.getByRole("region", { name: "Document" })
 				.getByRole("listitem")
+				.filter({ hasText: "bodyObject{type, members, loc, ...}" })
+				.getByRole("listitem")
 				.filter({ hasText: "membersArray[1 element]" })
 				.getByRole("button", { name: "Toggle Property" })
 				.click();
@@ -494,6 +498,8 @@ test.describe("AST node expansion", () => {
 
 			await page
 				.getByRole("region", { name: "Document" })
+				.getByRole("listitem")
+				.filter({ hasText: "bodyObject{type, members, loc, ...}" })
 				.getByRole("listitem")
 				.filter({ hasText: "membersArray[1 element]" })
 				.getByRole("button", { name: "Toggle Property" })
@@ -555,6 +561,8 @@ test.describe("AST node expansion", () => {
 
 			await page
 				.getByRole("region", { name: "Document" })
+				.getByRole("listitem")
+				.filter({ hasText: "bodyObject{type, members, loc, ...}" })
 				.getByRole("listitem")
 				.filter({ hasText: "membersArray[1 element]" })
 				.getByRole("button", { name: "Toggle Property" })

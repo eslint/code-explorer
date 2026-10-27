@@ -107,8 +107,8 @@ export const TreeEntry: FC<TreeEntryProperties> = ({
 	const toggleOpen = () => setOpen(!open);
 
 	return (
-		<>
-			<li className="flex items-center gap-3">
+		<li className="space-y-1">
+			<div className="flex items-center gap-3">
 				{isToggleable ? (
 					<button
 						onClick={toggleOpen}
@@ -142,7 +142,7 @@ export const TreeEntry: FC<TreeEntryProperties> = ({
 						{part}
 					</span>
 				))}
-			</li>
+			</div>
 			{open ? (
 				<SanitizeValue
 					path={path}
@@ -152,6 +152,6 @@ export const TreeEntry: FC<TreeEntryProperties> = ({
 					esqueryMatchedNodes={esqueryMatchedNodes}
 				/>
 			) : null}
-		</>
+		</li>
 	);
 };
