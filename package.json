@@ -72,7 +72,7 @@
     "react-resizable-panels": "^4.14.7",
     "tailwind-merge": "^2.6.1",
     "tailwindcss-animate": "^1.0.7",
-    "zustand": "^5.0.15"
+    "zustand": "^5.0.16"
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",
