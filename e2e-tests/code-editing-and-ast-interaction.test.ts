@@ -196,6 +196,54 @@ test(`should not crash when an ESQuery selector matches a node with an empty ran
 	expect(consoleErrors).toStrictEqual([]);
 });
 
+test(`should keep ESQuery highlights when switching languages`, async ({
+	page,
+}) => {
+	const consoleErrors: string[] = [];
+	page.on("console", message => {
+		if (message.type() === "error") {
+			consoleErrors.push(message.text());
+		}
+	});
+
+	await page.goto("/");
+
+	const codeEditor = page.getByRole("textbox", {
+		name: "Code Editor",
+		exact: true,
+	});
+	const highlight = codeEditor.locator(".bg-editorHighlightedRangeColor");
+	const languageOptions = page.getByRole("button", {
+		name: "Language Options",
+	});
+
+	await codeEditor.fill('foo("bar");');
+
+	await page
+		.getByRole("textbox", { name: "ESQuery Selector" })
+		.fill("Literal");
+
+	await expect(highlight).toHaveText(['"bar"']);
+
+	await languageOptions.click();
+	await setComboboxOption(page, "Language", "JSON");
+	await page.keyboard.press("Escape");
+
+	await codeEditor.fill("[]");
+
+	await expect(
+		page
+			.getByRole("listitem")
+			.filter({ hasText: "bodyArray{type, elements, loc, ...}" }),
+	).toBeVisible();
+
+	await languageOptions.click();
+	await setComboboxOption(page, "Language", "JavaScript");
+
+	await expect(highlight).toHaveText(['"bar"']);
+	expect(consoleErrors).toStrictEqual([]);
+});
+
 test.describe("AST node expansion", () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto("/");
