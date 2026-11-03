@@ -76,7 +76,7 @@ export type ViewModes = {
 	pathView: "code" | "graph";
 };
 
-type ExplorerState = {
+export type ExplorerState = {
 	tool: "ast" | "scope" | "path";
 	setTool: (tool: ExplorerState["tool"]) => void;
 

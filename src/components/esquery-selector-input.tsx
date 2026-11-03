@@ -2,7 +2,7 @@ import { useId, type FC } from "react";
 import { Label } from "@/components/ui/label";
 import { TextField } from "@/components/ui/text-field";
 import { useExplorer } from "@/hooks/use-explorer";
-import { useAST } from "@/hooks/use-ast";
+import { useAST } from "@/components/ast-provider";
 import { mergeClassNames } from "@/lib/utils";
 import { esquerySelectorPlaceholder } from "@/lib/const";
 
