@@ -67,7 +67,7 @@ export const generateCodePath = (
 	isJSX: boolean,
 ):
 	| {
-			error: string;
+			error: unknown;
 	  }
 	| {
 			response: CodePathData[];
@@ -145,7 +145,13 @@ export const generateCodePath = (
 
 		if (allCodePaths.length === 0) {
 			if (messages && messages.length > 0 && messages[0].fatal) {
-				return { error: messages[0].message };
+				const { line, column } = messages[0];
+				const message = messages[0].message.replace(
+					/^Parsing error: /u,
+					"",
+				);
+
+				return { error: { message, line, column } };
 			}
 			return {
 				error: "Unknown error",
@@ -153,7 +159,7 @@ export const generateCodePath = (
 		}
 	} catch (error) {
 		return {
-			error: error.message,
+			error,
 		};
 	}
 
