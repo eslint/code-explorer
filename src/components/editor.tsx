@@ -14,6 +14,7 @@ import {
 	ESLintPlaygroundHighlightStyle,
 } from "@/utils/codemirror-themes";
 import { highlightedRangesExtension } from "@/utils/highlighted-ranges";
+import { shellLanguageSupport } from "@/utils/shell-language";
 import type { SourceRange } from "@eslint/core";
 
 const languageExtensions: Record<
@@ -25,6 +26,7 @@ const languageExtensions: Record<
 	markdown: () => markdown(),
 	css: () => css(),
 	html: () => html(),
+	shell: () => shellLanguageSupport,
 };
 
 const foldGutterExtension = foldGutter({

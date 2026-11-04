@@ -44,3 +44,8 @@ Now import the default options for the new language from `src/lib/const.ts`.
 ## Step 7: Wire the AST
 
 Add a parsing case in `src/hooks/use-ast.ts` for the new language that produces `{ ok: true, ast }`.
+
+For shell, use `parseShell` from `@eslint/shell`, pass the selected `bash`,
+`posix`, or `mksh` dialect, and use the package's exported `visitorKeys` for
+ESQuery traversal. Shell AST nodes expose `start`/`end` offsets rather than
+`range`/`loc`; use those offsets for editor highlights and tree inspection.
