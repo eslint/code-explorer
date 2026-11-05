@@ -3,7 +3,12 @@ import { javascript } from "@codemirror/lang-javascript";
 import { markdown } from "@codemirror/lang-markdown";
 import { css } from "@codemirror/lang-css";
 import { html } from "@codemirror/lang-html";
-import { foldGutter, type LanguageSupport } from "@codemirror/language";
+import {
+	foldGutter,
+	LanguageSupport,
+	StreamLanguage,
+} from "@codemirror/language";
+import { shell } from "@codemirror/legacy-modes/mode/shell";
 import { EditorView } from "@codemirror/view";
 import CodeMirror, { type BasicSetupOptions } from "@uiw/react-codemirror";
 import { useEffect, useRef, useState, useMemo, type FC } from "react";
@@ -14,7 +19,6 @@ import {
 	ESLintPlaygroundHighlightStyle,
 } from "@/utils/codemirror-themes";
 import { highlightedRangesExtension } from "@/utils/highlighted-ranges";
-import { shellLanguageSupport } from "@/utils/shell-language";
 import type { SourceRange } from "@eslint/core";
 
 const languageExtensions: Record<
@@ -26,7 +30,7 @@ const languageExtensions: Record<
 	markdown: () => markdown(),
 	css: () => css(),
 	html: () => html(),
-	shell: () => shellLanguageSupport,
+	shell: () => new LanguageSupport(StreamLanguage.define(shell)),
 };
 
 const foldGutterExtension = foldGutter({

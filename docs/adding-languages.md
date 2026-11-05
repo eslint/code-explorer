@@ -41,6 +41,9 @@ Now import the default options for the new language from `src/lib/const.ts`.
 1. Install the appropriate CodeMirror plugin for the new language.
 1. Update the `languageExtensions` variable to include the new language CodeMirror plugin.
 
+For shell syntax highlighting, use the `shell` mode from
+`@codemirror/legacy-modes/mode/shell` through `StreamLanguage.define`.
+
 ## Step 7: Wire the AST
 
 Add a parsing case in `src/hooks/use-ast.ts` for the new language that produces `{ ok: true, ast }`.
