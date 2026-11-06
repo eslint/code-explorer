@@ -138,14 +138,16 @@ test("should parse shell and highlight offset-only AST nodes", async ({
 	await codeEditor.fill("if then fi\n");
 	await expect(page.getByText(/^Error:/)).toBeVisible();
 
+	await codeEditor.fill("diff <(sort a) <(sort b)\n");
+	await expect(page.getByText(/^Error:/)).toBeHidden();
+	await expect(page.getByRole("region", { name: "Program" })).toBeVisible();
+
 	await page.getByRole("button", { name: "Language Options" }).click();
 	const dialectSelect = page.getByRole("combobox", { name: "Dialect" });
 	await dialectSelect.click();
 	await page.getByRole("option", { exact: true, name: "POSIX sh" }).click();
-	await codeEditor.fill("diff <(sort a) <(sort b)\n");
 	await expect(page.getByText(/^Error:/)).toBeVisible();
 
-	await page.getByRole("button", { name: "Language Options" }).click();
 	await dialectSelect.click();
 	await page.getByRole("option", { exact: true, name: "Bash" }).click();
 	await expect(page.getByRole("region", { name: "Program" })).toBeVisible();
