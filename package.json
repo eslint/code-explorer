@@ -80,7 +80,7 @@
     "@babel/core": "^7.29.7",
     "@eslint/core": "^1.2.1",
     "@playwright/test": "^1.64.1",
-    "@rolldown/plugin-babel": "^0.2.4",
+    "@rolldown/plugin-babel": "^0.3.0",
     "@types/eslint-plugin-jsx-a11y": "^6.10.1",
     "@types/esquery": "^1.5.4",
     "@types/node": "^24.19.2",
