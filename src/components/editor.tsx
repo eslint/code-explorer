@@ -45,7 +45,7 @@ const basicSetup: BasicSetupOptions = {
 type EditorProperties = {
 	ariaLabel: string;
 	readOnly?: boolean;
-	value?: string;
+	value: string;
 	highlightedRanges?: SourceRange[];
 	onChange?: (value: string) => void;
 };
@@ -76,9 +76,9 @@ export const Editor: FC<EditorProperties> = ({
 			EditorView.contentAttributes.of({ "aria-label": ariaLabel }),
 			ESLintPlaygroundTheme,
 			ESLintPlaygroundHighlightStyle,
-			highlightedRangesExtension(highlightedRanges),
+			highlightedRangesExtension(highlightedRanges, value),
 		],
-		[activeLanguageExtension, wrap, ariaLabel, highlightedRanges],
+		[activeLanguageExtension, wrap, ariaLabel, highlightedRanges, value],
 	);
 
 	const debouncedOnChange = useMemo(
