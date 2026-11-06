@@ -105,6 +105,54 @@ test(`should change code, then highlight code and AST nodes matching ESQuery sel
 		.click();
 });
 
+test("should parse shell and highlight offset-only AST nodes", async ({
+	page,
+}) => {
+	await page.goto("/");
+	await page.getByRole("button", { name: "Language Options" }).click();
+
+	const languageSelect = page.getByRole("combobox", { name: "Language" });
+	await languageSelect.click();
+	await page.getByRole("option", { exact: true, name: "Shell" }).click();
+	await expect(page.getByRole("region", { name: "Program" })).toBeVisible();
+
+	const codeEditor = page.getByRole("textbox", {
+		name: "Code Editor",
+		exact: true,
+	});
+	await codeEditor.fill("echo hello\n");
+	await page
+		.getByRole("textbox", { name: "ESQuery Selector" })
+		.fill("Command");
+
+	const highlight = codeEditor.locator(".bg-editorHighlightedRangeColor");
+	await expect(highlight).toHaveText(/echo hello/);
+
+	const program = page.getByRole("region", { name: "Program" });
+	const body = program.getByRole("listitem").filter({ hasText: "bodyArray" });
+	await body.getByRole("button", { name: "Toggle Property" }).click();
+	await expect(
+		program.getByRole("button", { name: /Command/ }),
+	).toBeVisible();
+
+	await codeEditor.fill("if then fi\n");
+	await expect(page.getByText(/^Error:/)).toBeVisible();
+
+	await codeEditor.fill("diff <(sort a) <(sort b)\n");
+	await expect(page.getByText(/^Error:/)).toBeHidden();
+	await expect(page.getByRole("region", { name: "Program" })).toBeVisible();
+
+	await page.getByRole("button", { name: "Language Options" }).click();
+	const dialectSelect = page.getByRole("combobox", { name: "Dialect" });
+	await dialectSelect.click();
+	await page.getByRole("option", { exact: true, name: "POSIX sh" }).click();
+	await expect(page.getByText(/^Error:/)).toBeVisible();
+
+	await dialectSelect.click();
+	await page.getByRole("option", { exact: true, name: "Bash" }).click();
+	await expect(page.getByRole("region", { name: "Program" })).toBeVisible();
+});
+
 test(`should keep ESQuery highlights aligned while typing before a matching literal`, async ({
 	page,
 }) => {

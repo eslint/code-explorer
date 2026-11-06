@@ -15,9 +15,12 @@ const isProbablyNode = (value: unknown) => {
 		value &&
 		typeof value === "object" &&
 		"type" in value &&
-		"range" in value &&
 		typeof value.type === "string" &&
-		Array.isArray(value.range)
+		(("range" in value && Array.isArray(value.range)) ||
+			("start" in value &&
+				typeof value.start === "number" &&
+				"end" in value &&
+				typeof value.end === "number"))
 	);
 };
 
