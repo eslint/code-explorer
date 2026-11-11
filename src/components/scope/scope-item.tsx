@@ -46,7 +46,7 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 	// filter out hidden properties
 	const properties =
 		data instanceof Map
-			? [...data.entries()]
+			? [...data]
 			: Object.entries(data).filter(([name]) => !name.startsWith("__"));
 
 	if (isArray) {
