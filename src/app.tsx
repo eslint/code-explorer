@@ -8,14 +8,17 @@ import { useAST } from "@/hooks/use-ast";
 import { useExplorer } from "@/hooks/use-explorer";
 import { convertNodesToRanges } from "@/lib/convert-nodes-to-ranges";
 import { tools } from "@/lib/tools";
+import { mergeClassNames } from "@/lib/utils";
 import "./app.css";
 
 function App() {
-	const { language, tool, code, setCode } = useExplorer();
+	const { language, tool, code, setCode, viewModes } = useExplorer();
 
 	const astParseResult = useAST();
 
 	const activeTool = tools.find(({ value }) => value === tool) ?? tools[0];
+	const isCodePathGraph = tool === "path" && viewModes.pathView === "graph";
+
 	return (
 		<ThemeProvider>
 			<div className="antialiased touch-manipulation font-sans">
@@ -56,7 +59,13 @@ function App() {
 									role="region"
 									aria-label="Code Analysis Tools Panel"
 								>
-									<div className="bg-muted overflow-auto h-full relative flex flex-col">
+									<div
+										className={mergeClassNames(
+											"bg-muted overflow-auto h-full relative flex flex-col",
+											isCodePathGraph &&
+												"bg-[radial-gradient(circle,hsl(var(--muted-foreground)),transparent_1px)] bg-[length:20px_20px] bg-local",
+										)}
+									>
 										<div className="flex flex-col gap-2 p-4 z-10 sm:flex-row sm:flex-wrap sm:justify-between">
 											<ToolSelector />
 											<div className="flex flex-wrap items-center gap-1">
