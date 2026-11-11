@@ -43,7 +43,7 @@ test("should display variables in the scope set", async ({ page }) => {
 	const moduleScope = page.getByRole("region", { name: "2. module" });
 	const setEntry = moduleScope
 		.getByRole("listitem")
-		.filter({ hasText: /^setMap\(1\)$/ });
+		.filter({ hasText: /^setMap\{1 entry\}$/ });
 	await expect(setEntry).toBeVisible();
 	await setEntry.getByRole("button", { name: "set", exact: true }).click();
 	await moduleScope.getByRole("button", { name: "__x", exact: true }).click();
