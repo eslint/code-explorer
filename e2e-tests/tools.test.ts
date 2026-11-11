@@ -29,7 +29,7 @@ test("should switch to each tool and show it", async ({ page }) => {
 	await expect(globalScopeButton).toHaveAttribute("aria-expanded", "true");
 
 	await page.getByRole("button", { name: "Code Path" }).click();
-	await expect(page.getByTestId("rf__background")).toBeVisible();
+	await expect(page.getByText("Program:enter")).toBeVisible();
 });
 
 test("should display variables in the scope set", async ({ page }) => {

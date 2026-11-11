@@ -13,6 +13,7 @@ import type {
 	MarkdownOptions,
 	CssOptions,
 	HtmlOptions,
+	ShellOptions,
 	PathIndex,
 	ViewModes,
 	Code,
@@ -43,6 +44,11 @@ export const languages = [
 		value: "html",
 		label: "HTML",
 		icon: "/languages/html.svg",
+	},
+	{
+		value: "shell",
+		label: "Shell",
+		icon: "/languages/shell.svg",
 	},
 ];
 
@@ -238,6 +244,21 @@ export const cssModes = [
 	},
 ];
 
+export const shellVariants = [
+	{
+		value: "bash",
+		label: "Bash",
+	},
+	{
+		value: "posix",
+		label: "POSIX sh",
+	},
+	{
+		value: "mksh",
+		label: "MirBSD Korn shell",
+	},
+];
+
 export const templateEngineSyntaxes = [
 	{
 		value: "none",
@@ -306,9 +327,10 @@ export const pathViewOptions = [
 export const esquerySelectorPlaceholder = {
 	javascript: 'e.g. "ImportDeclaration > Literal"',
 	json: 'e.g. "Member > String"',
-	markdown: 'e.g. "Heading > Text"',
+	markdown: 'e.g. "heading > text"',
 	css: 'e.g. "Block > Declaration"',
 	html: 'e.g. "Document > Doctype"',
+	shell: 'e.g. "Command > Word"',
 };
 
 export const defaultJsCode = `
@@ -461,12 +483,21 @@ can view this structure as JSON or in a tree format.
 </html>
 `.trim();
 
+export const defaultShellCode = `
+#!/usr/bin/env bash
+
+for file in *.sh; do
+    printf 'Checking %s\\n' "$file"
+done
+`.trim();
+
 export const defaultCode: Code = {
 	javascript: defaultJsCode,
 	json: defaultJsonCode,
 	markdown: defaultMarkdownCode,
 	css: defaultCssCode,
 	html: defaultHtmlCode,
+	shell: defaultShellCode,
 };
 
 export const defaultJsOptions: JsOptions = {
@@ -495,6 +526,10 @@ export const defaultCssOptions: CssOptions = {
 export const defaultHtmlOptions: HtmlOptions = {
 	templateEngineSyntax: "none",
 	frontmatter: false,
+};
+
+export const defaultShellOptions: ShellOptions = {
+	variant: "bash",
 };
 
 export const defaultPathIndex: PathIndex = {

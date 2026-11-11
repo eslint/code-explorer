@@ -24,6 +24,16 @@ async function getPersistedJavaScriptCode(page: Page): Promise<string> {
 	return JSON.parse(storedValue).state.code.javascript;
 }
 
+async function getPersistedEsquerySelector(page: Page): Promise<string> {
+	const storedValue = await page.localStorage.getItem(storageKey);
+
+	if (!storedValue) {
+		return "";
+	}
+
+	return JSON.parse(storedValue).state.esquerySelector.selector;
+}
+
 async function getPersistedExplorerState(page: Page): Promise<string> {
 	const storedValue = await page.localStorage.getItem(storageKey);
 
@@ -182,4 +192,100 @@ test("should patch legacy Markdown options without math", async ({ page }) => {
 	await expect(
 		page.getByRole("switch", { exact: true, name: "Math" }),
 	).toHaveAttribute("aria-checked", "false");
+});
+
+test("should persist and share shell code and dialect", async ({ page }) => {
+	await page.addInitScript(key => {
+		window.localStorage.removeItem(key);
+	}, storageKey);
+	await page.goto("/");
+	await page.getByRole("button", { name: "Language Options" }).click();
+
+	const languageSelect = page.getByRole("combobox", { name: "Language" });
+	await languageSelect.click();
+	await page.getByRole("option", { exact: true, name: "Shell" }).click();
+
+	const dialectSelect = page.getByRole("combobox", { name: "Dialect" });
+	await dialectSelect.click();
+	await page.getByRole("option", { exact: true, name: "POSIX sh" }).click();
+
+	const shellCode = "printf '%s\\n' \"$HOME\"\n";
+	await page
+		.getByRole("textbox", { name: "Code Editor", exact: true })
+		.fill(shellCode);
+
+	await expect
+		.poll(async () => {
+			const state = JSON.parse(
+				await getPersistedExplorerState(page),
+			).state;
+			return {
+				code: state.code.shell,
+				variant: state.shellOptions.variant,
+			};
+		})
+		.toEqual({ code: shellCode, variant: "posix" });
+
+	const sharedHash = new URL(page.url()).hash;
+	await page.localStorage.removeItem(storageKey);
+	await page.goto(`/${sharedHash}`);
+
+	await expect(
+		page.getByRole("textbox", { name: "Code Editor", exact: true }),
+	).toContainText(shellCode);
+	await page.getByRole("button", { name: "Language Options" }).click();
+	await expect(page.getByRole("combobox", { name: "Dialect" })).toHaveText(
+		"POSIX sh",
+	);
+});
+
+test("should not add a history entry for each state change", async ({
+	page,
+}) => {
+	await page.goto("/robots.txt");
+	await page.goto("/");
+
+	const esquerySelectorInput = page.getByRole("textbox", {
+		name: "ESQuery Selector",
+	});
+
+	await esquerySelectorInput.pressSequentially("Identifier");
+	await expect
+		.poll(() => getPersistedEsquerySelector(page))
+		.toBe("Identifier");
+
+	await page.goBack();
+	await expect(page).toHaveURL(/\/robots\.txt$/);
+
+	await page.goForward();
+	await expect(esquerySelectorInput).toHaveValue("Identifier");
+});
+
+test("should load state when the URL hash changes without a page reload", async ({
+	page,
+}) => {
+	await page.goto("/");
+
+	const codeEditor = page.getByRole("textbox", {
+		name: "Code Editor",
+		exact: true,
+	});
+
+	const firstCode = "const first = 1;";
+	await codeEditor.fill(firstCode);
+	await expect.poll(() => getPersistedJavaScriptCode(page)).toBe(firstCode);
+	const firstHash = new URL(page.url()).hash;
+
+	const secondCode = "const second = 2;";
+	await codeEditor.fill(secondCode);
+	await expect.poll(() => getPersistedJavaScriptCode(page)).toBe(secondCode);
+
+	await page.goto(`/${firstHash}`);
+	await expect(codeEditor).toContainText(firstCode);
+
+	await page.goBack();
+	await expect(codeEditor).toContainText(secondCode);
+
+	await page.goForward();
+	await expect(codeEditor).toContainText(firstCode);
 });

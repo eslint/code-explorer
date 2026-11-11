@@ -98,11 +98,59 @@ test(`should change code, then highlight code and AST nodes matching ESQuery sel
 		.click();
 	await page.getByRole("button", { name: "ExpressionStatement" }).click();
 	await page
-		.getByRole("region", { name: "Program" })
+		.getByRole("region", { name: "0. ExpressionStatement" })
 		.getByRole("listitem")
 		.filter({ hasText: "expressionCallExpression{type" })
 		.getByRole("button", { name: "Toggle Property" })
 		.click();
+});
+
+test("should parse shell and highlight offset-only AST nodes", async ({
+	page,
+}) => {
+	await page.goto("/");
+	await page.getByRole("button", { name: "Language Options" }).click();
+
+	const languageSelect = page.getByRole("combobox", { name: "Language" });
+	await languageSelect.click();
+	await page.getByRole("option", { exact: true, name: "Shell" }).click();
+	await expect(page.getByRole("region", { name: "Program" })).toBeVisible();
+
+	const codeEditor = page.getByRole("textbox", {
+		name: "Code Editor",
+		exact: true,
+	});
+	await codeEditor.fill("echo hello\n");
+	await page
+		.getByRole("textbox", { name: "ESQuery Selector" })
+		.fill("Command");
+
+	const highlight = codeEditor.locator(".bg-editorHighlightedRangeColor");
+	await expect(highlight).toHaveText(/echo hello/);
+
+	const program = page.getByRole("region", { name: "Program" });
+	const body = program.getByRole("listitem").filter({ hasText: "bodyArray" });
+	await body.getByRole("button", { name: "Toggle Property" }).click();
+	await expect(
+		program.getByRole("button", { name: /Command/ }),
+	).toBeVisible();
+
+	await codeEditor.fill("if then fi\n");
+	await expect(page.getByText(/^Error:/)).toBeVisible();
+
+	await codeEditor.fill("diff <(sort a) <(sort b)\n");
+	await expect(page.getByText(/^Error:/)).toBeHidden();
+	await expect(page.getByRole("region", { name: "Program" })).toBeVisible();
+
+	await page.getByRole("button", { name: "Language Options" }).click();
+	const dialectSelect = page.getByRole("combobox", { name: "Dialect" });
+	await dialectSelect.click();
+	await page.getByRole("option", { exact: true, name: "POSIX sh" }).click();
+	await expect(page.getByText(/^Error:/)).toBeVisible();
+
+	await dialectSelect.click();
+	await page.getByRole("option", { exact: true, name: "Bash" }).click();
+	await expect(page.getByRole("region", { name: "Program" })).toBeVisible();
 });
 
 test(`should keep ESQuery highlights aligned while typing before a matching literal`, async ({
@@ -160,6 +208,88 @@ test(`should keep ESQuery highlights aligned while typing before a matching lite
 		highlightSamples.every(highlightText => highlightText === "42"),
 	).toBe(true);
 	await expect(highlight).toHaveText(["42"]);
+});
+
+test(`should not crash when an ESQuery selector matches a node with an empty range`, async ({
+	page,
+}) => {
+	const consoleErrors: string[] = [];
+	page.on("console", message => {
+		if (message.type() === "error") {
+			consoleErrors.push(message.text());
+		}
+	});
+
+	await page.goto("/");
+
+	const codeEditor = page.getByRole("textbox", {
+		name: "Code Editor",
+		exact: true,
+	});
+	const highlight = codeEditor.locator(".bg-editorHighlightedRangeColor");
+
+	await codeEditor.fill("");
+
+	await expect(
+		page.getByRole("listitem").filter({ hasText: "bodyArray[]" }),
+	).toBeVisible();
+
+	await page
+		.getByRole("textbox", { name: "ESQuery Selector" })
+		.fill("Program");
+
+	await codeEditor.fill("42;");
+
+	await expect(highlight).toHaveText(["42;"]);
+	expect(consoleErrors).toStrictEqual([]);
+});
+
+test(`should keep ESQuery highlights when switching languages`, async ({
+	page,
+}) => {
+	const consoleErrors: string[] = [];
+	page.on("console", message => {
+		if (message.type() === "error") {
+			consoleErrors.push(message.text());
+		}
+	});
+
+	await page.goto("/");
+
+	const codeEditor = page.getByRole("textbox", {
+		name: "Code Editor",
+		exact: true,
+	});
+	const highlight = codeEditor.locator(".bg-editorHighlightedRangeColor");
+	const languageOptions = page.getByRole("button", {
+		name: "Language Options",
+	});
+
+	await codeEditor.fill('foo("bar");');
+
+	await page
+		.getByRole("textbox", { name: "ESQuery Selector" })
+		.fill("Literal");
+
+	await expect(highlight).toHaveText(['"bar"']);
+
+	await languageOptions.click();
+	await setComboboxOption(page, "Language", "JSON");
+	await page.keyboard.press("Escape");
+
+	await codeEditor.fill("[]");
+
+	await expect(
+		page
+			.getByRole("listitem")
+			.filter({ hasText: "bodyArray{type, elements, loc, ...}" }),
+	).toBeVisible();
+
+	await languageOptions.click();
+	await setComboboxOption(page, "Language", "JavaScript");
+
+	await expect(highlight).toHaveText(['"bar"']);
+	expect(consoleErrors).toStrictEqual([]);
 });
 
 test.describe("AST node expansion", () => {
@@ -345,6 +475,8 @@ test.describe("AST node expansion", () => {
 			await page
 				.getByRole("region", { name: "Document" })
 				.getByRole("listitem")
+				.filter({ hasText: "bodyObject{type, members, loc, ...}" })
+				.getByRole("listitem")
 				.filter({ hasText: "membersArray[1 element]" })
 				.getByRole("button", { name: "Toggle Property" })
 				.click();
@@ -403,6 +535,8 @@ test.describe("AST node expansion", () => {
 			await page
 				.getByRole("region", { name: "Document" })
 				.getByRole("listitem")
+				.filter({ hasText: "bodyObject{type, members, loc, ...}" })
+				.getByRole("listitem")
 				.filter({ hasText: "membersArray[1 element]" })
 				.getByRole("button", { name: "Toggle Property" })
 				.click();
@@ -460,6 +594,8 @@ test.describe("AST node expansion", () => {
 
 			await page
 				.getByRole("region", { name: "Document" })
+				.getByRole("listitem")
+				.filter({ hasText: "bodyObject{type, members, loc, ...}" })
 				.getByRole("listitem")
 				.filter({ hasText: "membersArray[1 element]" })
 				.getByRole("button", { name: "Toggle Property" })
@@ -522,6 +658,8 @@ test.describe("AST node expansion", () => {
 			await page
 				.getByRole("region", { name: "Document" })
 				.getByRole("listitem")
+				.filter({ hasText: "bodyObject{type, members, loc, ...}" })
+				.getByRole("listitem")
 				.filter({ hasText: "membersArray[1 element]" })
 				.getByRole("button", { name: "Toggle Property" })
 				.click();
@@ -557,6 +695,34 @@ test.describe("AST node expansion", () => {
 			).toBeVisible();
 			await expect(
 				page.getByRole("button", { name: "6. RBrace" }),
+			).toBeVisible();
+		});
+
+		test("Allow Trailing Commas: true, then Mode: JSON", async ({
+			page,
+		}) => {
+			// `Mode`: `JSONC`
+			await setComboboxOption(page, "Mode", "jsonc");
+
+			// `Allow Trailing Commas`: `true`
+			await setSwitchOption(page, "Allow Trailing Commas", true);
+
+			// `Mode`: `JSON`, which hides the `Allow Trailing Commas` switch.
+			await setComboboxOption(page, "Mode", "json");
+
+			// Hide the settings menu to ensure it doesn't interfere with the test.
+			await page.keyboard.press("Escape");
+
+			// Fill a JSON sample with a trailing comma into the editor.
+			await page
+				.getByRole("textbox", { exact: true, name: "Code Editor" })
+				.fill('{"foo":"bar",}');
+
+			// Verify that the trailing comma is still a parse error in JSON mode.
+			await expect(
+				page.getByText("Error: Unexpected token RBrace found. (1:14)", {
+					exact: true,
+				}),
 			).toBeVisible();
 		});
 	});
