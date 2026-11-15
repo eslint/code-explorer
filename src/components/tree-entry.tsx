@@ -149,7 +149,7 @@ export const TreeEntry: FC<TreeEntryProperties> = ({
 					</span>
 				))}
 			</div>
-			{open ? (
+			{open && isToggleable ? (
 				<SanitizeValue
 					path={path}
 					value={value}
