@@ -104,8 +104,11 @@ export const TreeEntry: FC<TreeEntryProperties> = ({
 	const [open, setOpen] = useState(false);
 	const Icon = open ? MinusSquareIcon : PlusSquareIcon;
 	const isToggleable =
-		(typeof value === "object" && Object.values(value ?? {}).length) ||
-		(Array.isArray(value) && value.length);
+		value instanceof Map
+			? value.size
+			: (typeof value === "object" &&
+					Object.values(value ?? {}).length) ||
+				(Array.isArray(value) && value.length);
 
 	const toggleOpen = () => setOpen(!open);
 
@@ -146,7 +149,7 @@ export const TreeEntry: FC<TreeEntryProperties> = ({
 					</span>
 				))}
 			</div>
-			{open ? (
+			{open && isToggleable ? (
 				<SanitizeValue
 					path={path}
 					value={value}
