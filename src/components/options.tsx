@@ -16,6 +16,7 @@ import {
 	type SourceType,
 	type Version,
 	type TemplateEngineSyntax,
+	type ShellVariant,
 } from "@/hooks/use-explorer";
 import {
 	jsonModes,
@@ -26,6 +27,7 @@ import {
 	sourceTypes,
 	versions,
 	templateEngineSyntaxes,
+	shellVariants,
 } from "@/lib/const";
 import type { FC } from "react";
 
@@ -216,6 +218,26 @@ const HTMLPanel: FC = () => {
 	);
 };
 
+const ShellPanel: FC = () => {
+	const { shellOptions, setShellOptions } = useExplorer();
+
+	return (
+		<LabeledSelect
+			id="shellVariant"
+			label="Dialect"
+			value={shellOptions.variant}
+			onValueChange={(value: string) => {
+				setShellOptions({
+					...shellOptions,
+					variant: value as ShellVariant,
+				});
+			}}
+			items={shellVariants}
+			placeholder="Dialect"
+		/>
+	);
+};
+
 const Panel: FC<{ language: Language }> = ({ language }) => {
 	switch (language) {
 		case "json":
@@ -226,6 +248,8 @@ const Panel: FC<{ language: Language }> = ({ language }) => {
 			return <CssPanel />;
 		case "html":
 			return <HTMLPanel />;
+		case "shell":
+			return <ShellPanel />;
 		default:
 			return <JavaScriptPanel />;
 	}

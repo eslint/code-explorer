@@ -13,18 +13,21 @@ import {
 	defaultMarkdownOptions,
 	defaultCssOptions,
 	defaultHtmlOptions,
+	defaultShellOptions,
 	defaultPathIndex,
 	defaultViewModes,
 } from "../lib/const";
 
 export type SourceType = Exclude<Options["sourceType"], undefined>;
 export type Version = EcmaVersion;
-export type Language = "javascript" | "json" | "markdown" | "css" | "html";
+export type Language =
+	"javascript" | "json" | "markdown" | "css" | "html" | "shell";
 export type JsonMode = "json" | "jsonc" | "json5";
 export type MarkdownMode = "commonmark" | "gfm";
 export type MarkdownFrontmatter = "off" | "yaml" | "toml" | "json";
 export type CssMode = "css";
 export type TemplateEngineSyntax = "none" | "handlebars" | "twig" | "erb";
+export type ShellVariant = "bash" | "posix" | "mksh";
 
 export type Code = {
 	javascript: string;
@@ -32,6 +35,7 @@ export type Code = {
 	markdown: string;
 	css: string;
 	html: string;
+	shell: string;
 };
 export type JsOptions = {
 	parser: string;
@@ -59,6 +63,10 @@ export type CssOptions = {
 export type HtmlOptions = {
 	templateEngineSyntax: TemplateEngineSyntax;
 	frontmatter: boolean;
+};
+
+export type ShellOptions = {
+	variant: ShellVariant;
 };
 
 export type PathIndex = {
@@ -100,6 +108,9 @@ type ExplorerState = {
 
 	htmlOptions: HtmlOptions;
 	setHtmlOptions: (htmlOptions: HtmlOptions) => void;
+
+	shellOptions: ShellOptions;
+	setShellOptions: (shellOptions: ShellOptions) => void;
 
 	wrap: boolean;
 	setWrap: (wrap: boolean) => void;
@@ -259,6 +270,9 @@ export const useExplorer = create<ExplorerState>()(
 				htmlOptions: defaultHtmlOptions,
 				setHtmlOptions: htmlOptions => set({ htmlOptions }),
 
+				shellOptions: defaultShellOptions,
+				setShellOptions: shellOptions => set({ shellOptions }),
+
 				wrap: true,
 				setWrap: wrap => set({ wrap }),
 
@@ -301,6 +315,10 @@ export const useExplorer = create<ExplorerState>()(
 							...defaultMarkdownOptions,
 							...state.markdownOptions,
 						});
+					}
+
+					if (!state.shellOptions) {
+						state.setShellOptions(defaultShellOptions);
 					}
 				},
 			},

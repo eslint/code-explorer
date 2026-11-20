@@ -5,6 +5,7 @@ import type { ParseResult, FileError } from "@eslint/core";
 import css from "@eslint/css";
 import json from "@eslint/json";
 import markdown from "@eslint/markdown";
+import { parseShell, visitorKeys as shellVisitorKeys } from "@eslint/shell";
 import html from "@html-eslint/eslint-plugin";
 import { useExplorer } from "@/hooks/use-explorer";
 import { assertIsUnreachable } from "@/lib/utils";
@@ -19,6 +20,7 @@ export function useAST() {
 		jsonOptions,
 		markdownOptions,
 		htmlOptions,
+		shellOptions,
 		esquerySelector,
 	} = useExplorer();
 
@@ -57,9 +59,8 @@ export function useAST() {
 					bom: false,
 				},
 				{
-					languageOptions: {
-						allowTrailingCommas,
-					},
+					languageOptions:
+						jsonMode === "jsonc" ? { allowTrailingCommas } : {},
 				},
 			);
 			break;
@@ -115,6 +116,18 @@ export function useAST() {
 			break;
 		}
 
+		case "shell": {
+			try {
+				const { ast } = parseShell(code.shell, {
+					variant: shellOptions.variant,
+				});
+				astParseResult = { ast, ok: true };
+			} catch (err) {
+				astParseResult = { ok: false, errors: [err as FileError] };
+			}
+			break;
+		}
+
 		default: {
 			assertIsUnreachable(language);
 		}
@@ -124,6 +137,7 @@ export function useAST() {
 		const esqueryMatchedNodes = getEsqueryMatchedNodes(
 			astParseResult.ast,
 			esquerySelector?.selector ?? "",
+			language === "shell" ? shellVisitorKeys : undefined,
 		);
 
 		return {
@@ -135,12 +149,17 @@ export function useAST() {
 	}
 }
 
-function getEsqueryMatchedNodes(ast: unknown, esquerySelector: string) {
+function getEsqueryMatchedNodes(
+	ast: unknown,
+	esquerySelector: string,
+	visitorKeys?: Record<string, string[]>,
+) {
 	if (esquerySelector.trim().length > 0) {
 		try {
 			const esqueryMatchedNodes = esquery.match(
 				ast as EstreeNode,
 				esquery.parse(esquerySelector),
+				visitorKeys ? { visitorKeys } : undefined,
 			) as unknown[];
 			return esqueryMatchedNodes;
 		} catch {

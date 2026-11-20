@@ -194,6 +194,51 @@ test("should patch legacy Markdown options without math", async ({ page }) => {
 	).toHaveAttribute("aria-checked", "false");
 });
 
+test("should persist and share shell code and dialect", async ({ page }) => {
+	await page.addInitScript(key => {
+		window.localStorage.removeItem(key);
+	}, storageKey);
+	await page.goto("/");
+	await page.getByRole("button", { name: "Language Options" }).click();
+
+	const languageSelect = page.getByRole("combobox", { name: "Language" });
+	await languageSelect.click();
+	await page.getByRole("option", { exact: true, name: "Shell" }).click();
+
+	const dialectSelect = page.getByRole("combobox", { name: "Dialect" });
+	await dialectSelect.click();
+	await page.getByRole("option", { exact: true, name: "POSIX sh" }).click();
+
+	const shellCode = "printf '%s\\n' \"$HOME\"\n";
+	await page
+		.getByRole("textbox", { name: "Code Editor", exact: true })
+		.fill(shellCode);
+
+	await expect
+		.poll(async () => {
+			const state = JSON.parse(
+				await getPersistedExplorerState(page),
+			).state;
+			return {
+				code: state.code.shell,
+				variant: state.shellOptions.variant,
+			};
+		})
+		.toEqual({ code: shellCode, variant: "posix" });
+
+	const sharedHash = new URL(page.url()).hash;
+	await page.localStorage.removeItem(storageKey);
+	await page.goto(`/${sharedHash}`);
+
+	await expect(
+		page.getByRole("textbox", { name: "Code Editor", exact: true }),
+	).toContainText(shellCode);
+	await page.getByRole("button", { name: "Language Options" }).click();
+	await expect(page.getByRole("combobox", { name: "Dialect" })).toHaveText(
+		"POSIX sh",
+	);
+});
+
 test("should not add a history entry for each state change", async ({
 	page,
 }) => {

@@ -12,7 +12,7 @@ type ScopeItemProperties = {
 	isArray: boolean;
 	readonly index: number;
 	readonly path: string;
-	readonly data: Scope | Variable | Reference | null;
+	readonly data: Scope | Variable | Reference | Map<string, unknown> | null;
 	readonly esqueryMatchedNodes: unknown[];
 };
 
@@ -35,6 +35,8 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 		key = data.name;
 	} else if (data instanceof Reference) {
 		key = data.identifier.name;
+	} else if (data instanceof Map) {
+		key = "Map";
 	} else {
 		key = (data as Record<string, string>)?.type ?? typeof data;
 	}
@@ -42,9 +44,10 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 	const isEsqueryMatchedNode = esqueryMatchedNodes.includes(data);
 
 	// filter out hidden properties
-	const properties = Object.entries(data).filter(
-		([name]) => !name.startsWith("__"),
-	);
+	const properties =
+		data instanceof Map
+			? [...data]
+			: Object.entries(data).filter(([name]) => !name.startsWith("__"));
 
 	if (isArray) {
 		return (
@@ -83,7 +86,7 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 		>
 			<h3 className="text-sm bg-card px-4 py-3">{key}</h3>
 			<div className="p-4 border-t">
-				<div className="space-y-1">
+				<ul className="space-y-1">
 					{properties.map((item, index) => (
 						<TreeEntry
 							key={item[0]}
@@ -92,7 +95,7 @@ export const ScopeItem: FC<ScopeItemProperties> = ({
 							esqueryMatchedNodes={esqueryMatchedNodes}
 						/>
 					))}
-				</div>
+				</ul>
 			</div>
 		</div>
 	);

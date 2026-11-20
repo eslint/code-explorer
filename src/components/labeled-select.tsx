@@ -50,7 +50,7 @@ export const LabeledSelect = (props: PanelProps) => {
 							value={item.value as string}
 						>
 							{icon && (
-								<div className="flex items-center gap-1.5">
+								<span className="flex items-center gap-1.5">
 									<img
 										src={item.icon}
 										alt=""
@@ -59,7 +59,7 @@ export const LabeledSelect = (props: PanelProps) => {
 										className="w-4 h-4"
 									/>
 									<span>{item.label}</span>
-								</div>
+								</span>
 							)}
 							{!icon && item.label}
 						</SelectItem>

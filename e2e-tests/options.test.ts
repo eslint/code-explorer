@@ -15,7 +15,7 @@ import { expect, test } from "@playwright/test";
 /**
  * This test verifies that:
  * - Users can open the language options popover
- * - Users can switch between supported languages (JavaScript, JSON, Markdown, CSS, HTML)
+ * - Users can switch between supported languages (JavaScript, JSON, Markdown, CSS, HTML, Shell)
  * - For each language the entire page is correctly rendered
  */
 test("should switch language and show options for each", async ({ page }) => {
@@ -160,5 +160,19 @@ test("should switch language and show options for each", async ({ page }) => {
 				name: "Front Matter",
 			}),
 		).toBeVisible();
+	});
+
+	// Shell
+	await test.step("should show shell dialect options when Shell is selected", async () => {
+		await languageSelect.click();
+		await page.getByRole("option", { exact: true, name: "Shell" }).click();
+
+		await expect(
+			page.getByRole("combobox", { exact: true, name: "Language" }),
+		).toHaveText("Shell");
+
+		await expect(
+			page.getByRole("combobox", { exact: true, name: "Dialect" }),
+		).toHaveText("Bash");
 	});
 });
