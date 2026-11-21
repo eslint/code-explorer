@@ -79,7 +79,7 @@
   "devDependencies": {
     "@babel/core": "^7.29.13",
     "@eslint/core": "^1.2.1",
-    "@playwright/test": "^1.65.0",
+    "@playwright/test": "^1.65.1",
     "@rolldown/plugin-babel": "^0.3.1",
     "@types/eslint-plugin-jsx-a11y": "^6.10.1",
     "@types/esquery": "^1.5.4",
@@ -94,7 +94,7 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "lint-staged": "^17.6.0",
-    "postcss": "^8.5.32",
+    "postcss": "^8.5.33",
     "prettier": "3.10.1",
     "tailwindcss": "^3.4.19",
     "typescript": "^6.0.3",
