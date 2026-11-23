@@ -28,7 +28,8 @@ export const CodePath: FC = () => {
 					isJSX,
 				);
 				if ("error" in response) {
-					throw new Error(response.error);
+					setError(parseError(response.error));
+					return;
 				}
 				const newExtracted = response.response;
 				if (newExtracted.length < indexes) {
